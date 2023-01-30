@@ -24,7 +24,7 @@ class LedgerGroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.accounts.coa.class.create');
     }
 
     /**
@@ -35,7 +35,7 @@ class LedgerGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
