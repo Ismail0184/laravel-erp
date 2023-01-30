@@ -12,7 +12,7 @@
                 <form method="POST" action="{{route('acc.class.store')}}">
                     @csrf
                     <div class="form-group row mb-4">
-                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Code</label>
+                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Code <span class="required text-danger">*</span> </label>
                         <div class="col-sm-9">
                             <input type="text" name="class_id" class="form-control" required>
                         </div>
