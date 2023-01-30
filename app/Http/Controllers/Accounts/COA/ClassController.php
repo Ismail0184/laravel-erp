@@ -35,7 +35,7 @@ class ClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect('/accounts/coa/class/')->with('store_message','The class has been successfully inserted');
     }
 
     /**
