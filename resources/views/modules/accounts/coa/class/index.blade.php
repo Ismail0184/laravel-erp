@@ -22,24 +22,19 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Code</th>
                                         <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
+                                        <th>Status</th>
                                         <th class="text-center">Option</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @foreach($classes as $class)
                                     <tr>
-                                        <td>1</td>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td>$320,800</td>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$class->class_id}}</td>
+                                        <td>{{$class->class_name}}</td>
+                                        <td>{{$class->status}}</td>
                                         <td class="text-center">
                                             <a href="" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
@@ -49,6 +44,7 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>

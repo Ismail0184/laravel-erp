@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounts\COA;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccClass;
 use Illuminate\Http\Request;
 
 class ClassController extends Controller
@@ -12,9 +13,13 @@ class ClassController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $classes;
+
     public function index()
     {
-        return view('modules.Accounts.coa.class.index');
+        $this->classes = AccClass::all();
+        return view('modules.Accounts.coa.class.index', ['classes' =>$this->classes]);
     }
 
     /**
@@ -35,6 +40,7 @@ class ClassController extends Controller
      */
     public function store(Request $request)
     {
+        AccClass::storeClass($request);
         return redirect('/accounts/coa/class/')->with('store_message','The class has been successfully inserted');
     }
 
@@ -46,6 +52,7 @@ class ClassController extends Controller
      */
     public function show($id)
     {
+        AccClass::all($id);
         return view('modules.Accounts.coa.class.show');
     }
 

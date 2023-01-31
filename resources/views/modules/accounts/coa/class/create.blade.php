@@ -23,13 +23,6 @@
                             <input type="text" name="class_name" class="form-control" required>
                         </div>
                     </div>
-                    <div class="form-group row mb-4">
-                        <label for="horizontal-password-input" class="col-sm-3 col-form-label">Status</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" required>
-                        </div>
-                    </div>
-
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-9">
                             <div>
