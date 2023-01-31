@@ -91,6 +91,6 @@ class ClassController extends Controller
     public function destroy($id)
     {
         AccClass::destroyClass($id);
-        return redirect('/accounts/coa/class/')->with('destroy_message','The Class has been successfully deleted');
+        return redirect('/accounts/coa/class/')->with('destroy_message','The class (uid = '.$id.') has been successfully deleted');
     }
 }

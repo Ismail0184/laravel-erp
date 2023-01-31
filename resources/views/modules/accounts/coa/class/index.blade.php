@@ -10,7 +10,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">COA Class <a href="{{route('acc.class.create')}}" class="btn btn-primary" style="margin-left: 84.8%">Add New</a></h4>
+                                <h4 class="card-title">COA Class <a href="{{route('acc.class.create')}}" class="btn btn-primary" style="margin-left: 84.6%">Add New</a></h4>
                                 @if ($message = Session::get('destroy_message'))
                                     <p class="text-center text-danger">{{ $message }}</p>
                                 @elseif( $message = Session::get('store_message'))
