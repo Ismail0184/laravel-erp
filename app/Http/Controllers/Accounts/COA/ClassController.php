@@ -52,8 +52,8 @@ class ClassController extends Controller
      */
     public function show($id)
     {
-        AccClass::all($id);
-        return view('modules.Accounts.coa.class.show');
+        return '<h1 style="text-align: center">Team is building the page</h1>';
+
     }
 
     /**
@@ -64,7 +64,8 @@ class ClassController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->class=AccClass::find($id);
+        return view('modules.Accounts.coa.class.create', ['class' =>$this->class]);
     }
 
     /**
@@ -76,7 +77,9 @@ class ClassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccClass::updateClass($request, $id);
+        return redirect('/accounts/coa/class/')->with('update_message','This class (uid = '.$id.') has been successfully updated');
+
     }
 
     /**
@@ -87,6 +90,7 @@ class ClassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccClass::destroyClass($id);
+        return redirect('/accounts/coa/class/')->with('destroy_message','The Class has been successfully deleted');
     }
 }

@@ -21,7 +21,8 @@
                                 <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th style="width: 5%; text-align: center">#</th>
+                                        <th style="width: 5%; text-align: center">Uid</th>
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>Status</th>
@@ -31,18 +32,23 @@
                                     <tbody>
                                     @foreach($classes as $class)
                                     <tr>
-                                        <td>{{$loop->iteration}}</td>
+                                        <td style="text-align: center">{{$loop->iteration}}</td>
+                                        <td style="text-align: center">{{$class->id}}</td>
                                         <td>{{$class->class_id}}</td>
                                         <td>{{$class->class_name}}</td>
-                                        <td>{{$class->status}}</td>
+                                        <td>@if($class->status == '1') <span class="badge badge-success">Active</span> @elseif($class->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                         <td class="text-center">
                                             <form action="{{route('acc.class.destroy', ['id' => $class->id])}}" method="post">
-                                            <a href="{{route('acc.class.edit',['id' => $class->id])}}" class="btn btn-success btn-sm">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                            <button class="btn btn-danger btn-sm" onclick="return confirm('Are you confirm to delete?');">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                                @csrf
+                                                <a href="{{route('acc.class.show',['id' => $class->id])}}" title="View" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-book"></i>
+                                                </a>
+                                                <a href="{{route('acc.class.edit',['id' => $class->id])}}" title="Update" class="btn btn-success btn-sm">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
@@ -51,8 +57,8 @@
                                 </table>
                             </div>
                         </div>
-                    </div> <!-- end col -->
-                </div> <!-- end row -->
+                    </div>
+                </div>
             </div>
 @endsection
 

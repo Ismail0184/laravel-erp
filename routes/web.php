@@ -17,7 +17,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/accounts/coa/class/',[ClassController::class,'index'])->name('acc.class.view');
     Route::get('/accounts/coa/class/create', [ClassController::class,'create'])->name('acc.class.create');
     Route::post('/accounts/coa/class/store', [ClassController::class,'store'])->name('acc.class.store');
-    Route::get('/accounts/coa/class/show', [ClassController::class,'show'])->name('acc.class.show');
+    Route::get('/accounts/coa/class/show/{id}', [ClassController::class,'show'])->name('acc.class.show');
     Route::get('/accounts/coa/class/edit/{id}', [ClassController::class,'edit'])->name('acc.class.edit');
     Route::post('/accounts/coa/class/update/{id}', [ClassController::class,'update'])->name('acc.class.update');
     Route::post('/accounts/coa/class/destroy/{id}', [ClassController::class,'destroy'])->name('acc.class.destroy');
