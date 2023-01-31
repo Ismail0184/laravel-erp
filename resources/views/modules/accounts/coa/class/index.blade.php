@@ -25,7 +25,7 @@
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>Status</th>
-                                        <th class="text-center">Option</th>
+                                        <th class="text-center" style="width: 15%">Option</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -36,12 +36,14 @@
                                         <td>{{$class->class_name}}</td>
                                         <td>{{$class->status}}</td>
                                         <td class="text-center">
-                                            <a href="" class="btn btn-success btn-sm">
+                                            <form action="{{route('acc.class.destroy', ['id' => $class->id])}}" method="post">
+                                            <a href="{{route('acc.class.edit',['id' => $class->id])}}" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a href="" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete this.');">
+                                            <button class="btn btn-danger btn-sm" onclick="return confirm('Are you confirm to delete?');">
                                                 <i class="fa fa-trash"></i>
-                                            </a>
+                                            </button>
+                                            </form>
                                         </td>
                                     </tr>
                                     @endforeach
