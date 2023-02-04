@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('acc_ledger_groups', function (Blueprint $table) {
             $table->id();
+            $table->integer('group_id');
+            $table->string('group_name');
+            $table->integer('sub_class_id');
+            $table->integer('class_id');
+            $table->integer('status')->default('1');
+            $table->integer('entry_by');
+            $table->integer('sconid');
+            $table->integer('pcomid');
             $table->timestamps();
         });
     }

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Accounts\COA;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccClass;
+use App\Models\Accounts\AccLedgerGroup;
+use App\Models\Accounts\AccSubClass;
 use Illuminate\Http\Request;
 
 class LedgerGroupController extends Controller
@@ -17,7 +20,8 @@ class LedgerGroupController extends Controller
 
     public function index()
     {
-
+        $this->ledgergroups = AccLedgerGroup::all();
+        return view('modules.accounts.coa.ledgergroup.index', ['ledgergroups'=>$this->ledgergroups]);
 
     }
 
@@ -28,7 +32,14 @@ class LedgerGroupController extends Controller
      */
     public function create()
     {
-        //
+        $this->classes = AccClass::all()->where('status', 1);
+        $this->subclasses = AccSubClass::all()->where('status', 1);
+        return view('modules.accounts.coa.ledgergroup.create',
+            ['classes'       => $this->classes,
+                'subclasses' => $this->subclasses
+            ],
+
+        );
     }
 
     /**

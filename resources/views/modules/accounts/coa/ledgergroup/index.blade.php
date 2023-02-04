@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">COA Sub-Class <a href="{{route('acc.sub-class.create')}}" class="btn btn-primary" style="margin-left: 81.30%">Add New</a></h4>
+                        <h4 class="card-title">COA Sub-Class <a href="{{route('acc.ledger-group.create')}}" class="btn btn-primary" style="margin-left: 81.30%">Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -31,21 +31,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($subClasses as $subClass)
+                            @foreach($ledgergroups as $ledgergroup)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td style="text-align: center">{{$subClass->id}}</td>
-                                    <td>{{$subClass->sub_class_id}}</td>
-                                    <td>{{$subClass->sub_class_name}}</td>
-                                    <td>{{$subClass->accClass->class_name}}</td>
-                                    <td>@if($subClass->status == '1') <span class="badge badge-success">Active</span> @elseif($subClass->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
+                                    <td style="text-align: center">{{$ledgergroup->id}}</td>
+                                    <td>{{$ledgergroup->sub_class_id}}</td>
+                                    <td>{{$ledgergroup->sub_class_name}}</td>
+                                    <td>{{$ledgergroup->accClass->class_name}}</td>
+                                    <td>@if($ledgergroup->status == '1') <span class="badge badge-success">Active</span> @elseif($ledgergroup->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
-                                        <form action="{{route('acc.sub-class.destroy', ['id' => $subClass->id])}}" method="post">
+                                        <form action="{{route('acc.sub-class.destroy', ['id' => $ledgergroup->id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('acc.class.show',['id' => $subClass->id])}}" title="View" class="btn btn-primary btn-sm">
+                                            <a href="{{route('acc.class.show',['id' => $ledgergroup->id])}}" title="View" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book"></i>
                                             </a>
-                                            <a href="{{route('acc.sub-class.edit',['id' => $subClass->id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('acc.sub-class.edit',['id' => $ledgergroup->id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Create Ledger Group')
+    @php($title = 'Ledger Group')
     {{$title}}
 @endsection
 
@@ -9,8 +9,8 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-4">@if(request('id')) Update @else Create @endif Sub-Class</h4>
-                <form method="POST" action="@if(request('id')>0) {{route('acc.sub-class.update', ['id'=>$subClasses->id])}} @else {{route('acc.sub-class.store')}} @endif">
+                <h4 class="card-title mb-4">@if(request('id')) Update @else Create @endif {{$title}}</h4>
+                <form method="POST" action="@if(request('id')>0) {{route('acc.ledger-group.update', ['id'=>$subClasses->id])}} @else {{route('acc.ledger-group.store')}} @endif">
                     @csrf
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Class <span class="required text-danger">*</span></label>
@@ -24,13 +24,24 @@
                         </div>
                     </div>
                     <div class="form-group row mb-4">
-                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Sub Class Code <span class="required text-danger">*</span></label>
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Sub-Class <span class="required text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="class_id" required>
+                                <option></option>
+                                @foreach($classes as $class)
+                                    <option value="{{$class->id}}" @if(request('id')>0) @if($subClasses->class_id==$class->id) selected @endif @endif>{{$class->id}} : {{$class->class_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Ledger Group Code <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
                             <input type="text" name="sub_class_id" @if(request('id')>0) value="{{$subClasses->sub_class_id}}" @endif class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group row mb-4">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Sub Class Name <span class="required text-danger">*</span></label>
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Ledger Group Name <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
                             <input type="text" name="sub_class_name" @if(request('id')>0) value="{{$subClasses->sub_class_name}}" @endif class="form-control" required>
                         </div>
