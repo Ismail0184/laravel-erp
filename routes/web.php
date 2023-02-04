@@ -33,6 +33,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     //Accounts/coa/ledger-group
     Route::get('/accounts/coa/ledger-group/',[LedgerGroupController::class,'index'])->name('acc.ledger-group.view');
+    Route::get('/accounts/coa/ledger-group/get-all-sub-class', [LedgerGroupController::class,'getAllSubClass'])->name('acc.get-all-sub-class');
     Route::get('/accounts/coa/ledger-group/create', [LedgerGroupController::class,'create'])->name('acc.ledger-group.create');
     Route::post('/accounts/coa/ledger-group/store', [LedgerGroupController::class,'store'])->name('acc.ledger-group.store');
     Route::get('/accounts/coa/ledger-group/show', [LedgerGroupController::class,'show'])->name('acc.ledger-group.show');

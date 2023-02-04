@@ -97,4 +97,10 @@ class LedgerGroupController extends Controller
     {
         //
     }
+
+    public function getAllSubClass()
+    {
+        return response()->json(AccSubClass::where('class_id', $_GET['id'])->get());
+
+    }
 }

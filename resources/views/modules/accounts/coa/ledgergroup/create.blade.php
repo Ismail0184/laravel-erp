@@ -15,10 +15,10 @@
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Class <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <select class="form-control" name="class_id" required>
-                                <option></option>
+                            <select class="form-control" name="class_id" required="required" onchange="getSubClass(this.value)">
+                                <option value=""> -- Select Class -- </option>
                                 @foreach($classes as $class)
-                                    <option value="{{$class->id}}" @if(request('id')>0) @if($subClasses->class_id==$class->id) selected @endif @endif>{{$class->id}} : {{$class->class_name}}</option>
+                                    <option value="{{$class->class_id}}" @if(request('id')>0) @if($subClasses->class_id==$class->id) selected @endif @endif>{{$class->class_id}} : {{$class->class_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -26,11 +26,8 @@
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Sub-Class <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <select class="form-control" name="class_id" required>
-                                <option></option>
-                                @foreach($classes as $class)
-                                    <option value="{{$class->id}}" @if(request('id')>0) @if($subClasses->class_id==$class->id) selected @endif @endif>{{$class->id}} : {{$class->class_name}}</option>
-                                @endforeach
+                            <select class="form-control" name="class_id" required id="subClassId">
+                                <option value=""> -- Select Sub Class -- </option>
                             </select>
                         </div>
                     </div>
@@ -60,7 +57,7 @@
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-9">
                             <div>
-                                <a class="btn btn-danger" href="{{route('acc.sub-class.view')}}">Cancel</a>
+                                <a class="btn btn-danger" href="{{route('acc.ledger-group.view')}}">Cancel</a>
                                 <button type="submit" class="btn btn-primary w-md">@if(request('id')) Update @else Save @endif</button>
                             </div>
                         </div>
@@ -69,4 +66,27 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function getSubClass(ClassId)
+        {
+            $.ajax({
+                type: "GET",
+                url: "{{route('acc.get-all-sub-class')}}",
+                data: {id: ClassId},
+                dataType: "JSON",
+                success: function (response) {
+                    var option = '';
+                    option += '<option> -- Select Sub Class -- </option>';
+                    $.each(response,  function (key, value)
+                    {
+                        option += '<option value="'+value.sub_class_id+'">'+ value.sub_class_id +' : '+ value.sub_class_name +'</optoin>';
+                    })
+                    var subClassId = $('#subClassId');
+                    subClassId.empty();
+                    subClassId.append(option);
+                }
+            });
+        }
+    </script>
 @endsection
