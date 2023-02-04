@@ -13,14 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('acc_sub_classes', function (Blueprint $table) {
+        Schema::create('acc_ledger_groups', function (Blueprint $table) {
             $table->id();
-            $table->integer('class_id');
-            $table->integer('sub_class_id')->unique();
-            $table->string('sub_class_name', 33)->unique();
-            $table->integer('status')->default('1');
-            $table->integer('sconid');
-            $table->integer('pcomid');
             $table->timestamps();
         });
     }
@@ -32,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acc_sub_classes');
+        Schema::dropIfExists('acc_ledger_groups');
     }
 };

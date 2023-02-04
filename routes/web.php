@@ -33,11 +33,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     //Accounts/coa/ledger-group
     Route::get('/accounts/coa/ledger-group/',[LedgerGroupController::class,'index'])->name('acc.ledger-group.view');
-    Route::get('/accounts/coa/ledger-group/create', [LedgerGroupController::class,'create'])->name('acc.sub-class.create');
-    Route::post('/accounts/coa/ledger-group/store', [LedgerGroupController::class,'store'])->name('acc.sub-class.store');
-    Route::get('/accounts/coa/ledger-group/show', [LedgerGroupController::class,'show'])->name('acc.sub-class.show');
-    Route::get('/accounts/coa/ledger-group/edit/{id}', [LedgerGroupController::class,'edit'])->name('acc.sub-class.edit');
-    Route::post('/accounts/coa/ledger-group/update/{id}', [LedgerGroupController::class,'update'])->name('acc.sub-class.update');
-    Route::post('/accounts/coa/ledger-group/destroy/{id}', [LedgerGroupController::class,'destroy'])->name('acc.sub-class.destroy');
+    Route::get('/accounts/coa/ledger-group/create', [LedgerGroupController::class,'create'])->name('acc.ledger-group.create');
+    Route::post('/accounts/coa/ledger-group/store', [LedgerGroupController::class,'store'])->name('acc.ledger-group.store');
+    Route::get('/accounts/coa/ledger-group/show', [LedgerGroupController::class,'show'])->name('acc.ledger-group.show');
+    Route::get('/accounts/coa/ledger-group/edit/{id}', [LedgerGroupController::class,'edit'])->name('acc.ledger-group.edit');
+    Route::post('/accounts/coa/ledger-group/update/{id}', [LedgerGroupController::class,'update'])->name('acc.ledger-group.update');
+    Route::post('/accounts/coa/ledger-group/destroy/{id}', [LedgerGroupController::class,'destroy'])->name('acc.ledger-group.destroy');
 
 });

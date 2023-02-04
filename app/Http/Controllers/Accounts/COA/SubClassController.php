@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Accounts\COA;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccClass;
+use App\Models\Accounts\AccSubClass;
 use Illuminate\Http\Request;
 
 class SubClassController extends Controller
@@ -12,10 +14,13 @@ class SubClassController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $subclasses, $classes;
+
     public function index()
     {
-
-        return view('modules.accounts.coa.subclass.index');
+        $this->subclasses = AccSubClass::all();
+        return view('modules.accounts.coa.subclass.index', ['subClasses'=>$this->subclasses]);
     }
 
     /**
@@ -25,7 +30,8 @@ class SubClassController extends Controller
      */
     public function create()
     {
-        //
+        $this->classes = AccClass::all()->where('status', 1);
+        return view('modules.accounts.coa.subclass.create', ['classes' =>$this->classes]);
     }
 
     /**
@@ -36,7 +42,8 @@ class SubClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AccSubClass::storeSubClass($request);
+        return redirect('/accounts/coa/sub-class/')->with('store_message','The sub-class has been successfully created');
     }
 
     /**
@@ -47,7 +54,7 @@ class SubClassController extends Controller
      */
     public function show($id)
     {
-        //
+        return '<h1 style="text-align: center">Team is building the page</h1>';
     }
 
     /**
@@ -58,7 +65,9 @@ class SubClassController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->classes = AccClass::all()->where('status', 1);
+        $this->subclasses = AccSubClass::find($id);
+        return view('modules.accounts.coa.subclass.create', ['classes' =>$this->classes, 'subClasses'=>$this->subclasses]);
     }
 
     /**
@@ -70,7 +79,8 @@ class SubClassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccSubClass::updateSubClass($request, $id);
+        return redirect('/accounts/coa/sub-class/')->with('update_message','This Subclass (uid = '.$id.') has been successfully updated');
     }
 
     /**
@@ -81,6 +91,9 @@ class SubClassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccSubClass::destroySubClass($id);
+        return redirect('/accounts/coa/sub-class/')->with('destroy_message','This Subclass (uid = '.$id.') has been successfully deleted');
+
+
     }
 }

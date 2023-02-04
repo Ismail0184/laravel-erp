@@ -12,9 +12,13 @@ class LedgerGroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $subclasses, $classes, $ledgergroups;
+
     public function index()
     {
-        return view('modules.accounts.coa.ledgergroup.index');
+
+
     }
 
     /**
@@ -24,7 +28,7 @@ class LedgerGroupController extends Controller
      */
     public function create()
     {
-        return view('modules.accounts.coa.class.create');
+        //
     }
 
     /**

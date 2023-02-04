@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('class_id')->unique();
             $table->string('class_name', 33)->unique();
             $table->integer('status')->default('1');
-            $table->integer('scomid')->default('1');
-            $table->integer('pcomid')->default('1');
+            $table->integer('sconid');
+            $table->integer('pcomid');
             $table->timestamps();
         });
     }
