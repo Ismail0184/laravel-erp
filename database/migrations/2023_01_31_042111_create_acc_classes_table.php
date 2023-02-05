@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('status')->default('1');
             $table->integer('sconid');
             $table->integer('pcomid');
+            $table->integer('entry_by');
             $table->timestamps();
         });
     }

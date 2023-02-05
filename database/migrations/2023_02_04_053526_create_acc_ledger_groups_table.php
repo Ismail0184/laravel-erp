@@ -20,9 +20,9 @@ return new class extends Migration
             $table->integer('sub_class_id');
             $table->integer('class_id');
             $table->integer('status')->default('1');
-            $table->integer('entry_by');
             $table->integer('sconid');
             $table->integer('pcomid');
+            $table->integer('entry_by');
             $table->timestamps();
         });
     }

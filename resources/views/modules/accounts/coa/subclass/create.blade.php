@@ -15,6 +15,7 @@
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Class <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
+                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                             <select class="form-control" name="class_id" required>
                                 <option></option>
                                 @foreach($classes as $class)

@@ -14,6 +14,7 @@
                     <div class="form-group row mb-4">
                         <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Code <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
+                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                             <input type="text" name="class_id" @if(request('id')>0) value="{{$class->class_id}}" @endif class="form-control" required>
                         </div>
                     </div>

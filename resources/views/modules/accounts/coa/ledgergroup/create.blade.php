@@ -10,15 +10,16 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">@if(request('id')) Update @else Create @endif {{$title}}</h4>
-                <form method="POST" action="@if(request('id')>0) {{route('acc.ledger-group.update', ['id'=>$subClasses->id])}} @else {{route('acc.ledger-group.store')}} @endif">
+                <form method="POST" action="@if(request('id')>0) {{route('acc.ledger-group.update', ['id'=>$ledgergroup->id])}} @else {{route('acc.ledger-group.store')}} @endif">
                     @csrf
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Class <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
+                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                             <select class="form-control" name="class_id" required="required" onchange="getSubClass(this.value)">
                                 <option value=""> -- Select Class -- </option>
                                 @foreach($classes as $class)
-                                    <option value="{{$class->class_id}}" @if(request('id')>0) @if($subClasses->class_id==$class->id) selected @endif @endif>{{$class->class_id}} : {{$class->class_name}}</option>
+                                    <option value="{{$class->class_id}}" @if(request('id')>0) @if($ledgergroup->class_id==$class->class_id) selected @endif @endif>{{$class->class_id}} : {{$class->class_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -26,7 +27,10 @@
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Sub-Class <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <select class="form-control" name="class_id" required id="subClassId">
+                            <select class="form-control" name="sub_class_id" required id="subClassId">
+                                @if(request('id')>0)
+                                <option value="{{$ledgergroup->accSubClass->sub_class_id}}">{{$ledgergroup->accSubClass->sub_class_id}} : {{$ledgergroup->accSubClass->sub_class_name}}</option>
+                                @endif
                                 <option value=""> -- Select Sub Class -- </option>
                             </select>
                         </div>
@@ -34,13 +38,13 @@
                     <div class="form-group row mb-4">
                         <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Ledger Group Code <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" name="sub_class_id" @if(request('id')>0) value="{{$subClasses->sub_class_id}}" @endif class="form-control" required>
+                            <input type="text" name="group_id" @if(request('id')>0) value="{{$ledgergroup->group_id}}" @endif class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Ledger Group Name <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" name="sub_class_name" @if(request('id')>0) value="{{$subClasses->sub_class_name}}" @endif class="form-control" required>
+                            <input type="text" name="group_name" @if(request('id')>0) value="{{$ledgergroup->group_name}}" @endif class="form-control" required>
                         </div>
                     </div>
                     @if(request('id')>0)
@@ -48,8 +52,8 @@
                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Status <span class="required text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="status">
-                                    <option @if($subClasses->status ==1) selected @endif value="1">Active</option>
-                                    <option @if($subClasses->status ==0) selected @endif value="0">Inactive</option>
+                                    <option @if($ledgergroup->status ==1) selected @endif value="1">Active</option>
+                                    <option @if($ledgergroup->status ==0) selected @endif value="0">Inactive</option>
                                 </select>
                             </div>
                         </div>

@@ -16,12 +16,12 @@ class LedgerGroupController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $subclasses, $classes, $ledgergroups;
+    private $subclasses, $classes, $ledgergroups, $ledgergroup;
 
     public function index()
     {
         $this->ledgergroups = AccLedgerGroup::all();
-        return view('modules.accounts.coa.ledgergroup.index', ['ledgergroups'=>$this->ledgergroups]);
+        return view('modules.accounts.coa.ledgergroup.index', ['ledgergroups' =>$this->ledgergroups]);
 
     }
 
@@ -38,7 +38,6 @@ class LedgerGroupController extends Controller
             ['classes'       => $this->classes,
                 'subclasses' => $this->subclasses
             ],
-
         );
     }
 
@@ -50,6 +49,8 @@ class LedgerGroupController extends Controller
      */
     public function store(Request $request)
     {
+        AccLedgerGroup::storeLedgerGroup($request);
+        return redirect('/accounts/coa/ledger-group/')->with('store_message','The Ledger Group has been successfully created');
 
     }
 
@@ -72,7 +73,16 @@ class LedgerGroupController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->classes      = AccClass::all()->where('status', 1);
+        $this->subclasses   = AccSubClass::all()->where('status', 1);
+        $this->ledgergroup  = AccLedgerGroup::find($id);
+        return view('modules.accounts.coa.ledgergroup.create',
+            [
+                'classes'       => $this->classes,
+                'subclasses'    => $this->subclasses,
+                'ledgergroup'   => $this->ledgergroup
+            ],
+        );
     }
 
     /**

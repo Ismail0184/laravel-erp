@@ -43,7 +43,7 @@ class AccSubClass extends Model
 
     public function accClass()
     {
-        return $this->belongsTo(AccClass::class, 'class_id');
+        return $this->belongsTo(AccClass::class, 'class_id', 'class_id');
     }
 
 

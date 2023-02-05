@@ -14,11 +14,12 @@ class AccClass extends Model
     public static function storeClass($request)
     {
         self::$classes = new AccClass();
-        self::$classes->class_id = $request->class_id;
-        self::$classes->class_name = $request->class_name;
-        self::$classes->status = 1;
-        self::$classes->sconid = 1;
-        self::$classes->pcomid = 1;
+        self::$classes->class_id    = $request->class_id;
+        self::$classes->class_name  = $request->class_name;
+        self::$classes->status      = 1;
+        self::$classes->sconid      = 1;
+        self::$classes->pcomid      = 1;
+        self::$classes->entry_by    = $request->entry_by;
         self::$classes->save();
 
     }
