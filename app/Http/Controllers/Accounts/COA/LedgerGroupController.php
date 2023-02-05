@@ -106,7 +106,9 @@ class LedgerGroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccLedgerGroup::destroyLedgerGroup($id);
+        return redirect('/accounts/coa/ledger-group/')->with('destroy_message','This Ledger Group (uid = '.$id.') has been successfully deleted');
+
     }
 
     public function getAllSubClass()

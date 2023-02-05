@@ -41,7 +41,7 @@ class AccLedgerGroup extends Model
 
     public static function destroyLedgerGroup($id)
     {
-        AccLedgerGroup::find($id);
+        self::$ledgerGroup = AccLedgerGroup::find($id);
         self::$ledgerGroup->delete();
     }
 
