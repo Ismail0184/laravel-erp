@@ -27,7 +27,16 @@ class AccLedgerGroup extends Model
 
     public static function updateLedgerGroup($request, $id)
     {
-
+        self::$ledgerGroup = AccLedgerGroup::find($id);
+        self::$ledgerGroup->group_id = $request->group_id;
+        self::$ledgerGroup->group_name = $request->group_name;
+        self::$ledgerGroup->sub_class_id = $request->sub_class_id;
+        self::$ledgerGroup->class_id = $request->class_id;
+        self::$ledgerGroup->status = $request->status;
+        self::$ledgerGroup->entry_by = $request->entry_by;
+        self::$ledgerGroup->sconid = 1;
+        self::$ledgerGroup->pcomid = 1;
+        self::$ledgerGroup->save();
     }
 
     public static function destroyLedgerGroup($id)

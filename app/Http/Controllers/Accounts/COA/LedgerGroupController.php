@@ -94,7 +94,8 @@ class LedgerGroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccLedgerGroup::updateLedgerGroup($request, $id);
+        return redirect('/accounts/coa/ledger-group/')->with('update_message','This Ledger Group (uid = '.$id.') has been successfully updated');
     }
 
     /**

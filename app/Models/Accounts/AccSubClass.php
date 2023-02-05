@@ -13,25 +13,27 @@ class AccSubClass extends Model
 
     public static function storeSubClass($request)
     {
-        self::$subclasses = new AccSubClass();
-        self::$subclasses->class_id = $request->class_id;
-        self::$subclasses->sub_class_id = $request->sub_class_id;
-        self::$subclasses->sub_class_name = $request->sub_class_name;
-        self::$subclasses->status = 1;
-        self::$subclasses->sconid = 1;
-        self::$subclasses->pcomid = 1;
+        self::$subclasses                   = new AccSubClass();
+        self::$subclasses->class_id         = $request->class_id;
+        self::$subclasses->sub_class_id     = $request->sub_class_id;
+        self::$subclasses->sub_class_name   = $request->sub_class_name;
+        self::$subclasses->status           = 1;
+        self::$subclasses->sconid           = 1;
+        self::$subclasses->pcomid           = 1;
+        self::$subclasses->entry_by         = $request->entry_by ;
         self::$subclasses->save();
     }
 
     public static function updateSubClass($request, $id)
     {
         self::$subclasses = AccSubClass::find($id);
-        self::$subclasses->class_id = $request->class_id;
-        self::$subclasses->sub_class_id = $request->sub_class_id;
-        self::$subclasses->sub_class_name = $request->sub_class_name;
-        self::$subclasses->status = $request->status;
-        self::$subclasses->sconid = 1;
-        self::$subclasses->pcomid = 1;
+        self::$subclasses->class_id         = $request->class_id;
+        self::$subclasses->sub_class_id     = $request->sub_class_id;
+        self::$subclasses->sub_class_name   = $request->sub_class_name;
+        self::$subclasses->status           = $request->status;
+        self::$subclasses->sconid           = 1;
+        self::$subclasses->pcomid           = 1;
+        self::$subclasses->entry_by         = $request->entry_by ;
         self::$subclasses->save();
     }
 

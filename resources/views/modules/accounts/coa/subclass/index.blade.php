@@ -37,7 +37,7 @@
                                     <td style="text-align: center">{{$subClass->id}}</td>
                                     <td>{{$subClass->sub_class_id}}</td>
                                     <td>{{$subClass->sub_class_name}}</td>
-                                    <td>{{$subClass->accClass->class_name}}</td>
+                                    <td>{{$subClass->accClass->class_id}} : {{$subClass->accClass->class_name}}</td>
                                     <td>@if($subClass->status == '1') <span class="badge badge-success">Active</span> @elseif($subClass->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
                                         <form action="{{route('acc.sub-class.destroy', ['id' => $subClass->id])}}" method="post">

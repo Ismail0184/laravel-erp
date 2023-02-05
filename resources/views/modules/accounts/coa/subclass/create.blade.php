@@ -19,7 +19,7 @@
                             <select class="form-control" name="class_id" required>
                                 <option></option>
                                 @foreach($classes as $class)
-                                <option value="{{$class->id}}" @if(request('id')>0) @if($subClasses->class_id==$class->id) selected @endif @endif>{{$class->id}} : {{$class->class_name}}</option>
+                                <option value="{{$class->class_id}}" @if(request('id')>0) @if($subClasses->class_id==$class->id) selected @endif @endif>{{$class->class_id}} : {{$class->class_name}}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -38,8 +38,8 @@
                                     <td style="text-align: center">{{$ledgergroup->id}}</td>
                                     <td>{{$ledgergroup->group_id}}</td>
                                     <td>{{$ledgergroup->group_name}}</td>
-                                    <td>{{$ledgergroup->accSubClass->sub_class_name}}</td>
-                                    <td>{{$ledgergroup->accClass->class_name}}</td>
+                                    <td>{{$ledgergroup->accSubClass->sub_class_id}} : {{$ledgergroup->accSubClass->sub_class_name}}</td>
+                                    <td>{{$ledgergroup->accClass->class_id}} : {{$ledgergroup->accClass->class_name}}</td>
                                     <td>@if($ledgergroup->status == '1') <span class="badge badge-success">Active</span> @elseif($ledgergroup->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
                                         <form action="{{route('acc.ledger-group.destroy', ['id' => $ledgergroup->id])}}" method="post">
