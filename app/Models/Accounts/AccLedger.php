@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class AccLedger extends Model
 {
     use HasFactory;
+
+    public function accClass()
+    {
+        //return $this->belongsTo(AccClass::class , 'class_id', 'class_id');
+    }
 }

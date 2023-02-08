@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Accounts\COA;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccClass;
+use App\Models\Accounts\AccLedger;
+use App\Models\Accounts\AccLedgerGroup;
+use App\Models\Accounts\AccSubClass;
 use Illuminate\Http\Request;
 
 class LedgerController extends Controller
@@ -12,9 +16,13 @@ class LedgerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private  $classes,$subclasses,$ledgergroups, $ledgers;
+
     public function index()
     {
-        return view('modules.accounts.coa.ledger.index');
+        $this->ledgers = AccLedger::all();
+        return view('modules.accounts.coa.ledger.index', ['ledgers' => $this->ledgers]);
     }
 
     /**
@@ -24,7 +32,14 @@ class LedgerController extends Controller
      */
     public function create()
     {
-        return view('modules.accounts.coa.ledger.create');
+        $this->classes = AccClass::all()->where('status', 1);
+        $this->subclasses = AccSubClass::all()->where('status', 1);
+        $this->ledgergroups = AccLedgerGroup::all()->where('status', 1);
+        return view('modules.accounts.coa.ledger.create', [
+            'classes'       => $this->classes,
+            'subclasses'    => $this->subclasses,
+            'ledgergroups'  => $this->ledgergroups
+        ]);
     }
 
     /**

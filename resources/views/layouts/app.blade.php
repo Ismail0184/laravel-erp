@@ -7,6 +7,7 @@
     <meta content="Best ERP software solutions" name="description" />
     <meta content="Md Ismail Hossain | +880 1845854380" name="author" />
     <link rel="shortcut icon" href="{{asset('/')}}assets/images/favicon.ico">
+    <link href="{{asset('/')}}assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('/')}}assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('/')}}assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('/')}}assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -506,6 +507,7 @@
 <script src="{{asset('/')}}assets/libs/metismenu/metisMenu.min.js"></script>
 <script src="{{asset('/')}}assets/libs/simplebar/simplebar.min.js"></script>
 <script src="{{asset('/')}}assets/libs/node-waves/waves.min.js"></script>
+<script src="{{asset('/')}}assets/libs/select2/js/select2.min.js"></script>
 
 <!-- Required datatable js -->
 <script src="{{asset('/')}}assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
