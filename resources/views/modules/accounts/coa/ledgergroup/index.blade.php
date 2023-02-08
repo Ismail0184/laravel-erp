@@ -23,8 +23,7 @@
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th style="width: 5%; text-align: center">Uid</th>
-                                <th>Code</th>
-                                <th>Name</th>
+                                <th>Group</th>
                                 <th>Sub-Class</th>
                                 <th>Class</th>
                                 <th>Status</th>
@@ -36,8 +35,7 @@
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
                                     <td style="text-align: center">{{$ledgergroup->id}}</td>
-                                    <td>{{$ledgergroup->group_id}}</td>
-                                    <td>{{$ledgergroup->group_name}}</td>
+                                    <td>{{$ledgergroup->group_id}} : {{$ledgergroup->group_name}}</td>
                                     <td>{{$ledgergroup->accSubClass->sub_class_id}} : {{$ledgergroup->accSubClass->sub_class_name}}</td>
                                     <td>{{$ledgergroup->accClass->class_id}} : {{$ledgergroup->accClass->class_name}}</td>
                                     <td>@if($ledgergroup->status == '1') <span class="badge badge-success">Active</span> @elseif($ledgergroup->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>

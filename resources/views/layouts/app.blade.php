@@ -184,7 +184,7 @@
                             <li><a href="{{route('acc.class.view')}}">Class</a></li>
                             <li><a href="{{route('acc.sub-class.view')}}">Sub Class</a></li>
                             <li><a href="{{route('acc.ledger-group.view')}}">Ledger Group</a></li>
-                            <li><a href="ecommerce-customers.html">Ledger</a></li>
+                            <li><a href="{{route('acc.ledger.view')}}">Ledger</a></li>
                             <li><a href="ecommerce-cart.html">Sub Ledger</a></li>
                             <li><a href="ecommerce-checkout.html">Sub Sub-ledger</a></li>
                             <li><a href="ecommerce-shops.html">Cost Category</a></li>

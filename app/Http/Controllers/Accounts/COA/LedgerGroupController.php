@@ -62,7 +62,7 @@ class LedgerGroupController extends Controller
      */
     public function show($id)
     {
-        //
+        return '<h1 style="text-align: center">Team is building the page</h1>';
     }
 
     /**
