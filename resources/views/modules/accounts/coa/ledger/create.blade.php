@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">@if(request('id')) Update @else Create @endif {{$title}}</h4>
-                <form method="POST" action="@if(request('id')>0) {{route('acc.ledger.update', ['id'=>$ledgergroup->id])}} @else {{route('acc.ledger-group.store')}} @endif">
+                <form method="POST" action="@if(request('id')>0) {{route('acc.ledger.update', ['id'=>$ledger->id])}} @else {{route('acc.ledger.store')}} @endif">
                     @csrf
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Ledger Group <span class="required text-danger">*</span></label>
@@ -19,22 +19,22 @@
                             <select class="form-control select2" name="group_id" required="required">
                                 <option value=""> -- Select Class -- </option>
                                 @foreach($ledgergroups as $ledgergroup)
-                                    <option value="{{$ledgergroup->class_id}}" @if(request('id')>0) @if($ledgergroup->class_id==$class->class_id) selected @endif @endif>{{$ledgergroup->class_id}} : {{$ledgergroup->class_name}}</option>
+                                    <option value="{{$ledgergroup->group_id}}" @if(request('id')>0) @if($ledgergroup->group_id==$ledger->group_id) selected @endif @endif>{{$ledgergroup->group_id}} : {{$ledgergroup->group_name}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group row mb-4">
-                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Ledger Group Code <span class="required text-danger">*</span></label>
+                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Ledger Code <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" name="group_id" @if(request('id')>0) value="{{$ledgergroup->group_id}}" @endif class="form-control" required>
+                            <input type="text" name="ledger_id" @if(request('id')>0) value="{{$ledger->ledger_id}}" @endif class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group row mb-4">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Ledger Group Name <span class="required text-danger">*</span></label>
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Ledger Name <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" name="group_name" @if(request('id')>0) value="{{$ledgergroup->group_name}}" @endif class="form-control" required>
+                            <input type="text" name="ledger_name" @if(request('id')>0) value="{{$ledgergroup->group_name}}" @endif class="form-control" required>
                         </div>
                     </div>
                     @if(request('id')>0)

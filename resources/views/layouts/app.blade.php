@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Best ERP software solutions" name="description" />
     <meta content="Md Ismail Hossain | +880 1845854380" name="author" />
-    <link rel="shortcut icon" href="{{asset('/')}}assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{asset('/')}}assets/images/favicon.ico" />
+
     <link href="{{asset('/')}}assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('/')}}assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('/')}}assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -509,6 +510,7 @@
 <script src="{{asset('/')}}assets/libs/node-waves/waves.min.js"></script>
 <script src="{{asset('/')}}assets/libs/select2/js/select2.min.js"></script>
 
+
 <!-- Required datatable js -->
 <script src="{{asset('/')}}assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="{{asset('/')}}assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -526,17 +528,13 @@
 <!-- Responsive examples -->
 <script src="{{asset('/')}}assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="{{asset('/')}}assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
-
 <script src="{{asset('/')}}/js/pages/datatables.init.js"></script>
-
 <script src="{{asset('/')}}assets/libs/apexcharts/apexcharts.min.js"></script>
-
 <!-- Datatable init js -->
 <script src="{{asset('/')}}assets/js/pages/dashboard.init.js"></script>
 <script src="{{asset('/')}}assets/js/pages/dashboards.init.js"></script>
 <script src="{{asset('/')}}assets/js/pages/datatables.init.js"></script>
 <script src="{{asset('/')}}assets/js/app.js"></script>
-
+<script src="{{asset('/')}}assets/js/pages/form-advanced.init.js"></script>
 </body>
 </html>

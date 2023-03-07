@@ -17,7 +17,7 @@ class LedgerController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private  $classes,$subclasses,$ledgergroups, $ledgers;
+    private  $classes,$subclasses,$ledgergroups, $ledgers, $ledger;
 
     public function index()
     {
@@ -32,12 +32,9 @@ class LedgerController extends Controller
      */
     public function create()
     {
-        $this->classes = AccClass::all()->where('status', 1);
-        $this->subclasses = AccSubClass::all()->where('status', 1);
+
         $this->ledgergroups = AccLedgerGroup::all()->where('status', 1);
         return view('modules.accounts.coa.ledger.create', [
-            'classes'       => $this->classes,
-            'subclasses'    => $this->subclasses,
             'ledgergroups'  => $this->ledgergroups
         ]);
     }
@@ -50,7 +47,8 @@ class LedgerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AccLedger::storeLedger($request);
+        return redirect('/accounts/coa/ledger/')->with('store_message', 'test');
     }
 
     /**
@@ -72,7 +70,9 @@ class LedgerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->ledgergroups = AccLedgerGroup::all()->where('status', 1);
+        $this->ledger = AccLedger::find($id);
+        return view('modules.accounts.coa.ledger.create', ['ledgergroups' =>$this->ledgergroups, 'ledger' => $this->ledger]);
     }
 
     /**
@@ -84,7 +84,9 @@ class LedgerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccLedger::updateLedger($request, $id);
+        return redirect('/accounts/coa/ledger/')->with('update_message','This Ledger (uid = '.$id.') has been successfully updated');
+
     }
 
     /**
@@ -95,6 +97,8 @@ class LedgerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccLedger::destroyLedger($id);
+        return redirect('/accounts/coa/ledger/')->with('destroy_message','This Ledger (uid = '.$id.') has been successfully deleted');
+
     }
 }

@@ -23,7 +23,8 @@
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th style="width: 5%; text-align: center">Uid</th>
-                                <th>Group</th>
+                                <th>Ledger</th>
+                                <th>Ledger Group</th>
                                 <th>Sub-Class</th>
                                 <th>Class</th>
                                 <th>Status</th>
@@ -35,9 +36,10 @@
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
                                     <td style="text-align: center">{{$ledger->id}}</td>
-                                    <td>{{$ledger->group_id}} : {{$ledger->group_name}}</td>
-                                    <td>{{$ledger->accSubClass->sub_class_id}} : {{$ledger->accSubClass->sub_class_name}}</td>
-                                    <td>{{$ledger->accClass->class_id}} : {{$ledger->accClass->class_name}}</td>
+                                    <td>{{$ledger->ledger_id}} : {{$ledger->ledger_name}}</td>
+                                    <td>{{$ledger->accLedgerGroup->group_name}}</td>
+                                    <td>{{$ledger->accSubClass->sub_class_name}}</td>
+                                    <td>{{$ledger->accClass->class_name}}</td>
                                     <td>@if($ledger->status == '1') <span class="badge badge-success">Active</span> @elseif($ledger->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
                                         <form action="{{route('acc.ledger.destroy', ['id' => $ledger->id])}}" method="post">
