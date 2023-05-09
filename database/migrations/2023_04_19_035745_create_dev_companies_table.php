@@ -15,6 +15,17 @@ return new class extends Migration
     {
         Schema::create('dev_companies', function (Blueprint $table) {
             $table->id();
+            $table->string('company_name');
+            $table->text('address');
+            $table->string('website');
+            $table->string('telephone');
+            $table->string('trade_license');
+            $table->string('VAT_registration');
+            $table->string('logo');
+            $table->string('logo_color');
+            $table->string('TIN');
+            $table->string('BIN');
+            $table->enum('status',['1', '0']);
             $table->timestamps();
         });
     }

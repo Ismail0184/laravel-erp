@@ -6,6 +6,7 @@ use App\Http\Controllers\Accounts\COA\ClassController;
 use App\Http\Controllers\Accounts\COA\SubClassController;
 use App\Http\Controllers\Accounts\COA\LedgerGroupController;
 use App\Http\Controllers\Accounts\COA\LedgerController;
+use App\Http\Controllers\Accounts\COA\SubLedgerController;
 
 // home
 Route::get('/', [HomeController::class,'index']);
@@ -51,5 +52,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/accounts/coa/ledger/edit/{id}', [LedgerController::class,'edit'])->name('acc.ledger.edit');
     Route::post('/accounts/coa/ledger/update/{id}', [LedgerController::class,'update'])->name('acc.ledger.update');
     Route::post('/accounts/coa/ledger/destroy/{id}', [LedgerController::class,'destroy'])->name('acc.ledger.destroy');
+
+    //Accounts/coa/ledger
+    Route::get('/accounts/coa/subledger/',[SubLedgerController::class,'index'])->name('acc.subledger.view');
+    Route::get('/accounts/coa/subledger/get-all-sub-class', [SubLedgerController::class,'getAllSubClass'])->name('acc.get-all-sub-class');
+    Route::get('/accounts/coa/subledger/create', [SubLedgerController::class,'create'])->name('acc.subledger.create');
+    Route::post('/accounts/coa/subledger/store', [SubLedgerController::class,'store'])->name('acc.subledger.store');
+    Route::get('/accounts/coa/subledger/show/{id}', [SubLedgerController::class,'show'])->name('acc.subledger.show');
+    Route::get('/accounts/coa/subledger/edit/{id}', [SubLedgerController::class,'edit'])->name('acc.subledger.edit');
+    Route::post('/accounts/coa/subledger/update/{id}', [SubLedgerController::class,'update'])->name('acc.subledger.update');
+    Route::post('/accounts/coa/subledger/destroy/{id}', [SubLedgerController::class,'destroy'])->name('acc.subledger.destroy');
 
 });
