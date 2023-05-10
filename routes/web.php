@@ -54,13 +54,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post('/accounts/coa/ledger/destroy/{id}', [LedgerController::class,'destroy'])->name('acc.ledger.destroy');
 
     //Accounts/coa/ledger
-    Route::get('/accounts/coa/subledger/',[SubLedgerController::class,'index'])->name('acc.subledger.view');
-    Route::get('/accounts/coa/subledger/get-all-sub-class', [SubLedgerController::class,'getAllSubClass'])->name('acc.get-all-sub-class');
-    Route::get('/accounts/coa/subledger/create', [SubLedgerController::class,'create'])->name('acc.subledger.create');
-    Route::post('/accounts/coa/subledger/store', [SubLedgerController::class,'store'])->name('acc.subledger.store');
-    Route::get('/accounts/coa/subledger/show/{id}', [SubLedgerController::class,'show'])->name('acc.subledger.show');
-    Route::get('/accounts/coa/subledger/edit/{id}', [SubLedgerController::class,'edit'])->name('acc.subledger.edit');
-    Route::post('/accounts/coa/subledger/update/{id}', [SubLedgerController::class,'update'])->name('acc.subledger.update');
-    Route::post('/accounts/coa/subledger/destroy/{id}', [SubLedgerController::class,'destroy'])->name('acc.subledger.destroy');
+    Route::get('/accounts/coa/sub-ledger/',[SubLedgerController::class,'index'])->name('acc.sub-ledger.view');
+    Route::get('/accounts/coa/sub-ledger/create', [SubLedgerController::class,'create'])->name('acc.sub-ledger.create');
+    Route::post('/accounts/coa/sub-ledger/store', [SubLedgerController::class,'store'])->name('acc.sub-ledger.store');
+    Route::get('/accounts/coa/sub-ledger/show/{id}', [SubLedgerController::class,'show'])->name('acc.sub-ledger.show');
+    Route::get('/accounts/coa/sub-ledger/edit/{id}', [SubLedgerController::class,'edit'])->name('acc.sub-ledger.edit');
+    Route::post('/accounts/coa/sub-ledger/update/{id}', [SubLedgerController::class,'update'])->name('acc.sub-ledger.update');
+    Route::post('/accounts/coa/sub-ledger/destroy/{id}', [SubLedgerController::class,'destroy'])->name('acc.sub-ledger.destroy');
 
 });

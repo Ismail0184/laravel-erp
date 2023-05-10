@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Accounts\COA;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccLedger;
+use App\Models\Accounts\AccSubLedger;
 use Illuminate\Http\Request;
 
 class SubLedgerController extends Controller
@@ -12,9 +14,13 @@ class SubLedgerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $subledgers, $ledgers;
+
     public function index()
     {
-        return view('');
+        $this->subledgers = AccSubLedger::all();
+        return view('modules.accounts.coa.subledger.index', ['subledgers' => $this->subledgers]);
     }
 
     /**
@@ -24,7 +30,8 @@ class SubLedgerController extends Controller
      */
     public function create()
     {
-        //
+        $this->ledgers = AccLedger::all();
+        return view('modules.accounts.coa.subledger.create', ['ledgers' => $this->ledgers]);
     }
 
     /**
@@ -35,7 +42,8 @@ class SubLedgerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AccSubLedger::storeSubLedger($request);
+        return redirect('/accounts/coa/sub-ledger/')->with('store_message', 'test');
     }
 
     /**
@@ -57,7 +65,7 @@ class SubLedgerController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('modules.accounts.coa.subledger.create');
     }
 
     /**
