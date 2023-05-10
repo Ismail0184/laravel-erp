@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">@if(request('id')) Update @else Create @endif {{$title}}</h4>
-                <form method="POST" action="@if(request('id')>0) {{route('acc.sub-ledger.update', ['id'=>$ledger->id])}} @else {{route('acc.sub-ledger.store')}} @endif">
+                <form method="POST" action="@if(request('id')>0) {{route('acc.sub-ledger.update', ['id'=>$subledger->id])}} @else {{route('acc.sub-ledger.store')}} @endif">
                     @csrf
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Ledger <span class="required text-danger">*</span></label>

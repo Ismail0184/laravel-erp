@@ -15,7 +15,7 @@ class SubLedgerController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $subledgers, $ledgers;
+    private $subledgers, $subledger, $ledgers;
 
     public function index()
     {
@@ -65,7 +65,9 @@ class SubLedgerController extends Controller
      */
     public function edit($id)
     {
-        return view('modules.accounts.coa.subledger.create');
+        $this->subledger    = AccSubLedger::find($id);
+        $this->ledgers      = AccLedger::all();
+        return view('modules.accounts.coa.subledger.create', ['subledger' => $this->subledger], ['ledgers' => $this->ledgers]);
     }
 
     /**
@@ -77,7 +79,9 @@ class SubLedgerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccSubLedger::updateSubLedger($request, $id);
+        return redirect('/accounts/coa/sub-ledger/')->with('update_message','This Sub-Ledger (uid = '.$id.') has been successfully updated');
+
     }
 
     /**
@@ -88,6 +92,7 @@ class SubLedgerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccSubLedger::destroySubLedger($id);
+        return redirect('/accounts/coa/sub-ledger/')->with('destroy_message','This Sub-Ledger (uid = '.$id.') has been successfully deleted');
     }
 }
