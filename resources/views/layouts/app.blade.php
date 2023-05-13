@@ -180,7 +180,7 @@
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
                             <i class="bx bx-store"></i>
-                            <span>COA</span>
+                            <span>Chart of Accounts</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
                             <li><a href="{{route('acc.class.view')}}">Class</a></li>
@@ -188,7 +188,7 @@
                             <li><a href="{{route('acc.ledger-group.view')}}">Ledger Group</a></li>
                             <li><a href="{{route('acc.ledger.view')}}">Ledger</a></li>
                             <li><a href="{{route('acc.sub-ledger.view')}}">Sub Ledger</a></li>
-                            <li><a href="ecommerce-checkout.html">Sub Sub-ledger</a></li>
+                            <li><a href="{{route('acc.sub-sub-ledger.view')}}">Sub Sub-ledger</a></li>
                             <li><a href="ecommerce-shops.html">Cost Category</a></li>
                             <li><a href="ecommerce-add-product.html">Cost Center</a></li>
                             <li><a href="ecommerce-add-product.html">Cost Center</a></li>
