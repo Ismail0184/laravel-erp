@@ -9,6 +9,8 @@ class AccLedger extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'ledger_id';
+
     public static $ledgers;
 
     public function accLedgerGroup()
@@ -30,9 +32,20 @@ class AccLedger extends Model
         self::$ledgers->ledger_id = $request->ledger_id;
         self::$ledgers->ledger_name = $request->ledger_name;
         self::$ledgers->group_id = $request->group_id;
-        self::$ledgers->sub_class_id = '199';
-        self::$ledgers->class_id = 790;
         self::$ledgers->status = '1';
+        self::$ledgers->sconid = '1';
+        self::$ledgers->pcomid = '1';
+        self::$ledgers->entry_by = $request->entry_by;
+        self::$ledgers->save();
+    }
+    public static function storeSubLedgerAsLedger($request)
+    {
+        self::$ledgers = new AccLedger();
+        self::$ledgers->ledger_id = $request->sub_ledger_id;
+        self::$ledgers->ledger_name = $request->sub_ledger_name;
+        self::$ledgers->group_id = '3';
+        self::$ledgers->status = '1';
+        self::$ledgers->type = 'sub';
         self::$ledgers->sconid = '1';
         self::$ledgers->pcomid = '1';
         self::$ledgers->entry_by = $request->entry_by;
@@ -45,8 +58,20 @@ class AccLedger extends Model
         self::$ledgers->ledger_id = $request->ledger_id;
         self::$ledgers->ledger_name = $request->ledger_name;
         self::$ledgers->group_id = $request->group_id;
-        self::$ledgers->sub_class_id = '199';
-        self::$ledgers->class_id = '1899';
+        self::$ledgers->status = '1';
+        self::$ledgers->sconid = '1';
+        self::$ledgers->pcomid = '1';
+        self::$ledgers->entry_by = $request->entry_by;
+        self::$ledgers->save();
+    }
+
+    public static function updateSubLedgerAsLedger($request, $id)
+    {
+        self::$ledgers = AccLedger::find($id);
+        self::$ledgers->ledger_id = $request->sub_ledger_id;
+        self::$ledgers->ledger_name = $request->sub_ledger_name;
+        self::$ledgers->group_id = '1000100010001';
+        self::$ledgers->type = 'sub';
         self::$ledgers->status = '1';
         self::$ledgers->sconid = '1';
         self::$ledgers->pcomid = '1';
@@ -59,6 +84,5 @@ class AccLedger extends Model
         self::$ledgers = AccLedger::find($id) ;
         self::$ledgers->delete();
     }
-
 
 }

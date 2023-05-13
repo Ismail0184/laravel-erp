@@ -43,7 +43,8 @@ class SubLedgerController extends Controller
     public function store(Request $request)
     {
         AccSubLedger::storeSubLedger($request);
-        return redirect('/accounts/coa/sub-ledger/')->with('store_message', 'test');
+        AccLedger::storeSubLedgerAsLedger($request);
+        return redirect('/accounts/coa/sub-ledger/')->with('store_message', 'The Sub-Ledger has been successfully inserted');
     }
 
     /**
@@ -63,9 +64,9 @@ class SubLedgerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($sub_ledger_id)
     {
-        $this->subledger    = AccSubLedger::find($id);
+        $this->subledger    = AccSubLedger::find($sub_ledger_id);
         $this->ledgers      = AccLedger::all();
         return view('modules.accounts.coa.subledger.create', ['subledger' => $this->subledger], ['ledgers' => $this->ledgers]);
     }
@@ -77,10 +78,11 @@ class SubLedgerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $sub_ledger_id)
     {
-        AccSubLedger::updateSubLedger($request, $id);
-        return redirect('/accounts/coa/sub-ledger/')->with('update_message','This Sub-Ledger (uid = '.$id.') has been successfully updated');
+        AccSubLedger::updateSubLedger($request, $sub_ledger_id);
+        AccLedger::updateSubLedgerAsLedger($request, $sub_ledger_id);
+        return redirect('/accounts/coa/sub-ledger/')->with('update_message','This Sub-Ledger (uid = '.$sub_ledger_id.') has been successfully updated');
 
     }
 

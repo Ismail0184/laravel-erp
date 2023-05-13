@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AccSubLedger extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'sub_ledger_id';
     public static $subLedger;
 
 
@@ -22,7 +24,6 @@ class AccSubLedger extends Model
         self::$subLedger->pcomid = 1;
         self::$subLedger->entry_by = $request->entry_by;
         self::$subLedger->save();
-
     }
 
     public static function updateSubLedger($request, $id)

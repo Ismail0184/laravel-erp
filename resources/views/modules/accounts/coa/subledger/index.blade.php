@@ -38,12 +38,12 @@
                                     <td>{{$subledger->ledger_id}} : {{$subledger->ledger_name}}</td>
                                     <td>@if($subledger->status == '1') <span class="badge badge-success">Active</span> @elseif($ledger->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
-                                        <form action="{{route('acc.sub-ledger.destroy', ['id' => $subledger->id])}}" method="post">
+                                        <form action="{{route('acc.sub-ledger.destroy', ['sub_ledger_id' => $subledger->sub_ledger_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('acc.sub-ledger.show',['id' => $subledger->id])}}" title="View" class="btn btn-primary btn-sm">
+                                            <a href="{{route('acc.sub-ledger.show',['sub_ledger_id' => $subledger->sub_ledger_id])}}" title="View" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book"></i>
                                             </a>
-                                            <a href="{{route('acc.sub-ledger.edit',['id' => $subledger->id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('acc.sub-ledger.edit',['sub_ledger_id' => $subledger->sub_ledger_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

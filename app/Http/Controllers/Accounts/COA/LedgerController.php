@@ -48,7 +48,7 @@ class LedgerController extends Controller
     public function store(Request $request)
     {
         AccLedger::storeLedger($request);
-        return redirect('/accounts/coa/ledger/')->with('store_message', 'test');
+        return redirect('/accounts/coa/ledger/')->with('store_message', 'The Ledger has been successfully inserted');
     }
 
     /**

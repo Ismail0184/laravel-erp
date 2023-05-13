@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('acc_sub_ledgers', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('sub_ledger_id')->unique();
+            $table->id('sub_ledger_id')->unique();
             $table->string('sub_ledger_name')->unique();
             $table->bigInteger('ledger_id');
             $table->integer('status')->default('1');

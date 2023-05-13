@@ -18,8 +18,7 @@ return new class extends Migration
             $table->bigInteger('ledger_id')->unique();
             $table->string('ledger_name')->unique();
             $table->bigInteger('group_id');
-            $table->integer('sub_class_id');
-            $table->integer('class_id');
+            $table->enum('type',['ledger','sub','sub-sub']);
             $table->integer('status')->default('1');
             $table->integer('sconid');
             $table->integer('pcomid');

@@ -48,18 +48,18 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/accounts/coa/ledger/get-all-sub-class', [LedgerController::class,'getAllSubClass'])->name('acc.get-all-sub-class');
     Route::get('/accounts/coa/ledger/create', [LedgerController::class,'create'])->name('acc.ledger.create');
     Route::post('/accounts/coa/ledger/store', [LedgerController::class,'store'])->name('acc.ledger.store');
-    Route::get('/accounts/coa/ledger/show/{id}', [LedgerController::class,'show'])->name('acc.ledger.show');
-    Route::get('/accounts/coa/ledger/edit/{id}', [LedgerController::class,'edit'])->name('acc.ledger.edit');
-    Route::post('/accounts/coa/ledger/update/{id}', [LedgerController::class,'update'])->name('acc.ledger.update');
-    Route::post('/accounts/coa/ledger/destroy/{id}', [LedgerController::class,'destroy'])->name('acc.ledger.destroy');
+    Route::get('/accounts/coa/ledger/show/{ledger_id}', [LedgerController::class,'show'])->name('acc.ledger.show');
+    Route::get('/accounts/coa/ledger/edit/{ledger_id}', [LedgerController::class,'edit'])->name('acc.ledger.edit');
+    Route::post('/accounts/coa/ledger/update/{ledger_id}', [LedgerController::class,'update'])->name('acc.ledger.update');
+    Route::post('/accounts/coa/ledger/destroy/{ledger_id}', [LedgerController::class,'destroy'])->name('acc.ledger.destroy');
 
     //Accounts/coa/ledger
     Route::get('/accounts/coa/sub-ledger/',[SubLedgerController::class,'index'])->name('acc.sub-ledger.view');
     Route::get('/accounts/coa/sub-ledger/create', [SubLedgerController::class,'create'])->name('acc.sub-ledger.create');
     Route::post('/accounts/coa/sub-ledger/store', [SubLedgerController::class,'store'])->name('acc.sub-ledger.store');
-    Route::get('/accounts/coa/sub-ledger/show/{id}', [SubLedgerController::class,'show'])->name('acc.sub-ledger.show');
-    Route::get('/accounts/coa/sub-ledger/edit/{id}', [SubLedgerController::class,'edit'])->name('acc.sub-ledger.edit');
-    Route::post('/accounts/coa/sub-ledger/update/{id}', [SubLedgerController::class,'update'])->name('acc.sub-ledger.update');
-    Route::post('/accounts/coa/sub-ledger/destroy/{id}', [SubLedgerController::class,'destroy'])->name('acc.sub-ledger.destroy');
+    Route::get('/accounts/coa/sub-ledger/show/{sub_ledger_id}', [SubLedgerController::class,'show'])->name('acc.sub-ledger.show');
+    Route::get('/accounts/coa/sub-ledger/edit/{sub_ledger_id}', [SubLedgerController::class,'edit'])->name('acc.sub-ledger.edit');
+    Route::post('/accounts/coa/sub-ledger/update/{sub_ledger_id}', [SubLedgerController::class,'update'])->name('acc.sub-ledger.update');
+    Route::post('/accounts/coa/sub-ledger/destroy/{sub_ledger_id}', [SubLedgerController::class,'destroy'])->name('acc.sub-ledger.destroy');
 
 });
