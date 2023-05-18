@@ -35,7 +35,7 @@
                                     <td style="text-align: center">{{$loop->iteration}}</td>
                                     <td style="text-align: center">{{$subsubledger->id}}</td>
                                     <td>{{$subsubledger->sub_ledger_id}} : {{$subsubledger->sub_sub_ledger_name}}</td>
-                                    <td>{{$subsubledger->ledger_id}} : {{$subsubledger->ledger_name}}</td>
+                                    <td>{{$subsubledger->sub_ledger_id}} : {{$subsubledger->accSubLedgerGetforSubSubLedger->sub_ledger_name}}</td>
                                     <td>@if($subsubledger->status == '1') <span class="badge badge-success">Active</span> @elseif($ledger->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
                                         <form action="{{route('acc.sub-ledger.destroy', ['sub_ledger_id' => $subsubledger->sub_ledger_id])}}" method="post">

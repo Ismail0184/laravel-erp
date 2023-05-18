@@ -25,4 +25,9 @@ class AccSubSubLedger extends Model
         self::$subsubLedger->save();
 
     }
+
+    public function accSubLedgerGetforSubSubLedger()
+    {
+        return $this->belongsTo(AccSubLedger::class,'sub_ledger_id','sub_ledger_id');
+    }
 }
