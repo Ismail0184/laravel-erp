@@ -8,6 +8,8 @@ use App\Http\Controllers\Accounts\COA\LedgerGroupController;
 use App\Http\Controllers\Accounts\COA\LedgerController;
 use App\Http\Controllers\Accounts\COA\SubLedgerController;
 use App\Http\Controllers\Accounts\COA\SubSubLedgerController;
+use App\Http\Controllers\Accounts\COA\CostCategory;
+
 
 // home
 Route::get('/', [HomeController::class,'index']);
@@ -71,5 +73,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/accounts/coa/sub-sub-ledger/edit/{sub_sub_ledger_id}', [SubSubLedgerController::class,'edit'])->name('acc.sub-sub-ledger.edit');
     Route::post('/accounts/coa/sub-sub-ledger/update/{sub_sub_ledger_id}', [SubSubLedgerController::class,'update'])->name('acc.sub-sub-ledger.update');
     Route::post('/accounts/coa/sub-sub-ledger/destroy/{sub_sub_ledger_id}', [SubSubLedgerController::class,'destroy'])->name('acc.sub-sub-ledger.destroy');
+
+    //Accounts/coa/Cost-Category
+    Route::get('/accounts/coa/cost-category/',[CostCategory::class,'index'])->name('acc.cost-category.view');
+    Route::get('/accounts/coa/cost-category/create', [CostCategory::class,'create'])->name('acc.cost-category.create');
+    Route::post('/accounts/coa/cost-category/store', [CostCategory::class,'store'])->name('acc.cost-category.store');
+    Route::get('/accounts/coa/cost-category/show/{sub_sub_ledger_id}', [CostCategory::class,'show'])->name('acc.cost-category.show');
+    Route::get('/accounts/coa/cost-category/edit/{sub_sub_ledger_id}', [CostCategory::class,'edit'])->name('acc.cost-category.edit');
+    Route::post('/accounts/coa/cost-category/update/{sub_sub_ledger_id}', [CostCategory::class,'update'])->name('acc.cost-category.update');
+    Route::post('/accounts/coa/cost-category/destroy/{sub_sub_ledger_id}', [CostCategory::class,'destroy'])->name('acc.cost-category.destroy');
 
 });
