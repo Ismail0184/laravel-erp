@@ -18,6 +18,7 @@ Route::get('/', [HomeController::class,'index']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
 
     Route::get('/dashboard',[HomeController::class,'home'])->name('dashboard');
+    //Route::get('module/1');
 
     //Accounts/coa/class
     Route::get('/accounts/coa/class/',[ClassController::class,'index'])->name('acc.class.view');

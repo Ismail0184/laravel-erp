@@ -56,7 +56,7 @@ class CostCenterController extends Controller
      */
     public function show($id)
     {
-        //
+        return "this page is under construction";
     }
 
     /**
