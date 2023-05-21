@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Accounts\COA;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccCostCategory;
+use App\Models\Accounts\AccCostCenter;
 use Illuminate\Http\Request;
 
 class CostCenterController extends Controller
@@ -13,11 +15,13 @@ class CostCenterController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $costcenters, $costcenter;
+
+    private $costcenters, $costcenter, $costcategories;
 
     public function index()
     {
-        return view('modules.accounts.coa.costcenter.index');
+        $this->costcenters = AccCostCenter::all();
+        return view('modules.accounts.coa.costcenter.index', ['costcenters' =>$this->costcenters]);
     }
 
     /**
@@ -27,7 +31,9 @@ class CostCenterController extends Controller
      */
     public function create()
     {
-        //
+        $this->costcategories = AccCostCategory::all();
+        $this->costcenter = AccCostCenter::all();
+        return view('modules.accounts.coa.costcenter.create', ['costcenter' =>$this->costcenter], ['costcategories' => $this->costcategories]);
     }
 
     /**
@@ -38,7 +44,8 @@ class CostCenterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AccCostCenter::storeCostCenter($request);
+        return redirect('/accounts/coa/cost-center/')->with('store_message','This Cost Center has been successfully inserted');
     }
 
     /**

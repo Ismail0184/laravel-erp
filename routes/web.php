@@ -88,9 +88,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/accounts/coa/cost-center/',[CostCenterController::class,'index'])->name('acc.cost-center.view');
     Route::get('/accounts/coa/cost-center/create', [CostCenterController::class,'create'])->name('acc.cost-center.create');
     Route::post('/accounts/coa/cost-center/store', [CostCenterController::class,'store'])->name('acc.cost-center.store');
-    Route::get('/accounts/coa/cost-center/show/{id}', [CostCenterController::class,'show'])->name('acc.cost-center.show');
-    Route::get('/accounts/coa/cost-center/edit/{id}', [CostCenterController::class,'edit'])->name('acc.cost-center.edit');
-    Route::post('/accounts/coa/cost-center/update/{id}', [CostCenterController::class,'update'])->name('acc.cost-center.update');
-    Route::post('/accounts/coa/cost-center/destroy/{id}', [CostCenterController::class,'destroy'])->name('acc.cost-center.destroy');
+    Route::get('/accounts/coa/cost-center/show/{cc_code}', [CostCenterController::class,'show'])->name('acc.cost-center.show');
+    Route::get('/accounts/coa/cost-center/edit/{cc_code}', [CostCenterController::class,'edit'])->name('acc.cost-center.edit');
+    Route::post('/accounts/coa/cost-center/update/{cc_code}', [CostCenterController::class,'update'])->name('acc.cost-center.update');
+    Route::post('/accounts/coa/cost-center/destroy/{cc_code}', [CostCenterController::class,'destroy'])->name('acc.cost-center.destroy');
 
 });

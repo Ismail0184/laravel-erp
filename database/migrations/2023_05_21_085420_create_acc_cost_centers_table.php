@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('acc_cost_centers', function (Blueprint $table) {
-            $table->integer('cc_code');
+            $table->id('cc_code')->unique();
             $table->string('center_name')->unique();
-            $table->integer('category_id')->unique();
+            $table->integer('category_id');
             $table->integer('status')->default('1');
             $table->integer('sconid');
             $table->integer('pcomid');
