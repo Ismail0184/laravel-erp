@@ -67,7 +67,9 @@ class CostCenterController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->costcenter = AccCostCenter::find($id);
+        $this->costcategories = AccCostCategory::all();
+        return view('modules.accounts.coa.costcenter.create',['costcenter' => $this->costcenter],['costcategories' =>$this->costcategories]);
     }
 
     /**
@@ -79,7 +81,8 @@ class CostCenterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccCostCenter::updateCostCenter($request, $id);
+        return redirect('/accounts/coa/cost-center/')->with('update_message','This Cost Centre (uid = '.$id.') has been successfully updated');
     }
 
     /**
@@ -90,6 +93,8 @@ class CostCenterController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccCostCenter::destroyCostCenter($id);
+        return redirect('/accounts/coa/cost-center/')->with('destroy_message','This Cost Centre (uid = '.$id.') has been successfully deleted');
+
     }
 }
