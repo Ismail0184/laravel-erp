@@ -23,7 +23,8 @@
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th style="width: 5%; text-align: center">Uid</th>
-                                <th>Cost Category name</th>
+                                <th>Cost Center name</th>
+                                <th>Category name</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 15%">Option</th>
                             </tr>
@@ -32,16 +33,17 @@
                             @foreach($costcenters as $costcenter)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td style="text-align: center">{{$costcenter->id}}</td>
+                                    <td style="text-align: center">{{$costcenter->cc_code}}</td>
                                     <td>{{$costcenter->center_name}}</td>
+                                    <td>{{$costcenter->costcategoryforcostcenter->category_name}}</td>
                                     <td>@if($costcenter->status == '1') <span class="badge badge-success">Active</span> @elseif($costcenter->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
-                                        <form action="{{route('acc.cost-center.destroy', ['id' => $costcenter->id])}}" method="post">
+                                        <form action="{{route('acc.cost-center.destroy', ['cc_code' => $costcenter->cc_code])}}" method="post">
                                             @csrf
-                                            <a href="{{route('acc.cost-center.show',['id' => $costcenter->id])}}" title="View" class="btn btn-primary btn-sm">
+                                            <a href="{{route('acc.cost-center.show',['cc_code' => $costcenter->cc_code])}}" title="View" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book"></i>
                                             </a>
-                                            <a href="{{route('acc.cost-center.edit',['id' => $costcenter->id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('acc.cost-center.edit',['cc_code' => $costcenter->cc_code])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

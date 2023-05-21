@@ -23,4 +23,9 @@ class AccCostCenter extends Model
         self::$costcenter->entry_by = $request->entry_by;
         self::$costcenter->save();
     }
+
+    public function costcategoryforcostcenter()
+    {
+        return $this->belongsTo(AccCostCategory::class, 'category_id','id');
+    }
 }
