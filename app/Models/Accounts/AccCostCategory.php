@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class AccCostCategory extends Model
 {
     use HasFactory;
+
+    public static $costcategory;
+
+    public static function storeCostCategory($request)
+    {
+        self::$costcategory = new AccCostCategory();
+        self::$costcategory->category_name = $request->category_name;
+        self::$costcategory->status = 1;
+        self::$costcategory->sconid = '1';
+        self::$costcategory->pcomid = '1';
+        self::$costcategory->entry_by = $request->entry_by;
+        self::$costcategory->save();
+    }
+
 }

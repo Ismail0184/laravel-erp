@@ -40,7 +40,8 @@ class CostCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AccCostCategory::storeCostCategory($request);
+        return redirect('/accounts/coa/cost-category/')->with('store_message','The Cost Category has been successfully inserted');
     }
 
     /**

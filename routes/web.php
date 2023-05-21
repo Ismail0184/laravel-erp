@@ -78,9 +78,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/accounts/coa/cost-category/',[CostCategoryController::class,'index'])->name('acc.cost-category.view');
     Route::get('/accounts/coa/cost-category/create', [CostCategoryController::class,'create'])->name('acc.cost-category.create');
     Route::post('/accounts/coa/cost-category/store', [CostCategoryController::class,'store'])->name('acc.cost-category.store');
-    Route::get('/accounts/coa/cost-category/show/{sub_sub_ledger_id}', [CostCategoryController::class,'show'])->name('acc.cost-category.show');
-    Route::get('/accounts/coa/cost-category/edit/{sub_sub_ledger_id}', [CostCategoryController::class,'edit'])->name('acc.cost-category.edit');
-    Route::post('/accounts/coa/cost-category/update/{sub_sub_ledger_id}', [CostCategoryController::class,'update'])->name('acc.cost-category.update');
-    Route::post('/accounts/coa/cost-category/destroy/{sub_sub_ledger_id}', [CostCategoryController::class,'destroy'])->name('acc.cost-category.destroy');
+    Route::get('/accounts/coa/cost-category/show/{id}', [CostCategoryController::class,'show'])->name('acc.cost-category.show');
+    Route::get('/accounts/coa/cost-category/edit/{id}', [CostCategoryController::class,'edit'])->name('acc.cost-category.edit');
+    Route::post('/accounts/coa/cost-category/update/{id}', [CostCategoryController::class,'update'])->name('acc.cost-category.update');
+    Route::post('/accounts/coa/cost-category/destroy/{id}', [CostCategoryController::class,'destroy'])->name('acc.cost-category.destroy');
 
 });
