@@ -29,7 +29,7 @@ class CostCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.accounts.coa.costcategory.create');
     }
 
     /**
