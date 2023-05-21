@@ -22,4 +22,21 @@ class AccCostCategory extends Model
         self::$costcategory->save();
     }
 
+    public static function updateCostCategory($request, $id)
+    {
+        self::$costcategory = AccCostCategory::find($id);
+        self::$costcategory->category_name = $request->category_name;
+        self::$costcategory->status = $request->status;;
+        self::$costcategory->sconid = '1';
+        self::$costcategory->pcomid = '1';
+        self::$costcategory->entry_by = $request->entry_by;
+        self::$costcategory->save();
+    }
+
+    public static function destroyCostCategory($id)
+    {
+        self::$costcategory = AccCostCategory::find($id);
+        self::$costcategory->delete();
+    }
+
 }

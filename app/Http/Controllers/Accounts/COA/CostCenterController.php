@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Accounts\COA;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounts\AccCostCategory;
 use Illuminate\Http\Request;
 
-class CostCategoryController extends Controller
+class CostCenterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,12 +13,11 @@ class CostCategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $costcategories, $costcategory;
+    private $costcenters, $costcenter;
 
     public function index()
     {
-        $this->costcategories = AccCostCategory::all();
-        return view('modules.accounts.coa.costcategory.index', ['costcategories' =>$this->costcategories]);
+        return view('modules.accounts.coa.costcenter.index');
     }
 
     /**
@@ -29,7 +27,7 @@ class CostCategoryController extends Controller
      */
     public function create()
     {
-        return view('modules.accounts.coa.costcategory.create');
+        //
     }
 
     /**
@@ -40,8 +38,7 @@ class CostCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        AccCostCategory::storeCostCategory($request);
-        return redirect('/accounts/coa/cost-category/')->with('store_message','The Cost Category has been successfully inserted');
+        //
     }
 
     /**
@@ -63,8 +60,7 @@ class CostCategoryController extends Controller
      */
     public function edit($id)
     {
-        $this->costcategory = AccCostCategory::find($id);
-        return view('modules.accounts.coa.costcategory.create', ['costcategory' =>$this->costcategory]);
+        //
     }
 
     /**
@@ -76,8 +72,7 @@ class CostCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        AccCostCategory::updateCostCategory($request, $id);
-        return redirect('/accounts/coa/cost-category/')->with('update_message','This Cost Category (uid = '.$id.') has been successfully updated');
+        //
     }
 
     /**
@@ -88,7 +83,6 @@ class CostCategoryController extends Controller
      */
     public function destroy($id)
     {
-        AccCostCategory::destroyCostCategory($id);
-        return redirect('/accounts/coa/cost-category/')->with('destroy_message','This Cost Category (uid = '.$id.') has been successfully deleted');
+        //
     }
 }

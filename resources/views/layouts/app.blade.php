@@ -190,7 +190,7 @@
                             <li><a href="{{route('acc.sub-ledger.view')}}">Sub Ledger</a></li>
                             <li><a href="{{route('acc.sub-sub-ledger.view')}}">Sub Sub-ledger</a></li>
                             <li><a href="{{route('acc.cost-category.view')}}">Cost Category</a></li>
-                            <li><a href="ecommerce-add-product.html">Cost Center</a></li>
+                            <li><a href="{{route('acc.cost-center.view')}}">Cost Center</a></li>
                             <li><a href="ecommerce-add-product.html">Chart of Accounts</a></li>
                             <li><a href="ecommerce-add-product.html">Bank Account</a></li>
                             <li><a href="ecommerce-add-product.html">Cheque Book</a></li>

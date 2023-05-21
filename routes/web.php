@@ -9,6 +9,7 @@ use App\Http\Controllers\Accounts\COA\LedgerController;
 use App\Http\Controllers\Accounts\COA\SubLedgerController;
 use App\Http\Controllers\Accounts\COA\SubSubLedgerController;
 use App\Http\Controllers\Accounts\COA\CostCategoryController;
+use App\Http\Controllers\Accounts\COA\CostCenterController;
 
 
 // home
@@ -82,5 +83,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/accounts/coa/cost-category/edit/{id}', [CostCategoryController::class,'edit'])->name('acc.cost-category.edit');
     Route::post('/accounts/coa/cost-category/update/{id}', [CostCategoryController::class,'update'])->name('acc.cost-category.update');
     Route::post('/accounts/coa/cost-category/destroy/{id}', [CostCategoryController::class,'destroy'])->name('acc.cost-category.destroy');
+
+    //Accounts/coa/Cost-Center
+    Route::get('/accounts/coa/cost-center/',[CostCenterController::class,'index'])->name('acc.cost-center.view');
+    Route::get('/accounts/coa/cost-center/create', [CostCenterController::class,'create'])->name('acc.cost-center.create');
+    Route::post('/accounts/coa/cost-center/store', [CostCenterController::class,'store'])->name('acc.cost-center.store');
+    Route::get('/accounts/coa/cost-center/show/{id}', [CostCenterController::class,'show'])->name('acc.cost-center.show');
+    Route::get('/accounts/coa/cost-center/edit/{id}', [CostCenterController::class,'edit'])->name('acc.cost-center.edit');
+    Route::post('/accounts/coa/cost-center/update/{id}', [CostCenterController::class,'update'])->name('acc.cost-center.update');
+    Route::post('/accounts/coa/cost-center/destroy/{id}', [CostCenterController::class,'destroy'])->name('acc.cost-center.destroy');
 
 });
