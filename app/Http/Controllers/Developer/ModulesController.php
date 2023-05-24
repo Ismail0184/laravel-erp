@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Developer\DevModule;
 use Illuminate\Http\Request;
 
 class ModulesController extends Controller
@@ -12,9 +13,13 @@ class ModulesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $modules;
+
     public function index()
     {
-        //
+        $this->modules = DevModule::all();
+        return view('modules.developer.module.index', ['modules' => $this->modules]);
     }
 
     /**

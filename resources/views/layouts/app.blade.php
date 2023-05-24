@@ -186,16 +186,6 @@
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
                             <li><a href="{{route('acc.class.view')}}">Class</a></li>
-                            <li><a href="{{route('acc.sub-class.view')}}">Sub Class</a></li>
-                            <li><a href="{{route('acc.ledger-group.view')}}">Ledger Group</a></li>
-                            <li><a href="{{route('acc.ledger.view')}}">Ledger</a></li>
-                            <li><a href="{{route('acc.sub-ledger.view')}}">Sub Ledger</a></li>
-                            <li><a href="{{route('acc.sub-sub-ledger.view')}}">Sub Sub-ledger</a></li>
-                            <li><a href="{{route('acc.cost-category.view')}}">Cost Category</a></li>
-                            <li><a href="{{route('acc.cost-center.view')}}">Cost Center</a></li>
-                            <li><a href="ecommerce-add-product.html">@php(Session('module_id'))</a></li>
-                            <li><a href="ecommerce-add-product.html">{{ session('module_id') }}</a></li>
-                            <li><a href="ecommerce-add-product.html">{{Session::get('module_id')}}</a></li>
                         </ul>
                     </li>
                     <li>

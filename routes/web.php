@@ -10,6 +10,7 @@ use App\Http\Controllers\Accounts\COA\SubLedgerController;
 use App\Http\Controllers\Accounts\COA\SubSubLedgerController;
 use App\Http\Controllers\Accounts\COA\CostCategoryController;
 use App\Http\Controllers\Accounts\COA\CostCenterController;
+use App\Http\Controllers\Developer\ModulesController;
 
 
 // home
@@ -20,6 +21,27 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/dashboard/module_id/{module_id}', function (Request $request){ session(['module_id'=>request('module_id')]);
         return view('/dashboard');
     });
+
+
+
+
+    //Developer/Modules
+    Route::get('/developer/company/',[ClassController::class,'index'])->name('acc.company.view');
+    Route::get('/developer/company/create', [ClassController::class,'create'])->name('acc.company.create');
+    Route::post('/developer/company/store', [ClassController::class,'store'])->name('acc.company.store');
+    Route::get('/developer/company/show/{id}', [ClassController::class,'show'])->name('acc.company.show');
+    Route::get('/developer/company/edit/{id}', [ClassController::class,'edit'])->name('acc.company.edit');
+    Route::post('/developer/company/update/{id}', [ClassController::class,'update'])->name('acc.company.update');
+    Route::post('developer/company/destroy/{id}', [ClassController::class,'destroy'])->name('acc.company.destroy');
+
+    //Developer/Modules
+    Route::get('/developer/modules/',[ModulesController::class,'index'])->name('dev.modules.view');
+    Route::get('/developer/modules/create', [ModulesController::class,'create'])->name('dev.modules.create');
+    Route::post('/developer/modules/store', [ModulesController::class,'store'])->name('dev.modules.store');
+    Route::get('/developer/modules/show/{id}', [ModulesController::class,'show'])->name('dev.modules.show');
+    Route::get('/developer/modules/edit/{id}', [ModulesController::class,'edit'])->name('dev.modules.edit');
+    Route::post('/developer/modules/update/{id}', [ModulesController::class,'update'])->name('dev.modules.update');
+    Route::post('developer/modules/destroy/{id}', [ModulesController::class,'destroy'])->name('dev.modules.destroy');
 
 
 
