@@ -23,7 +23,7 @@
             <div class="d-flex">
                 <!-- LOGO -->
                 <div class="navbar-brand-box">
-                    <a href="index.html" class="logo logo-dark">
+                    <a href="{{route('dashboard')}}" class="logo logo-dark">
                                 <span class="logo-sm">
                                     <img src="{{asset('/')}}assets/images/logo.svg" alt="" height="22">
                                 </span>
@@ -32,12 +32,12 @@
                                 </span>
                     </a>
 
-                    <a href="index.html" class="logo logo-light">
+                    <a href="{{route('dashboard')}}" class="logo logo-light">
                                 <span class="logo-sm">
                                     <img src="{{asset('/')}}assets/images/logo-light.svg" alt="" height="22">
                                 </span>
                         <span class="logo-lg">
-                                    <img src="{{asset('/')}}assets/images/logo-light.png" alt="" height="19">
+                                    <img src="{{asset('/')}}assets/images/logo-light.png" alt="" height="50" width="80">
                                 </span>
                     </a>
                 </div>
@@ -177,10 +177,12 @@
                             <i class="bx bx-home-circle"></i><span>Dashboards</span>
                         </a>
                     </li>
+                    @if(session('module_id')==1)
+
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
                             <i class="bx bx-store"></i>
-                            <span>Chart of Accounts</span>
+                            <span>Admin Setup / Config</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
                             <li><a href="{{route('acc.class.view')}}">Class</a></li>
@@ -191,11 +193,31 @@
                             <li><a href="{{route('acc.sub-sub-ledger.view')}}">Sub Sub-ledger</a></li>
                             <li><a href="{{route('acc.cost-category.view')}}">Cost Category</a></li>
                             <li><a href="{{route('acc.cost-center.view')}}">Cost Center</a></li>
-                            <li><a href="ecommerce-add-product.html">Chart of Accounts</a></li>
-                            <li><a href="ecommerce-add-product.html">Bank Account</a></li>
-                            <li><a href="ecommerce-add-product.html">Cheque Book</a></li>
+                            <li><a href="ecommerce-add-product.html">@php(Session('module_id'))</a></li>
+                            <li><a href="ecommerce-add-product.html">{{ session('module_id') }}</a></li>
+                            <li><a href="ecommerce-add-product.html">{{Session::get('module_id')}}</a></li>
                         </ul>
                     </li>
+                    <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="bx bx-store"></i>
+                                <span>Chart of Accounts</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{route('acc.class.view')}}">Class</a></li>
+                                <li><a href="{{route('acc.sub-class.view')}}">Sub Class</a></li>
+                                <li><a href="{{route('acc.ledger-group.view')}}">Ledger Group</a></li>
+                                <li><a href="{{route('acc.ledger.view')}}">Ledger</a></li>
+                                <li><a href="{{route('acc.sub-ledger.view')}}">Sub Ledger</a></li>
+                                <li><a href="{{route('acc.sub-sub-ledger.view')}}">Sub Sub-ledger</a></li>
+                                <li><a href="{{route('acc.cost-category.view')}}">Cost Category</a></li>
+                                <li><a href="{{route('acc.cost-center.view')}}">Cost Center</a></li>
+                                <li><a href="ecommerce-add-product.html">@php(Session('module_id'))</a></li>
+                                <li><a href="ecommerce-add-product.html">{{ session('module_id') }}</a></li>
+                                <li><a href="ecommerce-add-product.html">{{Session::get('module_id')}}</a></li>
+                            </ul>
+                        </li>
+
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
                             <i class="bx bx-store"></i>
@@ -212,6 +234,9 @@
                             <li><a href="ecommerce-add-product.html">Add Product</a></li>
                         </ul>
                     </li>
+
+                    @elseif(session('module_id')==2)
+                    @endif
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
                             <i class="bx bx-bitcoin"></i>

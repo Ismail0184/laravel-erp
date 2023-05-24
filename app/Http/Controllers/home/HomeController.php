@@ -4,6 +4,7 @@ namespace App\Http\Controllers\home;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Session;
 
 class HomeController extends Controller
 {
@@ -18,7 +19,8 @@ class HomeController extends Controller
 
     public function module()
     {
+        //Session::forget('module_id');
         Session::put('module_id', request('module_id'));
-        return Session('module_id');
+        return redirect('/dashboard')->with('module_id',Session('module_id'));
     }
 }

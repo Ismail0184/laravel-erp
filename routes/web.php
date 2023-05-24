@@ -15,10 +15,13 @@ use App\Http\Controllers\Accounts\COA\CostCenterController;
 // home
 Route::get('/', [HomeController::class,'index']);
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard',[HomeController::class,'home'])->name('dashboard');
-    Route::get('/dashboard/module_id/{module_id}', [HomeController::class,'module'])->name('module');
+    Route::get('/dashboard/module_id/{module_id}', function (Request $request){ session(['module_id'=>request('module_id')]);
+        return view('/dashboard');
+    });
+
+
 
     //Accounts/coa/class
     Route::get('/accounts/coa/class/',[ClassController::class,'index'])->name('acc.class.view');
