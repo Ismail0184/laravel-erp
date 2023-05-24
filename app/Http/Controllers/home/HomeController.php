@@ -15,4 +15,10 @@ class HomeController extends Controller
     {
         return view('dashboard');
     }
+
+    public function module()
+    {
+        Session::put('module_id', request('module_id'));
+        return Session('module_id');
+    }
 }
