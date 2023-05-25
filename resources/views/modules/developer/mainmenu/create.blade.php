@@ -33,7 +33,7 @@
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Quick Access URL</label>
                         <div class="col-sm-9">
-                            <input type="text" name="url" @if(request('main_menu_id')>0) value="{{$mainmenu->url}}" @endif class="form-control" required />
+                            <input type="text" name="quick_access_url" @if(request('main_menu_id')>0) value="{{$mainmenu->quick_access_url}}" @endif class="form-control" required />
                         </div>
                     </div>
                     <div class="form-group row mb-4">
@@ -63,7 +63,7 @@
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Ledger Group <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <select class="form-control select2" name="group_id" required="required">
+                            <select class="form-control select2" name="module_id" required="required">
                                 <option value="">-- Module --</option>
                                 @foreach($modules as $module)
                                     <option value="{{$module->module_id}}" @if(request('main_menu_id')>0) @if($mainmenu->module_id==$module->module_id) selected @endif @endif>{{$module->module_id}} : {{$module->modulename}}</option>

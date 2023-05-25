@@ -42,7 +42,8 @@ class MainMenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DevMainMenu::storeMainMenu($request);
+        return redirect('/developer/main-menu/')->with('store_message','New main menu inserted successfully!!');
     }
 
     /**
