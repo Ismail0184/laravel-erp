@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('modulename',55);
             $table->string('module_short_name',33);
             $table->string('fa_icon',33);
+            $table->string('fa_icon_color',33);
             $table->string('notification_type',33);
             $table->string('section_type',33);
             $table->enum('status',['1','0'])->default('1');

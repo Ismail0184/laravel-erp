@@ -10,10 +10,10 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">@if(request('module_id')) Update @else Create @endif {{$title}}  <small class="text-danger"> field marked with * are mandatory</small></h4>
-                <form method="POST" action="@if(request('module_id')>0) {{route('acc.ledger.update', ['ledger_id'=>$ledger->ledger_id])}} @else {{route('acc.ledger.store')}} @endif">
+                <form method="POST" action="@if(request('module_id')>0) {{route('dev.modules.update', ['module_id'=>$module->module_id])}} @else {{route('dev.modules.store')}} @endif">
                     @csrf
                     <div class="form-group row mb-4">
-                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Serial Number <span class="required text-danger">*</span></label>
+                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Serial Number</label>
                         <div class="col-sm-9">
                             <input type="text" name="serial" @if(request('module_id')>0) value="{{$module->serial}}" @endif class="form-control" />
                         </div>
@@ -31,9 +31,15 @@
                         </div>
                     </div>
                     <div class="form-group row mb-4">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">FA Icon <span class="required text-danger">*</span></label>
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">FA Icon </label>
                         <div class="col-sm-9">
                             <input type="text" name="fa_icon" @if(request('module_id')>0) value="{{$module->fa_icon}}" @endif class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">FA Icon Color</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="fa_icon_color" @if(request('module_id')>0) value="{{$module->fa_icon_color}}" @endif class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row mb-4">

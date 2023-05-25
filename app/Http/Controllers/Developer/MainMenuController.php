@@ -3,23 +3,18 @@
 namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Developer\DevModule;
 use Illuminate\Http\Request;
 
-class ModulesController extends Controller
+class MainMenuController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    private $modules, $module;
-
     public function index()
     {
-        $this->modules = DevModule::all();
-        return view('modules.developer.module.index', ['modules' => $this->modules]);
+        //
     }
 
     /**
@@ -29,7 +24,7 @@ class ModulesController extends Controller
      */
     public function create()
     {
-        return view('modules.developer.module.create');
+        //
     }
 
     /**
@@ -40,8 +35,7 @@ class ModulesController extends Controller
      */
     public function store(Request $request)
     {
-        DevModule::storeModule($request);
-        return redirect('/developer/modules/')->with('store_message','New module inserted successfully!!');
+        //
     }
 
     /**
@@ -63,9 +57,7 @@ class ModulesController extends Controller
      */
     public function edit($id)
     {
-        $this->module = DevModule::find($id);
-        return view('modules.developer.module.create', ['module' =>$this->module]);
-
+        //
     }
 
     /**
@@ -77,8 +69,7 @@ class ModulesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DevModule::updateModule($request, $id);
-        return redirect('/developer/modules/')->with('update_message','This module (uid = '.$id.') has been successfully updated');
+        //
     }
 
     /**
@@ -89,8 +80,6 @@ class ModulesController extends Controller
      */
     public function destroy($id)
     {
-        DevModule::destroyModule($id);
-        return redirect('/developer/modules/')->with('destroy_message','This module (uid = '.$id.') has been successfully deleted');
-
+        //
     }
 }

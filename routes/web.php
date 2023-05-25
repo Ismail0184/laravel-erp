@@ -38,10 +38,19 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/developer/modules/',[ModulesController::class,'index'])->name('dev.modules.view');
     Route::get('/developer/modules/create', [ModulesController::class,'create'])->name('dev.modules.create');
     Route::post('/developer/modules/store', [ModulesController::class,'store'])->name('dev.modules.store');
-    Route::get('/developer/modules/show/{id}', [ModulesController::class,'show'])->name('dev.modules.show');
-    Route::get('/developer/modules/edit/{id}', [ModulesController::class,'edit'])->name('dev.modules.edit');
-    Route::post('/developer/modules/update/{id}', [ModulesController::class,'update'])->name('dev.modules.update');
-    Route::post('developer/modules/destroy/{id}', [ModulesController::class,'destroy'])->name('dev.modules.destroy');
+    Route::get('/developer/modules/show/{module_id}', [ModulesController::class,'show'])->name('dev.modules.show');
+    Route::get('/developer/modules/edit/{module_id}', [ModulesController::class,'edit'])->name('dev.modules.edit');
+    Route::post('/developer/modules/update/{module_id}', [ModulesController::class,'update'])->name('dev.modules.update');
+    Route::post('developer/modules/destroy/{module_id}', [ModulesController::class,'destroy'])->name('dev.modules.destroy');
+
+    //Developer/Modules
+    Route::get('/developer/main-menu/',[ModulesController::class,'index'])->name('dev.main-menu.view');
+    Route::get('/developer/main-menu/create', [ModulesController::class,'create'])->name('dev.main-menu.create');
+    Route::post('/developer/main-menu/store', [ModulesController::class,'store'])->name('dev.main-menu.store');
+    Route::get('/developer/main-menu/show/{module_id}', [ModulesController::class,'show'])->name('dev.main-menu.show');
+    Route::get('/developer/main-menu/edit/{module_id}', [ModulesController::class,'edit'])->name('dev.main-menu.edit');
+    Route::post('/developer/main-menu/update/{module_id}', [ModulesController::class,'update'])->name('dev.main-menu.update');
+    Route::post('developer/main-menu/destroy/{module_id}', [ModulesController::class,'destroy'])->name('dev.main-menu.destroy');
 
 
 
