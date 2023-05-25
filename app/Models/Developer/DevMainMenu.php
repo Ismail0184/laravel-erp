@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class DevMainMenu extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'main_menu_id';
 }

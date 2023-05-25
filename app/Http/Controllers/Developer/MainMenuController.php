@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Developer\DevMainMenu;
 use Illuminate\Http\Request;
 
 class MainMenuController extends Controller
@@ -12,9 +13,13 @@ class MainMenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $mainmenus,$mainmenu;
+
     public function index()
     {
-        //
+        $this->mainmenus = DevMainMenu::all();
+        return view('modules.developer.mainmenu.index', ['mainmenus' => $this->mainmenus]);
     }
 
     /**
@@ -24,7 +29,7 @@ class MainMenuController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.developer.mainmenu.create');
     }
 
     /**

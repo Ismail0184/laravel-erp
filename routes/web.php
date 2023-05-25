@@ -11,6 +11,7 @@ use App\Http\Controllers\Accounts\COA\SubSubLedgerController;
 use App\Http\Controllers\Accounts\COA\CostCategoryController;
 use App\Http\Controllers\Accounts\COA\CostCenterController;
 use App\Http\Controllers\Developer\ModulesController;
+use App\Http\Controllers\Developer\MainMenuController;
 
 
 // home
@@ -25,7 +26,7 @@ Route::get('/', [HomeController::class,'index']);
 
 
 
-    //Developer/Modules
+    //Developer/Company
     Route::get('/developer/company/',[ClassController::class,'index'])->name('dev.company.view');
     Route::get('/developer/company/create', [ClassController::class,'create'])->name('dev.company.create');
     Route::post('/developer/company/store', [ClassController::class,'store'])->name('dev.company.store');
@@ -43,14 +44,14 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/developer/modules/update/{module_id}', [ModulesController::class,'update'])->name('dev.modules.update');
     Route::post('developer/modules/destroy/{module_id}', [ModulesController::class,'destroy'])->name('dev.modules.destroy');
 
-    //Developer/Modules
-    Route::get('/developer/main-menu/',[ModulesController::class,'index'])->name('dev.main-menu.view');
-    Route::get('/developer/main-menu/create', [ModulesController::class,'create'])->name('dev.main-menu.create');
-    Route::post('/developer/main-menu/store', [ModulesController::class,'store'])->name('dev.main-menu.store');
-    Route::get('/developer/main-menu/show/{module_id}', [ModulesController::class,'show'])->name('dev.main-menu.show');
-    Route::get('/developer/main-menu/edit/{module_id}', [ModulesController::class,'edit'])->name('dev.main-menu.edit');
-    Route::post('/developer/main-menu/update/{module_id}', [ModulesController::class,'update'])->name('dev.main-menu.update');
-    Route::post('developer/main-menu/destroy/{module_id}', [ModulesController::class,'destroy'])->name('dev.main-menu.destroy');
+    //Developer/Main Menu
+    Route::get('/developer/main-menu/',[MainMenuController::class,'index'])->name('dev.main-menu.view');
+    Route::get('/developer/main-menu/create', [MainMenuController::class,'create'])->name('dev.main-menu.create');
+    Route::post('/developer/main-menu/store', [MainMenuController::class,'store'])->name('dev.main-menu.store');
+    Route::get('/developer/main-menu/show/{module_id}', [MainMenuController::class,'show'])->name('dev.main-menu.show');
+    Route::get('/developer/main-menu/edit/{module_id}', [MainMenuController::class,'edit'])->name('dev.main-menu.edit');
+    Route::post('/developer/main-menu/update/{module_id}', [MainMenuController::class,'update'])->name('dev.main-menu.update');
+    Route::post('developer/main-menu/destroy/{module_id}', [MainMenuController::class,'destroy'])->name('dev.main-menu.destroy');
 
 
 
