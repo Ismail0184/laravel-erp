@@ -29,7 +29,7 @@ class ModulesController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.developer.module.create');
     }
 
     /**

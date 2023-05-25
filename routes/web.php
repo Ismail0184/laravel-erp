@@ -19,20 +19,20 @@ Route::get('/', [HomeController::class,'index']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard',[HomeController::class,'home'])->name('dashboard');
     Route::get('/dashboard/module_id/{module_id}', function (Request $request){ session(['module_id'=>request('module_id')]);
-        return view('/dashboard');
+        return redirect('/dashboard');
     });
 
 
 
 
     //Developer/Modules
-    Route::get('/developer/company/',[ClassController::class,'index'])->name('acc.company.view');
-    Route::get('/developer/company/create', [ClassController::class,'create'])->name('acc.company.create');
-    Route::post('/developer/company/store', [ClassController::class,'store'])->name('acc.company.store');
-    Route::get('/developer/company/show/{id}', [ClassController::class,'show'])->name('acc.company.show');
-    Route::get('/developer/company/edit/{id}', [ClassController::class,'edit'])->name('acc.company.edit');
-    Route::post('/developer/company/update/{id}', [ClassController::class,'update'])->name('acc.company.update');
-    Route::post('developer/company/destroy/{id}', [ClassController::class,'destroy'])->name('acc.company.destroy');
+    Route::get('/developer/company/',[ClassController::class,'index'])->name('dev.company.view');
+    Route::get('/developer/company/create', [ClassController::class,'create'])->name('dev.company.create');
+    Route::post('/developer/company/store', [ClassController::class,'store'])->name('dev.company.store');
+    Route::get('/developer/company/show/{id}', [ClassController::class,'show'])->name('dev.company.show');
+    Route::get('/developer/company/edit/{id}', [ClassController::class,'edit'])->name('dev.company.edit');
+    Route::post('/developer/company/update/{id}', [ClassController::class,'update'])->name('dev.company.update');
+    Route::post('developer/company/destroy/{id}', [ClassController::class,'destroy'])->name('dev.company.destroy');
 
     //Developer/Modules
     Route::get('/developer/modules/',[ModulesController::class,'index'])->name('dev.modules.view');
