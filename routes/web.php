@@ -48,10 +48,10 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/developer/main-menu/',[MainMenuController::class,'index'])->name('dev.main-menu.view');
     Route::get('/developer/main-menu/create', [MainMenuController::class,'create'])->name('dev.main-menu.create');
     Route::post('/developer/main-menu/store', [MainMenuController::class,'store'])->name('dev.main-menu.store');
-    Route::get('/developer/main-menu/show/{module_id}', [MainMenuController::class,'show'])->name('dev.main-menu.show');
-    Route::get('/developer/main-menu/edit/{module_id}', [MainMenuController::class,'edit'])->name('dev.main-menu.edit');
-    Route::post('/developer/main-menu/update/{module_id}', [MainMenuController::class,'update'])->name('dev.main-menu.update');
-    Route::post('developer/main-menu/destroy/{module_id}', [MainMenuController::class,'destroy'])->name('dev.main-menu.destroy');
+    Route::get('/developer/main-menu/show/{main_menu_id}', [MainMenuController::class,'show'])->name('dev.main-menu.show');
+    Route::get('/developer/main-menu/edit/{main_menu_id}', [MainMenuController::class,'edit'])->name('dev.main-menu.edit');
+    Route::post('/developer/main-menu/update/{main_menu_id}', [MainMenuController::class,'update'])->name('dev.main-menu.update');
+    Route::post('developer/main-menu/destroy/{main_menu_id}', [MainMenuController::class,'destroy'])->name('dev.main-menu.destroy');
 
 
 

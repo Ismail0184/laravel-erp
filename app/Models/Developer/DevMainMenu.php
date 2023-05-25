@@ -8,5 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class DevMainMenu extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'main_menu_id';
+
+    public function moduleformainmenu()
+    {
+        return $this->belongsTo(DevModule::class, 'module_id','module_id');
+    }
 }

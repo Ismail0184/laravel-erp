@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Developer\DevMainMenu;
+use App\Models\Developer\DevModule;
 use Illuminate\Http\Request;
 
 class MainMenuController extends Controller
@@ -14,7 +15,7 @@ class MainMenuController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $mainmenus,$mainmenu;
+    private $mainmenus,$mainmenu,$modules;
 
     public function index()
     {
@@ -29,7 +30,8 @@ class MainMenuController extends Controller
      */
     public function create()
     {
-        return view('modules.developer.mainmenu.create');
+        $this->modules = DevModule::where('status', 1)->get();
+        return view('modules.developer.mainmenu.create' ,['modules' =>$this->modules]);
     }
 
     /**
@@ -62,7 +64,9 @@ class MainMenuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->mainmenu = DevMainMenu::find($id);
+        $this->modules = DevModule::all();
+        return view('modules.developer.mainmenu.create', ['mainmenu' => $this->mainmenu],['modules'=> $this->modules]);
     }
 
     /**
