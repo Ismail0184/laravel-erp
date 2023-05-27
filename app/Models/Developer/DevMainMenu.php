@@ -48,5 +48,10 @@ class DevMainMenu extends Model
         self::$mainmenu->save();
     }
 
+    public function subMenu()
+    {
+        return $this->hasMany(DevSubMenu::class, 'main_menu_id', 'main_menu_id')->orderBy('serial');
+    }
+
 
 }
