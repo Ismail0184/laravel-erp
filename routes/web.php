@@ -12,6 +12,7 @@ use App\Http\Controllers\Accounts\COA\CostCategoryController;
 use App\Http\Controllers\Accounts\COA\CostCenterController;
 use App\Http\Controllers\Developer\ModulesController;
 use App\Http\Controllers\Developer\MainMenuController;
+use App\Http\Controllers\Developer\SubMenuController;
 
 
 // home
@@ -52,6 +53,15 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/developer/main-menu/edit/{main_menu_id}', [MainMenuController::class,'edit'])->name('dev.main-menu.edit');
     Route::post('/developer/main-menu/update/{main_menu_id}', [MainMenuController::class,'update'])->name('dev.main-menu.update');
     Route::post('developer/main-menu/destroy/{main_menu_id}', [MainMenuController::class,'destroy'])->name('dev.main-menu.destroy');
+
+    //Developer/Sub Menu
+    Route::get('/developer/sub-menu/',[SubMenuController::class,'index'])->name('dev.sub-menu.view');
+    Route::get('/developer/sub-menu/create', [SubMenuController::class,'create'])->name('dev.sub-menu.create');
+    Route::post('/developer/sub-menu/store', [SubMenuController::class,'store'])->name('dev.sub-menu.store');
+    Route::get('/developer/sub-menu/show/{main_menu_id}', [SubMenuController::class,'show'])->name('dev.sub-menu.show');
+    Route::get('/developer/sub-menu/edit/{main_menu_id}', [SubMenuController::class,'edit'])->name('dev.sub-menu.edit');
+    Route::post('/developer/sub-menu/update/{main_menu_id}', [SubMenuController::class,'update'])->name('dev.sub-menu.update');
+    Route::post('developer/sub-menu/destroy/{main_menu_id}', [SubMenuController::class,'destroy'])->name('dev.sub-menu.destroy');
 
 
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Mani Menu')
+    @php($title = 'Main Menu')
     {{$title}}
 @endsection
 
@@ -33,7 +33,7 @@
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Quick Access URL</label>
                         <div class="col-sm-9">
-                            <input type="text" name="quick_access_url" @if(request('main_menu_id')>0) value="{{$mainmenu->quick_access_url}}" @endif class="form-control" required />
+                            <input type="text" name="quick_access_url" @if(request('main_menu_id')>0) value="{{$mainmenu->quick_access_url}}" @endif class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row mb-4">
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="form-group row mb-4">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Ledger Group <span class="required text-danger">*</span></label>
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Module <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
                             <select class="form-control select2" name="module_id" required="required">
                                 <option value="">-- Module --</option>
@@ -77,8 +77,8 @@
                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Status <span class="required text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="status">
-                                    <option @if($module->status ==1) selected @endif value="1">Active</option>
-                                    <option @if($module->status ==0) selected @endif value="0">Inactive</option>
+                                    <option @if($mainmenu->status ==1) selected @endif value="1">Active</option>
+                                    <option @if($mainmenu->status ==0) selected @endif value="0">Inactive</option>
                                 </select>
                             </div>
                         </div>

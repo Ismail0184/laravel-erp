@@ -177,36 +177,22 @@
                             <i class="bx bx-home-circle"></i><span>Dashboards</span>
                         </a>
                     </li>
-                    @if(session('module_id')==1)
+
+                        @foreach($mainmenus as $mainmenu)
+
 
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
-                            <i class="bx bx-store"></i>
-                            <span>Admin Setup / Config</span>
+                            <i class="{{$mainmenu->faicon}}"></i>
+                            <span>{{$mainmenu->main_menu_name}}</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
                             <li><a href="{{route('acc.class.view')}}">Class</a></li>
                         </ul>
                     </li>
-                    <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="bx bx-store"></i>
-                                <span>Chart of Accounts</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="{{route('acc.class.view')}}">Class</a></li>
-                                <li><a href="{{route('acc.sub-class.view')}}">Sub Class</a></li>
-                                <li><a href="{{route('acc.ledger-group.view')}}">Ledger Group</a></li>
-                                <li><a href="{{route('acc.ledger.view')}}">Ledger</a></li>
-                                <li><a href="{{route('acc.sub-ledger.view')}}">Sub Ledger</a></li>
-                                <li><a href="{{route('acc.sub-sub-ledger.view')}}">Sub Sub-ledger</a></li>
-                                <li><a href="{{route('acc.cost-category.view')}}">Cost Category</a></li>
-                                <li><a href="{{route('acc.cost-center.view')}}">Cost Center</a></li>
-                                <li><a href="ecommerce-add-product.html">@php(Session('module_id'))</a></li>
-                                <li><a href="ecommerce-add-product.html">{{ session('module_id') }}</a></li>
-                                <li><a href="ecommerce-add-product.html">{{Session::get('module_id')}}</a></li>
-                            </ul>
-                        </li>
+                        @endforeach
+
+
 
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -225,8 +211,7 @@
                         </ul>
                     </li>
 
-                    @elseif(session('module_id')==2)
-                    @endif
+
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
                             <i class="bx bx-bitcoin"></i>

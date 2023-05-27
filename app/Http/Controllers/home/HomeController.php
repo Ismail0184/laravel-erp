@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\home;
 
 use App\Http\Controllers\Controller;
+use App\Models\Developer\DevMainMenu;
 use Illuminate\Http\Request;
 use Session;
 
 class HomeController extends Controller
 {
+    private $modules,$module;
+
     public function index()
     {
         return view('auth.login');
@@ -19,8 +22,9 @@ class HomeController extends Controller
 
     public function module()
     {
-        //Session::forget('module_id');
+        Session::forget('module_id');
         Session::put('module_id', request('module_id'));
         return redirect('/dashboard')->with('module_id',Session('module_id'));
     }
+
 }

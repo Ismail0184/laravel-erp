@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Developer\DevMainMenu;
+use App\Models\Developer\DevSubMenu;
 use Illuminate\Http\Request;
 
 class SubMenuController extends Controller
@@ -12,9 +14,14 @@ class SubMenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $submenus,$submenu,$mainmenus;
+
     public function index()
     {
-        //
+
+        $this->submenus = DevSubMenu::all();
+        return view('modules.developer.submenu.index', ['submenus'=>$this->submenus]);
     }
 
     /**
@@ -24,7 +31,9 @@ class SubMenuController extends Controller
      */
     public function create()
     {
-        //
+
+        $this->mainmenu = DevMainMenu::where('status', 1)->get();
+        return view('modules.developer.submenu.create');
     }
 
     /**

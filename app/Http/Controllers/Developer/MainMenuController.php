@@ -79,7 +79,10 @@ class MainMenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DevMainMenu::updateMainMenu($request, $id);
+        return redirect('/developer/main-menu/')->with('update_message','This main menu (uid = '.$id.') has been successfully updated');
+
+
     }
 
     /**
