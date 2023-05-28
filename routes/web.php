@@ -13,6 +13,7 @@ use App\Http\Controllers\Accounts\COA\CostCenterController;
 use App\Http\Controllers\Developer\ModulesController;
 use App\Http\Controllers\Developer\MainMenuController;
 use App\Http\Controllers\Developer\SubMenuController;
+use App\Http\Controllers\Accounts\Vouchers\ReceiptVoucherController;
 
 
 // home
@@ -23,9 +24,6 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/dashboard/module_id/{module_id}', function (Request $request){ session(['module_id'=>request('module_id')]);
         return redirect('/dashboard');
     });
-
-
-
 
     //Developer/Company
     Route::get('/developer/company/',[ClassController::class,'index'])->name('dev.company.view');
@@ -62,8 +60,6 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/developer/sub-menu/edit/{main_menu_id}', [SubMenuController::class,'edit'])->name('dev.sub-menu.edit');
     Route::post('/developer/sub-menu/update/{main_menu_id}', [SubMenuController::class,'update'])->name('dev.sub-menu.update');
     Route::post('developer/sub-menu/destroy/{main_menu_id}', [SubMenuController::class,'destroy'])->name('dev.sub-menu.destroy');
-
-
 
     //Accounts/coa/class
     Route::get('/accounts/coa/class/',[ClassController::class,'index'])->name('acc.class.view');
@@ -157,5 +153,16 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/coa/cbook/update/{cc_code}', [CostCenterController::class,'update'])->name('acc.cbook.update');
     Route::post('/accounts/coa/cbook/destroy/{cc_code}', [CostCenterController::class,'destroy'])->name('acc.cbook.destroy');
 
+    //Accounts/voucher/receipt voucher
+    Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
+    Route::get('/accounts/coa/cbook/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
+    Route::post('/accounts/coa/cbook/store', [ReceiptVoucherController::class,'store'])->name('acc.cbook.store');
+    Route::get('/accounts/coa/cbook/show/{cc_code}', [ReceiptVoucherController::class,'show'])->name('acc.cbook.show');
+    Route::get('/accounts/coa/cbook/edit/{cc_code}', [ReceiptVoucherController::class,'edit'])->name('acc.cbook.edit');
+    Route::post('/accounts/coa/cbook/update/{cc_code}', [ReceiptVoucherController::class,'update'])->name('acc.cbook.update');
+    Route::post('/accounts/coa/cbook/destroy/{cc_code}', [ReceiptVoucherController::class,'destroy'])->name('acc.cbook.destroy');
+
+    Route::get('/accounts/selectaccountsreport',function () {return 'This page is under construction';})->name('acc.select.report');
+    Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
 });

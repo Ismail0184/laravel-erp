@@ -182,15 +182,17 @@
 
 
                     <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <a href="{{$mainmenu->url}}" @if(count($mainmenu->subMenu) > 0) class="has-arrow waves-effect" @endif>
                             <i class="{{$mainmenu->faicon}}"></i>
                             <span>{{$mainmenu->main_menu_name}}</span>
                         </a>
-                        @foreach($mainmenu->subMenu as $submenu)
+
                         <ul class="sub-menu" aria-expanded="false">
+                            @foreach($mainmenu->subMenu as $submenu)
                             <li><a href="{{route(''.$submenu->sub_url.'')}}">{{$submenu->sub_menu_name}}</a></li>
+                            @endforeach
                         </ul>
-                        @endforeach
+
                     </li>
                         @endforeach
 
