@@ -139,4 +139,23 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/coa/cost-center/update/{cc_code}', [CostCenterController::class,'update'])->name('acc.cost-center.update');
     Route::post('/accounts/coa/cost-center/destroy/{cc_code}', [CostCenterController::class,'destroy'])->name('acc.cost-center.destroy');
 
+    //Accounts/coa/create bank
+    Route::get('/accounts/coa/bank/',[CostCenterController::class,'index'])->name('acc.bank.view');
+    Route::get('/accounts/coa/bank/create', [CostCenterController::class,'create'])->name('acc.bank.create');
+    Route::post('/accounts/coa/bank/store', [CostCenterController::class,'store'])->name('acc.bank.store');
+    Route::get('/accounts/coa/bank/show/{cc_code}', [CostCenterController::class,'show'])->name('acc.bank.show');
+    Route::get('/accounts/coa/bank/edit/{cc_code}', [CostCenterController::class,'edit'])->name('acc.bank.edit');
+    Route::post('/accounts/coa/bank/update/{cc_code}', [CostCenterController::class,'update'])->name('acc.bank.update');
+    Route::post('/accounts/coa/bank/destroy/{cc_code}', [CostCenterController::class,'destroy'])->name('acc.bank.destroy');
+
+    //Accounts/coa/create bank
+    Route::get('/accounts/coa/cbook/',[CostCenterController::class,'index'])->name('acc.cbook.view');
+    Route::get('/accounts/coa/cbook/create', [CostCenterController::class,'create'])->name('acc.cbook.create');
+    Route::post('/accounts/coa/cbook/store', [CostCenterController::class,'store'])->name('acc.cbook.store');
+    Route::get('/accounts/coa/cbook/show/{cc_code}', [CostCenterController::class,'show'])->name('acc.cbook.show');
+    Route::get('/accounts/coa/cbook/edit/{cc_code}', [CostCenterController::class,'edit'])->name('acc.cbook.edit');
+    Route::post('/accounts/coa/cbook/update/{cc_code}', [CostCenterController::class,'update'])->name('acc.cbook.update');
+    Route::post('/accounts/coa/cbook/destroy/{cc_code}', [CostCenterController::class,'destroy'])->name('acc.cbook.destroy');
+
+
 });
