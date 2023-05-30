@@ -24,7 +24,7 @@ class ReceiptVoucherController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.accounts.vouchers.receipt.create');
     }
 
     /**

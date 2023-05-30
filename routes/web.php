@@ -155,7 +155,7 @@ Route::get('/', [HomeController::class,'index']);
 
     //Accounts/voucher/receipt voucher
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
-    Route::get('/accounts/coa/cbook/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
+    Route::get('/accounts/voucher/receipt/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
     Route::post('/accounts/coa/cbook/store', [ReceiptVoucherController::class,'store'])->name('acc.cbook.store');
     Route::get('/accounts/coa/cbook/show/{cc_code}', [ReceiptVoucherController::class,'show'])->name('acc.cbook.show');
     Route::get('/accounts/coa/cbook/edit/{cc_code}', [ReceiptVoucherController::class,'edit'])->name('acc.cbook.edit');
