@@ -4,21 +4,17 @@ namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
 
-class ReceiptVoucherController extends Controller
+class JournalMasterController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    private $receiptVoucher;
-
     public function index()
     {
-        return view('modules.accounts.vouchers.receipt.index');
+        //
     }
 
     /**
@@ -28,8 +24,7 @@ class ReceiptVoucherController extends Controller
      */
     public function create()
     {
-        $this->receiptVoucher = Auth::user()->id.'1'.date('YmdHis');
-        return view('modules.accounts.vouchers.receipt.create', ['receiptVoucher' =>$this->receiptVoucher] );
+        //
     }
 
     /**
