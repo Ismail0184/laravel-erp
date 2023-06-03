@@ -78,8 +78,8 @@
         </div>
     </div>
 
-
-                <form style="font-size: 11px" method="POST" action="{{route('acc.voucher.receipt.store')}}">
+    @if(Session::get('receipt_no')>0)
+                <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.receipt.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.receipt.store')}} @endif">
                     @csrf
                     @if ($message = Session::get('destroy_message'))
                         <p class="text-center text-danger">{{ $message }}</p>
@@ -113,16 +113,16 @@
                             </select>
                             </td>
                             <td style="vertical-align: middle">
-                            <textarea  name="narration" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @endif</textarea>
+                            <textarea  name="narration" class="form-control" style="height: 80px">@if(request('id')>0) {{$editValue->narration}} @endif</textarea>
                             </td>
                             <td style="vertical-align: middle"><input type="file" /></td>
                             <td style="vertical-align: middle">
                             <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
                             </td>
-                            <td>
+                            <td style="vertical-align: middle">
                                 @if(request('id')>0)
                                     <button type="submit" class="btn btn-primary">Update</button>
-                                    <a href="{{route('acc.voucher.receipt.create')}}" class="btn btn-danger" style="margin-top: 3px">Cancel</a>
+                                    <a href="{{route('acc.voucher.receipt.create')}}" class="btn btn-danger" style="margin-top: 5px">Cancel</a>
                                 @else
                                     <button type="submit" class="btn btn-primary">Add</button>
                                 @endif
@@ -160,7 +160,7 @@
                                <td style="text-align: right">{{number_format($receipt->dr_amt,2)}}</td>
                                <td style="text-align: right;">{{number_format($receipt->cr_amt,2)}}</td>
                                <td class="text-center">
-                                   <form action="{{route('acc.voucher.receipt.create', ['id' => $receipt->id])}}" method="post">
+                                   <form action="{{route('acc.voucher.receipt.destroy', ['id' => $receipt->id])}}" method="post">
                                        @csrf
                                        <a href="{{route('acc.voucher.receipt.edit',['id' => $receipt->id])}}" title="Update" class="btn btn-success btn-sm">
                                            <i class="fa fa-edit"></i>
@@ -183,8 +183,28 @@
                        </tbody>
                    </table>
 
+                   <div>
+                       <form action="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no])}}" method="post">
+                           @csrf
+                       <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');">Cancel & Delete All</button>
+                       </form>
+
+                       @if(number_format($totalDebit,2) === number_format($totalCredit,2))
+                       <form action="{{route('acc.voucher.receipt.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
+                           @csrf
+                       <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you sure you want to Confirm the Voucher?');">Confirm & Finish Voucher</button>
+                       </form>
+                       @else
+                           <div class="alert alert-danger float-right col-sm-7" role="alert">
+                               Invalid Voucher. Debit ({{$totalDebit}}) and Credit ({{$totalCredit}}) amount are not equal !!
+                           </div>
+                       @endif
+                   </div>
+                   </form>
+
                </div>
             </div>
         </div>
     </div>
+    @endif
 @endsection

@@ -157,13 +157,17 @@ Route::get('/', [HomeController::class,'index']);
     //Accounts/voucher/receipt voucher
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
     Route::get('/accounts/voucher/receipt/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
+
     Route::post('/accounts/voucher/receipt/initiate', [JournalMasterController::class,'store'])->name('acc.voucher.receipt.initiate');
     Route::post('/accounts/voucher/receipt/mupdate/{voucher_no}', [JournalMasterController::class,'update'])->name('acc.voucher.receipt.mupdate');
+    Route::post('/accounts/voucher/receipt/confirm/{voucher_no}', [JournalMasterController::class,'destroy'])->name('acc.voucher.receipt.confirm');
+    Route::post('/accounts/voucher/receipt/cancelall/{voucher_no}', [JournalMasterController::class,'destroy'])->name('acc.voucher.receipt.cancelall');
+
     Route::post('/accounts/voucher/receipt/store', [ReceiptVoucherController::class,'store'])->name('acc.voucher.receipt.store');
-    Route::get('/accounts/voucher/receipt/show/{cc_code}', [ReceiptVoucherController::class,'show'])->name('acc.voucher.receipt.show');
+    Route::get('/accounts/voucher/receipt/show/{voucher_no}', [ReceiptVoucherController::class,'show'])->name('acc.voucher.receipt.show');
     Route::get('/accounts/voucher/receipt/edit/{id}', [ReceiptVoucherController::class,'edit'])->name('acc.voucher.receipt.edit');
-    Route::post('/accounts/voucher/receipt/update/{cc_code}', [ReceiptVoucherController::class,'update'])->name('acc.voucher.receipt.update');
-    Route::post('/accounts/voucher/receipt/destroy/{cc_code}', [ReceiptVoucherController::class,'destroy'])->name('acc.voucher.receipt.destroy');
+    Route::post('/accounts/voucher/receipt/update/{id}', [ReceiptVoucherController::class,'update'])->name('acc.voucher.receipt.update');
+    Route::post('/accounts/voucher/receipt/destroy/{id}', [ReceiptVoucherController::class,'destroy'])->name('acc.voucher.receipt.destroy');
 
     Route::get('/accounts/selectaccountsreport',function () {return 'This page is under construction';})->name('acc.select.report');
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');

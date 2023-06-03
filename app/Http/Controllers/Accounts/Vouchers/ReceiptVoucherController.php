@@ -57,7 +57,7 @@ class ReceiptVoucherController extends Controller
     public function store(Request $request)
     {
         AccReceipt::addReceiptData($request);
-        return redirect('/accounts/voucher/receipt/create')->with('store_message','Receipt data successfully added!!');
+        return redirect('/accounts/voucher/receipt/create')->with('store_message','A receipt data successfully added!!');
     }
 
     /**
@@ -110,7 +110,8 @@ class ReceiptVoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccReceipt::updateReceiptData($request, $id);
+        return redirect('/accounts/voucher/receipt/create')->with('update_message','This data (uid='.$id.') successfully updated!!');
     }
 
     /**
@@ -121,6 +122,7 @@ class ReceiptVoucherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccReceipt::destroyRceiptData($id);
+        return redirect('/accounts/voucher/receipt/create')->with('destroy_message','This data (Uid = '.$id.') has been successfully deleted!!');
     }
 }

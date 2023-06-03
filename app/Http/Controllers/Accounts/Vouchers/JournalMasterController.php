@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Vouchers\AccJournalMaster;
+use App\Models\Accounts\Vouchers\AccReceipt;
 use Illuminate\Http\Request;
+use Session;
 
 class JournalMasterController extends Controller
 {
@@ -41,7 +43,7 @@ class JournalMasterController extends Controller
     public function store(Request $request)
     {
         $this->initiate = AccJournalMaster::initiateVoucher($request);
-        return 'This is test';
+        return redirect('/accounts/voucher/receipt/create');
     }
 
     /**
@@ -87,6 +89,10 @@ class JournalMasterController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccReceipt::destroyReceiptAllData($id);
+        AccJournalMaster::destroyVoucher($id);
+        Session::forget('receipt_no');
+        return redirect('/accounts/voucher/receipt/create');
+
     }
 }

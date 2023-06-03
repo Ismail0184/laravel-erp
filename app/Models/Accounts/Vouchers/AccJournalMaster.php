@@ -79,4 +79,10 @@ class AccJournalMaster extends Model
         self::$voucherno->pcomid = 1;
         self::$voucherno->save();
     }
+
+    public static function destroyVoucher($id)
+    {
+        self::$voucherno = AccJournalMaster::find($id);
+        self::$voucherno->delete();
+    }
 }
