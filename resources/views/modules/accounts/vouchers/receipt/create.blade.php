@@ -104,27 +104,87 @@
                         </tr>
                         <tbody>
                         <tr>
-                            <td>
+                            <td style="vertical-align: middle">
                             <select class="form-control select2" name="ledger_id" required="required">
                                 <option value=""></option>
                                 @foreach($ledgerss as $ledgers)
-                                    <option value="{{$ledgers->ledger_id}}">{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
+                                    <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
                                 @endforeach
                             </select>
                             </td>
-                            <td>
-                            <textarea  name="narration" class="form-control" style="height: 38px"></textarea>
+                            <td style="vertical-align: middle">
+                            <textarea  name="narration" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @endif</textarea>
                             </td>
-                            <td><input type="file" /></td>
-                            <td>
-                            <input type="number" name="dr_amt"  class="form-control" autocomplete="off" step="any" min="1" required />
+                            <td style="vertical-align: middle"><input type="file" /></td>
+                            <td style="vertical-align: middle">
+                            <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
                             </td>
                             <td>
-                            <button type="submit" class="btn btn-primary">Add</button>
+                                @if(request('id')>0)
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <a href="{{route('acc.voucher.receipt.create')}}" class="btn btn-danger" style="margin-top: 3px">Cancel</a>
+                                @else
+                                    <button type="submit" class="btn btn-primary">Add</button>
+                                @endif
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </form>
 
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+               <div class="table-responsive">
+                   <table  class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size: 11px">
+                       <thead>
+                       <tr>
+                           <th style="width: 5%; text-align: center">#</th>
+                           <th style="width: 5%; text-align: center">Uid</th>
+                           <th>Account Head</th>
+                           <th>Narration</th>
+                           <th>Debit Amount</th>
+                           <th>Credit Amount</th>
+                           <th class="text-center" style="width: 10%">Option</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       @php($totalDebit = 0)
+                       @php($totalCredit = 0)
+                       @foreach($receipts as $receipt)
+                           <tr>
+                               <td style="text-align: center">{{$loop->iteration}}</td>
+                               <td style="text-align: center">{{$receipt->id}}</td>
+                               <td>{{$receipt->ledger_id}} : {{$receipt->ledger->ledger_name}}</td>
+                               <td>{{$receipt->narration}}</td>
+                               <td style="text-align: right">{{number_format($receipt->dr_amt,2)}}</td>
+                               <td style="text-align: right;">{{number_format($receipt->cr_amt,2)}}</td>
+                               <td class="text-center">
+                                   <form action="{{route('acc.voucher.receipt.create', ['id' => $receipt->id])}}" method="post">
+                                       @csrf
+                                       <a href="{{route('acc.voucher.receipt.edit',['id' => $receipt->id])}}" title="Update" class="btn btn-success btn-sm">
+                                           <i class="fa fa-edit"></i>
+                                       </a>
+                                       <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
+                                           <i class="fa fa-trash"></i>
+                                       </button>
+                                   </form>
+                               </td>
+                           </tr>
+                           @php($totalDebit = $totalDebit +$receipt->dr_amt)
+                           @php($totalCredit = $totalCredit +$receipt->cr_amt)
+                       @endforeach
+                       <tr>
+                           <th colspan="4" style="text-align: right">Total = </th>
+                           <th style="text-align: right">{{number_format($totalDebit,2)}}</th>
+                           <th style="text-align: right">{{number_format($totalCredit,2)}}</th>
+                           <th></th>
+                       </tr>
+                       </tbody>
+                   </table>
+
+               </div>
+            </div>
+        </div>
+    </div>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Models\Accounts\Vouchers;
 
+use App\Models\Accounts\AccLedger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,5 +28,10 @@ class AccReceipt extends Model
         self::$receipt->sconid = 1;
         self::$receipt->pcomid = 1;
         self::$receipt->save();
+    }
+
+    public function ledger()
+    {
+        return $this->belongsTo(AccLedger::class, 'ledger_id','ledger_id');
     }
 }

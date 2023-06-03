@@ -161,7 +161,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/voucher/receipt/mupdate/{voucher_no}', [JournalMasterController::class,'update'])->name('acc.voucher.receipt.mupdate');
     Route::post('/accounts/voucher/receipt/store', [ReceiptVoucherController::class,'store'])->name('acc.voucher.receipt.store');
     Route::get('/accounts/voucher/receipt/show/{cc_code}', [ReceiptVoucherController::class,'show'])->name('acc.voucher.receipt.show');
-    Route::get('/accounts/voucher/receipt/edit/{cc_code}', [ReceiptVoucherController::class,'edit'])->name('acc.voucher.receipt.edit');
+    Route::get('/accounts/voucher/receipt/edit/{id}', [ReceiptVoucherController::class,'edit'])->name('acc.voucher.receipt.edit');
     Route::post('/accounts/voucher/receipt/update/{cc_code}', [ReceiptVoucherController::class,'update'])->name('acc.voucher.receipt.update');
     Route::post('/accounts/voucher/receipt/destroy/{cc_code}', [ReceiptVoucherController::class,'destroy'])->name('acc.voucher.receipt.destroy');
 

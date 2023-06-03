@@ -17,7 +17,7 @@ class ReceiptVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $receiptVoucher,$ledgers,$vouchertype,$masterData;
+    private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue;
 
     public function index()
     {
@@ -37,12 +37,14 @@ class ReceiptVoucherController extends Controller
         if(Session::get('receipt_no')>0)
         {
             $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
+            $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
         }
         return view('modules.accounts.vouchers.receipt.create', [
             'receiptVoucher' =>$this->receiptVoucher,
             'ledgers' => $this->ledgers,
             'ledgerss' => $this->ledgers,
-            'masterData' =>$this->masterData
+            'masterData' => $this->masterData,
+            'receipts' => $this->receipts
             ] );
     }
 
@@ -77,7 +79,26 @@ class ReceiptVoucherController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->ledgers = AccLedger::all();
+        $this->vouchertype ='1';
+        $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        if(Session::get('receipt_no')>0)
+        {
+            $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
+            $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
+        }
+        if(\request('id')>0)
+        {
+            $this->editValue = AccReceipt::find($id);
+        }
+        return view('modules.accounts.vouchers.receipt.create', [
+            'receiptVoucher' =>$this->receiptVoucher,
+            'ledgers' => $this->ledgers,
+            'ledgerss' => $this->ledgers,
+            'masterData' => $this->masterData,
+            'receipts' => $this->receipts,
+            'editValue' => $this->editValue
+        ] );
     }
 
     /**
