@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounts\Vouchers;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\AccLedger;
 use App\Models\Accounts\Vouchers\AccJournalMaster;
+use App\Models\Accounts\Vouchers\AccReceipt;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -53,7 +54,8 @@ class ReceiptVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AccReceipt::addReceiptData($request);
+        return redirect('/accounts/voucher/receipt/create')->with('store_message','Receipt data successfully added!!');
     }
 
     /**

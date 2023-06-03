@@ -19,7 +19,7 @@ class AccJournalMaster extends Model
     {
         self::$voucherno = new AccJournalMaster();
         self::$voucherno->voucher_no = $request->voucher_no;
-        self::$voucherno->voucher_date = $request->receipt_date;
+        self::$voucherno->voucher_date = $request->voucher_date;
         self::$voucherno->person = $request->person;
         self::$voucherno->cheque_no = $request->cheque_no;
         self::$voucherno->cheque_date = $request->cheque_date;
@@ -52,7 +52,7 @@ class AccJournalMaster extends Model
     {
         self::$voucherno = AccJournalMaster::find($id);
         self::$voucherno->voucher_no = $request->voucher_no;
-        self::$voucherno->voucher_date = $request->receipt_date;
+        self::$voucherno->voucher_date = $request->voucher_date;
         self::$voucherno->person = $request->person;
         self::$voucherno->cheque_no = $request->cheque_no;
         self::$voucherno->cheque_date = $request->cheque_date;

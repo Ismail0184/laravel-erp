@@ -26,7 +26,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="receipt_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('receipt_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" name="voucher_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('receipt_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person from</label>
                         <div class="col-sm-3">
@@ -60,7 +60,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Amt. (Cr) <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="number" name="amount" @if(Session::get('receipt_no')>0) value="{{$masterData->amount}}" @endif class="form-control" step="any" min="1" tabindex="7" />
+                            <input type="number" name="amount" @if(Session::get('receipt_no')>0) value="{{$masterData->amount}}" @endif class="form-control" step="any" min="1"/>
                         </div>
 
                     </div>
@@ -77,39 +77,54 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
+
+
                 <form style="font-size: 11px" method="POST" action="{{route('acc.voucher.receipt.store')}}">
                     @csrf
-                    <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
-                    <input type="hidden" name="entry_at" value="{{date('Y-m-d H:i:s')}}">
-                    <input type="hidden" name="maturity_date" value="2000-01-01">
-                    <input type="hidden" name="journal_type" value="receipt">
-                    <input type="hidden" name="status" value="MANUAL">
-
-                    <div class="form-group row mb-2">
-                        <div class="col-sm-5">
-                            <select class="form-control select2" name="cash_bank_ledger" required="required">
-                                <option value=""> -- Cash or Bank Ledger -- </option>
+                    @if ($message = Session::get('destroy_message'))
+                        <p class="text-center text-danger">{{ $message }}</p>
+                    @elseif( $message = Session::get('store_message'))
+                        <p class="text-center text-success">{{ $message }}</p>
+                    @elseif( $message = Session::get('update_message'))
+                        <p class="text-center text-primary">{{ $message }}</p>
+                    @endif
+                    <input type="hidden" name="receipt_no" value="{{$masterData->voucher_no}}">
+                    <input type="hidden" name="receipt_date" value="{{$masterData->voucher_date}}">
+                    <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
+                    <input type="hidden" name="receipt_date" value="{{$masterData->voucher_date}}">
+                    <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
+                    <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px">
+                        <tbody>
+                        <tr style="background-color: #3caae4; color:white">
+                            <th style="text-align: center">Cash , Bank & Others <span class="required text-danger">*</span></th>
+                            <th style="text-align: center">Narration <span class="required text-danger">*</span></th>
+                            <th style="text-align: center;width:10%;">Attachment</th>
+                            <th style="width:15%; text-align:center">Debit Amount <span class="required text-danger">*</span></th>
+                            <th style="text-align:center;width: 5%">Action</th>
+                        </tr>
+                        <tbody>
+                        <tr>
+                            <td>
+                            <select class="form-control select2" name="ledger_id" required="required">
+                                <option value=""></option>
                                 @foreach($ledgerss as $ledgers)
                                     <option value="{{$ledgers->ledger_id}}">{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
                                 @endforeach
                             </select>
-                        </div>
-                        <div class="col-sm-3">
-                            <input type="number" name="amount" placeholder="Debit Amount" class="form-control" step="any" min="1" tabindex="7" />
-                        </div>
-                        <div class="col-sm-3">
-                            <input type="file" />
-                        </div>
-                        <div class="col-sm-1">
+                            </td>
+                            <td>
+                            <textarea  name="narration" class="form-control" style="height: 38px"></textarea>
+                            </td>
+                            <td><input type="file" /></td>
+                            <td>
+                            <input type="number" name="dr_amt"  class="form-control" autocomplete="off" step="any" min="1" required />
+                            </td>
+                            <td>
                             <button type="submit" class="btn btn-primary">Add</button>
-
-                        </div>
-                    </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </form>
-            </div>
-        </div>
-    </div>
+
 @endsection
