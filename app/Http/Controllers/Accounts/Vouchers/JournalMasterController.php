@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Vouchers\AccJournalMaster;
 use Illuminate\Http\Request;
 
 class JournalMasterController extends Controller
@@ -12,6 +13,10 @@ class JournalMasterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    private $initiate;
+
     public function index()
     {
         //
@@ -35,7 +40,8 @@ class JournalMasterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->initiate = AccJournalMaster::initiateVoucher($request);
+        return 'This is test';
     }
 
     /**

@@ -23,8 +23,8 @@ return new class extends Migration
             $table->integer('PBI_ID');
             $table->decimal('dr_amt',20,2);
             $table->decimal('cr_amt',20,2);
-            $table->string('type',10);
-            $table->enum('status',['manual','unchecked','checked','approved','deleted']);
+            $table->enum('type',['Debit','Credit']);
+            $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);
             $table->integer('entry_by');
             $table->string('ip',55);
             $table->string('mac',55);

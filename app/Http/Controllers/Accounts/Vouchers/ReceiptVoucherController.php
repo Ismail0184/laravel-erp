@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccLedger;
+use App\Models\Accounts\Vouchers\AccJournalMaster;
 use Illuminate\Http\Request;
 use Auth;
-
+use Session;
 class ReceiptVoucherController extends Controller
 {
     /**
@@ -14,7 +16,7 @@ class ReceiptVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $receiptVoucher;
+    private $receiptVoucher,$ledgers,$vouchertype,$masterData;
 
     public function index()
     {
@@ -28,8 +30,19 @@ class ReceiptVoucherController extends Controller
      */
     public function create()
     {
-        $this->receiptVoucher = Auth::user()->id.'1'.date('YmdHis');
-        return view('modules.accounts.vouchers.receipt.create', ['receiptVoucher' =>$this->receiptVoucher] );
+        $this->ledgers = AccLedger::all();
+        $this->vouchertype ='1';
+        $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        if(Session::get('receipt_no')>0)
+        {
+            $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
+        }
+        return view('modules.accounts.vouchers.receipt.create', [
+            'receiptVoucher' =>$this->receiptVoucher,
+            'ledgers' => $this->ledgers,
+            'ledgerss' => $this->ledgers,
+            'masterData' =>$this->masterData
+            ] );
     }
 
     /**

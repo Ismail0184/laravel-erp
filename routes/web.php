@@ -14,6 +14,7 @@ use App\Http\Controllers\Developer\ModulesController;
 use App\Http\Controllers\Developer\MainMenuController;
 use App\Http\Controllers\Developer\SubMenuController;
 use App\Http\Controllers\Accounts\Vouchers\ReceiptVoucherController;
+use App\Http\Controllers\Accounts\Vouchers\JournalMasterController;
 
 
 // home
@@ -156,11 +157,12 @@ Route::get('/', [HomeController::class,'index']);
     //Accounts/voucher/receipt voucher
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
     Route::get('/accounts/voucher/receipt/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
-    Route::post('/accounts/coa/cbook/store', [ReceiptVoucherController::class,'store'])->name('acc.cbook.store');
-    Route::get('/accounts/coa/cbook/show/{cc_code}', [ReceiptVoucherController::class,'show'])->name('acc.cbook.show');
-    Route::get('/accounts/coa/cbook/edit/{cc_code}', [ReceiptVoucherController::class,'edit'])->name('acc.cbook.edit');
-    Route::post('/accounts/coa/cbook/update/{cc_code}', [ReceiptVoucherController::class,'update'])->name('acc.cbook.update');
-    Route::post('/accounts/coa/cbook/destroy/{cc_code}', [ReceiptVoucherController::class,'destroy'])->name('acc.cbook.destroy');
+    Route::post('/accounts/voucher/receipt/initiate', [JournalMasterController::class,'store'])->name('acc.voucher.receipt.initiate');
+    Route::post('/accounts/voucher/receipt/store', [ReceiptVoucherController::class,'store'])->name('acc.voucher.receipt.store');
+    Route::get('/accounts/voucher/receipt/show/{cc_code}', [ReceiptVoucherController::class,'show'])->name('acc.voucher.receipt.show');
+    Route::get('/accounts/voucher/receipt/edit/{cc_code}', [ReceiptVoucherController::class,'edit'])->name('acc.voucher.receipt.edit');
+    Route::post('/accounts/voucher/receipt/update/{cc_code}', [ReceiptVoucherController::class,'update'])->name('acc.voucher.receipt.update');
+    Route::post('/accounts/voucher/receipt/destroy/{cc_code}', [ReceiptVoucherController::class,'destroy'])->name('acc.voucher.receipt.destroy');
 
     Route::get('/accounts/selectaccountsreport',function () {return 'This page is under construction';})->name('acc.select.report');
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');

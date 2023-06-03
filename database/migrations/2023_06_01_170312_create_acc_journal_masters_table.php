@@ -41,6 +41,7 @@ return new class extends Migration
             $table->string('mac',55);
             $table->integer('sconid');
             $table->integer('pcomid');
+            $table->timestamps();
         });
     }
 
