@@ -9,9 +9,9 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-4">@if(request('ledger_id')) Update @else Create @endif {{$title}} <small>Single Entry </small><small class="text-danger float-right">(field marked with * are mandatory)
+                <h4 class="card-title mb-4">Create {{$title}} <small>Single Entry </small><small class="text-danger float-right">(field marked with * are mandatory)
                     </small></h4>
-                <form style="font-size: 11px" method="POST" action="@if(request('ledger_id')>0) {{route('acc.voucher.receipt.update', ['ledger_id'=>$ledger->ledger_id])}} @else {{route('acc.voucher.receipt.initiate')}} @endif">
+                <form style="font-size: 11px" method="POST" action="@if(Session::get('receipt_no')>0) {{route('acc.voucher.receipt.mupdate', ['voucher_no'=>$masterData->voucher_no])}} @else {{route('acc.voucher.receipt.initiate')}} @endif">
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="entry_at" value="{{date('Y-m-d H:i:s')}}">

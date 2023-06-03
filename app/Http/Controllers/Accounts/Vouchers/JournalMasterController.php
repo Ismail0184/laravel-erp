@@ -75,7 +75,8 @@ class JournalMasterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccJournalMaster::updateVoucher($request, $id);
+        return redirect('/accounts/voucher/receipt/create');
     }
 
     /**

@@ -158,6 +158,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
     Route::get('/accounts/voucher/receipt/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
     Route::post('/accounts/voucher/receipt/initiate', [JournalMasterController::class,'store'])->name('acc.voucher.receipt.initiate');
+    Route::post('/accounts/voucher/receipt/mupdate/{voucher_no}', [JournalMasterController::class,'update'])->name('acc.voucher.receipt.mupdate');
     Route::post('/accounts/voucher/receipt/store', [ReceiptVoucherController::class,'store'])->name('acc.voucher.receipt.store');
     Route::get('/accounts/voucher/receipt/show/{cc_code}', [ReceiptVoucherController::class,'show'])->name('acc.voucher.receipt.show');
     Route::get('/accounts/voucher/receipt/edit/{cc_code}', [ReceiptVoucherController::class,'edit'])->name('acc.voucher.receipt.edit');
