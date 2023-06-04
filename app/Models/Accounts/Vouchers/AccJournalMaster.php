@@ -2,6 +2,7 @@
 
 namespace App\Models\Accounts\Vouchers;
 
+use App\Models\Accounts\AccLedger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Session;
@@ -91,5 +92,10 @@ class AccJournalMaster extends Model
     {
         self::$voucherno = AccJournalMaster::find($id);
         self::$voucherno->delete();
+    }
+
+    public function accledger()
+    {
+        return $this->belongsTo(AccLedger::class,'cash_bank_ledger','ledger_id');
     }
 }

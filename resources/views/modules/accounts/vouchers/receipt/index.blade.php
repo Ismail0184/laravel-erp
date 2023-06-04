@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title='Receipt Voucher')
+    @php($title='Receipt Vouchers')
     {{$title}}
 @endsection
 
@@ -24,15 +24,26 @@
                             <thead>
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
-                                <th style="width: 5%; text-align: center">Uid</th>
-                                <th>Ledger</th>
-                                <th>Ledger Group</th>
-                                <th>Type</th>
+                                <th style="width: 5%; text-align: center">Voucher No</th>
+                                <th>Date</th>
+                                <th>Received From</th>
+                                <th>Amount</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 15%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($receiptdatas as $receiptdata)
+                                <tr>
+                                    <td class="text-center">{{$loop->iteration}}</td>
+                                    <td>{{$receiptdata->voucher_no}}</td>
+                                    <td>{{$receiptdata->voucher_date}}</td>
+                                    <td>{{$receiptdata->accledger->ledger_name}}</td>
+                                    <td>{{$receiptdata->voucher_date}}</td>
+                                    <td>{{$receiptdata->status}}</td>
+                                    <td>{{$receiptdata->voucher_date}}</td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

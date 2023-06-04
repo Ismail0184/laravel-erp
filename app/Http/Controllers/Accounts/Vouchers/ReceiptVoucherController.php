@@ -17,11 +17,12 @@ class ReceiptVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue,$COUNT_receipts_data;
+    private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue,$COUNT_receipts_data,$receiptdatas;
 
     public function index()
     {
-        return view('modules.accounts.vouchers.receipt.index');
+        $this->receiptdatas = AccJournalMaster::where('status','!=','MANUAL')->get();
+        return view('modules.accounts.vouchers.receipt.index', ['receiptdatas' =>$this->receiptdatas]);
     }
 
     /**
