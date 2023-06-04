@@ -151,6 +151,6 @@ class ReceiptVoucherController extends Controller
         AccJournalMaster::ConfirmVoucher($request, $id);
         Session::forget('receipt_no');
         Session::forget('receipt_narration');
-        return redirect('/accounts/voucher/receipt/create');
+        return redirect('/accounts/voucher/receipt')->with('store_message','A receipt voucher has been successfully created!!');
     }
 }
