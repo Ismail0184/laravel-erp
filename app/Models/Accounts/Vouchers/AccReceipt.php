@@ -89,10 +89,6 @@ class AccReceipt extends Model
 
     public static function confirmReceiptVoucher($request, $id)
     {
-        //self::$receipt = AccReceipt::whereIn($id);
-        //self::$receipt->status = $request->status;
-        //self::$receipt->save();
-        AccReceipt::whereIn('receipt_no', $id)->update(['status' => "UNCHECKED"])->where('receipt_no',$id);
-
+        AccReceipt::where('receipt_no',$id)->update(['status'=>'UNCHECKED']);
     }
 }

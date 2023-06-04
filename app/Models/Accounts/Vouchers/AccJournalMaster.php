@@ -83,7 +83,7 @@ class AccJournalMaster extends Model
     public static function ConfirmVoucher($request, $id)
     {
         self::$voucherno = AccJournalMaster::find($id);
-        self::$voucherno->status = $request->status;
+        self::$voucherno->status = 'UNCHECKED';
         self::$voucherno->save();
     }
 

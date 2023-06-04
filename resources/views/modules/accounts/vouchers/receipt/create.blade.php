@@ -194,7 +194,6 @@
                        @if(number_format($totalDebit,2) === number_format($totalCredit,2))
                        <form action="{{route('acc.voucher.receipt.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                            @csrf
-                           <input type="text" name="status" value="UNCHECKED">
                        <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Confirm & Finish Voucher</button>
                        </form>
                        @else
