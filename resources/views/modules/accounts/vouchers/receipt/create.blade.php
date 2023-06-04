@@ -145,6 +145,7 @@
                            <th style="width: 5%; text-align: center">Uid</th>
                            <th>Account Head</th>
                            <th>Narration</th>
+                           <th class="text-center">Type</th>
                            <th>Debit Amount</th>
                            <th>Credit Amount</th>
                            <th class="text-center" style="width: 10%">Option</th>
@@ -159,6 +160,7 @@
                                <td style="text-align: center; vertical-align: middle">{{$receipt->id}}</td>
                                <td style="vertical-align: middle">{{$receipt->ledger_id}} : {{$receipt->ledger->ledger_name}}</td>
                                <td style="vertical-align: middle">{{$receipt->narration}}</td>
+                               <td style="vertical-align: middle" class="text-center">{{$receipt->type}}</td>
                                <td style="text-align: right; vertical-align: middle">{{number_format($receipt->dr_amt,2)}}</td>
                                <td style="text-align: right;vertical-align: middle">{{number_format($receipt->cr_amt,2)}}</td>
                                <td class="text-center" style="vertical-align: middle">
@@ -177,7 +179,7 @@
                            @php($totalCredit = $totalCredit +$receipt->cr_amt)
                        @endforeach
                        <tr>
-                           <th colspan="4" style="text-align: right">Total = </th>
+                           <th colspan="5" style="text-align: right">Total = </th>
                            <th style="text-align: right">{{number_format($totalDebit,2)}}</th>
                            <th style="text-align: right">{{number_format($totalCredit,2)}}</th>
                            <th></th>
@@ -192,7 +194,8 @@
                        @if(number_format($totalDebit,2) === number_format($totalCredit,2))
                        <form action="{{route('acc.voucher.receipt.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                            @csrf
-                       <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you sure you want to Confirm the Voucher?');">Confirm & Finish Voucher</button>
+                           <input type="text" name="status" value="UNCHECKED">
+                       <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Confirm & Finish Voucher</button>
                        </form>
                        @else
                            <div class="alert alert-danger float-right col-sm-5" role="alert" style="font-size: 11px">

@@ -50,6 +50,13 @@ class AccReceipt extends Model
         self::$receipt->save();
     }
 
+    public static function confirmReceiptVoucher($request, $id)
+    {
+        self::$receipt = AccReceipt::find($id);
+        self::$receipt->status = $request->status;
+        self::$receipt->save();
+    }
+
     public static function addReceiptDataCr($request)
     {
         self::$receipt = new AccReceipt();

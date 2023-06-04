@@ -80,6 +80,13 @@ class AccJournalMaster extends Model
         self::$voucherno->save();
     }
 
+    public static function ConfirmVoucher($request, $id)
+    {
+        self::$voucherno = AccJournalMaster::find($id);
+        self::$voucherno->status = $request->status;
+        self::$voucherno->save();
+    }
+
     public static function destroyVoucher($id)
     {
         self::$voucherno = AccJournalMaster::find($id);

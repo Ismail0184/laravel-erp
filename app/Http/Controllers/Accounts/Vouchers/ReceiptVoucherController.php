@@ -143,4 +143,13 @@ class ReceiptVoucherController extends Controller
         AccReceipt::destroyRceiptData($id);
         return redirect('/accounts/voucher/receipt/create')->with('destroy_message','This data (Uid = '.$id.') has been successfully deleted!!');
     }
+
+    public function confirm(Request $request, $id)
+    {
+        AccReceipt::confirmReceiptVoucher($request, $id);
+        AccJournalMaster::ConfirmVoucher($request, $id);
+        Session::forget('receipt_no');
+        Session::forget('receipt_narration');
+        return redirect('/accounts/voucher/receipt/create');
+    }
 }

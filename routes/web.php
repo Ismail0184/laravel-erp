@@ -160,7 +160,7 @@ Route::get('/', [HomeController::class,'index']);
 
     Route::post('/accounts/voucher/receipt/initiate', [JournalMasterController::class,'store'])->name('acc.voucher.receipt.initiate');
     Route::post('/accounts/voucher/receipt/mupdate/{voucher_no}', [JournalMasterController::class,'update'])->name('acc.voucher.receipt.mupdate');
-    Route::post('/accounts/voucher/receipt/confirm/{voucher_no}', [JournalMasterController::class,'destroy'])->name('acc.voucher.receipt.confirm');
+    Route::post('/accounts/voucher/receipt/confirm/{voucher_no}', [ReceiptVoucherController::class,'confirm'])->name('acc.voucher.receipt.confirm');
     Route::post('/accounts/voucher/receipt/cancelall/{voucher_no}', [JournalMasterController::class,'destroy'])->name('acc.voucher.receipt.cancelall');
 
     Route::post('/accounts/voucher/receipt/store', [ReceiptVoucherController::class,'store'])->name('acc.voucher.receipt.store');
