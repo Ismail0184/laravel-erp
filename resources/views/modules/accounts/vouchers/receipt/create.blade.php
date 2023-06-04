@@ -68,7 +68,6 @@
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-7">
                             <div>
-                                <!--a class="btn btn-danger" href="{{route('acc.voucher.receipt.view')}}">Cancel</a-->
                                 <button type="submit" class="btn btn-primary w-md">@if(Session::get('receipt_no')) Update @else Initiate & Proceed @endif</button>
                             </div>
                         </div>
