@@ -68,7 +68,7 @@
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-7">
                             <div>
-                                <button type="submit" class="btn btn-primary w-md">@if(Session::get('receipt_no')) Update @else Initiate & Proceed @endif</button>
+                                <button type="submit" class="btn btn-success w-md">@if(Session::get('receipt_no')) Update @else Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>
@@ -89,20 +89,22 @@
                     @endif
                     <input type="hidden" name="receipt_no" value="{{$masterData->voucher_no}}">
                     <input type="hidden" name="receipt_date" value="{{$masterData->voucher_date}}">
+                    <input type="hidden" name="amount" value="{{$masterData->amount}}">
                     <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
                     <input type="hidden" name="receipt_date" value="{{$masterData->voucher_date}}">
                     <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
                     <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px">
-                        <tbody>
-                        <tr style="background-color: #3caae4; color:white">
-                            <th style="text-align: center">Cash , Bank & Others <span class="required text-danger">*</span></th>
-                            <th style="text-align: center">Narration <span class="required text-danger">*</span></th>
-                            <th style="text-align: center;width:10%;">Attachment</th>
+                        <thead class="table-success">
+                        <tr>
+                            <th style="text-align: center">Cash , Bank & Others Ledger <span class="required text-danger">*</span></th>
+                            <th style="text-align: center; width: 25%">Narration <span class="required text-danger">*</span></th>
+                            <th style="text-align: center;width:5%;">Attachment</th>
                             <th style="width:15%; text-align:center">Debit Amount <span class="required text-danger">*</span></th>
                             <th style="text-align:center;width: 5%">Action</th>
                         </tr>
+                        </thead>
                         <tbody>
-                        <tr>
+                        <tr style="background-color: white">
                             <td style="vertical-align: middle">
                             <select class="form-control select2" name="ledger_id" required="required">
                                 <option value=""></option>
@@ -112,7 +114,7 @@
                             </select>
                             </td>
                             <td style="vertical-align: middle">
-                            <textarea  name="narration" class="form-control" style="height: 80px">@if(request('id')>0) {{$editValue->narration}} @endif</textarea>
+                            <textarea  name="narration" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('receipt_narration')}} @endif</textarea>
                             </td>
                             <td style="vertical-align: middle"><input type="file" /></td>
                             <td style="vertical-align: middle">
@@ -123,7 +125,7 @@
                                     <button type="submit" class="btn btn-primary">Update</button>
                                     <a href="{{route('acc.voucher.receipt.create')}}" class="btn btn-danger" style="margin-top: 5px">Cancel</a>
                                 @else
-                                    <button type="submit" class="btn btn-primary">Add</button>
+                                    <button type="submit" class="btn btn-success">Add</button>
                                 @endif
                             </td>
                         </tr>
@@ -131,12 +133,13 @@
                     </table>
                 </form>
 
+                @if($COUNT_receipts_data > 0)
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
                <div class="table-responsive">
-                   <table  class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size: 11px">
-                       <thead>
+                   <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;font-size: 11px">
+                       <thead class="table-success">
                        <tr>
                            <th style="width: 5%; text-align: center">#</th>
                            <th style="width: 5%; text-align: center">Uid</th>
@@ -152,13 +155,13 @@
                        @php($totalCredit = 0)
                        @foreach($receipts as $receipt)
                            <tr>
-                               <td style="text-align: center">{{$loop->iteration}}</td>
-                               <td style="text-align: center">{{$receipt->id}}</td>
-                               <td>{{$receipt->ledger_id}} : {{$receipt->ledger->ledger_name}}</td>
-                               <td>{{$receipt->narration}}</td>
-                               <td style="text-align: right">{{number_format($receipt->dr_amt,2)}}</td>
-                               <td style="text-align: right;">{{number_format($receipt->cr_amt,2)}}</td>
-                               <td class="text-center">
+                               <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
+                               <td style="text-align: center; vertical-align: middle">{{$receipt->id}}</td>
+                               <td style="vertical-align: middle">{{$receipt->ledger_id}} : {{$receipt->ledger->ledger_name}}</td>
+                               <td style="vertical-align: middle">{{$receipt->narration}}</td>
+                               <td style="text-align: right; vertical-align: middle">{{number_format($receipt->dr_amt,2)}}</td>
+                               <td style="text-align: right;vertical-align: middle">{{number_format($receipt->cr_amt,2)}}</td>
+                               <td class="text-center" style="vertical-align: middle">
                                    <form action="{{route('acc.voucher.receipt.destroy', ['id' => $receipt->id])}}" method="post">
                                        @csrf
                                        <a href="{{route('acc.voucher.receipt.edit',['id' => $receipt->id])}}" title="Update" class="btn btn-success btn-sm">
@@ -181,29 +184,26 @@
                        </tr>
                        </tbody>
                    </table>
-
                    <div>
                        <form action="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                            @csrf
                        <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');">Cancel & Delete All</button>
                        </form>
-
                        @if(number_format($totalDebit,2) === number_format($totalCredit,2))
                        <form action="{{route('acc.voucher.receipt.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                            @csrf
                        <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you sure you want to Confirm the Voucher?');">Confirm & Finish Voucher</button>
                        </form>
                        @else
-                           <div class="alert alert-danger float-right col-sm-7" role="alert">
+                           <div class="alert alert-danger float-right col-sm-5" role="alert" style="font-size: 11px">
                                Invalid Voucher. Debit ({{$totalDebit}}) and Credit ({{$totalCredit}}) amount are not equal !!
                            </div>
                        @endif
                    </div>
                    </form>
-
                </div>
             </div>
         </div>
     </div>
-    @endif
+    @endif @endif
 @endsection

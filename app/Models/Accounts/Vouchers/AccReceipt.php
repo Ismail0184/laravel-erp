@@ -5,6 +5,7 @@ namespace App\Models\Accounts\Vouchers;
 use App\Models\Accounts\AccLedger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Session;
 
 class AccReceipt extends Model
 {
@@ -28,6 +29,7 @@ class AccReceipt extends Model
         self::$receipt->sconid = 1;
         self::$receipt->pcomid = 1;
         self::$receipt->save();
+        Session::put('receipt_narration', $request->narration);
     }
 
     public static function updateReceiptData($request, $id)
@@ -41,6 +43,24 @@ class AccReceipt extends Model
         self::$receipt->dr_amt = $request->dr_amt;
         self::$receipt->cr_amt = 0;
         self::$receipt->type = 'Debit';
+        self::$receipt->status = 'MANUAL';
+        self::$receipt->entry_by = $request->entry_by;
+        self::$receipt->sconid = 1;
+        self::$receipt->pcomid = 1;
+        self::$receipt->save();
+    }
+
+    public static function addReceiptDataCr($request)
+    {
+        self::$receipt = new AccReceipt();
+        self::$receipt->receipt_no = $request->receipt_no;
+        self::$receipt->receipt_date = $request->receipt_date;
+        self::$receipt->narration = $request->narration;
+        self::$receipt->ledger_id = $request->relevant_cash_head;
+        self::$receipt->relevant_cash_head = 0;
+        self::$receipt->dr_amt = 0;
+        self::$receipt->cr_amt = $request->amount;
+        self::$receipt->type = 'Credit';
         self::$receipt->status = 'MANUAL';
         self::$receipt->entry_by = $request->entry_by;
         self::$receipt->sconid = 1;

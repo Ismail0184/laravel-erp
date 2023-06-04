@@ -17,7 +17,7 @@ class ReceiptVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue;
+    private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue,$COUNT_receipts_data;
 
     public function index()
     {
@@ -38,13 +38,15 @@ class ReceiptVoucherController extends Controller
         {
             $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
             $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
+            $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();
         }
         return view('modules.accounts.vouchers.receipt.create', [
             'receiptVoucher' =>$this->receiptVoucher,
             'ledgers' => $this->ledgers,
             'ledgerss' => $this->ledgers,
             'masterData' => $this->masterData,
-            'receipts' => $this->receipts
+            'receipts' => $this->receipts,
+            'COUNT_receipts_data' => $this->COUNT_receipts_data
             ] );
     }
 
@@ -57,6 +59,18 @@ class ReceiptVoucherController extends Controller
     public function store(Request $request)
     {
         AccReceipt::addReceiptData($request);
+        $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
+        $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
+        $totalDebit = 0;
+        $totalCredit = 0;
+        foreach ($this->receipts as $receipts){
+            $totalDebit = $totalDebit + $receipts->dr_amt;
+            $totalCredit = $totalCredit + $receipts->cr_amt;
+        }
+        if(number_format($totalDebit,2) === number_format($this->masterData->amount,2) && number_format($totalDebit,2) !== number_format($totalCredit,2))
+        {
+            AccReceipt::addReceiptDataCr($request);
+        }
         return redirect('/accounts/voucher/receipt/create')->with('store_message','A receipt data successfully added!!');
     }
 
@@ -86,6 +100,8 @@ class ReceiptVoucherController extends Controller
         {
             $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
             $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
+            $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();
+
         }
         if(\request('id')>0)
         {
@@ -97,7 +113,9 @@ class ReceiptVoucherController extends Controller
             'ledgerss' => $this->ledgers,
             'masterData' => $this->masterData,
             'receipts' => $this->receipts,
-            'editValue' => $this->editValue
+            'editValue' => $this->editValue,
+            'COUNT_receipts_data' => $this->COUNT_receipts_data
+
         ] );
     }
 

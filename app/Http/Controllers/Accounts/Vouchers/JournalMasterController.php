@@ -92,6 +92,7 @@ class JournalMasterController extends Controller
         AccReceipt::destroyReceiptAllData($id);
         AccJournalMaster::destroyVoucher($id);
         Session::forget('receipt_no');
+        Session::forget('receipt_narration');
         return redirect('/accounts/voucher/receipt/create');
 
     }
