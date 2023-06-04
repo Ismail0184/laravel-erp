@@ -50,12 +50,7 @@ class AccReceipt extends Model
         self::$receipt->save();
     }
 
-    public static function confirmReceiptVoucher($request, $id)
-    {
-        self::$receipt = AccReceipt::find($id);
-        self::$receipt->status = $request->status;
-        self::$receipt->save();
-    }
+
 
     public static function addReceiptDataCr($request)
     {
@@ -90,5 +85,14 @@ class AccReceipt extends Model
     public function ledger()
     {
         return $this->belongsTo(AccLedger::class, 'ledger_id','ledger_id');
+    }
+
+    public static function confirmReceiptVoucher($request, $id)
+    {
+        //self::$receipt = AccReceipt::whereIn($id);
+        //self::$receipt->status = $request->status;
+        //self::$receipt->save();
+        AccReceipt::whereIn('receipt_no', $id)->update(['status' => "UNCHECKED"])->where('receipt_no',$id);
+
     }
 }
