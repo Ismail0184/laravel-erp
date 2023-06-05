@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('acc_ledger_groups', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('group_id');
+            $table->id('group_id');
             $table->string('group_name');
             $table->integer('sub_class_id');
             $table->integer('class_id');
@@ -23,6 +22,7 @@ return new class extends Migration
             $table->integer('sconid');
             $table->integer('pcomid');
             $table->integer('entry_by');
+            $table->integer('update_by');
             $table->timestamps();
         });
     }

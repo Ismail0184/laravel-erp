@@ -12,10 +12,11 @@
                 <h4 class="card-title mb-4">@if(request('id')) Update @else Create @endif {{$title}}</h4>
                 <form method="POST" action="@if(request('id')>0) {{route('acc.ledger-group.update', ['id'=>$ledgergroup->id])}} @else {{route('acc.ledger-group.store')}} @endif">
                     @csrf
+                    <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
+                @if(!(request('id')))
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Class <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                             <select class="form-control" name="class_id" required="required" onchange="getSubClass(this.value)">
                                 <option value=""> -- Select Class -- </option>
                                 @foreach($classes as $class)
@@ -35,12 +36,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row mb-4">
-                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Ledger Group Code <span class="required text-danger">*</span></label>
-                        <div class="col-sm-9">
-                            <input type="text" name="group_id" @if(request('id')>0) value="{{$ledgergroup->group_id}}" @endif class="form-control" required>
-                        </div>
-                    </div>
+                    @endif
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Ledger Group Name <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">

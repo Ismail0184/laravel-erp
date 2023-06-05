@@ -85,10 +85,10 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/coa/ledger-group/get-all-sub-class', [LedgerGroupController::class,'getAllSubClass'])->name('acc.get-all-sub-class');
     Route::get('/accounts/coa/ledger-group/create', [LedgerGroupController::class,'create'])->name('acc.ledger-group.create');
     Route::post('/accounts/coa/ledger-group/store', [LedgerGroupController::class,'store'])->name('acc.ledger-group.store');
-    Route::get('/accounts/coa/ledger-group/show/{id}', [LedgerGroupController::class,'show'])->name('acc.ledger-group.show');
-    Route::get('/accounts/coa/ledger-group/edit/{id}', [LedgerGroupController::class,'edit'])->name('acc.ledger-group.edit');
-    Route::post('/accounts/coa/ledger-group/update/{id}', [LedgerGroupController::class,'update'])->name('acc.ledger-group.update');
-    Route::post('/accounts/coa/ledger-group/destroy/{id}', [LedgerGroupController::class,'destroy'])->name('acc.ledger-group.destroy');
+    Route::get('/accounts/coa/ledger-group/show/{group_id}', [LedgerGroupController::class,'show'])->name('acc.ledger-group.show');
+    Route::get('/accounts/coa/ledger-group/edit/{group_id}', [LedgerGroupController::class,'edit'])->name('acc.ledger-group.edit');
+    Route::post('/accounts/coa/ledger-group/update/{group_id}', [LedgerGroupController::class,'update'])->name('acc.ledger-group.update');
+    Route::post('/accounts/coa/ledger-group/destroy/{group_id}', [LedgerGroupController::class,'destroy'])->name('acc.ledger-group.destroy');
 
     //Accounts/coa/ledger
     Route::get('/accounts/coa/ledger/',[LedgerController::class,'index'])->name('acc.ledger.view');

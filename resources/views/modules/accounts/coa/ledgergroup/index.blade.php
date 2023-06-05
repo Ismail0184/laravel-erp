@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    COA Ledger Group
+    Ledger Group
 @endsection
 
 @section('body')
@@ -22,7 +22,6 @@
                             <thead>
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
-                                <th style="width: 5%; text-align: center">Uid</th>
                                 <th>Group</th>
                                 <th>Sub-Class</th>
                                 <th>Class</th>
@@ -34,18 +33,14 @@
                             @foreach($ledgergroups as $ledgergroup)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td style="text-align: center">{{$ledgergroup->id}}</td>
                                     <td>{{$ledgergroup->group_id}} : {{$ledgergroup->group_name}}</td>
                                     <td>{{$ledgergroup->accSubClass->sub_class_id}} : {{$ledgergroup->accSubClass->sub_class_name}}</td>
                                     <td>{{$ledgergroup->accClass->class_id}} : {{$ledgergroup->accClass->class_name}}</td>
                                     <td>@if($ledgergroup->status == '1') <span class="badge badge-success">Active</span> @elseif($ledgergroup->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
-                                        <form action="{{route('acc.ledger-group.destroy', ['id' => $ledgergroup->id])}}" method="post">
+                                        <form action="{{route('acc.ledger-group.destroy', ['group_id' => $ledgergroup->group_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('acc.ledger-group.show',['id' => $ledgergroup->id])}}" title="View" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-book"></i>
-                                            </a>
-                                            <a href="{{route('acc.ledger-group.edit',['id' => $ledgergroup->id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('acc.ledger-group.edit',['group_id' => $ledgergroup->group_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
