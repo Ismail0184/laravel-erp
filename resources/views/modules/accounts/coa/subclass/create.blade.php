@@ -24,12 +24,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row mb-4">
-                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Sub Class Code <span class="required text-danger">*</span></label>
-                        <div class="col-sm-9">
-                            <input type="text" name="sub_class_id" @if(request('id')>0) value="{{$subClasses->sub_class_id}}" @endif class="form-control" required>
-                        </div>
-                    </div>
+
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Sub Class Name <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">

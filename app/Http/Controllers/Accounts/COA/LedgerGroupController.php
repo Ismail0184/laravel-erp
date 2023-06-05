@@ -32,6 +32,23 @@ class LedgerGroupController extends Controller
      */
     public function create()
     {
+        function next_group_id($cls)
+        { global $conn;
+            $max=(ceil(($cls+1)/1000))*1000;
+            $min=$cls;
+            $s='select max(group_id) from ledger_group where group_id>'.$min.' and group_id<'.$max;
+            $sql=mysqli_query($conn, $s);
+            if(mysqli_num_rows($sql)>0)
+                $data=mysqli_fetch_row($sql);
+            else
+                $acc_no=$min+1;
+            if(!isset($acc_no)&&(is_null($data[0])))
+                $acc_no=$min+1;
+            else
+                $acc_no=$data[0]+1;
+            return $acc_no;
+        }
+
         $this->classes = AccClass::all()->where('status', 1);
         $this->subclasses = AccSubClass::all()->where('status', 1);
         return view('modules.accounts.coa.ledgergroup.create',
