@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('acc_classes', function (Blueprint $table) {
-            $table->id();
             $table->integer('class_id')->unique();
             $table->string('class_name', 33)->unique();
+            $table->enum('statement',['Balance Sheet','Income Statement']);
             $table->integer('status')->default('1');
             $table->integer('sconid');
             $table->integer('pcomid');

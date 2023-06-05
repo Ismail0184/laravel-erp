@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AccLedgerGroup extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'group_id';
     public static $ledgerGroup;
-
 
     public static function next_group_id($class_id)
     {

@@ -26,7 +26,7 @@
                                 <th>Name</th>
                                 <th>Class</th>
                                 <th>Status</th>
-                                <th class="text-center" style="width: 15%">Option</th>
+                                <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>

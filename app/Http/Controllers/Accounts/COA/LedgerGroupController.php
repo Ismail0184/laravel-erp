@@ -34,7 +34,6 @@ class LedgerGroupController extends Controller
     {
         $this->classes = AccClass::all()->where('status', 1);
         $this->subclasses = AccSubClass::all()->where('status', 1);
-        //$this->groupIDgen = next_group_id('1000');
         return view('modules.accounts.coa.ledgergroup.create',
             ['classes'       => $this->classes,
                 'subclasses' => $this->subclasses],

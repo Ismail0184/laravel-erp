@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">COA Ledger Group <a href="{{route('acc.ledger-group.create')}}" class="btn btn-success" style="margin-left: 78.30%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
+                        <h4 class="card-title">Ledger Group <a href="{{route('acc.ledger-group.create')}}" class="btn btn-success" style="margin-left: 81.40%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -23,10 +23,10 @@
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th>Group</th>
-                                <th>Sub-Class</th>
+                                <!--th>Sub-Class</th-->
                                 <th>Class</th>
                                 <th>Status</th>
-                                <th class="text-center" style="width: 15%">Option</th>
+                                <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -34,7 +34,7 @@
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
                                     <td>{{$ledgergroup->group_id}} : {{$ledgergroup->group_name}}</td>
-                                    <td>{{$ledgergroup->accSubClass->sub_class_id}} : {{$ledgergroup->accSubClass->sub_class_name}}</td>
+                                    <!--td>{{$ledgergroup->accSubClass->sub_class_id}} : {{$ledgergroup->accSubClass->sub_class_name}}</td-->
                                     <td>{{$ledgergroup->accClass->class_id}} : {{$ledgergroup->accClass->class_name}}</td>
                                     <td>@if($ledgergroup->status == '1') <span class="badge badge-success">Active</span> @elseif($ledgergroup->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">

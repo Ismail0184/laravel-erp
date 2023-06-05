@@ -22,28 +22,25 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 5%; text-align: center">#</th>
-                                        <th style="width: 5%; text-align: center">Uid</th>
-                                        <th>Code</th>
+                                        <th>Class Id</th>
                                         <th>Name</th>
+                                        <th>Statement</th>
                                         <th>Status</th>
-                                        <th class="text-center" style="width: 15%">Option</th>
+                                        <th class="text-center" style="width: 10%">Option</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($classes as $class)
                                     <tr>
                                         <td style="text-align: center">{{$loop->iteration}}</td>
-                                        <td style="text-align: center">{{$class->id}}</td>
                                         <td>{{$class->class_id}}</td>
                                         <td>{{$class->class_name}}</td>
+                                        <td>{{$class->statement}}</td>
                                         <td>@if($class->status == '1') <span class="badge badge-success">Active</span> @elseif($class->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                         <td class="text-center">
-                                            <form action="{{route('acc.class.destroy', ['id' => $class->id])}}" method="post">
+                                            <form action="{{route('acc.class.destroy', ['class_id' => $class->class_id])}}" method="post">
                                                 @csrf
-                                                <a href="{{route('acc.class.show',['id' => $class->id])}}" title="View" class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-book"></i>
-                                                </a>
-                                                <a href="{{route('acc.class.edit',['id' => $class->id])}}" title="Update" class="btn btn-success btn-sm">
+                                                <a href="{{route('acc.class.edit',['class_id' => $class->class_id])}}" title="Update" class="btn btn-success btn-sm">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

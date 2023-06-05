@@ -9,11 +9,14 @@ class AccClass extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'class_id';
+
     public static $classes;
 
     public static function storeClass($request)
     {
         self::$classes = new AccClass();
+        self::$classes->statement    = $request->statement;
         self::$classes->class_id    = $request->class_id;
         self::$classes->class_name  = $request->class_name;
         self::$classes->status      = 1;

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    COA Ledger
+    @php($title='Accounts Ledger')
 @endsection
 
 @section('body')
@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">COA Ledger Group <a href="{{route('acc.ledger.create')}}" class="btn btn-primary" style="margin-left: 79.30%">Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('acc.ledger.create')}}" class="btn btn-primary" style="margin-left: 79.30%">Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('sconid');
             $table->integer('pcomid');
             $table->integer('entry_by');
+            $table->integer('update_by');
             $table->timestamps();
         });
     }

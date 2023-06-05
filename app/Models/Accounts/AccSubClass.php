@@ -22,18 +22,18 @@ class AccSubClass extends Model
         self::$subclasses->sconid           = 1;
         self::$subclasses->pcomid           = 1;
         self::$subclasses->entry_by         = $request->entry_by ;
+        self::$subclasses->update_by        = 0;
         self::$subclasses->save();
     }
 
     public static function updateSubClass($request, $id)
     {
         self::$subclasses = AccSubClass::find($id);
-        self::$subclasses->class_id         = $request->class_id;
         self::$subclasses->sub_class_name   = $request->sub_class_name;
         self::$subclasses->status           = $request->status;
         self::$subclasses->sconid           = 1;
         self::$subclasses->pcomid           = 1;
-        self::$subclasses->entry_by         = $request->entry_by ;
+        self::$subclasses->update_by         = $request->entry_by ;
         self::$subclasses->save();
     }
 
