@@ -17,7 +17,7 @@ class LedgerController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private  $classes,$subclasses,$ledgergroups, $ledgers, $ledger;
+    private  $ledger_id,$subclasses,$ledgergroups, $ledgers, $ledger;
 
     public function index()
     {
@@ -32,7 +32,6 @@ class LedgerController extends Controller
      */
     public function create()
     {
-
         $this->ledgergroups = AccLedgerGroup::all()->where('status', 1);
         return view('modules.accounts.coa.ledger.create', [
             'ledgergroups'  => $this->ledgergroups
@@ -86,7 +85,6 @@ class LedgerController extends Controller
     {
         AccLedger::updateLedger($request, $id);
         return redirect('/accounts/coa/ledger/')->with('update_message','This Ledger (uid = '.$id.') has been successfully updated');
-
     }
 
     /**

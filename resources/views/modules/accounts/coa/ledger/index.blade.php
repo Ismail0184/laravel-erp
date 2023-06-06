@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}} <a href="{{route('acc.ledger.create')}}" class="btn btn-primary" style="margin-left: 79.30%">Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('acc.ledger.create')}}" class="btn btn-success" style="margin-left: 79.1%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -22,10 +22,8 @@
                             <thead>
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
-                                <th style="width: 5%; text-align: center">Uid</th>
-                                <th>Ledger</th>
+                                <th>Ledger Name</th>
                                 <th>Ledger Group</th>
-                                <th>Type</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 15%">Option</th>
                             </tr>
@@ -34,17 +32,17 @@
                             @foreach($ledgers as $ledger)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td style="text-align: center">{{$ledger->id}}</td>
                                     <td>{{$ledger->ledger_id}} : {{$ledger->ledger_name}}</td>
-                                    <td>{{$ledger->accLedgerGroup->group_name}}</td>
-                                    <td>{{$ledger->type}}</td>
-                                    <td>@if($ledger->status == '1') <span class="badge badge-success">Active</span> @elseif($ledger->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
+                                    <td>{{$ledger->accLedgerGroup->group_id}} : {{$ledger->accLedgerGroup->group_name}}</td>
+                                    <td>@if($ledger->status == 'active') <span class="badge badge-success">Active</span>
+                                        @elseif($ledger->status == 'inactive') <span class="badge badge-warning">Inactive</span>
+                                        @elseif($ledger->status == 'suspended') <span class="badge badge-danger">Suspended</span>
+                                        @elseif($ledger->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
+
+                                        @endif</td>
                                     <td class="text-center">
                                         <form action="{{route('acc.ledger.destroy', ['ledger_id' => $ledger->ledger_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('acc.ledger.show',['ledger_id' => $ledger->ledger_id])}}" title="View" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-book"></i>
-                                            </a>
                                             <a href="{{route('acc.ledger.edit',['ledger_id' => $ledger->ledger_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>

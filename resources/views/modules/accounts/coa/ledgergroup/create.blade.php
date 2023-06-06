@@ -18,7 +18,7 @@
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Class <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
                             <select class="form-control" name="class_id" required="required" onchange="getSubClass(this.value)">
-                                <option value=""> -- Select Class -- </option>
+                                <option value=""> -- Select  -- </option>
                                 @foreach($classes as $class)
                                     <option value="{{$class->class_id}}" @if(request('group_id')>0) @if($ledgergroup->class_id==$class->class_id) selected @endif @endif>{{$class->class_id}} : {{$class->class_name}}</option>
                                 @endforeach
