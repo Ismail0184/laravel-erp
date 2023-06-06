@@ -15,7 +15,7 @@ class SubLedgerController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $subledgers, $subledger, $ledgers;
+    private $subledgers, $subledger, $ledgers, $sub_ledger_id;
 
     public function index()
     {
@@ -30,8 +30,9 @@ class SubLedgerController extends Controller
      */
     public function create()
     {
-        $this->ledgers = AccLedger::all();
-        return view('modules.accounts.coa.subledger.create', ['ledgers' => $this->ledgers]);
+        $this->ledgers = AccLedger::where('status','active')->get();
+        return view('modules.accounts.coa.subledger.create', ['ledgers' => $this->ledgers,'sub_ledger_id'
+        => $this->sub_ledger_id]);
     }
 
     /**

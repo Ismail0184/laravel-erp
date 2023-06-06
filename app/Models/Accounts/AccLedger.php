@@ -45,17 +45,25 @@ class AccLedger extends Model
         self::$ledgers->update_by = 0;
         self::$ledgers->save();
     }
+
+    public static function getLegerGroup($ledger_id)
+    {
+        $group_id = AccLedger::where('ledger_id','=',$ledger_id)->value('group_id');
+        return $group_id;
+    }
     public static function storeSubLedgerAsLedger($request)
     {
         self::$ledgers = new AccLedger();
-        self::$ledgers->ledger_id = $request->sub_ledger_id;
+        self::$ledgers->ledger_id = AccSubLedger::next_sub_ledger_id($request->ledger_id);
         self::$ledgers->ledger_name = $request->sub_ledger_name;
-        self::$ledgers->group_id = '3';
-        self::$ledgers->status = '1';
-        self::$ledgers->type = 'sub';
+        self::$ledgers->group_id = self::getLegerGroup($request->ledger_id);
+        self::$ledgers->status = 'active';
+        self::$ledgers->show_in_transaction = 1;
+        self::$ledgers->type	 = 'sub';
         self::$ledgers->sconid = '1';
         self::$ledgers->pcomid = '1';
         self::$ledgers->entry_by = $request->entry_by;
+        self::$ledgers->update_by = 0;
         self::$ledgers->save();
     }
 
@@ -72,15 +80,12 @@ class AccLedger extends Model
     public static function updateSubLedgerAsLedger($request, $id)
     {
         self::$ledgers = AccLedger::find($id);
-        self::$ledgers->ledger_id = $request->sub_ledger_id;
         self::$ledgers->ledger_name = $request->sub_ledger_name;
-        self::$ledgers->group_id = '1000100010001';
-        self::$ledgers->type = 'sub';
-        self::$ledgers->status = '1';
-        self::$ledgers->sconid = '1';
-        self::$ledgers->pcomid = '1';
+        self::$ledgers->status = $request->status;
+        self::$ledgers->show_in_transaction = $request->show_in_transaction;
         self::$ledgers->entry_by = $request->entry_by;
         self::$ledgers->save();
+
     }
 
     public static function destroyLedger($id)

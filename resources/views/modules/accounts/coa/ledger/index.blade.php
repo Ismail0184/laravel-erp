@@ -24,6 +24,7 @@
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th>Ledger Name</th>
                                 <th>Ledger Group</th>
+                                <th>Type</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 15%">Option</th>
                             </tr>
@@ -32,8 +33,9 @@
                             @foreach($ledgers as $ledger)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td>{{$ledger->ledger_id}} : {{$ledger->ledger_name}}</td>
+                                    <td>@if($ledger->status == 'deleted')<del> {{$ledger->ledger_id}} : {{$ledger->ledger_name}} @else {{$ledger->ledger_id}} : {{$ledger->ledger_name}}@endif</td>
                                     <td>{{$ledger->accLedgerGroup->group_id}} : {{$ledger->accLedgerGroup->group_name}}</td>
+                                    <td>{{$ledger->type}}</td>
                                     <td>@if($ledger->status == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($ledger->status == 'inactive') <span class="badge badge-warning">Inactive</span>
                                         @elseif($ledger->status == 'suspended') <span class="badge badge-danger">Suspended</span>

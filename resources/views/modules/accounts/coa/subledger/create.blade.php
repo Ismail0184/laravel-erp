@@ -12,6 +12,8 @@
                 <h4 class="card-title mb-4">@if(request('sub_ledger_id')) Update @else Create @endif {{$title}}</h4>
                 <form method="POST" action="@if(request('sub_ledger_id')>0) {{route('acc.sub-ledger.update', ['sub_ledger_id'=>$subledger->sub_ledger_id])}} @else {{route('acc.sub-ledger.store')}} @endif">
                     @csrf
+                    <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
+                    @if(!(request('sub_ledger_id')))
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Ledger <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
@@ -24,13 +26,7 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="form-group row mb-4">
-                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Sub-Ledger Code <span class="required text-danger">*</span></label>
-                        <div class="col-sm-9">
-                            <input type="text" name="sub_ledger_id" @if(request('sub_ledger_id')>0) value="{{$subledger->sub_ledger_id}}" @endif class="form-control" required>
-                        </div>
-                    </div>
+                    @endif
                     <div class="form-group row mb-4">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Sub-Ledger Name <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
@@ -42,8 +38,19 @@
                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Status <span class="required text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="status">
-                                    <option @if($subledger->status ==1) selected @endif value="1">Active</option>
-                                    <option @if($subledger->status ==0) selected @endif value="0">Inactive</option>
+                                    <option @if($subledger->status =='active') selected @endif value="active">Active</option>
+                                    <option @if($subledger->status =='inactive') selected @endif value="inactive">Inactive</option>
+                                    <option @if($subledger->status =='suspended') selected @endif value="suspended">Suspended</option>
+                                    <option @if($subledger->status =='deleted') selected @endif value="deleted">Deleted</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-4">
+                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Show in Transaction <span class="required text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="show_in_transaction">
+                                    <option @if($subledger->show_in_transaction ==1) selected @endif value="1">Show</option>
+                                    <option @if($subledger->show_in_transaction ==0) selected @endif value="0">Hide</option>
                                 </select>
                             </div>
                         </div>
