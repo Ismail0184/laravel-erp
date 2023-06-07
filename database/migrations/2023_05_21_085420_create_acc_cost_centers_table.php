@@ -17,10 +17,11 @@ return new class extends Migration
             $table->id('cc_code')->unique();
             $table->string('center_name')->unique();
             $table->integer('category_id');
-            $table->integer('status')->default('1');
+            $table->enum('status',['active','inactive','suspended','deleted']);
             $table->integer('sconid');
             $table->integer('pcomid');
             $table->integer('entry_by');
+            $table->integer('update_by');
             $table->timestamps();
         });
     }

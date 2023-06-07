@@ -2,6 +2,7 @@
 
 @section('title')
     @php($title = 'COA Sub-Ledger')
+    {{$title}}
 @endsection
 
 @section('body')

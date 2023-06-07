@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}} <a href="{{route('acc.cost-category.create')}}" class="btn btn-primary" style="margin-left: 82%">Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('acc.cost-category.create')}}" class="btn btn-success" style="margin-left: 81%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -25,7 +25,7 @@
                                 <th style="width: 5%; text-align: center">Uid</th>
                                 <th>Cost Category name</th>
                                 <th>Status</th>
-                                <th class="text-center" style="width: 15%">Option</th>
+                                <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -38,9 +38,6 @@
                                     <td class="text-center">
                                         <form action="{{route('acc.cost-category.destroy', ['id' => $costcategory->id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('acc.cost-category.show',['id' => $costcategory->id])}}" title="View" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-book"></i>
-                                            </a>
                                             <a href="{{route('acc.cost-category.edit',['id' => $costcategory->id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>

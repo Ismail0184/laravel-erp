@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}} <a href="{{route('acc.cost-center.create')}}" class="btn btn-primary" style="margin-left: 83.8%">Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('acc.cost-center.create')}}" class="btn btn-success" style="margin-left: 82.8%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -26,7 +26,7 @@
                                 <th>Cost Center name</th>
                                 <th>Category name</th>
                                 <th>Status</th>
-                                <th class="text-center" style="width: 15%">Option</th>
+                                <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -34,15 +34,18 @@
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
                                     <td style="text-align: center">{{$costcenter->cc_code}}</td>
-                                    <td>{{$costcenter->center_name}}</td>
+                                    <td>@if($costcenter->status == 'deleted')<del>{{$costcenter->center_name}}</del> @else {{$costcenter->center_name}}@endif</td>
                                     <td>{{$costcenter->costcategoryforcostcenter->category_name}}</td>
-                                    <td>@if($costcenter->status == '1') <span class="badge badge-success">Active</span> @elseif($costcenter->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
+                                    <td>
+                                        @if($costcenter->status == 'active') <span class="badge badge-success">Active</span>
+                                        @elseif($costcenter->status == 'inactive') <span class="badge badge-warning">Inactive</span>
+                                        @elseif($costcenter->status == 'suspended') <span class="badge badge-danger">Suspended</span>
+                                        @elseif($costcenter->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
+                                        @endif
+                                    </td>
                                     <td class="text-center">
                                         <form action="{{route('acc.cost-center.destroy', ['cc_code' => $costcenter->cc_code])}}" method="post">
                                             @csrf
-                                            <a href="{{route('acc.cost-center.show',['cc_code' => $costcenter->cc_code])}}" title="View" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-book"></i>
-                                            </a>
                                             <a href="{{route('acc.cost-center.edit',['cc_code' => $costcenter->cc_code])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>

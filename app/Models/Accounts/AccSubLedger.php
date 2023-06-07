@@ -17,7 +17,7 @@ class AccSubLedger extends Model
         $max=$ledger_id+100000000;
         $min=$ledger_id;
         $maxIdInDatabase = AccLedger::where('ledger_id','>',$min)->where('ledger_id','<',$max)->where('ledger_id','like','%0000')->max('ledger_id');
-        if(!isset($acc_no)&&(is_null($maxIdInDatabase)))
+        if((is_null($maxIdInDatabase)))
             $acc_no=$min+10000;
         else
             $acc_no=$maxIdInDatabase+10000;

@@ -35,8 +35,10 @@
                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Status <span class="required text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="status">
-                                    <option @if($costcenter->status ==1) selected @endif value="1">Active</option>
-                                    <option @if($costcenter->status ==0) selected @endif value="0">Inactive</option>
+                                    <option @if($costcenter->status =='active') selected @endif value="active">Active</option>
+                                    <option @if($costcenter->status =='inactive') selected @endif value="inactive">Inactive</option>
+                                    <option @if($costcenter->status =='suspended') selected @endif value="suspended">Suspended</option>
+                                    <option @if($costcenter->status =='deleted') selected @endif value="deleted">Deleted</option>
                                 </select>
                             </div>
                         </div>

@@ -17,10 +17,11 @@ return new class extends Migration
             $table->id('sub_sub_ledger_id')->unique();
             $table->string('sub_sub_ledger_name')->unique();
             $table->bigInteger('sub_ledger_id');
-            $table->integer('status')->default('1');
+            $table->enum('status',['active','inactive','suspended','deleted']);
             $table->integer('sconid');
             $table->integer('pcomid');
             $table->integer('entry_by');
+            $table->integer('update_by');
             $table->timestamps();
         });
     }

@@ -15,6 +15,7 @@ use App\Http\Controllers\Developer\MainMenuController;
 use App\Http\Controllers\Developer\SubMenuController;
 use App\Http\Controllers\Accounts\Vouchers\ReceiptVoucherController;
 use App\Http\Controllers\Accounts\Vouchers\JournalMasterController;
+use App\Http\Controllers\Accounts\COA\COAController;
 
 
 // home
@@ -116,6 +117,10 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/coa/sub-sub-ledger/edit/{sub_sub_ledger_id}', [SubSubLedgerController::class,'edit'])->name('acc.sub-sub-ledger.edit');
     Route::post('/accounts/coa/sub-sub-ledger/update/{sub_sub_ledger_id}', [SubSubLedgerController::class,'update'])->name('acc.sub-sub-ledger.update');
     Route::post('/accounts/coa/sub-sub-ledger/destroy/{sub_sub_ledger_id}', [SubSubLedgerController::class,'destroy'])->name('acc.sub-sub-ledger.destroy');
+
+    //Accounts/coa/chart-of-account
+    Route::get('/accounts/chart-of-accounts/',[COAController::class,'index'])->name('acc.chart.of.accounts.view');
+
 
     //Accounts/coa/Cost-Category
     Route::get('/accounts/coa/cost-category/',[CostCategoryController::class,'index'])->name('acc.cost-category.view');
