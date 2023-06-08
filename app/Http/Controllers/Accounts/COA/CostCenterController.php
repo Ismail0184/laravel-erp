@@ -31,9 +31,8 @@ class CostCenterController extends Controller
      */
     public function create()
     {
-        $this->costcategories = AccCostCategory::all();
-        $this->costcenter = AccCostCenter::all();
-        return view('modules.accounts.coa.costcenter.create', ['costcenter' =>$this->costcenter], ['costcategories' => $this->costcategories]);
+        $this->costcategories = AccCostCategory::where('status','active')->get();
+        return view('modules.accounts.coa.costcenter.create',['costcategories' => $this->costcategories]);
     }
 
     /**

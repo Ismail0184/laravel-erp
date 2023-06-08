@@ -33,8 +33,15 @@
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
                                     <td style="text-align: center">{{$costcategory->id}}</td>
-                                    <td>{{$costcategory->category_name}}</td>
-                                    <td>@if($costcategory->status == '1') <span class="badge badge-success">Active</span> @elseif($costcategory->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
+                                    <td>@if($costcategory->status == 'deleted')<del>{{$costcategory->category_name}}</del> @else {{$costcategory->category_name}}@endif</td>
+                                    <td>
+                                        @if($costcategory->status == 'active') <span class="badge badge-success">Active</span>
+                                        @elseif($costcategory->status == 'inactive') <span class="badge badge-warning">Inactive</span>
+                                        @elseif($costcategory->status == 'suspended') <span class="badge badge-danger">Suspended</span>
+                                        @elseif($costcategory->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
+                                        @endif
+                                    </td>
+
                                     <td class="text-center">
                                         <form action="{{route('acc.cost-category.destroy', ['id' => $costcategory->id])}}" method="post">
                                             @csrf

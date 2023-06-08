@@ -4,6 +4,7 @@ namespace App\Models\Accounts;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use function Termwind\renderUsing;
 
 class AccLedgerGroup extends Model
 {
@@ -64,5 +65,10 @@ class AccLedgerGroup extends Model
     public function accSubClass()
     {
         return $this->belongsTo(AccSubClass::class, 'sub_class_id', 'sub_class_id');
+    }
+
+    public function getAccLedger()
+    {
+        return $this->hasMany(AccLedger::class,'group_id','group_id')->orderBy('ledger_id');
     }
 }

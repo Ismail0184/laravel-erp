@@ -160,6 +160,7 @@ Route::get('/', [HomeController::class,'index']);
 
     //Accounts/voucher/receipt voucher
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
+    Route::get('/accounts/voucher/receipt-multiple/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.multiple.view');
     Route::get('/accounts/voucher/receipt/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
 
     Route::post('/accounts/voucher/receipt/initiate', [JournalMasterController::class,'store'])->name('acc.voucher.receipt.initiate');

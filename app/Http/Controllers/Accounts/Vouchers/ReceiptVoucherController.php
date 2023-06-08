@@ -32,7 +32,7 @@ class ReceiptVoucherController extends Controller
      */
     public function create()
     {
-        $this->ledgers = AccLedger::all();
+        $this->ledgers = AccLedger::where('status','active')->get();
         $this->vouchertype ='1';
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)

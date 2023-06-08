@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounts\COA;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccLedgerGroup;
 use Illuminate\Http\Request;
 
 class COAController extends Controller
@@ -12,9 +13,13 @@ class COAController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public $ledgergroups;
+
     public function index()
     {
-        return view('modules.accounts.coa.chartofaccounts.index');
+        $this->ledgergroups = AccLedgerGroup::where('status','1')->orderBy('group_id')->get();
+        return view('modules.accounts.coa.chartofaccounts.index',['ledgergroups'=>$this->ledgergroups]);
     }
 
     /**

@@ -64,4 +64,9 @@ class AccSubLedger extends Model
     {
         return $this->belongsTo(AccLedger::class,'ledger_id');
     }
+
+    public function getSubLedger()
+    {
+        return $this->hasMany(AccSubSubLedger::class,'sub_ledger_id','sub_ledger_id')->where('status','=','active');;
+    }
 }

@@ -78,60 +78,28 @@
                         <h4 class="card-title">Chart of Accounts</h4>
                         <div class="tree well">
                             <ul>
+                                @foreach($ledgergroups as $ledgergroup)
                                 <li>
-                                    <span><i class="icon-folder-open"></i> +</span> <a href="">Ledger Group</a>
+                                    <span><i class="icon-folder-open"></i>Group</span> <a href="">{{$ledgergroup->group_id}} : {{$ledgergroup->group_name}}</a>
                                     <ul>
-                                        <li>
-                                            <span><i class="icon-minus-sign"></i> Child</span> <a href="">Goes somewhere</a>
+                                        @foreach($ledgergroup->getAccLedger as $ledger)
+                                        <li><span><i class="icon-minus-sign"></i> Ledger</span> <a href="">{{$ledger->ledger_id}} : {{$ledger->ledger_name}}</a>
                                             <ul>
-                                                <li>
-                                                    <span><i class="icon-leaf"></i> Grand Child</span> <a href="">Goes somewhere</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <span><i class="icon-minus-sign"></i> Child</span> <a href="">Goes somewhere</a>
-                                            <ul>
-                                                <li>
-                                                    <span><i class="icon-leaf"></i> Grand Child</span> <a href="">Goes somewhere</a>
-                                                </li>
-                                                <li>
-                                                    <span><i class="icon-minus-sign"></i> Grand Child</span> <a href="">Goes somewhere</a>
+                                                @foreach($ledger->subLedgers as $subledger)
+                                                <li><span><i class="icon-minus-sign"></i> Sub</span> <a href="">{{$subledger->sub_ledger_id}} : {{$subledger->sub_ledger_name}}</a>
                                                     <ul>
-                                                        <li>
-                                                            <span><i class="icon-minus-sign"></i> Great Grand Child</span> <a href="">Goes somewhere</a>
-                                                            <ul>
-                                                                <li>
-                                                                    <span><i class="icon-leaf"></i> Great great Grand Child</span> <a href="">Goes somewhere</a>
-                                                                </li>
-                                                                <li>
-                                                                    <span><i class="icon-leaf"></i> Great great Grand Child</span> <a href="">Goes somewhere</a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li>
-                                                            <span><i class="icon-leaf"></i> Great Grand Child</span> <a href="">Goes somewhere</a>
-                                                        </li>
-                                                        <li>
-                                                            <span><i class="icon-leaf"></i> Great Grand Child</span> <a href="">Goes somewhere</a>
-                                                        </li>
+                                                        @foreach($subledger->getSubLedger as $subsubledger)
+                                                        <li><span><i class="icon-minus-sign"></i> Sub-sub</span> <a href="">{{$subsubledger->sub_sub_ledger_id}} : {{$subsubledger->sub_sub_ledger_name}}</a></li>
+                                                        @endforeach
                                                     </ul>
                                                 </li>
-                                                <li>
-                                                    <span><i class="icon-leaf"></i> Grand Child</span> <a href="">Goes somewhere</a>
-                                                </li>
+                                                @endforeach
                                             </ul>
                                         </li>
+                                        @endforeach
                                     </ul>
                                 </li>
-                                <li>
-                                    <span><i class="icon-folder-open"></i> Parent2</span> <a href="">Goes somewhere</a>
-                                    <ul>
-                                        <li>
-                                            <span><i class="icon-leaf"></i> Child</span> <a href="">Goes somewhere</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -146,6 +114,13 @@
     <script type="text/javascript">
         $(function () {
             $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+            //--------------------------------------------------
+            var extra = $(".tree li.parent_li > span")
+                .parent("li.parent_li")
+                .find(" > ul > li");
+            extra.hide("fast");
+            //----------------------------------------------------
+
             $('.tree li.parent_li > span').on('click', function (e) {
                 var children = $(this).parent('li.parent_li').find(' > ul > li');
                 if (children.is(":visible")) {
@@ -160,5 +135,3 @@
         });
     </script>
 @endsection
-
-

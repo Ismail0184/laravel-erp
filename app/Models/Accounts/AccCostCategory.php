@@ -36,7 +36,8 @@ class AccCostCategory extends Model
     public static function destroyCostCategory($id)
     {
         self::$costcategory = AccCostCategory::find($id);
-        self::$costcategory->delete();
+        self::$costcategory->status = "deleted";
+        self::$costcategory->save();
     }
 
 }

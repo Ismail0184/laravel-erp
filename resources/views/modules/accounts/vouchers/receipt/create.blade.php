@@ -10,7 +10,8 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">Create {{$title}} <small>Single Entry </small><small class="text-danger float-right">(field marked with * are mandatory)
-                    </small></h4>
+                    </small>
+                </h4>
                 <form style="font-size: 11px" method="POST" action="@if(Session::get('receipt_no')>0) {{route('acc.voucher.receipt.mupdate', ['voucher_no'=>$masterData->voucher_no])}} @else {{route('acc.voucher.receipt.initiate')}} @endif">
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
