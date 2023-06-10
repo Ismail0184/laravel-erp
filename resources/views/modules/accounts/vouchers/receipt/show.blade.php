@@ -12,8 +12,8 @@
                     <div class="card-body">
                         <div class="invoice-title">
                             <h1 class="font-size-20 text-center">International Consumer Products Bangladesh Limited<br>
-                            <small class="font-size-11">Plot-43, Alam Arcade (4th Floor), Gulshan-2, Dhaka; PS; Dhaka-1212, Bangladesh
-                            </small>
+                                <small class="font-size-10">Plot-43, Alam Arcade (4th Floor), Gulshan-2, Dhaka; PS; Dhaka-1212, Bangladesh
+                                </small>
                             </h1>
                         </div>
                         <hr>
@@ -25,15 +25,15 @@
                                     <strong>Voucher No:</strong><br>
                                     {{request('voucher_no')}}<br>
                                     <strong>Entry By:</strong><br>
-                                    Md Ismail Hossain
+                                    {{$vouchermaster->entryBy->name}}
                                 </address>
                             </div>
                             <div class="col-sm-6 mt-3 text-sm-right">
                                 <address>
                                     <strong>Voucher Date:</strong><br>
-                                    October 16, 2019<br>
+                                    {{$vouchermaster->voucher_date}}<br>
                                     <strong>Entry At:</strong><br>
-                                    October 16, 2019
+                                    {{$vouchermaster->entry_at}}
                                 </address>
                             </div>
                         </div>
@@ -52,36 +52,24 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @php($dr_total = 0)
+                                @php($cr_total = 0)
+                                @foreach($receipts as $receipt)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$receipt->ledgerforvoucher->ledger_name}}</td>
+                                        <td>{{$receipt->narration}}</td>
+                                        <td class="text-right">{{number_format($receipt->dr_amt,2)}}</td>
+                                        <td class="text-right">{{number_format($receipt->cr_amt,2)}}</td>
+                                    </tr>
+                                    @php($dr_total = $dr_total +$receipt->dr_amt )
+                                    @php($cr_total = $cr_total +$receipt->cr_amt )
+                                @endforeach
                                 <tr>
-                                    <td>01</td>
-                                    <td>Skote - Bootstrap 4 Admin Dashboard</td>
-                                    <td></td>
-                                    <td class="text-right">$499.00</td>
-                                    <td class="text-right">$499.00</td>
-                                </tr>
-                                <tr>
-                                    <td>02</td>
-                                    <td>Skote - Bootstrap 4 Landing Template</td>
-                                    <td class="text-right">$399.00</td>
-                                </tr>
-                                <tr>
-                                    <td>03</td>
-                                    <td>Veltrix - Bootstrap 4 Admin Template</td>
-                                    <td class="text-right">$499.00</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="text-right">Sub Total</td>
-                                    <td class="text-right">$1397.00</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="border-0 text-right">
-                                        <strong>Shipping</strong></td>
-                                    <td class="border-0 text-right">$13.00</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="border-0 text-right">
-                                        <strong>Total</strong></td>
-                                    <td class="border-0 text-right"><h4 class="m-0">$1410.00</h4></td>
+                                    <td colspan="3" class="border-0 text-right">
+                                        <h4 class="m-0">Total</h4></td>
+                                    <td class="border-0 text-right"><h4 class="m-0">{{number_format($dr_total,2)}}</h4></td>
+                                    <td class="border-0 text-right"><h4 class="m-0">{{number_format($cr_total,2)}}</h4></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -89,16 +77,12 @@
                         <div class="d-print-none">
                             <div class="float-right">
                                 <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light mr-1"><i class="fa fa-print"></i></a>
-                                            <a href="#" class="btn btn-primary w-md waves-effect waves-light">Send</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $vouchermaster->voucher_no])}}" class="btn btn-primary waves-effect waves-light mr-1"><i class="fa fa-download"></i></a>
                             </div>
                         </div>
                     </div>
-                    <!-- end row -->
-
                 </div>
-
-
+            </div>
+        </div>
+    </div>
 @endsection

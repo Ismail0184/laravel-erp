@@ -9,6 +9,7 @@ use App\Models\Accounts\Vouchers\AccReceipt;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
+use PDF;
 class ReceiptVoucherController extends Controller
 {
     /**
@@ -17,7 +18,7 @@ class ReceiptVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue,$COUNT_receipts_data,$receiptdatas;
+    private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue,$COUNT_receipts_data,$receiptdatas,$receipt,$vouchermaster;
 
     public function index()
     {
@@ -83,7 +84,23 @@ class ReceiptVoucherController extends Controller
      */
     public function show($id)
     {
-        return view('modules.accounts.vouchers.receipt.voucherview');
+        $this->receipt = AccReceipt::where('receipt_no',$id)->get();
+        $this->vouchermaster = AccJournalMaster::find($id);
+        return view('modules.accounts.vouchers.receipt.show', [
+            'receipts' =>$this->receipt,
+            'vouchermaster' =>$this->vouchermaster,
+         ]);
+    }
+
+    public function downalodvoucher($id)
+    {
+        $this->receipt = AccReceipt::where('receipt_no',$id)->get();
+        $this->vouchermaster = AccJournalMaster::find($id);
+        $pdf = PDF::loadView('modules.accounts.vouchers.receipt.download', [
+            'receipts' =>$this->receipt,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+        return $pdf->stream('voucher.pdf');
     }
 
     /**

@@ -87,6 +87,11 @@ class AccReceipt extends Model
         return $this->belongsTo(AccLedger::class, 'ledger_id','ledger_id');
     }
 
+    public function ledgerforvoucher()
+    {
+        return $this->belongsTo(AccLedger::class, 'ledger_id','ledger_id');
+    }
+
     public static function confirmReceiptVoucher($request, $id)
     {
         AccReceipt::where('receipt_no',$id)->update(['status'=>'UNCHECKED']);
