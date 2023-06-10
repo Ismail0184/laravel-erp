@@ -83,7 +83,7 @@ class ReceiptVoucherController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('modules.accounts.vouchers.receipt.voucherview');
     }
 
     /**
@@ -130,7 +130,7 @@ class ReceiptVoucherController extends Controller
     public function update(Request $request, $id)
     {
         AccReceipt::updateReceiptData($request, $id);
-        return redirect('/accounts/voucher/receipt/create')->with('update_message','This data (uid='.$id.') successfully updated!!');
+        return redirect('/accounts/voucher/receipt/create')->with('update_message','This data (uid='.$id.') has been successfully updated!!');
     }
 
     /**

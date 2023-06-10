@@ -45,12 +45,15 @@
                                     At: {{$receiptdata->entry_at}}</td>
                                     <td>@if($receiptdata->status == 'UNCHECKED') <span class="badge badge-soft-dark">UNCHECKED</span> @elseif($ledger->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
-                                        <form action="{{route('acc.voucher.receipt.view', ['ledger_id' => $receiptdata->ledger_id])}}" method="post">
+                                        <form action="{{route('acc.voucher.receipt.view', ['voucher_no' => $receiptdata->voucher_no])}}" method="post">
                                             @csrf
-                                            <a href="{{route('acc.voucher.receipt.view',['ledger_id' => $receiptdata->ledger_id])}}" title="View" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-book"></i>
+                                            <a href="{{route('acc.voucher.receipt.show',['voucher_no' => $receiptdata->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
+                                                <i class="fa fa-book-reader"></i>
                                             </a>
-                                            <a href="{{route('acc.voucher.receipt.view',['ledger_id' => $receiptdata->ledger_id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $receiptdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
+                                                <i class="fa fa-download"></i>
+                                            </a>
+                                            <a href="{{route('acc.voucher.receipt.view',['voucher_no' => $receiptdata->voucher_no])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
