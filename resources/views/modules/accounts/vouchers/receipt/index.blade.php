@@ -53,7 +53,7 @@
                                             <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $receiptdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                 <i class="fa fa-download"></i>
                                             </a>
-                                            <a href="{{route('acc.voucher.receipt.view',['voucher_no' => $receiptdata->voucher_no])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $receiptdata->voucher_no])}}" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
