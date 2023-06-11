@@ -96,4 +96,11 @@ class JournalMasterController extends Controller
         return redirect('/accounts/voucher/receipt/create');
 
     }
+
+    public function deleteFullVoucher($id)
+    {
+        AccReceipt::deletedReceiptVoucher($id);
+        AccJournalMaster::deletedVoucher($id);
+        return redirect('/accounts/voucher/receipt')->with('destroy_message','This (uid='.$id.') receipt voucher has been successfully deleted!!');
+    }
 }

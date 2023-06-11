@@ -104,4 +104,11 @@ class AccJournalMaster extends Model
     {
         return $this->belongsTo(User::class,'entry_by','id');
     }
+
+    public static function deletedVoucher($id)
+    {
+        self::$voucherno = AccJournalMaster::find($id) ;
+        self::$voucherno->status = 'deleted';
+        self::$voucherno->save();
+    }
 }
