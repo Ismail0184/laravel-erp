@@ -111,4 +111,21 @@ class AccJournalMaster extends Model
         self::$voucherno->status = 'deleted';
         self::$voucherno->save();
     }
+
+    public static function receiptVoucherStatusUpdate($request, $id)
+    {
+        self::$voucherno = AccJournalMaster::find($id) ;
+        self::$voucherno->status = $request->status;
+        if($request->status=='CHECKED') {
+            self::$voucherno->checked_by = $request->checked_by;
+            self::$voucherno->checked_at = now();
+        } elseif ($request->status=='APPROVED'){
+            self::$voucherno->approved_by = $request->approved_by;
+            self::$voucherno->approved_at = now();
+        } elseif ($request->status=='AUDITED') {
+            self::$voucherno->audited_by = $request->audited_by;
+            self::$voucherno->audited_at = now();
+        }
+        self::$voucherno->save();
+    }
 }

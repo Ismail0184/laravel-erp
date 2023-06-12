@@ -170,4 +170,11 @@ class ReceiptVoucherController extends Controller
         Session::forget('receipt_narration');
         return redirect('/accounts/voucher/receipt')->with('store_message','A receipt voucher has been successfully created!!');
     }
+
+    public function statusupdate(Request $request, $id)
+    {
+        AccReceipt::statusupdate($request, $id);
+        AccJournalMaster::receiptVoucherStatusUpdate($request, $id);
+        return redirect('/accounts/voucher/receipt')->with('store_message','A receipt voucher has been successfully created!!');
+    }
 }

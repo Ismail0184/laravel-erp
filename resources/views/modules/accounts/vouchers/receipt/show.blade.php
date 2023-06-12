@@ -129,12 +129,29 @@
                             </table>
                         </div>
                         <div class="d-print-none">
-                            <div class="float-right">
+                            <div class="float-left">
                                 @if($vouchermaster->status!=='DELETED')
                                 <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light mr-1"><i class="fa fa-print"></i></a>
                                 <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $vouchermaster->voucher_no])}}" class="btn btn-primary waves-effect waves-light mr-1"><i class="fa fa-download"></i></a>
                                 @endif
                             </div>
+                            <form action="{{route('acc.voucher.receipt.status.update', ['voucher_no'=>$vouchermaster->voucher_no])}}" method="post">
+                                @csrf
+                                @if($vouchermaster->status=='UNCHECKED')
+                                    <input type="text" value="CHECKED" name="status">
+                                    <input type="text" value="{{ Auth::user()->id }}" name="checked_by">
+                                    <button type="submit" class="btn btn-info float-right" onclick="return window.confirm('Are you confirm?');">Check the Voucher</button>
+                            @elseif($vouchermaster->status=='CHECKED')
+                                    <input type="text" value="APPROVED" name="status">
+                                    <input type="text" value="{{ Auth::user()->id }}" name="approved_by">
+                                    <button type="submit" class="btn btn-primary float-right" onclick="return window.confirm('Are you confirm?');">Approve the Voucher</button>
+                            @elseif($vouchermaster->status=='APPROVED')
+                                    <input type="text" value="AUDITED" name="status">
+                                    <input type="text" value="{{ Auth::user()->id }}" name="audited_by">
+                                    <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Audit the Voucher</button>
+
+                                @endif
+                            </form>
                         </div>
                     </div>
                 </div>

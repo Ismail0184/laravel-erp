@@ -3,6 +3,7 @@
 namespace App\Models\Accounts\Vouchers;
 
 use App\Models\Accounts\AccLedger;
+use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Session;
@@ -100,5 +101,10 @@ class AccReceipt extends Model
     public static function deletedReceiptVoucher($id)
     {
         AccReceipt::where('receipt_no',$id)->update(['status'=>'DELETED']);
+    }
+
+    public static function statusupdate($request, $id)
+    {
+        AccReceipt::where('receipt_no',$id)->update(['status'=>$request->status]);
     }
 }

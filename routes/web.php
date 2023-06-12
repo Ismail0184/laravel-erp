@@ -174,10 +174,11 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/receipt/edit/{id}', [ReceiptVoucherController::class,'edit'])->name('acc.voucher.receipt.edit');
     Route::post('/accounts/voucher/receipt/destroy/{id}', [JournalMasterController::class,'deleteFullVoucher'])->name('acc.voucher.receipt.destroy');
 
-        Route::get('/accounts/voucher/receipt/voucher/edit/{voucher_no}', function (Request $request){ session(['receipt_no'=>request('voucher_no')]);
-           return redirect('/accounts/voucher/receipt/create');})->name('acc.voucher.receipt.voucher.edit');
+    Route::get('/accounts/voucher/receipt/voucher/edit/{voucher_no}', function (Request $request){ session(['receipt_no'=>request('voucher_no')]);
+        return redirect('/accounts/voucher/receipt/create');})->name('acc.voucher.receipt.voucher.edit');
     Route::post('/accounts/voucher/receipt/update/{id}', [ReceiptVoucherController::class,'update'])->name('acc.voucher.receipt.update');
     Route::post('/accounts/voucher/receipt/voucher/destroy/{voucher_no}', [JournalMasterController::class,'deleteFullVoucher'])->name('acc.voucher.receipt.voucher.destroy');
+    Route::post('/accounts/voucher/receipt/status/update/{voucher_no}', [ReceiptVoucherController::class,'statusupdate'])->name('acc.voucher.receipt.status.update');
 
     Route::get('/accounts/selectaccountsreport',function () {return 'This page is under construction';})->name('acc.select.report');
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
