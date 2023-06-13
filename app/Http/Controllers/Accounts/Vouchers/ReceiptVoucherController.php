@@ -175,6 +175,6 @@ class ReceiptVoucherController extends Controller
     {
         AccReceipt::statusupdate($request, $id);
         AccJournalMaster::receiptVoucherStatusUpdate($request, $id);
-        return redirect('/accounts/voucher/receipt')->with('store_message','A receipt voucher has been successfully created!!');
+        return redirect('/accounts/voucher/receipt')->with('store_message','This voucher has been succesfully '.$request->status.' !!');
     }
 }

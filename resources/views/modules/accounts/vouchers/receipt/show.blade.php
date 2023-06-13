@@ -128,6 +128,39 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="col-lg-12">
+                            <strong>Amount in words :</strong> @numberToWord($dr_total)
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-3 col-md-3 col-sm-6">
+                                <div class="p-5 text-center">
+                                    <p class="font-size-11 mb-3">Entry By<br>
+                                        (At: {{$vouchermaster->entry_at}})</p>
+                                    <p style="text-decoration: overline;font-weight: bold; margin-top: -10px">Entry By</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-3 col-sm-6">
+                                <div class="p-5 text-center">
+                                    <p class="font-size-11 mb-3">Checked By<br>
+                                        (At: {{$vouchermaster->checked_at}})</p>
+                                    <p style="text-decoration: overline; font-weight: bold; margin-top: -10px">Checked By</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-3 col-sm-6">
+                                <div class="p-5 text-center">
+                                    <p class="font-size-11 mb-3">Approved By<br>
+                                        (At: {{$vouchermaster->approved_at}})</p>
+                                    <p style="text-decoration: overline; font-weight: bold; margin-top: -10px">Approved By</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-3 col-sm-6">
+                                <div class="p-5 text-center">
+                                    <p class="font-size-11 mb-3">Audited By<br>
+                                        (At: {{$vouchermaster->audited_at}})</p>
+                                    <p style="text-decoration: overline; font-weight: bold; margin-top: -10px">Audited By</p>
+                                </div>
+                            </div>
+                        </div>
                         <div class="d-print-none">
                             <div class="float-left">
                                 @if($vouchermaster->status!=='DELETED')
@@ -138,16 +171,16 @@
                             <form action="{{route('acc.voucher.receipt.status.update', ['voucher_no'=>$vouchermaster->voucher_no])}}" method="post">
                                 @csrf
                                 @if($vouchermaster->status=='UNCHECKED')
-                                    <input type="text" value="CHECKED" name="status">
-                                    <input type="text" value="{{ Auth::user()->id }}" name="checked_by">
+                                    <input type="hidden" value="CHECKED" name="status">
+                                    <input type="hidden" value="{{ Auth::user()->id }}" name="checked_by">
                                     <button type="submit" class="btn btn-info float-right" onclick="return window.confirm('Are you confirm?');">Check the Voucher</button>
                             @elseif($vouchermaster->status=='CHECKED')
-                                    <input type="text" value="APPROVED" name="status">
-                                    <input type="text" value="{{ Auth::user()->id }}" name="approved_by">
+                                    <input type="hidden" value="APPROVED" name="status">
+                                    <input type="hidden" value="{{ Auth::user()->id }}" name="approved_by">
                                     <button type="submit" class="btn btn-primary float-right" onclick="return window.confirm('Are you confirm?');">Approve the Voucher</button>
                             @elseif($vouchermaster->status=='APPROVED')
-                                    <input type="text" value="AUDITED" name="status">
-                                    <input type="text" value="{{ Auth::user()->id }}" name="audited_by">
+                                    <input type="hidden" value="AUDITED" name="status">
+                                    <input type="hidden" value="{{ Auth::user()->id }}" name="audited_by">
                                     <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Audit the Voucher</button>
 
                                 @endif
