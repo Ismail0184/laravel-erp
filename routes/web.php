@@ -162,18 +162,15 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
     Route::get('/accounts/voucher/receipt/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
     Route::get('/accounts/voucher/receipt/create-multiple', [ReceiptVoucherController::class,'createMultiple'])->name('acc.voucher.receipt.multiple.create');
-
     Route::post('/accounts/voucher/receipt/initiate', [JournalMasterController::class,'store'])->name('acc.voucher.receipt.initiate');
     Route::post('/accounts/voucher/receipt/mupdate/{voucher_no}', [JournalMasterController::class,'update'])->name('acc.voucher.receipt.mupdate');
     Route::post('/accounts/voucher/receipt/confirm/{voucher_no}', [ReceiptVoucherController::class,'confirm'])->name('acc.voucher.receipt.confirm');
     Route::post('/accounts/voucher/receipt/cancelall/{voucher_no}', [JournalMasterController::class,'destroy'])->name('acc.voucher.receipt.cancelall');
-
     Route::post('/accounts/voucher/receipt/store', [ReceiptVoucherController::class,'store'])->name('acc.voucher.receipt.store');
     Route::get('/accounts/voucher/receipt/show/{voucher_no}', [ReceiptVoucherController::class,'show'])->name('acc.voucher.receipt.show');
     Route::get('/accounts/voucher/receipt/download/{voucher_no}', [ReceiptVoucherController::class,'downalodvoucher'])->name('acc.voucher.receipt.download');
     Route::get('/accounts/voucher/receipt/edit/{id}', [ReceiptVoucherController::class,'edit'])->name('acc.voucher.receipt.edit');
     Route::post('/accounts/voucher/receipt/destroy/{id}', [JournalMasterController::class,'deleteFullVoucher'])->name('acc.voucher.receipt.destroy');
-
     Route::get('/accounts/voucher/receipt/voucher/edit/{voucher_no}', function (Request $request){ session(['receipt_no'=>request('voucher_no')]);
         return redirect('/accounts/voucher/receipt/create');})->name('acc.voucher.receipt.voucher.edit');
     Route::post('/accounts/voucher/receipt/update/{id}', [ReceiptVoucherController::class,'update'])->name('acc.voucher.receipt.update');

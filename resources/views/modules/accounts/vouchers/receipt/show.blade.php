@@ -78,16 +78,12 @@
                                 <address>
                                     <strong>Voucher No:</strong><br>
                                     {{request('voucher_no')}}<br>
-                                    <strong>Entry By:</strong><br>
-                                    {{$vouchermaster->entryBy->name}}
                                 </address>
                             </div>
                             <div class="col-sm-6 mt-3 text-sm-right">
                                 <address>
                                     <strong>Voucher Date:</strong><br>
                                     {{$vouchermaster->voucher_date}}<br>
-                                    <strong>Entry At:</strong><br>
-                                    {{$vouchermaster->entry_at}}
                                 </address>
                             </div>
                         </div>
@@ -129,34 +125,34 @@
                             </table>
                         </div>
                         <div class="col-lg-12">
-                            <strong>Amount in words :</strong> @numberToWord($dr_total)
+                            <strong>Amount in words :</strong> @numberToWord(890)
                         </div>
                         <div class="row">
                             <div class="col-xl-3 col-md-3 col-sm-6">
                                 <div class="p-5 text-center">
-                                    <p class="font-size-11 mb-3">Entry By<br>
-                                        (At: {{$vouchermaster->entry_at}})</p>
+                                    <p class="font-size-11 mb-3">@if($vouchermaster->entry_by>0){{$vouchermaster->entryBy->name}}@endif<br>
+                                        @if($vouchermaster->entry_by>0)(At: {{$vouchermaster->entry_at}}) @endif</p>
                                     <p style="text-decoration: overline;font-weight: bold; margin-top: -10px">Entry By</p>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-3 col-sm-6">
                                 <div class="p-5 text-center">
-                                    <p class="font-size-11 mb-3">Checked By<br>
-                                        (At: {{$vouchermaster->checked_at}})</p>
+                                    <p class="font-size-11 mb-3">@if($vouchermaster->checked_by>0) {{$vouchermaster->checkedBy->name}}@endif<br>
+                                        @if($vouchermaster->checked_by>0) (At: {{$vouchermaster->checked_at}}) @endif</p>
                                     <p style="text-decoration: overline; font-weight: bold; margin-top: -10px">Checked By</p>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-3 col-sm-6">
                                 <div class="p-5 text-center">
-                                    <p class="font-size-11 mb-3">Approved By<br>
-                                        (At: {{$vouchermaster->approved_at}})</p>
+                                    <p class="font-size-11 mb-3">@if($vouchermaster->approved_by>0) {{$vouchermaster->approvedBy->name}} @endif<br>
+                                        @if($vouchermaster->approved_by>0) (At: {{$vouchermaster->approved_at}}) @endif</p>
                                     <p style="text-decoration: overline; font-weight: bold; margin-top: -10px">Approved By</p>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-3 col-sm-6">
                                 <div class="p-5 text-center">
-                                    <p class="font-size-11 mb-3">Audited By<br>
-                                        (At: {{$vouchermaster->audited_at}})</p>
+                                    <p class="font-size-11 mb-3">@if($vouchermaster->audited_by>0) {{$vouchermaster->auditedBy->name}} @endif<br>
+                                        @if($vouchermaster->audited_by>0) (At: {{$vouchermaster->audited_at}}) @endif</p>
                                     <p style="text-decoration: overline; font-weight: bold; margin-top: -10px">Audited By</p>
                                 </div>
                             </div>

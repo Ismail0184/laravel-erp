@@ -105,6 +105,21 @@ class AccJournalMaster extends Model
         return $this->belongsTo(User::class,'entry_by','id');
     }
 
+    public function checkedBy()
+    {
+        return $this->belongsTo(User::class,'checked_by','id');
+    }
+
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class,'approved_by','id');
+    }
+
+    public function auditedBy()
+    {
+        return $this->belongsTo(User::class,'audited_by','id');
+    }
+
     public static function deletedVoucher($id)
     {
         self::$voucherno = AccJournalMaster::find($id) ;

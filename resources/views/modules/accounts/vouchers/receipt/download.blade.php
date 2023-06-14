@@ -48,6 +48,26 @@
         .topheading {
             margin-top: -40px;
         }
+        tr.signature  td
+        {
+            padding: 0px;
+            line-height: 10px;
+        }
+        tr.signature0  td
+        {
+            padding: 0px;
+            line-height: 15px;
+        }
+        tr.signature2  td
+        {
+            padding: 0px;
+            line-height: 5px;
+        }
+        tr.signature3 th
+        {
+            padding: 0px;
+            line-height: 10px;
+        }
 
         .invoice-box table tr.heading td {
             background: #eee;
@@ -131,15 +151,11 @@
                         <td>
                             <strong>Voucher No :</strong>
                             {{request('voucher_no')}}<br />
-                            <strong>Entry By :</strong>
-                            {{$vouchermaster->entryBy->name}}
                         </td>
 
                         <td>
                             <strong>Voucher Date:</strong>
                             {{ date($vouchermaster->voucher_date)}}<br>
-                            <strong>Entry At:</strong>
-                            {{$vouchermaster->entry_at}}
                         </td>
                     </tr>
                 </table>
@@ -173,7 +189,36 @@
             <th style="text-align: right">{{number_format($cr_total,2)}}</th>
         </tr>
         <tr>
-            <th colspan="5" style="text-align: left">Amount in Word : (Five thousand taka only)</th>
+            <th colspan="5" style="text-align: left">Amount in Word : @numberToWord($dr_total)</th>
+        </tr>
+    </table>
+
+    <table style="font-size: 11px; margin-top: 20px">
+        <tr class="signature">
+            <td style="text-align: center; width: 25%">@if($vouchermaster->entry_by>0) {{$vouchermaster->entryBy->name}} @endif</td>
+            <td style="text-align: center; width: 25%">@if($vouchermaster->checked_by>0) {{$vouchermaster->checkedBy->name}} @endif</td>
+            <td style="text-align: center; width: 25%">@if($vouchermaster->approved_by>0) {{$vouchermaster->approvedBy->name}} @endif</td>
+            <td style="text-align: center; width: 25%">@if($vouchermaster->audited_by>0) {{$vouchermaster->auditedBy->name}} @endif</td>
+        </tr>
+        <tr class="signature0">
+            <td style="text-align: center">@if($vouchermaster->entry_by>0) (at: {{$vouchermaster->entry_at}}) @endif</td>
+            <td style="text-align: center">@if($vouchermaster->checked_by>0) (at: {{$vouchermaster->checked_at}}) @endif</td>
+            <td style="text-align: center">@if($vouchermaster->approved_by>0) (at: {{$vouchermaster->approved_at}}) @endif</td>
+            <td style="text-align: center">@if($vouchermaster->audited_by>0) (at: {{$vouchermaster->audited_at}}) @endif</td>
+        </tr>
+
+        <tr class="signature2">
+            <td style="text-align: center">----------------------------------</td>
+            <td style="text-align: center">----------------------------------</td>
+            <td style="text-align: center">----------------------------------</td>
+            <td style="text-align: center">----------------------------------</td>
+        </tr>
+
+        <tr class="signature3">
+            <th>Entry By</th>
+            <th>Checked By</th>
+            <th>Approved By</th>
+            <th>Audited By</th>
         </tr>
     </table>
 </div>
