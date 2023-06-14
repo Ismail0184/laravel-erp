@@ -33,7 +33,7 @@ class ReceiptVoucherController extends Controller
      */
     public function create()
     {
-        $this->ledgers = AccLedger::where('status','active')->get();
+        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)
@@ -54,7 +54,7 @@ class ReceiptVoucherController extends Controller
 
     public function createMultiple()
     {
-        $this->ledgers = AccLedger::where('status','active')->get();
+        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)
@@ -138,7 +138,7 @@ class ReceiptVoucherController extends Controller
      */
     public function edit($id)
     {
-        $this->ledgers = AccLedger::all();
+        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)
@@ -164,6 +164,34 @@ class ReceiptVoucherController extends Controller
         ] );
     }
 
+    public function editMultiple($id)
+    {
+        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $this->vouchertype ='1';
+        $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        if(Session::get('receipt_no')>0)
+        {
+            $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
+            $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
+            $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();
+
+        }
+        if(\request('id')>0)
+        {
+            $this->editValue = AccReceipt::find($id);
+        }
+        return view('modules.accounts.vouchers.receipt.create-multiple', [
+            'receiptVoucher' =>$this->receiptVoucher,
+            'ledgers' => $this->ledgers,
+            'ledgerss' => $this->ledgers,
+            'masterData' => $this->masterData,
+            'receipts' => $this->receipts,
+            'editValue' => $this->editValue,
+            'COUNT_receipts_data' => $this->COUNT_receipts_data
+
+        ] );
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -174,7 +202,11 @@ class ReceiptVoucherController extends Controller
     public function update(Request $request, $id)
     {
         AccReceipt::updateReceiptData($request, $id);
-        return redirect('/accounts/voucher/receipt/create')->with('update_message','This data (uid='.$id.') has been successfully updated!!');
+        if ($request->vouchertype=='multiple') {
+            return redirect('/accounts/voucher/receipt/create-multiple')->with('update_message', 'This data (uid=' . $id . ') has been successfully updated!!');
+        } else {
+            return redirect('/accounts/voucher/receipt/create')->with('update_message', 'This data (uid=' . $id . ') has been successfully updated!!');
+        }
     }
 
     /**
@@ -183,10 +215,14 @@ class ReceiptVoucherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         AccReceipt::destroyRceiptData($id);
-        return redirect('/accounts/voucher/receipt/create')->with('destroy_message','This data (Uid = '.$id.') has been successfully deleted!!');
+        if ($request->vouchertype=='multiple') {
+            return redirect('/accounts/voucher/receipt/create-multiple')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
+        } else {
+            return redirect('/accounts/voucher/receipt/create')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
+        }
     }
 
     public function confirm(Request $request, $id)

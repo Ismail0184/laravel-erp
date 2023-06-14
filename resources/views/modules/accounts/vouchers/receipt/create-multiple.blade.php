@@ -87,8 +87,7 @@
                     <th style="text-align: center">Cash , Bank & Others Ledger <span class="required text-danger">*</span></th>
                     <th style="text-align: center; width: 20%">Narration <span class="required text-danger">*</span></th>
                     <th style="text-align: center;width:5%;">Attachment</th>
-                    <th style="width:10%; text-align:center">Debit Amount</th>
-                    <th style="width:10%; text-align:center">Credit Amount</th>
+                    <th style="width:15%; text-align:center">Amount <span class="required text-danger">*</span></th>
                     <th style="text-align:center;width: 5%">Action</th>
                 </tr>
                 </thead>
@@ -103,19 +102,18 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <textarea  name="narration" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('receipt_narration')}} @endif</textarea>
+                        <textarea  name="narration" class="form-control" style="height: 70px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('receipt_narration')}} @endif</textarea>
                     </td>
                     <td style="vertical-align: middle"><input type="file" /></td>
                     <td style="vertical-align: middle">
-                        <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any"   />
-                    </td>
-                    <td style="vertical-align: middle">
-                        <input type="number" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any"  />
+                        <input type="number" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" placeholder="debit"   />
+
+                        <input type="number" style="margin-top: 5px;text-align: center" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" placeholder="credit"  />
                     </td>
                     <td style="vertical-align: middle">
                         @if(request('id')>0)
                             <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="{{route('acc.voucher.receipt.create')}}" class="btn btn-danger" style="margin-top: 5px">Cancel</a>
+                            <a href="{{route('acc.voucher.receipt.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px">Cancel</a>
                         @else
                             <button type="submit" class="btn btn-success">Add</button>
                         @endif
@@ -158,7 +156,8 @@
                                         <td class="text-center" style="vertical-align: middle">
                                             <form action="{{route('acc.voucher.receipt.destroy', ['id' => $receipt->id])}}" method="post">
                                                 @csrf
-                                                <a href="{{route('acc.voucher.receipt.edit',['id' => $receipt->id])}}" title="Update" class="btn btn-success btn-sm">
+                                                <input type="hidden" name="vouchertype" value="multiple">
+                                                <a href="{{route('acc.voucher.receipt.editMultiple',['id' => $receipt->id])}}" title="Update" class="btn btn-success btn-sm">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
