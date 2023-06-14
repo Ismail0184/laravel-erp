@@ -39,7 +39,7 @@
                                     <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
                                     <td style="vertical-align: middle">@if($receiptdata->status == 'DELETED')<del>{{$receiptdata->voucher_no}}</del> @else {{$receiptdata->voucher_no}} @endif</td>
                                     <td style="vertical-align: middle">{{$receiptdata->voucher_date}}</td>
-                                    <td style="vertical-align: middle">{{$receiptdata->accledger->ledger_name}}</td>
+                                    <td style="vertical-align: middle">@if($receiptdata->cash_bank_ledger) {{$receiptdata->accledger->ledger_name}} @else N/A @endif</td>
                                     <td class="text-right" style="vertical-align: middle">{{number_format($receiptdata->amount,2)}}</td>
                                     <td style="vertical-align: middle">{{$receiptdata->entryBy->name}}<br>
                                     At: {{$receiptdata->entry_at}}</td>

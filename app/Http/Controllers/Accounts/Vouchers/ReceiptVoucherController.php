@@ -52,6 +52,28 @@ class ReceiptVoucherController extends Controller
             ] );
     }
 
+    public function createMultiple()
+    {
+        $this->ledgers = AccLedger::where('status','active')->get();
+        $this->vouchertype ='1';
+        $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        if(Session::get('receipt_no')>0)
+        {
+            $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
+            $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
+            $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();
+        }
+        return view('modules.accounts.vouchers.receipt.create-multiple',
+            [
+                'receiptVoucher' =>$this->receiptVoucher,
+                'ledgers' => $this->ledgers,
+                'ledgerss' => $this->ledgers,
+                'masterData' => $this->masterData,
+                'receipts' => $this->receipts,
+                'COUNT_receipts_data' => $this->COUNT_receipts_data
+            ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -73,7 +95,12 @@ class ReceiptVoucherController extends Controller
         {
             AccReceipt::addReceiptDataCr($request);
         }
-        return redirect('/accounts/voucher/receipt/create')->with('store_message','A receipt data successfully added!!');
+        if ($request->vouchertype=='multiple') {
+            return redirect('/accounts/voucher/receipt/create-multiple')->with('store_message', 'A receipt data successfully added!!');
+        } else {
+            return redirect('/accounts/voucher/receipt/create')->with('store_message', 'A receipt data successfully added!!');
+
+        }
     }
 
     /**

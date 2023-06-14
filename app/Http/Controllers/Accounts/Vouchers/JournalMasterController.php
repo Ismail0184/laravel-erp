@@ -43,7 +43,11 @@ class JournalMasterController extends Controller
     public function store(Request $request)
     {
         $this->initiate = AccJournalMaster::initiateVoucher($request);
-        return redirect('/accounts/voucher/receipt/create');
+        if ($request->vouchertype=='multiple'){
+            return redirect('/accounts/voucher/receipt/create-multiple');
+        } else {
+            return redirect('/accounts/voucher/receipt/create');
+        }
     }
 
     /**
