@@ -63,13 +63,15 @@
                                             <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $receiptdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                 <i class="fa fa-download"></i>
                                             </a>
+                                                @if($receiptdata->status=='UNCHECKED' || $receiptdata->status=='MANUAL')
                                                 @if($getVoucherDate<2)
-                                            <a href="{{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $receiptdata->voucher_no])}}" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
+                                            <a href="@if($receiptdata->vouchertype=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $receiptdata->voucher_no])}} @elseif($receiptdata->vouchertype=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $receiptdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
                                                 <i class="fa fa-trash"></i>
                                             </button>
+                                                @endif
                                                 @endif
                                             @endif
                                         </form>

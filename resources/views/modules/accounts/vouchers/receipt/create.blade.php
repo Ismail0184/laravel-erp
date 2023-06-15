@@ -19,6 +19,7 @@
                     <input type="hidden" name="maturity_date" value="2000-01-01">
                     <input type="hidden" name="journal_type" value="receipt">
                     <input type="hidden" name="status" value="MANUAL">
+                    <input type="hidden" name="vouchertype" value="single">
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Receipt No <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
@@ -61,7 +62,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Amt. (Cr) <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="number" name="amount" @if(Session::get('receipt_no')>0) value="{{$masterData->amount}}" @endif class="form-control" step="any" min="1"/>
+                            <input type="number" name="amount" @if(Session::get('receipt_no')>0) value="{{$masterData->amount}}" @endif class="form-control" step="any" placeholder="received amount" min="1"/>
                         </div>
 
                     </div>

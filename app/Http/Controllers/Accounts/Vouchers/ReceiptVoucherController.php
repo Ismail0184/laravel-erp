@@ -22,7 +22,7 @@ class ReceiptVoucherController extends Controller
 
     public function index()
     {
-        $this->receiptdatas = AccJournalMaster::where('status','!=','MANUAL')->get();
+        $this->receiptdatas = AccJournalMaster::where('status','!=','MANUAL')->where('journal_type','receipt')->get();
         return view('modules.accounts.vouchers.receipt.index', ['receiptdatas' =>$this->receiptdatas]);
     }
 
@@ -83,6 +83,9 @@ class ReceiptVoucherController extends Controller
     public function store(Request $request)
     {
         AccReceipt::addReceiptData($request);
+        if ($request->vouchertype=='multiple') {
+
+        } else {
         $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
         $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
         $totalDebit = 0;
@@ -94,7 +97,7 @@ class ReceiptVoucherController extends Controller
         if(number_format($totalDebit,2) === number_format($this->masterData->amount,2) && number_format($totalDebit,2) !== number_format($totalCredit,2))
         {
             AccReceipt::addReceiptDataCr($request);
-        }
+        }}
         if ($request->vouchertype=='multiple') {
             return redirect('/accounts/voucher/receipt/create-multiple')->with('store_message', 'A receipt data successfully added!!');
         } else {
