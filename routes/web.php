@@ -196,7 +196,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/payment/edit-multiple/{id}', [PaymentVoucherController::class,'editMultiple'])->name('acc.voucher.payment.editMultiple');
     Route::post('/accounts/voucher/payment/destroy/{id}', [PaymentVoucherController::class,'destroy'])->name('acc.voucher.payment.destroy');
     Route::get('/accounts/voucher/payment/voucher/edit/{voucher_no}', function (Request $request){ session(['receipt_no'=>request('voucher_no')]);
-        return redirect('/accounts/voucher/payment/create');})->name('acc.voucher.payment.voucher.edit');
+            return redirect('/accounts/voucher/payment/create');})->name('acc.voucher.payment.voucher.edit');
         Route::get('/accounts/voucher/payment/voucher/edit-multiple/{voucher_no}', function (Request $request){ session(['receipt_no'=>request('voucher_no')]);
             return redirect('/accounts/voucher/payment/create-multiple');})->name('acc.voucher.payment.voucher.editMultiple');
     Route::post('/accounts/voucher/payment/update/{id}', [PaymentVoucherController::class,'update'])->name('acc.voucher.payment.update');

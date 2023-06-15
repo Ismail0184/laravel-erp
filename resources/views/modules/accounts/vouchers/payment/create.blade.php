@@ -124,7 +124,7 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <textarea  name="narration" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('receipt_narration')}} @endif</textarea>
+                        <textarea  name="narration" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('payment_narration')}} @endif</textarea>
                     </td>
                     <td style="vertical-align: middle"><input type="file" class="form-control" /></td>
                     <td style="vertical-align: middle">

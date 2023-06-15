@@ -54,18 +54,18 @@
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
                                         @php($getVoucherDate=now()->diffInDays($paymntdata->created_at))
-                                        <form action="{{route('acc.voucher.receipt.voucher.destroy', ['voucher_no' => $paymntdata->voucher_no])}}" method="post">
+                                        <form action="{{route('acc.voucher.payment.voucher.destroy', ['voucher_no' => $paymntdata->voucher_no])}}" method="post">
                                             @csrf
-                                            <a href="{{route('acc.voucher.receipt.show',['voucher_no' => $paymntdata->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
+                                            <a href="{{route('acc.voucher.payment.show',['voucher_no' => $paymntdata->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
                                             @if($paymntdata->status !== 'DELETED')
-                                                <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $paymntdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
+                                                <a href="{{route('acc.voucher.payment.download',['voucher_no' => $paymntdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 @if($paymntdata->status=='UNCHECKED' || $paymntdata->status=='MANUAL')
                                                     @if($getVoucherDate<2)
-                                                        <a href="@if($paymntdata->vouchertype=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $paymntdata->voucher_no])}} @elseif($paymntdata->vouchertype=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $paymntdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
+                                                        <a href="@if($paymntdata->vouchertype=='single'){{route('acc.voucher.payment.voucher.edit',['voucher_no' => $paymntdata->voucher_no])}} @elseif($paymntdata->vouchertype=='multiple') {{route('acc.voucher.payment.voucher.editMultiple',['voucher_no' => $paymntdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
