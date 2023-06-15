@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Receipt Voucher')
+    @php($title = 'Single Receipt Voucher')
     {{$title}}
 @endsection
 
@@ -9,7 +9,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-4">Create {{$title}} <small><a href="{{route('acc.voucher.receipt.multiple.create')}}">Single Entry</a></small><small class="text-danger float-right">(field marked with * are mandatory)
+                <h4 class="card-title mb-4">Create {{$title}} <small><a href="{{route('acc.voucher.receipt.multiple.create')}}">Multiple Entry</a></small><small class="text-danger float-right">(field marked with * are mandatory)
                     </small>
                 </h4>
                 <form style="font-size: 11px" method="POST" action="@if(Session::get('receipt_no')>0) {{route('acc.voucher.receipt.mupdate', ['voucher_no'=>$masterData->voucher_no])}} @else {{route('acc.voucher.receipt.initiate')}} @endif">
@@ -23,7 +23,6 @@
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Receipt No <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="hidden" name="journal_type" value="receipt" class="form-control" />
                             <input type="text" readonly name="voucher_no" @if(Session::get('receipt_no')>0) value="{{Session::get('receipt_no')}}" @else value="{{$receiptVoucher}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
@@ -191,6 +190,8 @@
                    <div>
                        <form action="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                            @csrf
+                           <input type="hidden" name="journal_type" value="receipt">
+                           <input type="hidden" name="vouchertype" value="single">
                        <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');">Cancel & Delete All</button>
                        </form>
                        @if(number_format($totalDebit,2) === number_format($totalCredit,2))

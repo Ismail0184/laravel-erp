@@ -47,7 +47,12 @@ class AccJournalMaster extends Model
         self::$voucherno->sconid = 1;
         self::$voucherno->pcomid = 1;
         self::$voucherno->save();
-        Session::put('receipt_no', $request->voucher_no);
+
+        if ($request->journal_type=='receipt') {
+            Session::put('receipt_no', $request->voucher_no);
+        } elseif ($request->journal_type=='payment'){
+            Session::put('payment_no', $request->voucher_no);
+        }
     }
 
     public static function updateVoucher($request, $id)

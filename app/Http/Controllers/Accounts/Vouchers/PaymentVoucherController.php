@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
 use App\Models\Accounts\Vouchers\AccJournalMaster;
 use App\Models\Accounts\Vouchers\AccPayment;
@@ -18,7 +19,7 @@ class PaymentVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $paymentVoucher,$ledgers,$vouchertype,$masterData,$payments,$editValue,$COUNT_payments_data,$paymntdatas,$payment,$vouchermaster;
+    private $paymentVoucher,$ledgers,$vouchertype,$masterData,$payments,$editValue,$COUNT_payments_data,$paymntdatas,$payment,$vouchermaster,$costcenters;
 
 
     public function index()
@@ -35,22 +36,49 @@ class PaymentVoucherController extends Controller
     public function create()
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $this->costcenters = AccCostCenter::where('status','active')->get();
         $this->vouchertype ='2';
-        $this->paymenttVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('payment_no')>0)
         {
             $this->masterData = AccJournalMaster::find(Session::get('payment_no'));
-            $this->receipts = AccPayment::where('payment_no', Session::get('payment_no'))->get();
-            $this->COUNT_receipts_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
+            $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
+            $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
         }
 
         return view('modules.accounts.vouchers.payment.create', [
-            'paymentVoucher' =>$this->paymenttVoucher,
+            'paymentVoucher' =>$this->paymentVoucher,
             'ledgers' => $this->ledgers,
             'ledgerss' => $this->ledgers,
             'masterData' => $this->masterData,
-            'payment' => $this->payment,
-            'COUNT_payments_data' => $this->COUNT_payments_data
+            'payments' => $this->payments,
+            'COUNT_payments_data' => $this->COUNT_payments_data,
+            'costcenters' =>$this->costcenters
+        ] );
+    }
+
+
+    public function createMultiple()
+    {
+        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $this->costcenters = AccCostCenter::where('status','active')->get();
+        $this->vouchertype ='2';
+        $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        if(Session::get('payment_no')>0)
+        {
+            $this->masterData = AccJournalMaster::find(Session::get('payment_no'));
+            $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
+            $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
+        }
+
+        return view('modules.accounts.vouchers.payment.create-multiple', [
+            'paymentVoucher' =>$this->paymentVoucher,
+            'ledgers' => $this->ledgers,
+            'ledgerss' => $this->ledgers,
+            'masterData' => $this->masterData,
+            'payments' => $this->payments,
+            'COUNT_payments_data' => $this->COUNT_payments_data,
+            'costcenters' =>$this->costcenters
         ] );
     }
 
@@ -62,7 +90,27 @@ class PaymentVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AccPayment::addPaymentData($request);
+        if ($request->vouchertype=='multiple') {
+        } else {
+            $this->masterData = AccJournalMaster::find(Session::get('payment_no'));
+            $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
+            $totalDebit = 0;
+            $totalCredit = 0;
+            foreach ($this->payments as $payments){
+                $totalDebit = $totalDebit + $payments->dr_amt;
+                $totalCredit = $totalCredit + $payments->cr_amt;
+            }
+            if(number_format($totalDebit,2) === number_format($this->masterData->amount,2) && number_format($totalDebit,2) !== number_format($totalCredit,2))
+            {
+                AccPayment::addPaymentDataCr($request);
+            }}
+        if ($request->vouchertype=='multiple') {
+            return redirect('/accounts/voucher/payment/create-multiple')->with('store_message', 'A payment data successfully added!!');
+        } else {
+            return redirect('/accounts/voucher/payment/create')->with('store_message', 'A payment data successfully added!!');
+
+        }
     }
 
     /**
@@ -84,7 +132,31 @@ class PaymentVoucherController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $this->costcenters = AccCostCenter::where('status','active')->get();
+        $this->vouchertype ='2';
+        $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        if(Session::get('payment_no')>0)
+        {
+            $this->masterData = AccJournalMaster::find(Session::get('payment_no'));
+            $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
+            $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
+        }
+        if(\request('id')>0)
+        {
+            $this->editValue = AccPayment::find($id);
+        }
+
+        return view('modules.accounts.vouchers.payment.create', [
+            'paymentVoucher' =>$this->paymentVoucher,
+            'ledgers' => $this->ledgers,
+            'ledgerss' => $this->ledgers,
+            'masterData' => $this->masterData,
+            'payments' => $this->payments,
+            'editValue' => $this->editValue,
+            'COUNT_payments_data' => $this->COUNT_payments_data,
+            'costcenters' =>$this->costcenters
+        ] );
     }
 
     /**
@@ -96,7 +168,12 @@ class PaymentVoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccPayment::updatePaymentData($request, $id);
+        if ($request->vouchertype=='multiple') {
+            return redirect('/accounts/voucher/payment/create-multiple')->with('update_message', 'This data (uid=' . $id . ') has been successfully updated!!');
+        } else {
+            return redirect('/accounts/voucher/payment/create')->with('update_message', 'This data (uid=' . $id . ') has been successfully updated!!');
+        }
     }
 
     /**
@@ -105,8 +182,22 @@ class PaymentVoucherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        AccPayment::destroyPaymentData($id);
+        if ($request->vouchertype=='multiple') {
+            return redirect('/accounts/voucher/payment/create-multiple')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
+        } else {
+            return redirect('/accounts/voucher/payment/create')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
+        }
+    }
+
+    public function confirm(Request $request, $id)
+    {
+        AccPayment::confirmPaymentVoucher($request, $id);
+        AccJournalMaster::ConfirmVoucher($request, $id);
+        Session::forget('payment_no');
+        Session::forget('payment_narration');
+        return redirect('/accounts/voucher/payment')->with('store_message','A payment voucher has been successfully created!!');
     }
 }
