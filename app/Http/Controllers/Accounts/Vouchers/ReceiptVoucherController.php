@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\AccLedger;
-use App\Models\Accounts\Vouchers\AccJournalMaster;
+use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccReceipt;
 use Illuminate\Http\Request;
 use Auth;
@@ -22,7 +22,7 @@ class ReceiptVoucherController extends Controller
 
     public function index()
     {
-        $this->receiptdatas = AccJournalMaster::where('status','!=','MANUAL')->where('journal_type','receipt')->get();
+        $this->receiptdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','receipt')->get();
         return view('modules.accounts.vouchers.receipt.index', ['receiptdatas' =>$this->receiptdatas]);
     }
 
@@ -38,7 +38,7 @@ class ReceiptVoucherController extends Controller
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)
         {
-            $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
+            $this->masterData = AccVoucherMaster::find(Session::get('receipt_no'));
             $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
             $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();
         }
@@ -59,7 +59,7 @@ class ReceiptVoucherController extends Controller
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)
         {
-            $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
+            $this->masterData = AccVoucherMaster::find(Session::get('receipt_no'));
             $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
             $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();
         }
@@ -86,7 +86,7 @@ class ReceiptVoucherController extends Controller
         if ($request->vouchertype=='multiple') {
 
         } else {
-        $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
+        $this->masterData = AccVoucherMaster::find(Session::get('receipt_no'));
         $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
         $totalDebit = 0;
         $totalCredit = 0;
@@ -115,7 +115,7 @@ class ReceiptVoucherController extends Controller
     public function show($id)
     {
         $this->receipt = AccReceipt::where('receipt_no',$id)->get();
-        $this->vouchermaster = AccJournalMaster::find($id);
+        $this->vouchermaster = AccVoucherMaster::find($id);
         return view('modules.accounts.vouchers.receipt.show', [
             'receipts' =>$this->receipt,
             'vouchermaster' =>$this->vouchermaster,
@@ -125,7 +125,7 @@ class ReceiptVoucherController extends Controller
     public function downalodvoucher($id)
     {
         $this->receipt = AccReceipt::where('receipt_no',$id)->get();
-        $this->vouchermaster = AccJournalMaster::find($id);
+        $this->vouchermaster = AccVoucherMaster::find($id);
         $pdf = PDF::loadView('modules.accounts.vouchers.receipt.download', [
             'receipts' =>$this->receipt,
             'vouchermaster' =>$this->vouchermaster,
@@ -146,7 +146,7 @@ class ReceiptVoucherController extends Controller
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)
         {
-            $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
+            $this->masterData = AccVoucherMaster::find(Session::get('receipt_no'));
             $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
             $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();
 
@@ -174,7 +174,7 @@ class ReceiptVoucherController extends Controller
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)
         {
-            $this->masterData = AccJournalMaster::find(Session::get('receipt_no'));
+            $this->masterData = AccVoucherMaster::find(Session::get('receipt_no'));
             $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
             $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();
 
@@ -231,7 +231,7 @@ class ReceiptVoucherController extends Controller
     public function confirm(Request $request, $id)
     {
         AccReceipt::confirmReceiptVoucher($request, $id);
-        AccJournalMaster::ConfirmVoucher($request, $id);
+        AccVoucherMaster::ConfirmVoucher($request, $id);
         Session::forget('receipt_no');
         Session::forget('receipt_narration');
         return redirect('/accounts/voucher/receipt')->with('store_message','A receipt voucher has been successfully created!!');
@@ -240,7 +240,7 @@ class ReceiptVoucherController extends Controller
     public function statusupdate(Request $request, $id)
     {
         AccReceipt::statusupdate($request, $id);
-        AccJournalMaster::receiptVoucherStatusUpdate($request, $id);
+        AccVoucherMaster::receiptVoucherStatusUpdate($request, $id);
         return redirect('/accounts/voucher/receipt')->with('store_message','This voucher has been succesfully '.$request->status.' !!');
     }
 }

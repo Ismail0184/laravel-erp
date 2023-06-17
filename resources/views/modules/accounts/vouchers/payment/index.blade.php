@@ -55,6 +55,8 @@
                                     <td class="text-center" style="vertical-align: middle">
                                         @php($getVoucherDate=now()->diffInDays($paymntdata->created_at))
                                         <form action="{{route('acc.voucher.payment.voucher.destroy', ['voucher_no' => $paymntdata->voucher_no])}}" method="post">
+                                            <input type="hidden" name="journal_type" value="{{$paymntdata->journal_type}}">
+                                            <input type="hidden" name="vouchertype" value="{{$paymntdata->vouchertype}}">
                                             @csrf
                                             <a href="{{route('acc.voucher.payment.show',['voucher_no' => $paymntdata->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>

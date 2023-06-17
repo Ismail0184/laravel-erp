@@ -124,11 +124,26 @@ class AccPayment extends Model
 
     public static function confirmPaymentVoucher($request, $id)
     {
-        AccReceipt::where('receipt_no',$id)->update(['status'=>'UNCHECKED']);
+        AccPayment::where('payment_no',$id)->update(['status'=>'UNCHECKED']);
+    }
+
+    public function ledgerforvoucher()
+    {
+        return $this->belongsTo(AccLedger::class, 'ledger_id','ledger_id');
     }
 
     public function ledger()
     {
         return $this->belongsTo(AccLedger::class, 'ledger_id','ledger_id');
+    }
+
+    public static function deletedPaymentVoucher($id)
+    {
+        AccPayment::where('payment_no',$id)->update(['status'=>'DELETED']);
+    }
+
+    public static function statusupdate($request, $id)
+    {
+        AccPayment::where('payment_no',$id)->update(['status'=>$request->status]);
     }
 }

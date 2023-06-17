@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Accounts\Vouchers;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
-use App\Models\Accounts\Vouchers\AccJournalMaster;
+use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccPayment;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
+use Pdf;
 
 class PaymentVoucherController extends Controller
 {
@@ -24,7 +25,7 @@ class PaymentVoucherController extends Controller
 
     public function index()
     {
-        $this->paymntdatas = AccJournalMaster::where('status','!=','MANUAL')->where('journal_type','payment')->get();
+        $this->paymntdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','payment')->get();
         return view('modules.accounts.vouchers.payment.index', ['paymntdatas' =>$this->paymntdatas]);
     }
 
@@ -41,7 +42,7 @@ class PaymentVoucherController extends Controller
         $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('payment_no')>0)
         {
-            $this->masterData = AccJournalMaster::find(Session::get('payment_no'));
+            $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
             $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
             $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
         }
@@ -66,7 +67,7 @@ class PaymentVoucherController extends Controller
         $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('payment_no')>0)
         {
-            $this->masterData = AccJournalMaster::find(Session::get('payment_no'));
+            $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
             $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
             $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
         }
@@ -93,7 +94,7 @@ class PaymentVoucherController extends Controller
         AccPayment::addPaymentData($request);
         if ($request->vouchertype=='multiple') {
         } else {
-            $this->masterData = AccJournalMaster::find(Session::get('payment_no'));
+            $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
             $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
             $totalDebit = 0;
             $totalCredit = 0;
@@ -121,7 +122,23 @@ class PaymentVoucherController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->payment = AccPayment::where('payment_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        return view('modules.accounts.vouchers.payment.show', [
+            'payments' =>$this->payment,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+    }
+
+    public function downalodvoucher($id)
+    {
+        $this->payment = AccPayment::where('payment_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        $pdf = PDF::loadView('modules.accounts.vouchers.payment.download', [
+            'payments' =>$this->payment,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+        return $pdf->stream('voucher.pdf');
     }
 
     /**
@@ -138,7 +155,7 @@ class PaymentVoucherController extends Controller
         $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('payment_no')>0)
         {
-            $this->masterData = AccJournalMaster::find(Session::get('payment_no'));
+            $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
             $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
             $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
         }
@@ -195,9 +212,16 @@ class PaymentVoucherController extends Controller
     public function confirm(Request $request, $id)
     {
         AccPayment::confirmPaymentVoucher($request, $id);
-        AccJournalMaster::ConfirmVoucher($request, $id);
+        AccVoucherMaster::ConfirmVoucher($request, $id);
         Session::forget('payment_no');
         Session::forget('payment_narration');
         return redirect('/accounts/voucher/payment')->with('store_message','A payment voucher has been successfully created!!');
+    }
+
+    public function statusupdate(Request $request, $id)
+    {
+        AccPayment::statusupdate($request, $id);
+        AccVoucherMaster::receiptVoucherStatusUpdate($request, $id);
+        return redirect('/accounts/voucher/payment')->with('store_message','This voucher has been successfully '.$request->status.' !!');
     }
 }

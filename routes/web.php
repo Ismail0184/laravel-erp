@@ -15,7 +15,8 @@ use App\Http\Controllers\Developer\MainMenuController;
 use App\Http\Controllers\Developer\SubMenuController;
 use App\Http\Controllers\Accounts\Vouchers\ReceiptVoucherController;
 use App\Http\Controllers\Accounts\Vouchers\PaymentVoucherController;
-use App\Http\Controllers\Accounts\Vouchers\JournalMasterController;
+use App\Http\Controllers\Accounts\Vouchers\VoucherMasterController;
+use App\Http\Controllers\Accounts\Vouchers\JournalVoucherController;
 use App\Http\Controllers\Accounts\COA\COAController;
 
 
@@ -163,10 +164,10 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
     Route::get('/accounts/voucher/receipt/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
     Route::get('/accounts/voucher/receipt/create-multiple', [ReceiptVoucherController::class,'createMultiple'])->name('acc.voucher.receipt.multiple.create');
-    Route::post('/accounts/voucher/receipt/initiate', [JournalMasterController::class,'store'])->name('acc.voucher.receipt.initiate');
-    Route::post('/accounts/voucher/receipt/mupdate/{voucher_no}', [JournalMasterController::class,'update'])->name('acc.voucher.receipt.mupdate');
+    Route::post('/accounts/voucher/receipt/initiate', [VoucherMasterController::class,'store'])->name('acc.voucher.receipt.initiate');
+    Route::post('/accounts/voucher/receipt/mupdate/{voucher_no}', [VoucherMasterController::class,'update'])->name('acc.voucher.receipt.mupdate');
     Route::post('/accounts/voucher/receipt/confirm/{voucher_no}', [ReceiptVoucherController::class,'confirm'])->name('acc.voucher.receipt.confirm');
-    Route::post('/accounts/voucher/receipt/cancelall/{voucher_no}', [JournalMasterController::class,'destroy'])->name('acc.voucher.receipt.cancelall');
+    Route::post('/accounts/voucher/receipt/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.receipt.cancelall');
     Route::post('/accounts/voucher/receipt/store', [ReceiptVoucherController::class,'store'])->name('acc.voucher.receipt.store');
     Route::get('/accounts/voucher/receipt/show/{voucher_no}', [ReceiptVoucherController::class,'show'])->name('acc.voucher.receipt.show');
     Route::get('/accounts/voucher/receipt/download/{voucher_no}', [ReceiptVoucherController::class,'downalodvoucher'])->name('acc.voucher.receipt.download');
@@ -178,30 +179,50 @@ Route::get('/', [HomeController::class,'index']);
         Route::get('/accounts/voucher/receipt/voucher/edit-multiple/{voucher_no}', function (Request $request){ session(['receipt_no'=>request('voucher_no')]);
             return redirect('/accounts/voucher/receipt/create-multiple');})->name('acc.voucher.receipt.voucher.editMultiple');
     Route::post('/accounts/voucher/receipt/update/{id}', [ReceiptVoucherController::class,'update'])->name('acc.voucher.receipt.update');
-    Route::post('/accounts/voucher/receipt/voucher/destroy/{voucher_no}', [JournalMasterController::class,'deleteFullVoucher'])->name('acc.voucher.receipt.voucher.destroy');
+    Route::post('/accounts/voucher/receipt/voucher/destroy/{voucher_no}', [VoucherMasterController::class,'deleteFullVoucher'])->name('acc.voucher.receipt.voucher.destroy');
     Route::post('/accounts/voucher/receipt/status/update/{voucher_no}', [ReceiptVoucherController::class,'statusupdate'])->name('acc.voucher.receipt.status.update');
 
     //Accounts/voucher/Payment Voucher
     Route::get('/accounts/voucher/payment/',[PaymentVoucherController::class,'index'])->name('acc.voucher.payment.view');
     Route::get('/accounts/voucher/payment/create', [PaymentVoucherController::class,'create'])->name('acc.voucher.payment.create');
     Route::get('/accounts/voucher/payment/create-multiple', [PaymentVoucherController::class,'createMultiple'])->name('acc.voucher.payment.multiple.create');
-    Route::post('/accounts/voucher/payment/initiate', [JournalMasterController::class,'store'])->name('acc.voucher.payment.initiate');
-    Route::post('/accounts/voucher/payment/mupdate/{voucher_no}', [JournalMasterController::class,'update'])->name('acc.voucher.payment.mupdate');
+    Route::post('/accounts/voucher/payment/initiate', [VoucherMasterController::class,'store'])->name('acc.voucher.payment.initiate');
+    Route::post('/accounts/voucher/payment/mupdate/{voucher_no}', [VoucherMasterController::class,'update'])->name('acc.voucher.payment.mupdate');
     Route::post('/accounts/voucher/payment/confirm/{voucher_no}', [PaymentVoucherController::class,'confirm'])->name('acc.voucher.payment.confirm');
-    Route::post('/accounts/voucher/payment/cancelall/{voucher_no}', [JournalMasterController::class,'destroy'])->name('acc.voucher.payment.cancelall');
+    Route::post('/accounts/voucher/payment/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.payment.cancelall');
     Route::post('/accounts/voucher/payment/store', [PaymentVoucherController::class,'store'])->name('acc.voucher.payment.store');
     Route::get('/accounts/voucher/payment/show/{voucher_no}', [PaymentVoucherController::class,'show'])->name('acc.voucher.payment.show');
     Route::get('/accounts/voucher/payment/download/{voucher_no}', [PaymentVoucherController::class,'downalodvoucher'])->name('acc.voucher.payment.download');
     Route::get('/accounts/voucher/payment/edit/{id}', [PaymentVoucherController::class,'edit'])->name('acc.voucher.payment.edit');
     Route::get('/accounts/voucher/payment/edit-multiple/{id}', [PaymentVoucherController::class,'editMultiple'])->name('acc.voucher.payment.editMultiple');
     Route::post('/accounts/voucher/payment/destroy/{id}', [PaymentVoucherController::class,'destroy'])->name('acc.voucher.payment.destroy');
-    Route::get('/accounts/voucher/payment/voucher/edit/{voucher_no}', function (Request $request){ session(['receipt_no'=>request('voucher_no')]);
+    Route::get('/accounts/voucher/payment/voucher/edit/{voucher_no}', function (Request $request){ session(['payment_no'=>request('voucher_no')]);
             return redirect('/accounts/voucher/payment/create');})->name('acc.voucher.payment.voucher.edit');
-        Route::get('/accounts/voucher/payment/voucher/edit-multiple/{voucher_no}', function (Request $request){ session(['receipt_no'=>request('voucher_no')]);
+        Route::get('/accounts/voucher/payment/voucher/edit-multiple/{voucher_no}', function (Request $request){ session(['payment_no'=>request('voucher_no')]);
             return redirect('/accounts/voucher/payment/create-multiple');})->name('acc.voucher.payment.voucher.editMultiple');
     Route::post('/accounts/voucher/payment/update/{id}', [PaymentVoucherController::class,'update'])->name('acc.voucher.payment.update');
-    Route::post('/accounts/voucher/payment/voucher/destroy/{voucher_no}', [JournalMasterController::class,'deleteFullVoucher'])->name('acc.voucher.payment.voucher.destroy');
+    Route::post('/accounts/voucher/payment/voucher/destroy/{voucher_no}', [VoucherMasterController::class,'deleteFullVoucher'])->name('acc.voucher.payment.voucher.destroy');
     Route::post('/accounts/voucher/payment/status/update/{voucher_no}', [PaymentVoucherController::class,'statusupdate'])->name('acc.voucher.payment.status.update');
+
+    //Accounts/voucher/Journal Voucher
+    Route::get('/accounts/voucher/journal/',[JournalVoucherController::class,'index'])->name('acc.voucher.journal.view');
+    Route::get('/accounts/voucher/journal/create', [JournalVoucherController::class,'create'])->name('acc.voucher.journal.create');
+    Route::post('/accounts/voucher/journal/initiate', [JournalVoucherController::class,'store'])->name('acc.voucher.journal.initiate');
+    Route::post('/accounts/voucher/journal/confirm/{voucher_no}', [JournalVoucherController::class,'confirm'])->name('acc.voucher.journal.confirm');
+    Route::post('/accounts/voucher/journal/cancelall/{voucher_no}', [JournalVoucherController::class,'destroy'])->name('acc.voucher.journal.cancelall');
+    Route::post('/accounts/voucher/journal/store', [JournalVoucherController::class,'store'])->name('acc.voucher.journal.store');
+    Route::get('/accounts/voucher/journal/show/{voucher_no}', [JournalVoucherController::class,'show'])->name('acc.voucher.journal.show');
+    Route::get('/accounts/voucher/journal/download/{voucher_no}', [JournalVoucherController::class,'downalodvoucher'])->name('acc.voucher.journal.download');
+    Route::get('/accounts/voucher/journal/edit/{id}', [JournalVoucherController::class,'edit'])->name('acc.voucher.journal.edit');
+    Route::post('/accounts/voucher/journal/destroy/{id}', [JournalVoucherController::class,'destroy'])->name('acc.voucher.payment.destroy');
+    Route::get('/accounts/voucher/journal/voucher/edit/{voucher_no}', function (Request $request){ session(['payment_no'=>request('voucher_no')]);
+            return redirect('/accounts/voucher/journal/create');})->name('acc.voucher.journal.voucher.edit');
+        Route::get('/accounts/voucher/journal/voucher/edit-multiple/{voucher_no}', function (Request $request){ session(['payment_no'=>request('voucher_no')]);
+            return redirect('/accounts/voucher/journal/create-multiple');})->name('acc.voucher.journal.voucher.editMultiple');
+    Route::post('/accounts/voucher/journal/update/{id}', [JournalVoucherController::class,'update'])->name('acc.voucher.journal.update');
+    Route::post('/accounts/voucher/journal/voucher/destroy/{voucher_no}', [JournalVoucherController::class,'deleteFullVoucher'])->name('acc.voucher.journal.voucher.destroy');
+    Route::post('/accounts/voucher/journal/status/update/{voucher_no}', [JournalVoucherController::class,'statusupdate'])->name('acc.voucher.journal.status.update');
+
 
 
 

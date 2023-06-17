@@ -8,18 +8,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Session;
 
-class AccJournalMaster extends Model
+class AccVoucherMaster extends Model
 {
     use HasFactory;
 
     protected $primaryKey = 'voucher_no';
-
     public static $voucherno;
-
-
     public static function initiateVoucher($request)
     {
-        self::$voucherno = new AccJournalMaster();
+        self::$voucherno = new AccVoucherMaster();
         self::$voucherno->voucher_no = $request->voucher_no;
         self::$voucherno->voucher_date = $request->voucher_date;
         self::$voucherno->person = $request->person;
@@ -58,7 +55,7 @@ class AccJournalMaster extends Model
 
     public static function updateVoucher($request, $id)
     {
-        self::$voucherno = AccJournalMaster::find($id);
+        self::$voucherno = AccVoucherMaster::find($id);
         self::$voucherno->voucher_no = $request->voucher_no;
         self::$voucherno->voucher_date = $request->voucher_date;
         self::$voucherno->person = $request->person;
@@ -90,14 +87,14 @@ class AccJournalMaster extends Model
 
     public static function ConfirmVoucher($request, $id)
     {
-        self::$voucherno = AccJournalMaster::find($id);
+        self::$voucherno = AccVoucherMaster::find($id);
         self::$voucherno->status = 'UNCHECKED';
         self::$voucherno->save();
     }
 
     public static function destroyVoucher($id)
     {
-        self::$voucherno = AccJournalMaster::find($id);
+        self::$voucherno = AccVoucherMaster::find($id);
         self::$voucherno->delete();
     }
 
@@ -128,14 +125,14 @@ class AccJournalMaster extends Model
 
     public static function deletedVoucher($id)
     {
-        self::$voucherno = AccJournalMaster::find($id) ;
+        self::$voucherno = AccVoucherMaster::find($id) ;
         self::$voucherno->status = 'deleted';
         self::$voucherno->save();
     }
 
     public static function receiptVoucherStatusUpdate($request, $id)
     {
-        self::$voucherno = AccJournalMaster::find($id) ;
+        self::$voucherno = AccVoucherMaster::find($id) ;
         self::$voucherno->status = $request->status;
         if($request->status=='CHECKED') {
             self::$voucherno->checked_by = $request->checked_by;

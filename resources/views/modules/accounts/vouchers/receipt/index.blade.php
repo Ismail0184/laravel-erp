@@ -56,6 +56,8 @@
                                         @php($getVoucherDate=now()->diffInDays($receiptdata->created_at))
                                         <form action="{{route('acc.voucher.receipt.voucher.destroy', ['voucher_no' => $receiptdata->voucher_no])}}" method="post">
                                             @csrf
+                                            <input type="hidden" name="journal_type" value="{{$receiptdata->journal_type}}">
+                                            <input type="hidden" name="vouchertype" value="{{$receiptdata->vouchertype}}">
                                             <a href="{{route('acc.voucher.receipt.show',['voucher_no' => $receiptdata->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>

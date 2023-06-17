@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('acc_journal_masters', function (Blueprint $table) {
+        Schema::create('acc_voucher_masters', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('voucher_no');
             $table->date('voucher_date');
@@ -53,6 +53,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acc_journal_masters');
+        Schema::dropIfExists('acc_voucher_masters');
     }
 };
