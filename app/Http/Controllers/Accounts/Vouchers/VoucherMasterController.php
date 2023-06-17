@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Vouchers\AccJournal;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccPayment;
 use App\Models\Accounts\Vouchers\AccReceipt;
 use Illuminate\Http\Request;
+use Session;
 
 class VoucherMasterController extends Controller
 {
@@ -54,6 +56,10 @@ class VoucherMasterController extends Controller
                 return redirect('/accounts/voucher/payment/create');
             }
         }
+
+        elseif ($request->journal_type=='journal'){
+            return redirect('/accounts/voucher/journal/create');
+        }
     }
 
     /**
@@ -100,6 +106,8 @@ class VoucherMasterController extends Controller
             } else {
                 return redirect('/accounts/voucher/payment/create');
             }
+        } elseif ($request->journal_type=='journal'){
+            return redirect('/accounts/voucher/journal/create');
         }
     }
 
@@ -131,6 +139,13 @@ class VoucherMasterController extends Controller
             } else {
                 return redirect('/accounts/voucher/payment/create');
             }
+        } elseif ($request->journal_type=='journal'){
+            AccJournal::destroyJournalAllData($id);
+            AccVoucherMaster::destroyVoucher($id);
+            Session::forget('journal_no');
+            Session::forget('journal_narration');
+
+            return redirect('/accounts/voucher/journal/create');
         }
     }
 

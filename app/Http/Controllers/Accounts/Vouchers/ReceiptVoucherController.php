@@ -240,7 +240,7 @@ class ReceiptVoucherController extends Controller
     public function statusupdate(Request $request, $id)
     {
         AccReceipt::statusupdate($request, $id);
-        AccVoucherMaster::receiptVoucherStatusUpdate($request, $id);
+        AccVoucherMaster::VoucherStatusUpdate($request, $id);
         return redirect('/accounts/voucher/receipt')->with('store_message','This voucher has been succesfully '.$request->status.' !!');
     }
 }

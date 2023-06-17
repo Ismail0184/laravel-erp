@@ -207,14 +207,15 @@ Route::get('/', [HomeController::class,'index']);
     //Accounts/voucher/Journal Voucher
     Route::get('/accounts/voucher/journal/',[JournalVoucherController::class,'index'])->name('acc.voucher.journal.view');
     Route::get('/accounts/voucher/journal/create', [JournalVoucherController::class,'create'])->name('acc.voucher.journal.create');
-    Route::post('/accounts/voucher/journal/initiate', [JournalVoucherController::class,'store'])->name('acc.voucher.journal.initiate');
+    Route::post('/accounts/voucher/journal/initiate', [VoucherMasterController::class,'store'])->name('acc.voucher.journal.initiate');
+    Route::post('/accounts/voucher/journal/mupdate/{voucher_no}', [VoucherMasterController::class,'update'])->name('acc.voucher.journal.mupdate');
     Route::post('/accounts/voucher/journal/confirm/{voucher_no}', [JournalVoucherController::class,'confirm'])->name('acc.voucher.journal.confirm');
-    Route::post('/accounts/voucher/journal/cancelall/{voucher_no}', [JournalVoucherController::class,'destroy'])->name('acc.voucher.journal.cancelall');
+    Route::post('/accounts/voucher/journal/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.journal.cancelall');
     Route::post('/accounts/voucher/journal/store', [JournalVoucherController::class,'store'])->name('acc.voucher.journal.store');
     Route::get('/accounts/voucher/journal/show/{voucher_no}', [JournalVoucherController::class,'show'])->name('acc.voucher.journal.show');
     Route::get('/accounts/voucher/journal/download/{voucher_no}', [JournalVoucherController::class,'downalodvoucher'])->name('acc.voucher.journal.download');
     Route::get('/accounts/voucher/journal/edit/{id}', [JournalVoucherController::class,'edit'])->name('acc.voucher.journal.edit');
-    Route::post('/accounts/voucher/journal/destroy/{id}', [JournalVoucherController::class,'destroy'])->name('acc.voucher.payment.destroy');
+    Route::post('/accounts/voucher/journal/destroy/{id}', [JournalVoucherController::class,'destroy'])->name('acc.voucher.journal.destroy');
     Route::get('/accounts/voucher/journal/voucher/edit/{voucher_no}', function (Request $request){ session(['payment_no'=>request('voucher_no')]);
             return redirect('/accounts/voucher/journal/create');})->name('acc.voucher.journal.voucher.edit');
         Route::get('/accounts/voucher/journal/voucher/edit-multiple/{voucher_no}', function (Request $request){ session(['payment_no'=>request('voucher_no')]);

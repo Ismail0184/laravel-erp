@@ -221,7 +221,7 @@ class PaymentVoucherController extends Controller
     public function statusupdate(Request $request, $id)
     {
         AccPayment::statusupdate($request, $id);
-        AccVoucherMaster::receiptVoucherStatusUpdate($request, $id);
+        AccVoucherMaster::VoucherStatusUpdate($request, $id);
         return redirect('/accounts/voucher/payment')->with('store_message','This voucher has been successfully '.$request->status.' !!');
     }
 }

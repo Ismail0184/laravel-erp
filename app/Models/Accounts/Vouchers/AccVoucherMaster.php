@@ -50,6 +50,8 @@ class AccVoucherMaster extends Model
             Session::put('receipt_no', $request->voucher_no);
         } elseif ($request->journal_type=='payment'){
             Session::put('payment_no', $request->voucher_no);
+        } elseif ($request->journal_type=='journal'){
+            Session::put('journal_no', $request->voucher_no);
         }
     }
 
@@ -130,7 +132,7 @@ class AccVoucherMaster extends Model
         self::$voucherno->save();
     }
 
-    public static function receiptVoucherStatusUpdate($request, $id)
+    public static function VoucherStatusUpdate($request, $id)
     {
         self::$voucherno = AccVoucherMaster::find($id) ;
         self::$voucherno->status = $request->status;

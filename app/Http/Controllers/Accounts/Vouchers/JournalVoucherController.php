@@ -10,6 +10,7 @@ use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
+use Pdf;
 
 class JournalVoucherController extends Controller
 {
@@ -42,8 +43,8 @@ class JournalVoucherController extends Controller
         if(Session::get('journal_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('journal_no'));
-            $this->payments = AccJournal::where('payment_no', Session::get('journal_no'))->get();
-            $this->COUNT_payments_data = AccJournal::where('journal_no', Session::get('journal_no'))->count();
+            $this->journals = AccJournal::where('journal_no', Session::get('journal_no'))->get();
+            $this->COUNT_journals_data = AccJournal::where('journal_no', Session::get('journal_no'))->count();
         }
 
         return view('modules.accounts.vouchers.journal.create', [
@@ -65,7 +66,9 @@ class JournalVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AccJournal::addJournalData($request);
+        return redirect('/accounts/voucher/journal/create')->with('store_message', 'A journal data successfully added!!');
+
     }
 
     /**
@@ -76,7 +79,23 @@ class JournalVoucherController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->journal = AccJournal::where('journal_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        return view('modules.accounts.vouchers.journal.show', [
+            'journals' =>$this->journal,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+    }
+
+    public function downalodvoucher($id)
+    {
+        $this->journal = AccJournal::where('journal_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        $pdf = PDF::loadView('modules.accounts.vouchers.journal.download', [
+            'journals' =>$this->journal,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+        return $pdf->stream('voucher.pdf');
     }
 
     /**
@@ -87,7 +106,31 @@ class JournalVoucherController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $this->costcenters = AccCostCenter::where('status','active')->get();
+        $this->vouchertype ='3';
+        $this->journalVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        if(Session::get('payment_no')>0)
+        {
+            $this->masterData = AccVoucherMaster::find(Session::get('journal_no'));
+            $this->journals = AccJournal::where('journal_no', Session::get('journal_no'))->get();
+            $this->COUNT_payments_data = AccJournal::where('journal_no', Session::get('journal_no'))->count();
+        }
+        if(\request('id')>0)
+        {
+            $this->editValue = AccJournal::find($id);
+        }
+
+        return view('modules.accounts.vouchers.journal.create', [
+            'journalVoucher' =>$this->journalVoucher,
+            'ledgers' => $this->ledgers,
+            'ledgerss' => $this->ledgers,
+            'masterData' => $this->masterData,
+            'journals' => $this->journals,
+            'editValue' => $this->editValue,
+            'COUNT_journals_data' => $this->COUNT_journals_data,
+            'costcenters' =>$this->costcenters
+        ] );
     }
 
     /**
@@ -99,7 +142,9 @@ class JournalVoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccJournal::updateJournalData($request, $id);
+        return redirect('/accounts/voucher/journal/create')->with('update_message', 'This data (uid=' . $id . ') has been successfully updated!!');
+
     }
 
     /**
@@ -110,6 +155,23 @@ class JournalVoucherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccJournal::destroyJournalData($id);
+        return redirect('/accounts/voucher/journal/create')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
+    }
+
+    public function confirm(Request $request, $id)
+    {
+        AccJournal::confirmJournalVoucher($request, $id);
+        AccVoucherMaster::ConfirmVoucher($request, $id);
+        Session::forget('journal_no');
+        Session::forget('journal_narration');
+        return redirect('/accounts/voucher/journal')->with('store_message','A journal voucher has been successfully created!!');
+    }
+
+    public function statusupdate(Request $request, $id)
+    {
+        AccJournal::statusupdate($request, $id);
+        AccVoucherMaster::VoucherStatusUpdate($request, $id);
+        return redirect('/accounts/voucher/journal')->with('store_message','This voucher has been successfully '.$request->status.' !!');
     }
 }
