@@ -18,6 +18,7 @@ use App\Http\Controllers\Accounts\Vouchers\PaymentVoucherController;
 use App\Http\Controllers\Accounts\Vouchers\VoucherMasterController;
 use App\Http\Controllers\Accounts\Vouchers\JournalVoucherController;
 use App\Http\Controllers\Accounts\Vouchers\ContraVoucherController;
+use App\Http\Controllers\Accounts\Vouchers\ChequePaymentVoucherController;
 use App\Http\Controllers\Accounts\COA\COAController;
 
 
@@ -244,6 +245,26 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/voucher/contra/update/{id}', [ContraVoucherController::class,'update'])->name('acc.voucher.contra.update');
     Route::post('/accounts/voucher/contra/voucher/destroy/{voucher_no}', [VoucherMasterController::class,'deleteFullVoucher'])->name('acc.voucher.contra.voucher.destroy');
     Route::post('/accounts/voucher/contra/status/update/{voucher_no}', [ContraVoucherController::class,'statusupdate'])->name('acc.voucher.contra.status.update');
+
+    //Accounts/voucher/Cheque Payment Voucher
+    Route::get('/accounts/voucher/chequepayment/',[ChequePaymentVoucherController::class,'index'])->name('acc.voucher.chequepayment.view');
+    Route::get('/accounts/voucher/chequepayment/create', [ChequePaymentVoucherController::class,'create'])->name('acc.voucher.chequepayment.create');
+    Route::post('/accounts/voucher/chequepayment/initiate', [VoucherMasterController::class,'store'])->name('acc.voucher.chequepayment.initiate');
+    Route::post('/accounts/voucher/chequepayment/mupdate/{voucher_no}', [VoucherMasterController::class,'update'])->name('acc.voucher.chequepayment.mupdate');
+    Route::post('/accounts/voucher/chequepayment/confirm/{voucher_no}', [ChequePaymentVoucherController::class,'confirm'])->name('acc.voucher.chequepayment.confirm');
+    Route::post('/accounts/voucher/chequepayment/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.chequepayment.cancelall');
+    Route::post('/accounts/voucher/chequepayment/store', [ChequePaymentVoucherController::class,'store'])->name('acc.voucher.chequepayment.store');
+    Route::get('/accounts/voucher/chequepayment/show/{voucher_no}', [ChequePaymentVoucherController::class,'show'])->name('acc.voucher.chequepayment.show');
+    Route::get('/accounts/voucher/chequepayment/download/{voucher_no}', [ContraVoucherController::class,'downalodvoucher'])->name('acc.voucher.chequepayment.download');
+    Route::get('/accounts/voucher/chequepayment/edit/{id}', [ChequePaymentVoucherController::class,'edit'])->name('acc.voucher.chequepayment.edit');
+    Route::post('/accounts/voucher/chequepayment/destroy/{id}', [ChequePaymentVoucherController::class,'destroy'])->name('acc.voucher.chequepayment.destroy');
+    Route::get('/accounts/voucher/chequepayment/voucher/edit/{voucher_no}', function (Request $request){ session(['contra_no'=>request('voucher_no')]);
+            return redirect('/accounts/voucher/chequepayment/create');})->name('acc.voucher.chequepayment.voucher.edit');
+        Route::get('/accounts/voucher/chequepayment/voucher/edit-multiple/{voucher_no}', function (Request $request){ session(['contra_no'=>request('voucher_no')]);
+            return redirect('/accounts/voucher/chequepayment/create-multiple');})->name('acc.voucher.chequepayment.voucher.editMultiple');
+    Route::post('/accounts/voucher/chequepayment/update/{id}', [ChequePaymentVoucherController::class,'update'])->name('acc.voucher.chequepayment.update');
+    Route::post('/accounts/voucher/chequepayment/voucher/destroy/{voucher_no}', [VoucherMasterController::class,'deleteFullVoucher'])->name('acc.voucher.chequepayment.voucher.destroy');
+    Route::post('/accounts/voucher/chequepayment/status/update/{voucher_no}', [ChequePaymentVoucherController::class,'statusupdate'])->name('acc.voucher.chequepayment.status.update');
 
 
 
