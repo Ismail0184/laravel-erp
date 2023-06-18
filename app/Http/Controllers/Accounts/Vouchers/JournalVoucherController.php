@@ -25,7 +25,7 @@ class JournalVoucherController extends Controller
 
     public function index()
     {
-        $this->journaldatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','journal')->get();
+        $this->journaldatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','journal')->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.journal.index', ['journaldatas' =>$this->journaldatas]);
     }
 

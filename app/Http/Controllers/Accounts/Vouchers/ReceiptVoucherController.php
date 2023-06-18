@@ -22,7 +22,7 @@ class ReceiptVoucherController extends Controller
 
     public function index()
     {
-        $this->receiptdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','receipt')->get();
+        $this->receiptdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','receipt')->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.receipt.index', ['receiptdatas' =>$this->receiptdatas]);
     }
 

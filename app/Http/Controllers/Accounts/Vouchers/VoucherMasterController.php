@@ -60,6 +60,9 @@ class VoucherMasterController extends Controller
         elseif ($request->journal_type=='journal'){
             return redirect('/accounts/voucher/journal/create');
         }
+        elseif ($request->journal_type=='contra'){
+            return redirect('/accounts/voucher/contra/create');
+        }
     }
 
     /**
