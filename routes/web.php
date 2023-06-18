@@ -222,7 +222,7 @@ Route::get('/', [HomeController::class,'index']);
         Route::get('/accounts/voucher/journal/voucher/edit-multiple/{voucher_no}', function (Request $request){ session(['payment_no'=>request('voucher_no')]);
             return redirect('/accounts/voucher/journal/create-multiple');})->name('acc.voucher.journal.voucher.editMultiple');
     Route::post('/accounts/voucher/journal/update/{id}', [JournalVoucherController::class,'update'])->name('acc.voucher.journal.update');
-    Route::post('/accounts/voucher/journal/voucher/destroy/{voucher_no}', [JournalVoucherController::class,'deleteFullVoucher'])->name('acc.voucher.journal.voucher.destroy');
+    Route::post('/accounts/voucher/journal/voucher/destroy/{voucher_no}', [VoucherMasterController::class,'deleteFullVoucher'])->name('acc.voucher.journal.voucher.destroy');
     Route::post('/accounts/voucher/journal/status/update/{voucher_no}', [JournalVoucherController::class,'statusupdate'])->name('acc.voucher.journal.status.update');
 
     //Accounts/voucher/Contra Voucher
@@ -237,12 +237,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/contra/download/{voucher_no}', [ContraVoucherController::class,'downalodvoucher'])->name('acc.voucher.contra.download');
     Route::get('/accounts/voucher/contra/edit/{id}', [ContraVoucherController::class,'edit'])->name('acc.voucher.contra.edit');
     Route::post('/accounts/voucher/contra/destroy/{id}', [ContraVoucherController::class,'destroy'])->name('acc.voucher.contra.destroy');
-    Route::get('/accounts/voucher/contra/voucher/edit/{voucher_no}', function (Request $request){ session(['payment_no'=>request('voucher_no')]);
+    Route::get('/accounts/voucher/contra/voucher/edit/{voucher_no}', function (Request $request){ session(['contra_no'=>request('voucher_no')]);
             return redirect('/accounts/voucher/contra/create');})->name('acc.voucher.contra.voucher.edit');
-        Route::get('/accounts/voucher/contra/voucher/edit-multiple/{voucher_no}', function (Request $request){ session(['payment_no'=>request('voucher_no')]);
+        Route::get('/accounts/voucher/contra/voucher/edit-multiple/{voucher_no}', function (Request $request){ session(['contra_no'=>request('voucher_no')]);
             return redirect('/accounts/voucher/contra/create-multiple');})->name('acc.voucher.contra.voucher.editMultiple');
     Route::post('/accounts/voucher/contra/update/{id}', [ContraVoucherController::class,'update'])->name('acc.voucher.contra.update');
-    Route::post('/accounts/voucher/contra/voucher/destroy/{voucher_no}', [ContraVoucherController::class,'deleteFullVoucher'])->name('acc.voucher.contra.voucher.destroy');
+    Route::post('/accounts/voucher/contra/voucher/destroy/{voucher_no}', [VoucherMasterController::class,'deleteFullVoucher'])->name('acc.voucher.contra.voucher.destroy');
     Route::post('/accounts/voucher/contra/status/update/{voucher_no}', [ContraVoucherController::class,'statusupdate'])->name('acc.voucher.contra.status.update');
 
 

@@ -52,6 +52,8 @@ class AccVoucherMaster extends Model
             Session::put('payment_no', $request->voucher_no);
         } elseif ($request->journal_type=='journal'){
             Session::put('journal_no', $request->voucher_no);
+        } elseif ($request->journal_type=='contra'){
+            Session::put('contra_no', $request->voucher_no);
         }
     }
 

@@ -37,7 +37,7 @@
                             @foreach($contradatas as $contradata)
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
-                                    <td style="vertical-align: middle">@if($contradata->status == 'DELETED')<del>{{$contradata->contra_no}}</del> @else {{$contradata->contra_no}} @endif</td>
+                                    <td style="vertical-align: middle">@if($contradata->status == 'DELETED')<del>{{$contradata->voucher_no}}</del> @else {{$contradata->voucher_no}} @endif</td>
                                     <td style="vertical-align: middle">{{$contradata->voucher_date}}</td>
                                     <td style="vertical-align: middle">@if($contradata->cash_bank_ledger) {{$contradata->accledger->ledger_name}} @else N/A @endif</td>
                                     <td class="text-right" style="vertical-align: middle">{{number_format($contradata->amount,2)}}</td>
@@ -54,20 +54,20 @@
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
                                         @php($getVoucherDate=now()->diffInDays($contradata->created_at))
-                                        <form action="{{route('acc.voucher.contra.voucher.destroy', ['contra_no' => $contradata->contra_no])}}" method="post">
+                                        <form action="{{route('acc.voucher.contra.voucher.destroy', ['voucher_no' => $contradata->voucher_no])}}" method="post">
                                             <input type="hidden" name="journal_type" value="{{$contradata->journal_type}}">
                                             <input type="hidden" name="vouchertype" value="{{$contradata->vouchertype}}">
                                             @csrf
-                                            <a href="{{route('acc.voucher.contra.show',['contra_no' => $contradata->contra_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
+                                            <a href="{{route('acc.voucher.contra.show',['voucher_no' => $contradata->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
                                             @if($contradata->status !== 'DELETED')
-                                                <a href="{{route('acc.voucher.contra.download',['contra_no' => $contradata->contra_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
+                                                <a href="{{route('acc.voucher.contra.download',['voucher_no' => $contradata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 @if($contradata->status=='UNCHECKED' || $contradata->status=='MANUAL')
                                                     @if($getVoucherDate<2)
-                                                        <a href="@if($contradata->vouchertype=='single'){{route('acc.voucher.contra.voucher.edit',['contra_no' => $contradata->contra_no])}} @elseif($contradata->vouchertype=='multiple') {{route('acc.voucher.contra.voucher.editMultiple',['contra_no' => $contradata->contra_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
+                                                        <a href="{{route('acc.voucher.contra.voucher.edit',['voucher_no' => $contradata->voucher_no])}}" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

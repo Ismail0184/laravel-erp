@@ -91,4 +91,9 @@ class AccJournal extends Model
     {
         AccJournal::where('journal_no',$id)->update(['status'=>$request->status]);
     }
+
+    public static function deletedJournalVoucher($id)
+    {
+        AccJournal::where('journal_no',$id)->update(['status'=>'DELETED']);
+    }
 }

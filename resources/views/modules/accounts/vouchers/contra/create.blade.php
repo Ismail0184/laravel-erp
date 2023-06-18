@@ -75,7 +75,7 @@
                 <p class="text-center text-primary">{{ $message }}</p>
             @endif
             <input type="hidden" name="contra_no" value="{{$masterData->voucher_no}}">
-            <input type="hidden" name="journal_date" value="{{$masterData->voucher_date}}">
+            <input type="hidden" name="contra_date" value="{{$masterData->voucher_date}}">
             <input type="hidden" name="amount" value="{{$masterData->amount}}">
             <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
             <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
@@ -84,7 +84,6 @@
                 <thead class="table-success">
                 <tr>
                     <th style="text-align: center">Accounts Ledger <span class="required text-danger">*</span></th>
-                    <th style="text-align: center; width: 15%">Cost Center <span class="required text-danger">*</span></th>
                     <th style="text-align: center; width: 20%">Narration <span class="required text-danger">*</span></th>
                     <th style="text-align: center;width:15%;">Attachment</th>
                     <th style="width:15%; text-align:center">Amount <span class="required text-danger">*</span></th>
@@ -102,15 +101,7 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" name="cc_code" required="required">
-                            <option value=""></option>
-                            @foreach($costcenters as $costCenter)
-                                <option value="{{$costCenter->cc_code}}" @if(request('id')>0) @if($costCenter->cc_code==$editValue->cc_code) selected @endif @endif>{{$costCenter->cc_code}} : {{$costCenter->center_name}}</option>
-                            @endforeach
-                        </select>
-                    </td>
-                    <td style="vertical-align: middle">
-                        <textarea  name="narration" class="form-control" style="height: 70px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('journal_narration')}} @endif</textarea>
+                        <textarea  name="narration" class="form-control" style="height: 70px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('contra_narration')}} @endif</textarea>
                     </td>
                     <td style="vertical-align: middle"><input type="file" class="form-control" /></td>
                     <td style="vertical-align: middle">
@@ -131,7 +122,7 @@
             </table>
         </form>
 
-        @if($COUNT_journals_data > 0)
+        @if($COUNT_contras_data > 0)
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
@@ -152,20 +143,20 @@
                                 <tbody>
                                 @php($totalDebit = 0)
                                 @php($totalCredit = 0)
-                                @foreach($journals as $journal)
+                                @foreach($contras as $contra)
                                     <tr>
                                         <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
-                                        <td style="text-align: center; vertical-align: middle">{{$journal->id}}</td>
-                                        <td style="vertical-align: middle">{{$journal->ledger_id}} : {{$journal->ledger->ledger_name}}</td>
-                                        <td style="vertical-align: middle">{{$journal->narration}}</td>
-                                        <td style="vertical-align: middle" class="text-center">{{$journal->type}}</td>
-                                        <td style="text-align: right; vertical-align: middle">{{number_format($journal->dr_amt,2)}}</td>
-                                        <td style="text-align: right;vertical-align: middle">{{number_format($journal->cr_amt,2)}}</td>
+                                        <td style="text-align: center; vertical-align: middle">{{$contra->id}}</td>
+                                        <td style="vertical-align: middle">{{$contra->ledger_id}} : {{$contra->ledger->ledger_name}}</td>
+                                        <td style="vertical-align: middle">{{$contra->narration}}</td>
+                                        <td style="vertical-align: middle" class="text-center">{{$contra->type}}</td>
+                                        <td style="text-align: right; vertical-align: middle">{{number_format($contra->dr_amt,2)}}</td>
+                                        <td style="text-align: right;vertical-align: middle">{{number_format($contra->cr_amt,2)}}</td>
                                         <td class="text-center" style="vertical-align: middle">
-                                            <form action="{{route('acc.voucher.contra.destroy', ['id' => $journal->id])}}" method="post">
+                                            <form action="{{route('acc.voucher.contra.destroy', ['id' => $contra->id])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="vouchertype" value="multiple">
-                                                <a href="{{route('acc.voucher.contra.edit',['id' => $journal->id])}}" title="Update" class="btn btn-success btn-sm">
+                                                <a href="{{route('acc.voucher.contra.edit',['id' => $contra->id])}}" title="Update" class="btn btn-success btn-sm">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
@@ -174,8 +165,8 @@
                                             </form>
                                         </td>
                                     </tr>
-                                    @php($totalDebit = $totalDebit +$journal->dr_amt)
-                                    @php($totalCredit = $totalCredit +$journal->cr_amt)
+                                    @php($totalDebit = $totalDebit +$contra->dr_amt)
+                                    @php($totalCredit = $totalCredit +$contra->cr_amt)
                                 @endforeach
                                 <tr>
                                     <th colspan="5" style="text-align: right">Total = </th>

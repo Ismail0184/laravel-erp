@@ -11,6 +11,7 @@ use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
+use PDF;
 
 class ContraVoucherController extends Controller
 {
@@ -36,8 +37,7 @@ class ContraVoucherController extends Controller
      */
     public function create()
     {
-        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
-        $this->costcenters = AccCostCenter::where('status','active')->get();
+        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id','1002')->get();
         $this->vouchertype ='4';
         $this->journalVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('contra_no')>0)
@@ -67,7 +67,7 @@ class ContraVoucherController extends Controller
     public function store(Request $request)
     {
         AccContra::addContraData($request);
-        return redirect('/accounts/voucher/journal/create')->with('store_message', 'A journal data successfully added!!');
+        return redirect('/accounts/voucher/contra/create')->with('store_message', 'A journal data successfully added!!');
     }
 
     /**
@@ -78,7 +78,23 @@ class ContraVoucherController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->contra = AccContra::where('contra_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        return view('modules.accounts.vouchers.contra.show', [
+            'contras' =>$this->contra,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+    }
+
+    public function downalodvoucher($id)
+    {
+        $this->contra = AccContra::where('contra_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        $pdf = PDF::loadView('modules.accounts.vouchers.contra.download', [
+            'contras' =>$this->contra,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+        return $pdf->stream('voucher.pdf');
     }
 
     /**
@@ -89,7 +105,30 @@ class ContraVoucherController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $this->vouchertype ='4';
+        $this->journalVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        if(Session::get('contra_no')>0)
+        {
+            $this->masterData = AccVoucherMaster::find(Session::get('contra_no'));
+            $this->contras = AccContra::where('contra_no', Session::get('contra_no'))->get();
+            $this->COUNT_contras_data = AccContra::where('contra_no', Session::get('contra_no'))->count();
+        }
+        if(\request('id')>0)
+        {
+            $this->editValue = AccContra::find($id);
+        }
+
+        return view('modules.accounts.vouchers.contra.create', [
+            'contraVoucher' =>$this->contraVoucher,
+            'ledgers' => $this->ledgers,
+            'ledgerss' => $this->ledgers,
+            'masterData' => $this->masterData,
+            'contras' => $this->contras,
+            'editValue' => $this->editValue,
+            'COUNT_contras_data' => $this->COUNT_contras_data,
+            'costcenters' =>$this->costcenters
+        ] );
     }
 
     /**
@@ -101,7 +140,9 @@ class ContraVoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccContra::updateContraData($request, $id);
+        return redirect('/accounts/voucher/contra/create')->with('update_message', 'This data (uid=' . $id . ') has been successfully updated!!');
+
     }
 
     /**
@@ -112,6 +153,23 @@ class ContraVoucherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccContra::destroyContraData($id);
+        return redirect('/accounts/voucher/contra/create')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
+    }
+
+    public function confirm(Request $request, $id)
+    {
+        AccContra::confirmContraVoucher($request, $id);
+        AccVoucherMaster::ConfirmVoucher($request, $id);
+        Session::forget('contra_no');
+        Session::forget('contra_narration');
+        return redirect('/accounts/voucher/contra')->with('store_message','A contra voucher has been successfully created!!');
+    }
+
+    public function statusupdate(Request $request, $id)
+    {
+        AccContra::statusupdate($request, $id);
+        AccVoucherMaster::VoucherStatusUpdate($request, $id);
+        return redirect('/accounts/voucher/contra')->with('store_message','This voucher has been successfully '.$request->status.' !!');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Vouchers\AccContra;
 use App\Models\Accounts\Vouchers\AccJournal;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccPayment;
@@ -149,6 +150,13 @@ class VoucherMasterController extends Controller
             Session::forget('journal_narration');
 
             return redirect('/accounts/voucher/journal/create');
+        } elseif ($request->journal_type=='contra'){
+            AccContra::destroyContraAllData($id);
+            AccVoucherMaster::destroyVoucher($id);
+            Session::forget('contra_no');
+            Session::forget('contra_narration');
+
+            return redirect('/accounts/voucher/contra/create');
         }
     }
 
@@ -158,11 +166,18 @@ class VoucherMasterController extends Controller
             AccReceipt::deletedReceiptVoucher($id);
             AccVoucherMaster::deletedVoucher($id);
             return redirect('/accounts/voucher/receipt')->with('destroy_message','This (uid='.$id.') receipt voucher has been successfully deleted!!');
-
         } elseif ($request->journal_type=='payment'){
             AccPayment::deletedPaymentVoucher($id);
             AccVoucherMaster::deletedVoucher($id);
             return redirect('/accounts/voucher/payment')->with('destroy_message','This (uid='.$id.') receipt voucher has been successfully deleted!!');
+        } elseif ($request->journal_type=='journal'){
+            AccJournal::deletedJournalVoucher($id);
+            AccVoucherMaster::deletedVoucher($id);
+            return redirect('/accounts/voucher/journal')->with('destroy_message','This (uid='.$id.') receipt voucher has been successfully deleted!!');
+        } elseif ($request->journal_type=='contra'){
+            AccContra::deletedContraVoucher($id);
+            AccVoucherMaster::deletedVoucher($id);
+            return redirect('/accounts/voucher/contra')->with('destroy_message','This (uid='.$id.') receipt voucher has been successfully deleted!!');
         }
     }
 }
