@@ -105,7 +105,7 @@ class AccTransactions extends Model
         AccTransactions::where('vr_no',$id)->update(['status'=>'DELETED']);
     }
 
-    public static function TransactionDeleteWhileEdit($id)
+    public static function previousTransactionDeleteWhileEdit($id)
     {
         self::$transaction = AccTransactions::where('vr_no',$id);
         self::$transaction->delete();

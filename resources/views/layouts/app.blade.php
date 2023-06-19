@@ -179,7 +179,8 @@
                     </li>
                         @foreach($mainmenus as $mainmenu)
                     <li>
-                        <a href="{{$mainmenu->url}}" @if(count($mainmenu->subMenu) > 0) class="has-arrow waves-effect" @endif>
+                        <a href="@if($mainmenu->main_menu_id=='10009'){{route(''.$mainmenu->url.'')}}@else
+                        {{$mainmenu->url}}@endif" @if(count($mainmenu->subMenu) > 0) class="has-arrow waves-effect" @endif>
                             <i class="{{$mainmenu->faicon}}"></i>
                             <span>{{$mainmenu->main_menu_name}}</span>
                         </a>

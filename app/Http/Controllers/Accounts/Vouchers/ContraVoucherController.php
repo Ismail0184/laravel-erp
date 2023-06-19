@@ -171,6 +171,7 @@ class ContraVoucherController extends Controller
         }
         $this->next_transaction_id = next_transaction_id();
         $this->contra = AccContra::where('contra_no', Session::get('contra_no'))->get();
+        AccTransactions::previousTransactionDeleteWhileEdit($id);
         foreach ($this->contra as $contraData) {
             AccTransactions::addContraVoucher($contraData, $this->next_transaction_id);
         }

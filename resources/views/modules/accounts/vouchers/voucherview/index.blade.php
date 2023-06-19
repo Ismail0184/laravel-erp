@@ -6,12 +6,90 @@
 @endsection
 
 @section('body')
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">{{$title}}</h4>
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#all-order" role="tab">
+                                Filter
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content p-3">
+                        <div class="tab-pane active" id="all-order" role="tabpanel">
+                            <form method="post" action="">
+                                <div class="row">
+
+                                    <div class="col-xl col-sm-6">
+                                        <div class="form-group mt-3 mb-0">
+                                            <label>From Date :</label>
+                                            <input type="date" class="form-control" name="f_date" value="{{date('Y-m-01')}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl col-sm-6">
+                                        <div class="form-group mt-3 mb-0">
+                                            <label>To Date :</label>
+                                            <input type="date" class="form-control" name="t_date" value="{{date('Y-m-d')}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl col-sm-6">
+                                        <div class="form-group mt-3 mb-0">
+                                            <label>Type</label>
+                                            <select class="form-control select2-search-disable">
+                                                <option value="" selected>All</option>
+                                                <option value="receipt" >Receipt</option>
+                                                <option value="payment">Payment</option>
+                                                <option value="journal">Journal</option>
+                                                <option value="contra">Contra</option>
+                                                <option value="bank-payment">Cheque Payment</option>
+                                                <option value="purchase">Purchase</option>
+                                                <option value="sales">Sales</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl col-sm-6">
+                                        <div class="form-group mt-3 mb-0">
+                                            <label>Status</label>
+                                            <select class="form-control select2-search-disable" name="status">
+                                                <option value="" selected>All</option>
+                                                <option value="UNCHECKED">Unchecked</option>
+                                                <option value="CHECKED">Checked</option>
+                                                <option value="APPROVED">Approved</option>
+                                                <option value="AUDITED">Audited</option>
+                                                <option value="DELETED">Deleted</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl col-sm-6 align-self-end">
+                                        <div class="mt-3">
+                                            <button type="submit" class="btn btn-success w-md">View Vouchers</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}}</h4>
+
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                             <tr>

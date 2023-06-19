@@ -173,6 +173,7 @@ class JournalVoucherController extends Controller
         }
         $this->next_transaction_id = next_transaction_id();
         $this->journal = AccJournal::where('journal_no', Session::get('journal_no'))->get();
+        AccTransactions::previousTransactionDeleteWhileEdit($id);
         foreach ($this->journal as $journalData) {
             AccTransactions::addJournalVoucher($journalData, $this->next_transaction_id);
         }

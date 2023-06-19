@@ -21,6 +21,7 @@ use App\Http\Controllers\Accounts\Vouchers\ContraVoucherController;
 use App\Http\Controllers\Accounts\Vouchers\ChequePaymentVoucherController;
 use App\Http\Controllers\Accounts\COA\COAController;
 use App\Http\Controllers\Accounts\Vouchers\VoucherViewController;
+use App\Http\Controllers\Accounts\Reports\AccReportsController;
 
 
 // home
@@ -271,13 +272,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/voucher/chequepayment/update/{id}', [ChequePaymentVoucherController::class,'update'])->name('acc.voucher.chequepayment.update');
     Route::post('/accounts/voucher/chequepayment/voucher/destroy/{voucher_no}', [VoucherMasterController::class,'deleteFullVoucher'])->name('acc.voucher.chequepayment.voucher.destroy');
     Route::post('/accounts/voucher/chequepayment/status/update/{voucher_no}', [ChequePaymentVoucherController::class,'statusupdate'])->name('acc.voucher.chequepayment.status.update');
-
     //voucher view
         Route::get('/accounts/voucher/view/',[VoucherViewController::class,'index'])->name('acc.voucher.view');
+    // Accounts Reports
+    Route::get('/accounts/select-accounts-report',[AccReportsController::class,'index'])->name('acc.select.report');
+    Route::post('/accounts/select-accounts-report',[AccReportsController::class,'create'])->name('acc.select.report');
 
-
-
-    Route::get('/accounts/select-accounts-report',function () {return 'This page is under construction';})->name('acc.select.report');
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
 });

@@ -242,7 +242,7 @@ class ReceiptVoucherController extends Controller
         }
         $this->next_transaction_id = next_transaction_id();
         $this->receipt = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
-        AccTransactions::TransactionDeleteWhileEdit($id);
+        AccTransactions::previousTransactionDeleteWhileEdit($id);
         foreach ($this->receipt as $receiptData) {
             AccTransactions::addReceiptVoucher($receiptData, $this->next_transaction_id);
         }
