@@ -177,16 +177,12 @@
                             <i class="bx bx-home-circle"></i><span>Dashboards</span>
                         </a>
                     </li>
-
                         @foreach($mainmenus as $mainmenu)
-
-
                     <li>
                         <a href="{{$mainmenu->url}}" @if(count($mainmenu->subMenu) > 0) class="has-arrow waves-effect" @endif>
                             <i class="{{$mainmenu->faicon}}"></i>
                             <span>{{$mainmenu->main_menu_name}}</span>
                         </a>
-
                         <ul class="sub-menu" aria-expanded="false">
                             @foreach($mainmenu->subMenu as $submenu)
                             <li><a href="{{route(''.$submenu->sub_url.'')}}">{{$submenu->sub_menu_name}}</a></li>

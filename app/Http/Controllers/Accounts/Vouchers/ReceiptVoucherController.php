@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\AccLedger;
+use App\Models\Accounts\AccTransactions;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccReceipt;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class ReceiptVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue,$COUNT_receipts_data,$receiptdatas,$receipt,$vouchermaster;
+    private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue,$COUNT_receipts_data,$receiptdatas,$receipt,$vouchermaster,$next_transaction_id;
 
     public function index()
     {
@@ -230,6 +231,20 @@ class ReceiptVoucherController extends Controller
 
     public function confirm(Request $request, $id)
     {
+        function next_transaction_id()
+        {   $jv_no=AccTransactions::max('transaction_no');
+            $p_id= date("Ymd")."0000";
+            if($jv_no>$p_id)
+                $jv=$jv_no+1;
+            else
+                $jv=$p_id+1;
+            return $jv;
+        }
+        $this->next_transaction_id = next_transaction_id();
+        $this->receipt = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
+        foreach ($this->receipt as $receiptData) {
+            AccTransactions::addReceiptVoucher($receiptData, $this->next_transaction_id);
+        }
         AccReceipt::confirmReceiptVoucher($request, $id);
         AccVoucherMaster::ConfirmVoucher($request, $id);
         Session::forget('receipt_no');

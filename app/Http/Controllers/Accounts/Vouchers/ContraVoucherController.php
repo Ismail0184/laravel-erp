@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounts\Vouchers;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
+use App\Models\Accounts\AccTransactions;
 use App\Models\Accounts\Vouchers\AccContra;
 use App\Models\Accounts\Vouchers\AccJournal;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
@@ -159,6 +160,20 @@ class ContraVoucherController extends Controller
 
     public function confirm(Request $request, $id)
     {
+        function next_transaction_id()
+        {   $jv_no=AccTransactions::max('transaction_no');
+            $p_id= date("Ymd")."0000";
+            if($jv_no>$p_id)
+                $jv=$jv_no+1;
+            else
+                $jv=$p_id+1;
+            return $jv;
+        }
+        $this->next_transaction_id = next_transaction_id();
+        $this->contra = AccContra::where('contra_no', Session::get('contra_no'))->get();
+        foreach ($this->contra as $contraData) {
+            AccTransactions::addContraVoucher($contraData, $this->next_transaction_id);
+        }
         AccContra::confirmContraVoucher($request, $id);
         AccVoucherMaster::ConfirmVoucher($request, $id);
         Session::forget('contra_no');

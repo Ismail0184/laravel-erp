@@ -65,14 +65,19 @@
                         </div>
 
                     </div>
-
+                    @if($COUNT_receipts_data > 0)
+                    @else
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-7">
                             <div>
+                                @if(Session::get('receipt_no'))
+                                    <a href="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'receipt','vouchertype'=>'single'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');">Cancel</a>
+                                @endif
                                 <button type="submit" class="btn btn-success w-md">@if(Session::get('receipt_no')) Update @else Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>
+                    @endif
                 </form>
             </div>
         </div>

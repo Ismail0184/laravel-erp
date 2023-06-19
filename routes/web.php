@@ -20,6 +20,7 @@ use App\Http\Controllers\Accounts\Vouchers\JournalVoucherController;
 use App\Http\Controllers\Accounts\Vouchers\ContraVoucherController;
 use App\Http\Controllers\Accounts\Vouchers\ChequePaymentVoucherController;
 use App\Http\Controllers\Accounts\COA\COAController;
+use App\Http\Controllers\Accounts\Vouchers\VoucherViewController;
 
 
 // home
@@ -170,6 +171,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/voucher/receipt/mupdate/{voucher_no}', [VoucherMasterController::class,'update'])->name('acc.voucher.receipt.mupdate');
     Route::post('/accounts/voucher/receipt/confirm/{voucher_no}', [ReceiptVoucherController::class,'confirm'])->name('acc.voucher.receipt.confirm');
     Route::post('/accounts/voucher/receipt/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.receipt.cancelall');
+    Route::get('/accounts/voucher/receipt/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.receipt.cancelall');
     Route::post('/accounts/voucher/receipt/store', [ReceiptVoucherController::class,'store'])->name('acc.voucher.receipt.store');
     Route::get('/accounts/voucher/receipt/show/{voucher_no}', [ReceiptVoucherController::class,'show'])->name('acc.voucher.receipt.show');
     Route::get('/accounts/voucher/receipt/download/{voucher_no}', [ReceiptVoucherController::class,'downalodvoucher'])->name('acc.voucher.receipt.download');
@@ -192,6 +194,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/voucher/payment/mupdate/{voucher_no}', [VoucherMasterController::class,'update'])->name('acc.voucher.payment.mupdate');
     Route::post('/accounts/voucher/payment/confirm/{voucher_no}', [PaymentVoucherController::class,'confirm'])->name('acc.voucher.payment.confirm');
     Route::post('/accounts/voucher/payment/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.payment.cancelall');
+    Route::get('/accounts/voucher/payment/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.payment.cancelall');
     Route::post('/accounts/voucher/payment/store', [PaymentVoucherController::class,'store'])->name('acc.voucher.payment.store');
     Route::get('/accounts/voucher/payment/show/{voucher_no}', [PaymentVoucherController::class,'show'])->name('acc.voucher.payment.show');
     Route::get('/accounts/voucher/payment/download/{voucher_no}', [PaymentVoucherController::class,'downalodvoucher'])->name('acc.voucher.payment.download');
@@ -213,6 +216,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/voucher/journal/mupdate/{voucher_no}', [VoucherMasterController::class,'update'])->name('acc.voucher.journal.mupdate');
     Route::post('/accounts/voucher/journal/confirm/{voucher_no}', [JournalVoucherController::class,'confirm'])->name('acc.voucher.journal.confirm');
     Route::post('/accounts/voucher/journal/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.journal.cancelall');
+    Route::get('/accounts/voucher/journal/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.journal.cancelall');
     Route::post('/accounts/voucher/journal/store', [JournalVoucherController::class,'store'])->name('acc.voucher.journal.store');
     Route::get('/accounts/voucher/journal/show/{voucher_no}', [JournalVoucherController::class,'show'])->name('acc.voucher.journal.show');
     Route::get('/accounts/voucher/journal/download/{voucher_no}', [JournalVoucherController::class,'downalodvoucher'])->name('acc.voucher.journal.download');
@@ -233,6 +237,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/voucher/contra/mupdate/{voucher_no}', [VoucherMasterController::class,'update'])->name('acc.voucher.contra.mupdate');
     Route::post('/accounts/voucher/contra/confirm/{voucher_no}', [ContraVoucherController::class,'confirm'])->name('acc.voucher.contra.confirm');
     Route::post('/accounts/voucher/contra/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.contra.cancelall');
+    Route::get('/accounts/voucher/contra/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.contra.cancelall');
     Route::post('/accounts/voucher/contra/store', [ContraVoucherController::class,'store'])->name('acc.voucher.contra.store');
     Route::get('/accounts/voucher/contra/show/{voucher_no}', [ContraVoucherController::class,'show'])->name('acc.voucher.contra.show');
     Route::get('/accounts/voucher/contra/download/{voucher_no}', [ContraVoucherController::class,'downalodvoucher'])->name('acc.voucher.contra.download');
@@ -253,9 +258,10 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/voucher/chequepayment/mupdate/{voucher_no}', [VoucherMasterController::class,'update'])->name('acc.voucher.chequepayment.mupdate');
     Route::post('/accounts/voucher/chequepayment/confirm/{voucher_no}', [ChequePaymentVoucherController::class,'confirm'])->name('acc.voucher.chequepayment.confirm');
     Route::post('/accounts/voucher/chequepayment/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.chequepayment.cancelall');
+    Route::get('/accounts/voucher/chequepayment/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.chequepayment.cancelall');
     Route::post('/accounts/voucher/chequepayment/store', [ChequePaymentVoucherController::class,'store'])->name('acc.voucher.chequepayment.store');
     Route::get('/accounts/voucher/chequepayment/show/{voucher_no}', [ChequePaymentVoucherController::class,'show'])->name('acc.voucher.chequepayment.show');
-    Route::get('/accounts/voucher/chequepayment/download/{voucher_no}', [ContraVoucherController::class,'downalodvoucher'])->name('acc.voucher.chequepayment.download');
+    Route::get('/accounts/voucher/chequepayment/download/{voucher_no}', [ChequePaymentVoucherController::class,'downalodvoucher'])->name('acc.voucher.chequepayment.download');
     Route::get('/accounts/voucher/chequepayment/edit/{id}', [ChequePaymentVoucherController::class,'edit'])->name('acc.voucher.chequepayment.edit');
     Route::post('/accounts/voucher/chequepayment/destroy/{id}', [ChequePaymentVoucherController::class,'destroy'])->name('acc.voucher.chequepayment.destroy');
     Route::get('/accounts/voucher/chequepayment/voucher/edit/{voucher_no}', function (Request $request){ session(['contra_no'=>request('voucher_no')]);
@@ -266,10 +272,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/voucher/chequepayment/voucher/destroy/{voucher_no}', [VoucherMasterController::class,'deleteFullVoucher'])->name('acc.voucher.chequepayment.voucher.destroy');
     Route::post('/accounts/voucher/chequepayment/status/update/{voucher_no}', [ChequePaymentVoucherController::class,'statusupdate'])->name('acc.voucher.chequepayment.status.update');
 
+    //voucher view
+        Route::get('/accounts/voucher/view/',[VoucherViewController::class,'index'])->name('acc.voucher.view');
 
 
 
-    Route::get('/accounts/selectaccountsreport',function () {return 'This page is under construction';})->name('acc.select.report');
+    Route::get('/accounts/select-accounts-report',function () {return 'This page is under construction';})->name('acc.select.report');
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
 });

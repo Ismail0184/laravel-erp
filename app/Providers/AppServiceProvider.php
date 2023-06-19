@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Accounts\AccTransactions;
 use App\Models\Developer\DevMainMenu;
 use Illuminate\Support\ServiceProvider;
 use View;

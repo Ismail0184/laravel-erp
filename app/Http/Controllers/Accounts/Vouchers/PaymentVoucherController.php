@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Accounts\Vouchers;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
+use App\Models\Accounts\AccTransactions;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccPayment;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
 use Pdf;
+
 
 class PaymentVoucherController extends Controller
 {
@@ -20,7 +22,7 @@ class PaymentVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $paymentVoucher,$ledgers,$vouchertype,$masterData,$payments,$editValue,$COUNT_payments_data,$paymntdatas,$payment,$vouchermaster,$costcenters;
+    private $paymentVoucher,$ledgers,$vouchertype,$masterData,$payments,$editValue,$COUNT_payments_data,$paymntdatas,$payment,$vouchermaster,$costcenters,$next_transaction_id;
 
 
     public function index()
@@ -211,6 +213,20 @@ class PaymentVoucherController extends Controller
 
     public function confirm(Request $request, $id)
     {
+        function next_transaction_id()
+        {   $jv_no=AccTransactions::max('transaction_no');
+            $p_id= date("Ymd")."0000";
+            if($jv_no>$p_id)
+                $jv=$jv_no+1;
+            else
+                $jv=$p_id+1;
+            return $jv;
+        }
+        $this->next_transaction_id = next_transaction_id();
+        $this->receipt = AccPayment::where('payment_no', Session::get('payment_no'))->get();
+        foreach ($this->receipt as $receiptData) {
+            AccTransactions::addPaymentVoucher($receiptData, $this->next_transaction_id);
+        }
         AccPayment::confirmPaymentVoucher($request, $id);
         AccVoucherMaster::ConfirmVoucher($request, $id);
         Session::forget('payment_no');

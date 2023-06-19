@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Vouchers\AccChequePayment;
 use App\Models\Accounts\Vouchers\AccContra;
 use App\Models\Accounts\Vouchers\AccJournal;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
@@ -56,13 +57,14 @@ class VoucherMasterController extends Controller
             } else {
                 return redirect('/accounts/voucher/payment/create');
             }
-        }
-
-        elseif ($request->journal_type=='journal'){
+        } elseif ($request->journal_type=='journal'){
             return redirect('/accounts/voucher/journal/create');
         }
         elseif ($request->journal_type=='contra'){
             return redirect('/accounts/voucher/contra/create');
+        }
+        elseif ($request->journal_type=='bank-payment'){
+            return redirect('/accounts/voucher/chequepayment/create');
         }
     }
 
@@ -112,7 +114,9 @@ class VoucherMasterController extends Controller
             }
         } elseif ($request->journal_type=='journal'){
             return redirect('/accounts/voucher/journal/create');
-        }
+        } elseif ($request->journal_type=='bank-payment'){
+return redirect('/accounts/voucher/chequepayment/create');
+}
     }
 
     /**
@@ -155,8 +159,13 @@ class VoucherMasterController extends Controller
             AccVoucherMaster::destroyVoucher($id);
             Session::forget('contra_no');
             Session::forget('contra_narration');
-
             return redirect('/accounts/voucher/contra/create');
+        } elseif ($request->journal_type=='bank-payment'){
+            AccChequePayment::destroyCPaymentAllData($id);
+            AccVoucherMaster::destroyVoucher($id);
+            Session::forget('cpayment_no');
+            Session::forget('cpayment_narration');
+            return redirect('/accounts/voucher/chequepayment/create');
         }
     }
 

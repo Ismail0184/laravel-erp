@@ -52,13 +52,19 @@
                             <input type="hidden" name="amount" value="0" class="form-control" />
                         </div>
                     </div>
+                    @if($COUNT_payments_data > 0)
+                    @else
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-7">
                             <div>
+                                @if(Session::get('payment_no'))
+                                    <a href="{{route('acc.voucher.payment.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'payment','vouchertype'=>'multiple'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');">Cancel</a>
+                                @endif
                                 <button type="submit" class="btn btn-success w-md">@if(Session::get('payment_no')) Update @else Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>
+                    @endif
                 </form>
             </div>
         </div>

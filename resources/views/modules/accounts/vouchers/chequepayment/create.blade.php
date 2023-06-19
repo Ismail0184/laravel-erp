@@ -16,7 +16,6 @@
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="entry_at" value="{{date('Y-m-d H:i:s')}}">
-                    <input type="hidden" name="maturity_date" value="2000-01-01">
                     <input type="hidden" name="journal_type" value="bank-payment">
                     <input type="hidden" name="vouchertype" value="single">
                     <input type="hidden" name="status" value="MANUAL">
@@ -44,11 +43,10 @@
                         <div class="col-sm-3">
                             <input type="date" name="cheque_date" @if(Session::get('cpayment_no')>0) value="{{$masterData->cheque_date}}" @endif class="form-control" />
                         </div>
-
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Maty. Date</label>
                         <div class="col-sm-3">
                             <input type="hidden" name="cheque_of_bank" value="N/A" class="form-control" />
-                            <input type="date" name="maturity_date" @if(Session::get('cpayment_no')>0) value="{{$masterData->cheque_of_bank}}" @endif class="form-control" />
+                            <input type="date" name="maturity_date" @if(Session::get('cpayment_no')>0) value="{{$masterData->maturity_date}}" @endif class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row mb-2">
@@ -65,12 +63,13 @@
                         <div class="col-sm-3">
                             <input type="number" name="amount" @if(Session::get('cpayment_no')>0) value="{{$masterData->amount}}" @endif class="form-control" step="any" placeholder="paid amount" min="1"/>
                         </div>
-
                     </div>
-
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-7">
                             <div>
+                                @if(Session::get('cpayment_no'))
+                                    <a href="{{route('acc.voucher.payment.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'bank-payment'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');">Cancel</a>
+                                @endif
                                 <button type="submit" class="btn btn-success w-md">@if(Session::get('cpayment_no')) Update @else Initiate & Proceed @endif</button>
                             </div>
                         </div>
@@ -81,7 +80,7 @@
     </div>
 
     @if(Session::get('cpayment_no')>0)
-        <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.payment.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.payment.store')}} @endif">
+        <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.chequepayment.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.chequepayment.store')}} @endif">
             @csrf
             @if ($message = Session::get('destroy_message'))
                 <p class="text-center text-danger">{{ $message }}</p>
@@ -135,7 +134,7 @@
                     <td style="vertical-align: middle">
                         @if(request('id')>0)
                             <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="{{route('acc.voucher.payment.create')}}" class="btn btn-danger" style="margin-top: 5px">Cancel</a>
+                            <a href="{{route('acc.voucher.chequepayment.create')}}" class="btn btn-danger" style="margin-top: 5px">Cancel</a>
                         @else
                             <button type="submit" class="btn btn-success">Add</button>
                         @endif
@@ -145,7 +144,7 @@
             </table>
         </form>
 
-        @if($COUNT_payments_data > 0)
+        @if($COUNT_cpayments_data > 0)
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
@@ -176,9 +175,9 @@
                                         <td style="text-align: right; vertical-align: middle">{{number_format($cpayment->dr_amt,2)}}</td>
                                         <td style="text-align: right;vertical-align: middle">{{number_format($cpayment->cr_amt,2)}}</td>
                                         <td class="text-center" style="vertical-align: middle">
-                                            <form action="{{route('acc.voucher.payment.destroy', ['id' => $cpayment->id])}}" method="post">
+                                            <form action="{{route('acc.voucher.chequepayment.destroy', ['id' => $cpayment->id])}}" method="post">
                                                 @csrf
-                                                <a href="{{route('acc.voucher.payment.edit',['id' => $cpayment->id])}}" title="Update" class="btn btn-success btn-sm">
+                                                <a href="{{route('acc.voucher.chequepayment.edit',['id' => $cpayment->id])}}" title="Update" class="btn btn-success btn-sm">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
@@ -199,14 +198,14 @@
                                 </tbody>
                             </table>
                             <div>
-                                <form action="{{route('acc.voucher.payment.cancelall', ['voucher_no' => $masterData->voucher_no])}}" method="post">
+                                <form action="{{route('acc.voucher.chequepayment.cancelall', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                                     @csrf
-                                    <input type="hidden" name="journal_type" value="payment">
+                                    <input type="hidden" name="journal_type" value="bank-payment">
                                     <input type="hidden" name="vouchertype" value="single">
                                     <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');">Cancel & Delete All</button>
                                 </form>
                                 @if(number_format($totalDebit,2) === number_format($totalCredit,2))
-                                    <form action="{{route('acc.voucher.payment.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
+                                    <form action="{{route('acc.voucher.chequepayment.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                                         @csrf
                                         <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Confirm & Finish Voucher</button>
                                     </form>

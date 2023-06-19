@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounts\Vouchers;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
+use App\Models\Accounts\AccTransactions;
 use App\Models\Accounts\Vouchers\AccJournal;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class JournalVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $journalVoucher,$ledgers,$vouchertype,$masterData,$journals,$editValue,$COUNT_journals_data,$journaldatas,$journal,$vouchermaster,$costcenters;
+    private $journalVoucher,$ledgers,$vouchertype,$masterData,$journals,$editValue,$COUNT_journals_data,$journaldatas,$journal,$vouchermaster,$costcenters,$next_transaction_id;
 
 
     public function index()
@@ -161,6 +162,20 @@ class JournalVoucherController extends Controller
 
     public function confirm(Request $request, $id)
     {
+        function next_transaction_id()
+        {   $jv_no=AccTransactions::max('transaction_no');
+            $p_id= date("Ymd")."0000";
+            if($jv_no>$p_id)
+                $jv=$jv_no+1;
+            else
+                $jv=$p_id+1;
+            return $jv;
+        }
+        $this->next_transaction_id = next_transaction_id();
+        $this->journal = AccJournal::where('journal_no', Session::get('journal_no'))->get();
+        foreach ($this->journal as $journalData) {
+            AccTransactions::addJournalVoucher($journalData, $this->next_transaction_id);
+        }
         AccJournal::confirmJournalVoucher($request, $id);
         AccVoucherMaster::ConfirmVoucher($request, $id);
         Session::forget('journal_no');

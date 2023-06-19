@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
+use App\Models\Accounts\Vouchers\AccChequePayment;
+use App\Models\Accounts\Vouchers\AccPayment;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use Illuminate\Http\Request;
 use Auth;
@@ -22,7 +25,7 @@ class ChequePaymentVoucherController extends Controller
 
     public function index()
     {
-        $this->cpaymntdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','cpayment')->orderBy('voucher_no','DESC')->get();
+        $this->cpaymntdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','bank-payment')->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.chequepayment.index', ['cpaymntdatas' =>$this->cpaymntdatas]);
     }
 
@@ -34,18 +37,20 @@ class ChequePaymentVoucherController extends Controller
     public function create()
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id','1002')->whereBetween('ledger_id',['1002000200010000','1002000201000000'])->get();
+        $this->ledgerss = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
+        $this->costcenters = AccCostCenter::where('status','active')->get();
         $this->vouchertype ='5';
         $this->cpaymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
-        if(Session::get('payment_no')>0)
+        if(Session::get('cpayment_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('cpayment_no'));
-            $this->cpayments = AccPayment::where('cpayment_no', Session::get('cpayment_no'))->get();
-            $this->COUNT_cpayments_data = AccPayment::where('cpayment_no', Session::get('cpayment_no'))->count();
+            $this->cpayments = AccChequePayment::where('cpayment_no', Session::get('cpayment_no'))->get();
+            $this->COUNT_cpayments_data = AccChequePayment::where('cpayment_no', Session::get('cpayment_no'))->count();
         }
         return view('modules.accounts.vouchers.chequepayment.create', [
             'cpaymentVoucher' =>$this->cpaymentVoucher,
             'ledgers' => $this->ledgers,
-            'ledgerss' => $this->ledgers,
+            'ledgerss' => $this->ledgerss,
             'masterData' => $this->masterData,
             'cpayments' => $this->cpayments,
             'COUNT_cpayments_data' => $this->COUNT_cpayments_data,
@@ -61,7 +66,20 @@ class ChequePaymentVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            AccChequePayment::addCPaymentData($request);
+            $this->masterData = AccVoucherMaster::find(Session::get('cpayment_no'));
+            $this->payments = AccChequePayment::where('cpayment_no', Session::get('cpayment_no'))->get();
+            $totalDebit = 0;
+            $totalCredit = 0;
+            foreach ($this->payments as $payments){
+                $totalDebit = $totalDebit + $payments->dr_amt;
+                $totalCredit = $totalCredit + $payments->cr_amt;
+            }
+            if(number_format($totalDebit,2) === number_format($this->masterData->amount,2) && number_format($totalDebit,2) !== number_format($totalCredit,2))
+            {
+                AccChequePayment::addCPaymentDataCr($request);
+            }
+            return redirect('/accounts/voucher/chequepayment/create')->with('store_message', 'A Cheque payment data successfully added!!');
     }
 
     /**
@@ -72,7 +90,23 @@ class ChequePaymentVoucherController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->cpayment = AccChequePayment::where('cpayment_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        return view('modules.accounts.vouchers.chequepayment.show', [
+            'cpayments' =>$this->cpayment,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+    }
+
+    public function downalodvoucher($id)
+    {
+        $this->cpayment = AccChequePayment::where('cpayment_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        $pdf = PDF::loadView('modules.accounts.vouchers.chequepayment.download', [
+            'cpayments' =>$this->cpayment,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+        return $pdf->stream('voucher.pdf');
     }
 
     /**
@@ -83,7 +117,31 @@ class ChequePaymentVoucherController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $this->costcenters = AccCostCenter::where('status','active')->get();
+        $this->vouchertype ='5';
+        $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        if(Session::get('cpayment_no')>0)
+        {
+            $this->masterData = AccVoucherMaster::find(Session::get('cpayment_no'));
+            $this->cpayments = AccChequePayment::where('cpayment_no', Session::get('cpayment_no'))->get();
+            $this->COUNT_cpayments_data = AccChequePayment::where('cpayment_no', Session::get('cpayment_no'))->count();
+        }
+        if(\request('id')>0)
+        {
+            $this->editValue = AccChequePayment::find($id);
+        }
+
+        return view('modules.accounts.vouchers.chequepayment.create', [
+            'cpaymentVoucher' =>$this->cpaymentVoucher,
+            'ledgers' => $this->ledgers,
+            'ledgerss' => $this->ledgers,
+            'masterData' => $this->masterData,
+            'cpayments' => $this->cpayments,
+            'editValue' => $this->editValue,
+            'COUNT_cpayments_data' => $this->COUNT_cpayments_data,
+            'costcenters' =>$this->costcenters
+        ] );
     }
 
     /**
@@ -95,7 +153,8 @@ class ChequePaymentVoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccChequePayment::updateCPaymentData($request, $id);
+        return redirect('/accounts/voucher/chequepayment/create')->with('update_message', 'This data (uid=' . $id . ') has been successfully updated!!');
     }
 
     /**
@@ -106,6 +165,23 @@ class ChequePaymentVoucherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccChequePayment::destroyCPaymentData($id);
+        return redirect('/accounts/voucher/chequepayment/create')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
+    }
+
+    public function confirm(Request $request, $id)
+    {
+        AccChequePayment::confirmCPaymentVoucher($request, $id);
+        AccVoucherMaster::ConfirmVoucher($request, $id);
+        Session::forget('payment_no');
+        Session::forget('payment_narration');
+        return redirect('/accounts/voucher/chequepayment')->with('store_message','A cheque payment voucher has been successfully created!!');
+    }
+
+    public function statusupdate(Request $request, $id)
+    {
+        AccChequePayment::statusupdate($request, $id);
+        AccVoucherMaster::VoucherStatusUpdate($request, $id);
+        return redirect('/accounts/voucher/chequepayment')->with('store_message','This cheque payment voucher has been successfully '.$request->status.' !!');
     }
 }
