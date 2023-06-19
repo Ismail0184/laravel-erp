@@ -99,4 +99,15 @@ class AccTransactions extends Model
         self::$transaction->pcomid = $request->pcomid;
         self::$transaction->save();
     }
+
+    public static function deletedTransaction($id)
+    {
+        AccTransactions::where('vr_no',$id)->update(['status'=>'DELETED']);
+    }
+
+    public static function TransactionDeleteWhileEdit($id)
+    {
+        self::$transaction = AccTransactions::where('vr_no',$id);
+        self::$transaction->delete();
+    }
 }

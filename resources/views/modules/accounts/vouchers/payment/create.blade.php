@@ -63,9 +63,7 @@
                         <div class="col-sm-3">
                             <input type="number" name="amount" @if(Session::get('payment_no')>0) value="{{$masterData->amount}}" @endif class="form-control" step="any" placeholder="paid amount" min="1"/>
                         </div>
-
                     </div>
-
                     @if($COUNT_payments_data > 0)
                     @else
                     <div class="form-group row justify-content-end">

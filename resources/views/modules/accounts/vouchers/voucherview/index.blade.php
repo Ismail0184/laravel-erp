@@ -58,16 +58,25 @@
                                             @csrf
                                             <input type="hidden" name="journal_type" value="{{$voucherView->journal_type}}">
                                             <input type="hidden" name="vouchertype" value="{{$voucherView->vouchertype}}">
-                                            <a href="{{route('acc.voucher.receipt.show',['voucher_no' => $voucherView->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
+                                            <a href="@if($voucherView->journal_type == 'receipt'){{route('acc.voucher.receipt.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'payment'){{route('acc.voucher.payment.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'journal'){{route('acc.voucher.journal.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'contra'){{route('acc.voucher.contra.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'bank-payment'){{route('acc.voucher.chequepayment.show',['voucher_no' => $voucherView->voucher_no])}}@endif" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
                                             @if($voucherView->status !== 'DELETED')
-                                                <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $voucherView->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
+                                                <a href="@if($voucherView->journal_type == 'receipt'){{route('acc.voucher.receipt.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'payment'){{route('acc.voucher.payment.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'journal'){{route('acc.voucher.journal.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'contra'){{route('acc.voucher.contra.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'bank-payment'){{route('acc.voucher.chequepayment.download',['voucher_no' => $voucherView->voucher_no])}}@endif" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 @if($voucherView->status=='UNCHECKED' || $voucherView->status=='MANUAL')
                                                     @if($getVoucherDate<2)
-                                                        <a href="@if($voucherView->vouchertype=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $voucherView->voucher_no])}} @elseif($voucherView->vouchertype=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $voucherView->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
+                                                        <a href="@if($voucherView->journal_type == 'receipt')@if($voucherView->vouchertype=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $voucherView->voucher_no])}} @elseif($voucherView->vouchertype=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $voucherView->voucher_no])}} @endif
+                                                        @elseif($voucherView->journal_type == 'payment')
+                                                        @if($voucherView->vouchertype=='single'){{route('acc.voucher.payment.voucher.edit',['voucher_no' => $voucherView->voucher_no])}} @elseif($voucherView->vouchertype=='multiple') {{route('acc.voucher.payment.voucher.editMultiple',['voucher_no' => $voucherView->voucher_no])}} @endif
+                                                        @elseif($voucherView->journal_type == 'journal')
+                                                        {{route('acc.voucher.journal.voucher.edit',['voucher_no' => $voucherView->voucher_no])}}
+                                                        @elseif($voucherView->journal_type == 'contra')
+                                                        {{route('acc.voucher.contra.voucher.edit',['voucher_no' => $voucherView->voucher_no])}}
+                                                        @elseif($voucherView->journal_type == 'bank-payment')
+                                                        {{route('acc.voucher.chequepayment.voucher.edit',['voucher_no' => $voucherView->voucher_no])}}
+                                                        @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

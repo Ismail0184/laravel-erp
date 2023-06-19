@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounts\Vouchers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccTransactions;
 use App\Models\Accounts\Vouchers\AccChequePayment;
 use App\Models\Accounts\Vouchers\AccContra;
 use App\Models\Accounts\Vouchers\AccJournal;
@@ -172,18 +173,22 @@ return redirect('/accounts/voucher/chequepayment/create');
     public function deleteFullVoucher(Request $request, $id)
     {
         if ($request->journal_type=='receipt') {
+            AccTransactions::deletedTransaction($id);
             AccReceipt::deletedReceiptVoucher($id);
             AccVoucherMaster::deletedVoucher($id);
             return redirect('/accounts/voucher/receipt')->with('destroy_message','This (uid='.$id.') receipt voucher has been successfully deleted!!');
         } elseif ($request->journal_type=='payment'){
+            AccTransactions::deletedTransaction($id);
             AccPayment::deletedPaymentVoucher($id);
             AccVoucherMaster::deletedVoucher($id);
             return redirect('/accounts/voucher/payment')->with('destroy_message','This (uid='.$id.') receipt voucher has been successfully deleted!!');
         } elseif ($request->journal_type=='journal'){
+            AccTransactions::deletedTransaction($id);
             AccJournal::deletedJournalVoucher($id);
             AccVoucherMaster::deletedVoucher($id);
             return redirect('/accounts/voucher/journal')->with('destroy_message','This (uid='.$id.') receipt voucher has been successfully deleted!!');
         } elseif ($request->journal_type=='contra'){
+            AccTransactions::deletedTransaction($id);
             AccContra::deletedContraVoucher($id);
             AccVoucherMaster::deletedVoucher($id);
             return redirect('/accounts/voucher/contra')->with('destroy_message','This (uid='.$id.') receipt voucher has been successfully deleted!!');
