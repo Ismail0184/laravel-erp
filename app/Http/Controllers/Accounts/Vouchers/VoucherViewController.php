@@ -38,13 +38,28 @@ class VoucherViewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function filterVoucher(Request $request)
+    public function filterVouchers(Request $request)
     {
         $f_data = $request->f_date;
         $t_data = $request->t_date;
-        $this->voucherViews = AccVoucherMaster::whereBetween('voucher_date',[$f_data,$t_data])->orderBy('voucher_no','DESC')->get();
-        return view('modules.accounts.vouchers.voucherview.index',['voucherViews' =>$this->voucherViews]);
-        return $f_data;
+        $journal_type = $request->journal_type;
+        $status = $request->status;
+
+        $query = AccVoucherMaster::query();
+
+        if ($f_data && $t_data) {
+            $query->whereBetween('voucher_date', [$f_data,$t_data]);
+        }
+        if($journal_type)
+        {
+            $query->where('journal_type',$journal_type);
+        }
+        if($status)
+        {
+            $query->where('status',$status);
+        }
+        $voucherViews = $query->get();
+        return view('modules.accounts.vouchers.voucherview.index',compact('voucherViews'));
     }
 
     /**

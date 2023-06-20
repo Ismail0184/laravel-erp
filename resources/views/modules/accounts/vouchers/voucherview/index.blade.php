@@ -40,7 +40,7 @@
                                     <div class="col-xl col-sm-6">
                                         <div class="form-group mt-3 mb-0">
                                             <label>Type</label>
-                                            <select class="form-control select2-search-disable">
+                                            <select class="form-control select2-search-disable" name="journal_type">
                                                 <option value="" selected>All</option>
                                                 <option value="receipt" >Receipt</option>
                                                 <option value="payment">Payment</option>
