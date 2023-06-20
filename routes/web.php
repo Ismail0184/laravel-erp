@@ -273,10 +273,10 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/voucher/chequepayment/voucher/destroy/{voucher_no}', [VoucherMasterController::class,'deleteFullVoucher'])->name('acc.voucher.chequepayment.voucher.destroy');
     Route::post('/accounts/voucher/chequepayment/status/update/{voucher_no}', [ChequePaymentVoucherController::class,'statusupdate'])->name('acc.voucher.chequepayment.status.update');
     //voucher view
-        Route::get('/accounts/voucher/view/',[VoucherViewController::class,'index'])->name('acc.voucher.view');
+    Route::get('/accounts/voucher/view/',[VoucherViewController::class,'index'])->name('acc.voucher.view');
+    Route::post('/accounts/voucher/view/',[VoucherViewController::class,'filterVoucher'])->name('acc.voucher.filter');
     // Accounts Reports
     Route::get('/accounts/select-accounts-report',[AccReportsController::class,'index'])->name('acc.select.report');
-    Route::post('/accounts/select-accounts-report',[AccReportsController::class,'create'])->name('acc.select.report');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
