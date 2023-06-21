@@ -6,7 +6,24 @@
 
 @section('body')
     <div class="row">
-        <div class="col-lg-12">
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-xl col-sm-6">
+                        <div class="form-group mt-3 mb-0">
+                            <select class="form-control" style="border: none; overflow: hidden" size="30" name="journal_type">
+                                @foreach($reports as $report)
+                                <option value=""></option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
                     <!-- Nav tabs -->
@@ -79,19 +96,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="container">
-            <div class="form-group">
-                <label for="exampleSelect">Select an option:</label>
-                <select class="form-select" id="exampleSelect">
-                    <option selected>Choose...</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                </select>
             </div>
         </div>
     </div>

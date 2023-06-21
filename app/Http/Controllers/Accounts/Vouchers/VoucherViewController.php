@@ -14,12 +14,11 @@ class VoucherViewController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $voucherViews;
 
     public function index()
     {
-        $this->voucherViews = AccVoucherMaster::orderBy('voucher_no','DESC')->get();
-        return view('modules.accounts.vouchers.voucherview.index',['voucherViews' =>$this->voucherViews]);
+        $voucherViews = AccVoucherMaster::orderBy('voucher_no','DESC')->take(20)->get();
+        return view('modules.accounts.vouchers.voucherview.index',compact('voucherViews'));
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounts\Reports;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Vouchers\AccReceipt;
 use Illuminate\Http\Request;
 
 class AccReportsController extends Controller
@@ -14,7 +15,8 @@ class AccReportsController extends Controller
      */
     public function index()
     {
-        return view('modules.accounts.reports.index');
+        $reports = AccReceipt::all();
+        return view('modules.accounts.reports.index', compact('reports'));
     }
 
     /**
