@@ -277,6 +277,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/voucher/view/',[VoucherViewController::class,'filterVouchers'])->name('acc.voucher.filter');
     // Accounts Reports
     Route::get('/accounts/select-accounts-report',[AccReportsController::class,'index'])->name('acc.select.report');
+    Route::get('/accounts/select-accounts-report/report_id/{report_id}',[AccReportsController::class,'select'])->name('acc.selected.report');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

@@ -12,9 +12,12 @@
                 <div class="card-body">
                     <div class="col-xl col-sm-6">
                         <div class="form-group mt-3 mb-0">
-                            <select class="form-control" style="border: none; overflow: hidden" size="30" name="journal_type">
-                                @foreach($reports as $report)
-                                <option value=""></option>
+                            <select class="form-control" style="border: none; overflow: hidden" size="50" name="report_id" onchange="reloadPage(this)">
+                                @foreach($reportgroups as $group)
+                                    <optgroup label="{{$group->optgroup_label_name}}"></optgroup>
+                                    @foreach($group->reports as $report)
+                                    <option value="{{$report->report_id}}" @if(request('report_id')==$report->report_id) selected @endif>{{$report->report_name}}</option>
+                                    @endforeach
                                 @endforeach
                             </select>
                         </div>
@@ -100,3 +103,9 @@
         </div>
     </div>
 @endsection
+<script>
+    function reloadPage(selectElement) {
+        var selectedValue = selectElement.value;
+        window.location.href = "/accounts/select-accounts-report/report_id/" + selectedValue;
+    }
+</script>

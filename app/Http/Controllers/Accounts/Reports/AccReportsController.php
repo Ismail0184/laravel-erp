@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Accounts\Reports;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounts\Vouchers\AccReceipt;
+use App\Models\Developer\Reports\DevRepoptGroupLabel;
 use Illuminate\Http\Request;
 
 class AccReportsController extends Controller
@@ -15,8 +15,8 @@ class AccReportsController extends Controller
      */
     public function index()
     {
-        $reports = AccReceipt::all();
-        return view('modules.accounts.reports.index', compact('reports'));
+        $reportgroups = DevRepoptGroupLabel::where('status','active')->where('module_id',Session('module_id'))->orderBy('serial')->get();
+        return view('modules.accounts.reports.index', compact('reportgroups'));
     }
 
     /**
@@ -24,9 +24,10 @@ class AccReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function select()
     {
-        //
+        $reportgroups = DevRepoptGroupLabel::where('status','active')->where('module_id',Session('module_id'))->orderBy('serial')->get();
+        return view('modules.accounts.reports.index', compact('reportgroups'));
     }
 
     /**
