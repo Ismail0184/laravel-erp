@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Session;
 use PDF;
+
 class ReceiptVoucherController extends Controller
 {
     /**
@@ -119,7 +120,7 @@ class ReceiptVoucherController extends Controller
         $this->vouchermaster = AccVoucherMaster::find($id);
         return view('modules.accounts.vouchers.receipt.show', [
             'receipts' =>$this->receipt,
-            'vouchermaster' =>$this->vouchermaster,
+            'vouchermaster' =>$this->vouchermaster
          ]);
     }
 

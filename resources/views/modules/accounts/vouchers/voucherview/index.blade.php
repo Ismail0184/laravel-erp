@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('title')
     @php($title='Vouchers View')
     {{$title}}
@@ -28,13 +27,13 @@
                                     <div class="col-xl col-sm-6">
                                         <div class="form-group mt-3 mb-0">
                                             <label>From Date</label>
-                                            <input type="date" class="form-control" name="f_date" value="{{ request('f_date') ? request('f_date') : date('Y-m-01') }}">
+                                            <input type="date" class="form-control" name="f_date" value="{{ request('f_date') ? request('f_date') : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-xl col-sm-6">
                                         <div class="form-group mt-3 mb-0">
                                             <label>To Date</label>
-                                            <input type="date" class="form-control" name="t_date" value="{{ request('t_date') ? request('t_date') : date('Y-m-d') }}">
+                                            <input type="date" class="form-control" name="t_date" value="{{ request('t_date') ? request('t_date') : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-xl col-sm-6">
@@ -42,13 +41,13 @@
                                             <label>Type</label>
                                             <select class="form-control select2-search-disable" name="journal_type">
                                                 <option value="" selected>All</option>
-                                                <option value="receipt" >Receipt</option>
-                                                <option value="payment">Payment</option>
-                                                <option value="journal">Journal</option>
-                                                <option value="contra">Contra</option>
-                                                <option value="bank-payment">Cheque Payment</option>
-                                                <option value="purchase">Purchase</option>
-                                                <option value="sales">Sales</option>
+                                                <option value="receipt" @if(request('journal_type')=='receipt') selected @endif >Receipt</option>
+                                                <option value="payment" @if(request('journal_type')=='payment') selected @endif >Payment</option>
+                                                <option value="journal" @if(request('journal_type')=='journal') selected @endif >Journal</option>
+                                                <option value="contra" @if(request('journal_type')=='contra') selected @endif >Contra</option>
+                                                <option value="bank-payment" @if(request('journal_type')=='bank-payment') selected @endif >Cheque Payment</option>
+                                                <option value="purchase" @if(request('journal_type')=='purchase') selected @endif >Purchase</option>
+                                                <option value="sales" @if(request('journal_type')=='sales') selected @endif >Sales</option>
                                             </select>
                                         </div>
                                     </div>
@@ -57,12 +56,18 @@
                                             <label>Status</label>
                                             <select class="form-control select2-search-disable" name="status">
                                                 <option value="" selected>All</option>
-                                                <option value="UNCHECKED">Unchecked</option>
-                                                <option value="CHECKED">Checked</option>
-                                                <option value="APPROVED">Approved</option>
-                                                <option value="AUDITED">Audited</option>
-                                                <option value="DELETED">Deleted</option>
+                                                <option value="UNCHECKED" @if(request('status')=='UNCHECKED') selected @endif >UNCHECKED</option>
+                                                <option value="CHECKED" @if(request('status')=='CHECKED') selected @endif >CHECKED</option>
+                                                <option value="APPROVED" @if(request('status')=='APPROVED') selected @endif >APPROVED</option>
+                                                <option value="AUDITED" @if(request('status')=='AUDITED') selected @endif >AUDITED</option>
+                                                <option value="DELETED" @if(request('status')=='DELETED') selected @endif >DELETED</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl col-sm-6">
+                                        <div class="form-group mt-3 mb-0">
+                                            <label>Voucher No</label>
+                                            <input type="text" class="form-control" name="voucher_no" value="{{ request('voucher_no') ? request('voucher_no') : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-xl col-sm-6 align-self-end">
@@ -78,6 +83,7 @@
             </div>
         </div>
     </div>
+    <div class="row">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -129,16 +135,16 @@
                                             @csrf
                                             <input type="hidden" name="journal_type" value="{{$voucherView->journal_type}}">
                                             <input type="hidden" name="vouchertype" value="{{$voucherView->vouchertype}}">
-                                            <a href="@if($voucherView->journal_type == 'receipt'){{route('acc.voucher.receipt.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'payment'){{route('acc.voucher.payment.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'journal'){{route('acc.voucher.journal.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'contra'){{route('acc.voucher.contra.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'bank-payment'){{route('acc.voucher.chequepayment.show',['voucher_no' => $voucherView->voucher_no])}}@endif" title="View Voucher" class="btn btn-primary btn-sm">
+                                            <a target="_blank" href="@if($voucherView->journal_type == 'receipt'){{route('acc.voucher.receipt.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'payment'){{route('acc.voucher.payment.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'journal'){{route('acc.voucher.journal.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'contra'){{route('acc.voucher.contra.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'bank-payment'){{route('acc.voucher.chequepayment.show',['voucher_no' => $voucherView->voucher_no])}}@endif" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
                                             @if($voucherView->status !== 'DELETED')
-                                                <a href="@if($voucherView->journal_type == 'receipt'){{route('acc.voucher.receipt.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'payment'){{route('acc.voucher.payment.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'journal'){{route('acc.voucher.journal.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'contra'){{route('acc.voucher.contra.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'bank-payment'){{route('acc.voucher.chequepayment.download',['voucher_no' => $voucherView->voucher_no])}}@endif" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
+                                                <a target="_blank" href="@if($voucherView->journal_type == 'receipt'){{route('acc.voucher.receipt.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'payment'){{route('acc.voucher.payment.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'journal'){{route('acc.voucher.journal.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'contra'){{route('acc.voucher.contra.download',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'bank-payment'){{route('acc.voucher.chequepayment.download',['voucher_no' => $voucherView->voucher_no])}}@endif" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 @if($voucherView->status=='UNCHECKED' || $voucherView->status=='MANUAL')
                                                     @if($getVoucherDate<2)
-                                                        <a href="@if($voucherView->journal_type == 'receipt')@if($voucherView->vouchertype=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $voucherView->voucher_no])}} @elseif($voucherView->vouchertype=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $voucherView->voucher_no])}} @endif
+                                                        <a target="_blank" href="@if($voucherView->journal_type == 'receipt')@if($voucherView->vouchertype=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $voucherView->voucher_no])}} @elseif($voucherView->vouchertype=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $voucherView->voucher_no])}} @endif
                                                         @elseif($voucherView->journal_type == 'payment')
                                                         @if($voucherView->vouchertype=='single'){{route('acc.voucher.payment.voucher.edit',['voucher_no' => $voucherView->voucher_no])}} @elseif($voucherView->vouchertype=='multiple') {{route('acc.voucher.payment.voucher.editMultiple',['voucher_no' => $voucherView->voucher_no])}} @endif
                                                         @elseif($voucherView->journal_type == 'journal')
@@ -166,5 +172,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection

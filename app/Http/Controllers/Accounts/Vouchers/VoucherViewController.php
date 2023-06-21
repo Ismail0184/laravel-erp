@@ -44,9 +44,8 @@ class VoucherViewController extends Controller
         $t_data = $request->t_date;
         $journal_type = $request->journal_type;
         $status = $request->status;
-
+        $voucher = $request->voucher_no;
         $query = AccVoucherMaster::query();
-
         if ($f_data && $t_data) {
             $query->whereBetween('voucher_date', [$f_data,$t_data]);
         }
@@ -57,6 +56,10 @@ class VoucherViewController extends Controller
         if($status)
         {
             $query->where('status',$status);
+        }
+        if($voucher)
+        {
+            $query->where('voucher_no',$voucher);
         }
         $voucherViews = $query->get();
         return view('modules.accounts.vouchers.voucherview.index',compact('voucherViews'));
