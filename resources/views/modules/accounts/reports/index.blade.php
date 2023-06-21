@@ -35,7 +35,7 @@
                             <a class="nav-link active" data-toggle="tab" href="#all-order" role="tab">
                                 filter options
                             </a>
-                        </li>
+                        </li><small class="text-danger float-right">field marked with * are mandatory</small>
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content p-3">
@@ -43,6 +43,19 @@
                             <form method="post" action="{{route('acc.voucher.filter')}}" style="font-size: 11px">
                                 @csrf
                                 <div class="row">
+                                    @if(request('report_id')=='1001001')
+                                        <div class="col-xl col-sm-6">
+                                            <div class="form-group mt-3 mb-0">
+                                                <label>Status</label>
+                                                <select class="form-control select2-search-disable" name="status">
+                                                    <option value="active">Active</option>
+                                                    <option value="inactive">Inactive</option>
+                                                    <option value="suspended">Suspended</option>
+                                                    <option value="deleted">Deleted</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    @elseif(request('report_id')=='1001002')
                                     <div class="col-xl col-sm-6">
                                         <div class="form-group mt-3 mb-0">
                                             <label>From Date</label>
@@ -72,28 +85,25 @@
                                     </div>
                                     <div class="col-xl col-sm-6">
                                         <div class="form-group mt-3 mb-0">
-                                            <label>Status</label>
-                                            <select class="form-control select2-search-disable" name="status">
-                                                <option value="" selected>All</option>
-                                                <option value="UNCHECKED" @if(request('status')=='UNCHECKED') selected @endif >UNCHECKED</option>
-                                                <option value="CHECKED" @if(request('status')=='CHECKED') selected @endif >CHECKED</option>
-                                                <option value="APPROVED" @if(request('status')=='APPROVED') selected @endif >APPROVED</option>
-                                                <option value="AUDITED" @if(request('status')=='AUDITED') selected @endif >AUDITED</option>
-                                                <option value="DELETED" @if(request('status')=='DELETED') selected @endif >DELETED</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl col-sm-6">
-                                        <div class="form-group mt-3 mb-0">
                                             <label>Voucher No</label>
                                             <input type="text" class="form-control" name="voucher_no" value="{{ request('voucher_no') ? request('voucher_no') : '' }}">
                                         </div>
                                     </div>
+
+                                    @endif
+                                    @if(request('report_id')>0)
+                                        <br>
                                     <div class="col-xl col-sm-6 align-self-end">
                                         <div class="mt-3">
-                                            <button type="submit" class="btn btn-success w-md">View Vouchers</button>
+                                            <a href="{{route('acc.select.report')}}" class="btn btn-danger w-md">Cancel</a>
+                                            <button type="submit" class="btn btn-primary w-md">Report Generate</button>
                                         </div>
                                     </div>
+                                        @else
+                                            <div class="alert alert-danger float-right col-sm-5" role="alert" style="font-size: 11px">
+                                                Please select a report from left !!
+                                            </div>
+                                        @endif
                                 </div>
                             </form>
                         </div>
