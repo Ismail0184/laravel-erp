@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Accounts\Reports;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccLedger;
+use App\Models\Accounts\AccLedgerGroup;
 use App\Models\Developer\Reports\DevRepoptGroupLabel;
 use Illuminate\Http\Request;
+use PDF;
 
 class AccReportsController extends Controller
 {
@@ -13,6 +16,9 @@ class AccReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $ledgerGroups;
+
     public function index()
     {
         $reportgroups = DevRepoptGroupLabel::where('status','active')->where('module_id',Session('module_id'))->orderBy('serial')->get();
@@ -36,9 +42,14 @@ class AccReportsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function reportview(Request $request,$report_id)
     {
-        //
+        $this->ledgerGroups = AccLedgerGroup::where('status',1)->orderBy('group_id','ASC')->get();
+        $pdf = PDF::loadView('modules.accounts.reports.download', [
+            'ledgerGroups'=>$this->ledgerGroups,
+            'report_id' =>$report_id
+        ]);
+        return $pdf->stream('accounts_reportview.pdf');
     }
 
     /**

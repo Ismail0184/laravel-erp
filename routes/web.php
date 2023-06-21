@@ -278,6 +278,7 @@ Route::get('/', [HomeController::class,'index']);
     // Accounts Reports
     Route::get('/accounts/select-accounts-report',[AccReportsController::class,'index'])->name('acc.select.report');
     Route::get('/accounts/select-accounts-report/report_id/{report_id}',[AccReportsController::class,'select'])->name('acc.selected.report');
+    Route::post('/accounts/reportview/report_id/{report_id}',[AccReportsController::class,'reportview'])->name('acc.reportview');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

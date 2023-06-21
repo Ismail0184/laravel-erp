@@ -18,11 +18,6 @@ class AccLedger extends Model
         $max=($group_id*1000000000000)+1000000000000;
         $min=($group_id*1000000000000);
         $maxIdInDatabase = AccLedger::where('ledger_id','>',$min)->where('ledger_id','<',$max)->where('group_id','=',$group_id)->where('ledger_id','like','%00000000')->max('ledger_id');
-
-        if($maxIdInDatabase>0)
-            $acc_no=$maxIdInDatabase;
-        else
-            $acc_no=$min+100000000;
         if(!isset($acc_no)&&(is_null($maxIdInDatabase)))
             $acc_no=$min+100000000;
         else

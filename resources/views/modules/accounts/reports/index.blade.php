@@ -40,7 +40,7 @@
                     <!-- Tab panes -->
                     <div class="tab-content p-3">
                         <div class="tab-pane active" id="all-order" role="tabpanel">
-                            <form method="post" action="{{route('acc.voucher.filter')}}" style="font-size: 11px">
+                            <form method="post" target="_blank" action="@if(request('report_id')>0){{route('acc.reportview',['report_id'=>request('report_id')])}}@endif" style="font-size: 11px">
                                 @csrf
                                 <div class="row">
                                     @if(request('report_id')=='1001001')

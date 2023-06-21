@@ -69,6 +69,6 @@ class AccLedgerGroup extends Model
 
     public function getAccLedger()
     {
-        return $this->hasMany(AccLedger::class,'group_id','group_id')->orderBy('ledger_id');
+        return $this->hasMany(AccLedger::class,'group_id','group_id')->where('type','ledger')->orderBy('ledger_id');
     }
 }
