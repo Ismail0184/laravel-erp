@@ -175,6 +175,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/receipt/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.receipt.cancelall');
     Route::post('/accounts/voucher/receipt/store', [ReceiptVoucherController::class,'store'])->name('acc.voucher.receipt.store');
     Route::get('/accounts/voucher/receipt/show/{voucher_no}', [ReceiptVoucherController::class,'show'])->name('acc.voucher.receipt.show');
+    Route::get('/accounts/voucher/receipt/print/{voucher_no}', [ReceiptVoucherController::class,'voucherPrint'])->name('acc.voucher.receipt.print');
     Route::get('/accounts/voucher/receipt/download/{voucher_no}', [ReceiptVoucherController::class,'downalodvoucher'])->name('acc.voucher.receipt.download');
     Route::get('/accounts/voucher/receipt/edit/{id}', [ReceiptVoucherController::class,'edit'])->name('acc.voucher.receipt.edit');
     Route::get('/accounts/voucher/receipt/edit-multiple/{id}', [ReceiptVoucherController::class,'editMultiple'])->name('acc.voucher.receipt.editMultiple');
@@ -198,6 +199,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/payment/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.payment.cancelall');
     Route::post('/accounts/voucher/payment/store', [PaymentVoucherController::class,'store'])->name('acc.voucher.payment.store');
     Route::get('/accounts/voucher/payment/show/{voucher_no}', [PaymentVoucherController::class,'show'])->name('acc.voucher.payment.show');
+    Route::get('/accounts/voucher/payment/print/{voucher_no}', [PaymentVoucherController::class,'voucherPrint'])->name('acc.voucher.payment.print');
     Route::get('/accounts/voucher/payment/download/{voucher_no}', [PaymentVoucherController::class,'downalodvoucher'])->name('acc.voucher.payment.download');
     Route::get('/accounts/voucher/payment/edit/{id}', [PaymentVoucherController::class,'edit'])->name('acc.voucher.payment.edit');
     Route::get('/accounts/voucher/payment/edit-multiple/{id}', [PaymentVoucherController::class,'editMultiple'])->name('acc.voucher.payment.editMultiple');
@@ -278,7 +280,7 @@ Route::get('/', [HomeController::class,'index']);
     // Accounts Reports
     Route::get('/accounts/select-accounts-report',[AccReportsController::class,'index'])->name('acc.select.report');
     Route::get('/accounts/select-accounts-report/report_id/{report_id}',[AccReportsController::class,'select'])->name('acc.selected.report');
-    Route::post('/accounts/reportview/report_id/{report_id}',[AccReportsController::class,'reportview'])->name('acc.reportview');
+    Route::post('/accounts/generatereport/report_id/{report_id}',[AccReportsController::class,'generateReport'])->name('acc.generatereport');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

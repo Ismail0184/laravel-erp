@@ -110,4 +110,9 @@ class AccTransactions extends Model
         self::$transaction = AccTransactions::where('vr_no',$id);
         self::$transaction->delete();
     }
+
+    public function ledgerName()
+    {
+        return $this->belongsTo(AccLedger::class,'ledger_id','ledger_id');
+    }
 }

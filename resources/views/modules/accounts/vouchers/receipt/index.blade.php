@@ -65,6 +65,10 @@
                                             <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $receiptdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                 <i class="fa fa-download"></i>
                                             </a>
+                                            <a href="{{route('acc.voucher.receipt.print',['voucher_no' => $receiptdata->voucher_no])}}" title="Print" class="btn btn-info btn-sm">
+                                                <i class="fa fa-print"></i>
+                                            </a>
+
                                                 @if($receiptdata->status=='UNCHECKED' || $receiptdata->status=='MANUAL')
                                                 @if($getVoucherDate<2)
                                             <a href="@if($receiptdata->vouchertype=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $receiptdata->voucher_no])}} @elseif($receiptdata->vouchertype=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $receiptdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">

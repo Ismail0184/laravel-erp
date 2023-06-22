@@ -6,7 +6,6 @@
 
 @section('body')
     <div class="row">
-
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
@@ -35,18 +34,20 @@
                             <a class="nav-link active" data-toggle="tab" href="#all-order" role="tab">
                                 filter options
                             </a>
-                        </li><small class="text-danger float-right">field marked with * are mandatory</small>
+                        </li>
+                        <small class="text-danger" style="margin-left: 400px">field marked with * are mandatory</small>
                     </ul>
+
                     <!-- Tab panes -->
                     <div class="tab-content p-3">
                         <div class="tab-pane active" id="all-order" role="tabpanel">
-                            <form method="post" target="_blank" action="@if(request('report_id')>0){{route('acc.reportview',['report_id'=>request('report_id')])}}@endif" style="font-size: 11px">
+                            <form method="post" target="_blank" action="@if(request('report_id')>0){{route('acc.generatereport',['report_id'=>request('report_id')])}}@endif" style="font-size: 11px">
                                 @csrf
-                                <div class="row">
-                                    @if(request('report_id')=='1001001')
-                                        <div class="col-xl col-sm-6">
-                                            <div class="form-group mt-3 mb-0">
-                                                <label>Status</label>
+                                    @if(request('report_id')=='1001001' || request('report_id')=='1001002')
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label>Status <span class="required text-danger">*</span></label>
                                                 <select class="form-control select2-search-disable" name="status">
                                                     <option value="active">Active</option>
                                                     <option value="inactive">Inactive</option>
@@ -55,56 +56,63 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    @elseif(request('report_id')=='1001002')
-                                    <div class="col-xl col-sm-6">
-                                        <div class="form-group mt-3 mb-0">
-                                            <label>From Date</label>
-                                            <input type="date" class="form-control" name="f_date" value="{{ request('f_date') ? request('f_date') : '' }}">
-                                        </div>
                                     </div>
-                                    <div class="col-xl col-sm-6">
-                                        <div class="form-group mt-3 mb-0">
-                                            <label>To Date</label>
-                                            <input type="date" class="form-control" name="t_date" value="{{ request('t_date') ? request('t_date') : '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-xl col-sm-6">
-                                        <div class="form-group mt-3 mb-0">
-                                            <label>Type</label>
-                                            <select class="form-control select2-search-disable" name="journal_type">
-                                                <option value="" selected>All</option>
-                                                <option value="receipt" @if(request('journal_type')=='receipt') selected @endif >Receipt</option>
-                                                <option value="payment" @if(request('journal_type')=='payment') selected @endif >Payment</option>
-                                                <option value="journal" @if(request('journal_type')=='journal') selected @endif >Journal</option>
-                                                <option value="contra" @if(request('journal_type')=='contra') selected @endif >Contra</option>
-                                                <option value="bank-payment" @if(request('journal_type')=='bank-payment') selected @endif >Cheque Payment</option>
-                                                <option value="purchase" @if(request('journal_type')=='purchase') selected @endif >Purchase</option>
-                                                <option value="sales" @if(request('journal_type')=='sales') selected @endif >Sales</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl col-sm-6">
-                                        <div class="form-group mt-3 mb-0">
-                                            <label>Voucher No</label>
-                                            <input type="text" class="form-control" name="voucher_no" value="{{ request('voucher_no') ? request('voucher_no') : '' }}">
-                                        </div>
-                                    </div>
-
-                                    @endif
-                                    @if(request('report_id')>0)
-                                        <br>
-                                    <div class="col-xl col-sm-6 align-self-end">
-                                        <div class="mt-3">
-                                            <a href="{{route('acc.select.report')}}" class="btn btn-danger w-md">Cancel</a>
-                                            <button type="submit" class="btn btn-primary w-md">Report Generate</button>
-                                        </div>
-                                    </div>
-                                        @else
-                                            <div class="alert alert-danger float-right col-sm-5" role="alert" style="font-size: 11px">
-                                                Please select a report from left !!
+                                    @elseif(request('report_id')=='1002001')
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label>Accounts Head / Ledger <span class="required text-danger">*</span></label>
+                                                <select class="form-control select2" name="ledger_id" required>
+                                                    <option value="%">All Transactions</option>
+                                                    @foreach($ledgers as $ledger)
+                                                        <option value="{{$ledger->ledger_id}}">{{$ledger->ledger_id}} : {{$ledger->ledger_name}}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
-                                        @endif
-                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label>Cost Center</label>
+                                                <select class="form-control select2" name="ledger_id" >
+                                                    <option value="%"></option>
+                                                    @foreach($costcenters as $costcenters)
+                                                        <option value="{{$ledger->ledger_id}}">{{$ledger->ledger_id}} : {{$ledger->ledger_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                                <label>Date from <span class="required text-danger">*</span> </label>
+                                                <input type="date" class="form-control" required name="f_date" value="{{ request('f_date') ? request('f_date') : '' }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                                <label>Date to <span class="required text-danger">*</span></label>
+                                                <input type="date" class="form-control" required name="t_date" value="{{ request('t_date') ? request('t_date') : '' }}">
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if(request('report_id')>0)
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-xl col-sm-6 align-self-end">
+                                            <div class="mt-3">
+                                                <a href="{{route('acc.select.report')}}" class="btn btn-danger w-md">Cancel</a>
+                                                <button type="submit" class="btn btn-success w-md">Report Generate</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="row">
+                                        <div class="alert alert-danger float-right col-sm-12" role="alert" style="font-size: 11px">
+                                            Please select a report from left !!
+                                        </div>
+                                    </div>
+                                @endif
                             </form>
                         </div>
                     </div>
@@ -112,10 +120,11 @@
             </div>
         </div>
     </div>
+    <script>
+        function reloadPage(selectElement) {
+            var selectedValue = selectElement.value;
+            window.location.href = "/accounts/select-accounts-report/report_id/" + selectedValue;
+        }
+    </script>
 @endsection
-<script>
-    function reloadPage(selectElement) {
-        var selectedValue = selectElement.value;
-        window.location.href = "/accounts/select-accounts-report/report_id/" + selectedValue;
-    }
-</script>
+

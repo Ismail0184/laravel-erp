@@ -132,6 +132,17 @@ class PaymentVoucherController extends Controller
         ]);
     }
 
+    public function voucherPrint($id)
+    {
+        $this->payment = AccPayment::where('payment_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        $pdf = PDF::loadView('modules.accounts.vouchers.payment.download', [
+            'payments' =>$this->payment,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+        return $pdf->stream('paymentVoucher_'.$id.'.pdf');
+    }
+
     public function downalodvoucher($id)
     {
         $this->payment = AccPayment::where('payment_no',$id)->get();
@@ -140,9 +151,8 @@ class PaymentVoucherController extends Controller
             'payments' =>$this->payment,
             'vouchermaster' =>$this->vouchermaster,
         ]);
-        return $pdf->stream('voucher.pdf');
+        return $pdf->download('paymentVoucher_'.$id.'.pdf');
     }
-
     /**
      * Show the form for editing the specified resource.
      *

@@ -65,6 +65,9 @@
                                                 <a href="{{route('acc.voucher.payment.download',['voucher_no' => $paymntdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                     <i class="fa fa-download"></i>
                                                 </a>
+                                                <a href="{{route('acc.voucher.payment.print',['voucher_no' => $paymntdata->voucher_no])}}" title="Print" class="btn btn-info btn-sm">
+                                                    <i class="fa fa-download"></i>
+                                                </a>
                                                 @if($paymntdata->status=='UNCHECKED' || $paymntdata->status=='MANUAL')
                                                     @if($getVoucherDate<2)
                                                         <a href="@if($paymntdata->vouchertype=='single'){{route('acc.voucher.payment.voucher.edit',['voucher_no' => $paymntdata->voucher_no])}} @elseif($paymntdata->vouchertype=='multiple') {{route('acc.voucher.payment.voucher.editMultiple',['voucher_no' => $paymntdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">

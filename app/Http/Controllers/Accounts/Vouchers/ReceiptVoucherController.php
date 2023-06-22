@@ -124,6 +124,17 @@ class ReceiptVoucherController extends Controller
          ]);
     }
 
+    public function voucherPrint($id)
+    {
+        $this->receipt = AccReceipt::where('receipt_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        $pdf = PDF::loadView('modules.accounts.vouchers.receipt.download', [
+            'receipts' =>$this->receipt,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+        return $pdf->stream('receiptVoucher_'.$id.'.pdf');
+    }
+
     public function downalodvoucher($id)
     {
         $this->receipt = AccReceipt::where('receipt_no',$id)->get();
@@ -132,7 +143,7 @@ class ReceiptVoucherController extends Controller
             'receipts' =>$this->receipt,
             'vouchermaster' =>$this->vouchermaster,
         ]);
-        return $pdf->stream('voucher.pdf');
+        return $pdf->download('receiptVoucher_'.$id.'.pdf');
     }
 
     /**
