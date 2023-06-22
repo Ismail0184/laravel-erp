@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounts\Reports;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
 use App\Models\Accounts\AccLedgerGroup;
 use App\Models\Accounts\AccTransactions;
@@ -35,7 +36,8 @@ class AccReportsController extends Controller
     {
         $reportgroups = DevRepoptGroupLabel::where('status','active')->where('module_id',Session('module_id'))->orderBy('serial')->get();
         $ledgers = AccLedger::where('status','active')->orderBy('ledger_name','ASC')->get();
-        return view('modules.accounts.reports.index', compact('reportgroups'),compact('ledgers'));
+        $costcenters = AccCostCenter::where('status','active')->get();
+        return view('modules.accounts.reports.index', compact('reportgroups','ledgers','costcenters'));
     }
 
     /**
@@ -47,6 +49,7 @@ class AccReportsController extends Controller
     public function generateReport(Request $request,$report_id)
     {
 
+        $request=$request;
         if(request('report_id')=='1001001') {
             $this->ledgerGroups = AccLedgerGroup::where('status', 1)->orderBy('group_id', 'ASC')->get();
             $pdf = PDF::loadView('modules.accounts.reports.chartofaccounts', [
@@ -64,13 +67,14 @@ class AccReportsController extends Controller
             $ledger_id = $request->ledger_id;
             $f_date = $request->f_date;
             $t_date = $request->t_date;
+            $cc_code = $request->cc_code;
             $status = 'deleted';
 
             $openingBalance = AccTransactions::where('transaction_date', '<', $request->f_date)->where('ledger_id',$request->ledger_id)
                 ->sum('dr_amt')-AccTransactions::where('transaction_date', '<', $request->f_date)->where('ledger_id',$request->ledger_id)
                     ->sum('cr_amt');;
 
-            $query = AccTransactions::query();
+            $query = AccTransactions::query()->orderBy('id','ASC');
 
             if ($f_date && $t_date) {
                 $query->whereBetween('transaction_date', [$f_date,$t_date]);
@@ -79,15 +83,26 @@ class AccReportsController extends Controller
             {
                 $query->where('ledger_id',$ledger_id);
             }
+            if($cc_code>0)
+            {
+                $query->where('cc_code',$cc_code);
+            }
             if($status=='deleted')
             {
                 $query->whereNotIn('status',['deleted']);
             }
             $transactions = $query->get();
             $ledger_name=AccLedger::find($request->ledger_id);
-            $request=$request;
+
             $pdf = PDF::loadView('modules.accounts.reports.transactionStatement', compact('transactions','openingBalance','request','ledger_name'));
             return $pdf->stream('transaction_statement.pdf');
+        } elseif (request('report_id')=='1004001') {
+            $query = AccTransactions::query()->groupBy('ledger_id')->orderBy('ledger_id','ASC')
+                ->select('ledger_id')
+                ->get();
+            $transactions = $query;
+            $pdf = PDF::loadView('modules.accounts.reports.trialBalance',compact('transactions','request'));
+            return $pdf->stream('trialBalance.pdf');
         }
     }
 

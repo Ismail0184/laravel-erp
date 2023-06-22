@@ -75,10 +75,10 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>Cost Center</label>
-                                                <select class="form-control select2" name="ledger_id" >
+                                                <select class="form-control select2" name="cc_code" >
                                                     <option value="%"></option>
-                                                    @foreach($costcenters as $costcenters)
-                                                        <option value="{{$ledger->ledger_id}}">{{$ledger->ledger_id}} : {{$ledger->ledger_name}}</option>
+                                                    @foreach($costcenters as $costcenter)
+                                                        <option value="{{$costcenter->cc_code}}">{{$costcenter->cc_code}} : {{$costcenter->center_name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -92,6 +92,13 @@
                                         <div class="col-md-4">
                                                 <label>Date to <span class="required text-danger">*</span></label>
                                                 <input type="date" class="form-control" required name="t_date" value="{{ request('t_date') ? request('t_date') : '' }}">
+                                        </div>
+                                    </div>
+
+                                @elseif(request('report_id')=='1004001')
+                                        <div class="col-md-6">
+                                            <label>As on <span class="required text-danger">*</span></label>
+                                            <input type="date" class="form-control" required name="t_date" value="{{ request('t_date') ? request('t_date') : '' }}">
                                         </div>
                                     </div>
                                 @endif
