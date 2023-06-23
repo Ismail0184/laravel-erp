@@ -87,6 +87,17 @@ class ContraVoucherController extends Controller
         ]);
     }
 
+    public function voucherPrint($id)
+    {
+        $this->contra = AccContra::where('contra_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        $pdf = PDF::loadView('modules.accounts.vouchers.contra.print', [
+            'contras' =>$this->contra,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+        return $pdf->stream('contraVoucher_'.$id.'.pdf');
+    }
+
     public function downalodvoucher($id)
     {
         $this->contra = AccContra::where('contra_no',$id)->get();
@@ -95,7 +106,7 @@ class ContraVoucherController extends Controller
             'contras' =>$this->contra,
             'vouchermaster' =>$this->vouchermaster,
         ]);
-        return $pdf->stream('voucher.pdf');
+        return $pdf->download('contraVoucher_'.$id.'.pdf');
     }
 
     /**

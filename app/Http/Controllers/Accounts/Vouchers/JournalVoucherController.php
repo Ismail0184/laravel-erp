@@ -88,6 +88,16 @@ class JournalVoucherController extends Controller
         ]);
     }
 
+    public function voucherPrint($id)
+    {
+        $this->journal = AccJournal::where('journal_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::find($id);
+        $pdf = PDF::loadView('modules.accounts.vouchers.journal.print', [
+            'journals' =>$this->journal,
+            'vouchermaster' =>$this->vouchermaster,
+        ]);
+        return $pdf->stream('journalVoucher_'.$id.'.pdf');
+    }
     public function downalodvoucher($id)
     {
         $this->journal = AccJournal::where('journal_no',$id)->get();
@@ -96,7 +106,7 @@ class JournalVoucherController extends Controller
             'journals' =>$this->journal,
             'vouchermaster' =>$this->vouchermaster,
         ]);
-        return $pdf->stream('voucher.pdf');
+        return $pdf->download('journalVoucher_'.$id.'.pdf');
     }
 
     /**

@@ -65,6 +65,9 @@
                                                 <a href="{{route('acc.voucher.journal.download',['voucher_no' => $journaldata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                     <i class="fa fa-download"></i>
                                                 </a>
+                                                <a href="{{route('acc.voucher.journal.print',['voucher_no' => $journaldata->voucher_no])}}" title="Print" class="btn btn-info btn-sm">
+                                                    <i class="fa fa-print"></i>
+                                                </a>
                                                 @if($journaldata->status=='UNCHECKED' || $journaldata->status=='MANUAL')
                                                     @if($getVoucherDate<2)
                                                         <a href="@if($journaldata->vouchertype=='single'){{route('acc.voucher.journal.voucher.edit',['voucher_no' => $journaldata->voucher_no])}} @elseif($journaldata->vouchertype=='multiple') {{route('acc.voucher.journal.voucher.editMultiple',['voucher_no' => $journaldata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
