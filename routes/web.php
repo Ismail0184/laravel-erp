@@ -23,6 +23,8 @@ use App\Http\Controllers\Accounts\COA\COAController;
 use App\Http\Controllers\Accounts\Vouchers\VoucherViewController;
 use App\Http\Controllers\Accounts\Reports\AccReportsController;
 
+use App\Http\Controllers\Procurement\Vendor\VendorTypeController;
+
 
 // home
 Route::get('/', [HomeController::class,'index']);
@@ -284,6 +286,23 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/select-accounts-report/report_id/{report_id}',[AccReportsController::class,'select'])->name('acc.selected.report');
     Route::post('/accounts/generatereport/report_id/{report_id}',[AccReportsController::class,'generateReport'])->name('acc.generatereport');
 
-    Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
+
+    //Procurement/vendor/type
+    Route::get('/procurement/vendor/type/',[VendorTypeController::class,'index'])->name('pro.vendor.type.view');
+    Route::get('/procurement/vendor/type/create', [VendorTypeController::class,'create'])->name('pro.vendor.type.create');
+    Route::post('/procurement/vendor/type/store', [VendorTypeController::class,'store'])->name('pro.vendor.type.store');
+    Route::get('/procurement/vendor/type/edit/{id}', [VendorTypeController::class,'edit'])->name('pro.vendor.type.edit');
+    Route::post('/procurement/vendor/type/update/{id}', [VendorTypeController::class,'update'])->name('pro.vendor.type.update');
+    Route::post('/procurement/vendor/type/destroy/{id}', [VendorTypeController::class,'destroy'])->name('pro.vendor.type.destroy');
+//Procurement/vendor/category
+    Route::get('/procurement/vendor/category/',[VendorTypeController::class,'index'])->name('pro.vendor.category.view');
+    Route::get('/procurement/vendor/category/create', [VendorTypeController::class,'create'])->name('pro.vendor.category.create');
+    Route::post('/procurement/vendor/category/store', [VendorTypeController::class,'store'])->name('pro.vendor.category.store');
+    Route::get('/procurement/vendor/category/edit/{id}', [VendorTypeController::class,'edit'])->name('pro.vendor.category.edit');
+    Route::post('/procurement/vendor/category/update/{id}', [VendorTypeController::class,'update'])->name('pro.vendor.category.update');
+    Route::post('/procurement/vendor/category/destroy/{id}', [VendorTypeController::class,'destroy'])->name('pro.vendor.category.destroy');
+
+
+        Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
 });
