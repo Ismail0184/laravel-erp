@@ -24,6 +24,8 @@ use App\Http\Controllers\Accounts\Vouchers\VoucherViewController;
 use App\Http\Controllers\Accounts\Reports\AccReportsController;
 
 use App\Http\Controllers\Procurement\Vendor\VendorTypeController;
+use App\Http\Controllers\Procurement\Vendor\VendorCategoryController;
+use App\Http\Controllers\Procurement\Vendor\VendorInfoController;
 
 
 // home
@@ -295,12 +297,19 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/procurement/vendor/type/update/{id}', [VendorTypeController::class,'update'])->name('pro.vendor.type.update');
     Route::post('/procurement/vendor/type/destroy/{id}', [VendorTypeController::class,'destroy'])->name('pro.vendor.type.destroy');
 //Procurement/vendor/category
-    Route::get('/procurement/vendor/category/',[VendorTypeController::class,'index'])->name('pro.vendor.category.view');
-    Route::get('/procurement/vendor/category/create', [VendorTypeController::class,'create'])->name('pro.vendor.category.create');
-    Route::post('/procurement/vendor/category/store', [VendorTypeController::class,'store'])->name('pro.vendor.category.store');
-    Route::get('/procurement/vendor/category/edit/{id}', [VendorTypeController::class,'edit'])->name('pro.vendor.category.edit');
-    Route::post('/procurement/vendor/category/update/{id}', [VendorTypeController::class,'update'])->name('pro.vendor.category.update');
-    Route::post('/procurement/vendor/category/destroy/{id}', [VendorTypeController::class,'destroy'])->name('pro.vendor.category.destroy');
+    Route::get('/procurement/vendor/category/',[VendorCategoryController::class,'index'])->name('pro.vendor.category.view');
+    Route::get('/procurement/vendor/category/create', [VendorCategoryController::class,'create'])->name('pro.vendor.category.create');
+    Route::post('/procurement/vendor/category/store', [VendorCategoryController::class,'store'])->name('pro.vendor.category.store');
+    Route::get('/procurement/vendor/category/edit/{id}', [VendorCategoryController::class,'edit'])->name('pro.vendor.category.edit');
+    Route::post('/procurement/vendor/category/update/{id}', [VendorCategoryController::class,'update'])->name('pro.vendor.category.update');
+    Route::post('/procurement/vendor/category/destroy/{id}', [VendorCategoryController::class,'destroy'])->name('pro.vendor.category.destroy');
+//Procurement/vendor/vendor Info
+    Route::get('/procurement/vendor/vendorinfo/',[VendorInfoController::class,'index'])->name('pro.vendor.vendorinfo.view');
+    Route::get('/procurement/vendor/vendorinfo/create', [VendorInfoController::class,'create'])->name('pro.vendor.vendorinfo.create');
+    Route::post('/procurement/vendor/vendorinfo/store', [VendorInfoController::class,'store'])->name('pro.vendor.vendorinfo.store');
+    Route::get('/procurement/vendor/vendorinfo/edit/{id}', [VendorInfoController::class,'edit'])->name('pro.vendor.vendorinfo.edit');
+    Route::post('/procurement/vendor/vendorinfo/update/{id}', [VendorInfoController::class,'update'])->name('pro.vendor.vendorinfo.update');
+    Route::post('/procurement/vendor/vendorinfo/destroy/{id}', [VendorInfoController::class,'destroy'])->name('pro.vendor.vendorinfo.destroy');
 
 
         Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');

@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Procurement\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Procurement\Vendor\ProVendorCategory;
-use App\Models\Procurement\Vendor\ProVendorType;
+use App\Models\Procurement\Vendor\ProVendorInfo;
 use Illuminate\Http\Request;
+use function Termwind\renderUsing;
 
-class VendorCategoryController extends Controller
+class VendorInfoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,8 @@ class VendorCategoryController extends Controller
      */
     public function index()
     {
-        $categorys = ProVendorCategory::all();
-        return view('modules.procurement.vendor.category.index',compact('categorys'));
+        $vendorinfos = ProVendorInfo::all();
+        return view('modules.procurement.vendor.vendorinfo.index',compact('vendorinfos'));
     }
 
     /**
@@ -27,8 +28,8 @@ class VendorCategoryController extends Controller
      */
     public function create()
     {
-        $types = ProVendorType::where('status','active')->get();
-        return view('modules.procurement.vendor.category.create',compact('types'));
+        $categorys = ProVendorCategory::where('status','active')->get();
+        return view('modules.procurement.vendor.vendorinfo.create',compact('categorys'));
     }
 
     /**
@@ -39,8 +40,7 @@ class VendorCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        ProVendorCategory::storeCategory($request);
-        return redirect('/procurement/vendor/category/')->with('store_message','A new vendor category has been successfully created!!');
+        //
     }
 
     /**
@@ -62,9 +62,7 @@ class VendorCategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = ProVendorCategory::find($id);
-        $types = ProVendorType::where('status','active')->get();
-        return view('modules.procurement.vendor.category.create',compact('category','types'));
+        //
     }
 
     /**
@@ -76,8 +74,7 @@ class VendorCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        ProVendorCategory::updateCategory($request, $id);
-        return redirect('/procurement/vendor/category/')->with('update_message','This vendor category (uid='.$id.') has been successfully updated!!');
+        //
     }
 
     /**
@@ -88,8 +85,6 @@ class VendorCategoryController extends Controller
      */
     public function destroy($id)
     {
-        ProVendorCategory::destroyCategory($id);
-        return redirect('/procurement/vendor/category/')->with('update_message','This vendor category (uid='.$id.') has been successfully deleted!!');
-
+        //
     }
 }
