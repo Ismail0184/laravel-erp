@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('pro_vendor_infos', function (Blueprint $table) {
             $table->id('vendor_id');
             $table->bigInteger('ledger_id');
-            $table->string('vendor_name');
+            $table->string('vendor_name')->unique();
             $table->text('address');
             $table->string('contact_no');
             $table->string('email');

@@ -26,6 +26,7 @@ use App\Http\Controllers\Accounts\Reports\AccReportsController;
 use App\Http\Controllers\Procurement\Vendor\VendorTypeController;
 use App\Http\Controllers\Procurement\Vendor\VendorCategoryController;
 use App\Http\Controllers\Procurement\Vendor\VendorInfoController;
+use App\Http\Controllers\Procurement\workorder\ProPurchaseMasterController;
 
 
 // home
@@ -310,6 +311,13 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/procurement/vendor/vendorinfo/edit/{id}', [VendorInfoController::class,'edit'])->name('pro.vendor.vendorinfo.edit');
     Route::post('/procurement/vendor/vendorinfo/update/{id}', [VendorInfoController::class,'update'])->name('pro.vendor.vendorinfo.update');
     Route::post('/procurement/vendor/vendorinfo/destroy/{id}', [VendorInfoController::class,'destroy'])->name('pro.vendor.vendorinfo.destroy');
+//Procurement/Work Order or purchase
+    Route::get('/procurement/work-order/create',[ProPurchaseMasterController::class,'create'])->name('pro.workorder.create');
+    Route::get('/procurement/direct-purchase/create', [ProPurchaseMasterController::class,'directPurchaseCreate'])->name('pro.directpurchase.create');
+    Route::post('/procurement/workorder/store', [ProPurchaseMasterController::class,'store'])->name('pro.vendor.vendorinfo.store');
+    Route::get('/procurement/workorder/edit/{id}', [ProPurchaseMasterController::class,'edit'])->name('pro.vendor.vendorinfo.edit');
+    Route::post('/procurement/workorder/update/{id}', [ProPurchaseMasterController::class,'update'])->name('pro.vendor.vendorinfo.update');
+    Route::post('/procurement/workorder/destroy/{id}', [ProPurchaseMasterController::class,'destroy'])->name('pro.vendor.vendorinfo.destroy');
 
 
         Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');

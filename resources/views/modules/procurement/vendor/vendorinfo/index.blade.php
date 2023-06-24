@@ -24,6 +24,8 @@
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th>Id</th>
                                 <th>Name</th>
+                                <th>Address</th>
+                                <th>Category</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 10%">Option</th>
                             </tr>
@@ -32,8 +34,10 @@
                             @foreach($vendorinfos as $vendorinfo)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td>{{$vendorinfo->id}}</td>
-                                    <td>@if($vendorinfo->status == 'deleted')<del> {{$vendorinfo->vendor_type}} </del> @else {{$vendorinfo->vendor_type}} @endif</td>
+                                    <td>{{$vendorinfo->vendor_id}}</td>
+                                    <td>@if($vendorinfo->status == 'deleted')<del> {{$vendorinfo->vendor_name}} </del> @else {{$vendorinfo->vendor_name}} @endif</td>
+                                    <td>{{$vendorinfo->address}}</td>
+                                    <td>{{$vendorinfo->getCategory->category_name}}</td>
                                     <td style="vertical-align: middle">
                                         @if($vendorinfo->status == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($vendorinfo->status == 'inactive') <span class="badge badge-soft-danger">Inactive</span>
@@ -41,9 +45,9 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <form action="{{route('pro.vendor.type.destroy', ['id' => $vendorinfo->id])}}" method="post">
+                                        <form action="{{route('pro.vendor.vendorinfo.destroy', ['id' => $vendorinfo->vendor_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('pro.vendor.type.edit',['id' => $vendorinfo->id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('pro.vendor.vendorinfo.edit',['id' => $vendorinfo->vendor_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

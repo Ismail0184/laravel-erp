@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Procurement\Vendor;
+namespace App\Http\Controllers\Procurement\workorder;
 
 use App\Http\Controllers\Controller;
-use App\Models\Procurement\Vendor\ProVendorCategory;
 use App\Models\Procurement\Vendor\ProVendorInfo;
+use App\Models\Procurement\workorder\ProPurchaseMaster;
 use Illuminate\Http\Request;
-use function Termwind\renderUsing;
+use Auth;
+use Session;
 
-class VendorInfoController extends Controller
+class ProPurchaseMasterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +18,7 @@ class VendorInfoController extends Controller
      */
     public function index()
     {
-        $vendorinfos = ProVendorInfo::all();
-        return view('modules.procurement.vendor.vendorinfo.index',compact('vendorinfos'));
+        //return view('modules.porcurement.workorder.');
     }
 
     /**
@@ -28,8 +28,20 @@ class VendorInfoController extends Controller
      */
     public function create()
     {
-        $categorys = ProVendorCategory::where('status','active')->get();
-        return view('modules.procurement.vendor.vendorinfo.create',compact('categorys'));
+        return view('modules.procurement.workorder.workorder-create');
+    }
+    public function directPurchaseCreate()
+    {
+        $vendor=ProVendorInfo::where('status','active')->get();
+        $po_number = Auth::user()->id.date('YmdHis');
+        if(Session::get('po_number')>0)
+        {
+            $masterData = ProPurchaseMaster::find(Session::get('po_number'));
+            $poDatas = AccReceipt::where('po_number', Session::get('po_number'))->get();
+            $COUNT_po_datas = AccReceipt::where('po_number', Session::get('po_number'))->count();
+        }
+        return view('modules.procurement.workorder.direct-purchase-create',
+            compact(['vendor','po_number','masterData','poDatas','COUNT_po_datas']));
     }
 
     /**
@@ -40,8 +52,7 @@ class VendorInfoController extends Controller
      */
     public function store(Request $request)
     {
-        ProVendorInfo::storeVendor($request);
-        return redirect('/procurement/vendor/vendorinfo/')->with('store_message','A new vendor has been successfully created!!');
+        //
     }
 
     /**
@@ -63,9 +74,7 @@ class VendorInfoController extends Controller
      */
     public function edit($id)
     {
-        $categorys = ProVendorCategory::where('status','active')->get();
-        $vendorinfo = ProVendorInfo::find($id);
-        return view('modules.procurement.vendor.vendorinfo.create',compact('categorys','vendorinfo'));
+        //
     }
 
     /**
@@ -77,8 +86,7 @@ class VendorInfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        ProVendorInfo::updateVendor($request, $id);
-        return redirect('/procurement/vendor/vendorinfo/')->with('update_message','A new vendor has been successfully updated!!');
+        //
     }
 
     /**
@@ -89,7 +97,6 @@ class VendorInfoController extends Controller
      */
     public function destroy($id)
     {
-        ProVendorInfo::destroyVendor($id);
-        return redirect('/procurement/vendor/vendorinfo/')->with('destroy_message','A new vendor has been successfully deleted!!');
+        //
     }
 }
