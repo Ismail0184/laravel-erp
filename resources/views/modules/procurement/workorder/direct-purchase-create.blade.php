@@ -21,25 +21,34 @@
                     <input type="hidden" name="vouchertype" value="multiple">
                     <input type="hidden" name="status" value="MANUAL">
                     <div class="form-group row mb-2">
-                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Journal No <span class="required text-danger">*</span></label>
+                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Po No <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
                             <input type="hidden" name="journal_type" value="journal" class="form-control" />
                             <input type="text" readonly name="voucher_no" @if(Session::get('journal_no')>0) value="{{Session::get('journal_no')}}" @else value="{{$po_number}}" @endif class="form-control" required />
                         </div>
-                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
+                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Po Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
                             <input type="date" name="voucher_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('journal_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
-                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person from</label>
+                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Warehouse</label>
                         <div class="col-sm-3">
-                            <input type="text" name="person" @if(Session::get('journal_no')>0) value="{{$masterData->person}}" @endif class="form-control" />
-                        </div>
+                            <select class="form-control select2" name="vendor_id" required="required">
+                                <option value=""></option>
+                                @foreach($vendors as $vendor)
+                                    <option value="{{$vendor->vendor_id}}" @if(request('id')>0) @if($vendor->vendor_id==$editValue->vendor_id) selected @endif @endif>{{$vendor->vendor_id}} : {{$vendor->vendor_name}}</option>
+                                @endforeach
+                            </select>                        </div>
                     </div>
 
                     <div class="form-group row mb-2">
-                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">of Bank</label>
+                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Vendor <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="text" name="cheque_of_bank" @if(Session::get('journal_no')>0) value="{{$masterData->cheque_of_bank}}" @endif class="form-control" />
+                            <select class="form-control select2" name="vendor_id" required="required">
+                                <option value=""></option>
+                                @foreach($vendors as $vendor)
+                                    <option value="{{$vendor->vendor_id}}" @if(request('id')>0) @if($vendor->vendor_id==$editValue->vendor_id) selected @endif @endif>{{$vendor->vendor_id}} : {{$vendor->vendor_name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Cheque No</label>
                         <div class="col-sm-3">

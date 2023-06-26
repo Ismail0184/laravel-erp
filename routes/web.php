@@ -315,9 +315,9 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/procurement/work-order/create',[ProPurchaseMasterController::class,'create'])->name('pro.workorder.create');
     Route::get('/procurement/direct-purchase/create', [ProPurchaseMasterController::class,'directPurchaseCreate'])->name('pro.directpurchase.create');
     Route::post('/procurement/workorder/store', [ProPurchaseMasterController::class,'store'])->name('pro.vendor.vendorinfo.store');
-    Route::get('/procurement/workorder/edit/{id}', [ProPurchaseMasterController::class,'edit'])->name('pro.vendor.vendorinfo.edit');
-    Route::post('/procurement/workorder/update/{id}', [ProPurchaseMasterController::class,'update'])->name('pro.vendor.vendorinfo.update');
-    Route::post('/procurement/workorder/destroy/{id}', [ProPurchaseMasterController::class,'destroy'])->name('pro.vendor.vendorinfo.destroy');
+    Route::get('/procurement/workorder/edit/{id}', [ProPurchaseMasterController::class,'edit'])->name('pro.vendor.vendorinfos.edit');
+    Route::post('/procurement/workorder/update/{id}', [ProPurchaseMasterController::class,'update'])->name('pro.vendor.vendorinfos.update');
+    Route::post('/procurement/workorder/destroy/{id}', [ProPurchaseMasterController::class,'destroy'])->name('pro.vendor.vendorinfos.destroy');
 
 
         Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');

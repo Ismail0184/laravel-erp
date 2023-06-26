@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Procurement\workorder;
+namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Developer\DevWarehouse;
-use App\Models\Procurement\Vendor\ProVendorInfo;
-use App\Models\Procurement\workorder\ProPurchaseMaster;
 use Illuminate\Http\Request;
-use Auth;
-use Session;
 
-class ProPurchaseMasterController extends Controller
+class WarehouseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +14,7 @@ class ProPurchaseMasterController extends Controller
      */
     public function index()
     {
-        //return view('modules.porcurement.workorder.');
+        //
     }
 
     /**
@@ -29,26 +24,7 @@ class ProPurchaseMasterController extends Controller
      */
     public function create()
     {
-        return view('modules.procurement.workorder.workorder-create');
-    }
-    public function directPurchaseCreate()
-    {
-        $vendors=ProVendorInfo::where('status','active')->get();
-        $warehouses=DevWarehouse::where('status','active')->get();
-        $po_number = Auth::user()->id.date('YmdHis');
-        if(Session::get('po_number')>0)
-        {
-            $masterData = ProPurchaseMaster::find(Session::get('po_number'));
-            $poDatas = AccReceipt::where('po_number', Session::get('po_number'))->get();
-            $COUNT_po_datas = AccReceipt::where('po_number', Session::get('po_number'))->count();
-        } else {
-            $masterData = '0';
-            $poDatas = '0';
-            $COUNT_po_datas = '0';
-
-        }
-        return view('modules.procurement.workorder.direct-purchase-create',
-            compact(['vendors','po_number','masterData','poDatas','COUNT_po_datas']));
+        //
     }
 
     /**
