@@ -27,6 +27,7 @@ use App\Http\Controllers\Procurement\Vendor\VendorTypeController;
 use App\Http\Controllers\Procurement\Vendor\VendorCategoryController;
 use App\Http\Controllers\Procurement\Vendor\VendorInfoController;
 use App\Http\Controllers\Procurement\workorder\ProPurchaseMasterController;
+use App\Http\Controllers\Warehouse\warehouse\WerWarehouseController;
 
 
 // home
@@ -318,6 +319,15 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/procurement/workorder/edit/{id}', [ProPurchaseMasterController::class,'edit'])->name('pro.vendor.vendorinfos.edit');
     Route::post('/procurement/workorder/update/{id}', [ProPurchaseMasterController::class,'update'])->name('pro.vendor.vendorinfos.update');
     Route::post('/procurement/workorder/destroy/{id}', [ProPurchaseMasterController::class,'destroy'])->name('pro.vendor.vendorinfos.destroy');
+
+    //warehouse/create warehouse
+    Route::get('/warehouse/warehouse/create',[WerWarehouseController::class,'create'])->name('war.warehouse.create');
+    Route::post('/warehouse/warehouse/store', [WerWarehouseController::class,'store'])->name('war.warehouse.store');
+    Route::get('/warehouse/warehouse/edit/{id}', [WerWarehouseController::class,'edit'])->name('war.warehouse.edit');
+    Route::post('/warehouse/warehouse/update/{id}', [WerWarehouseController::class,'update'])->name('war.warehouse.update');
+    Route::post('/warehouse/warehouse/destroy/{id}', [WerWarehouseController::class,'destroy'])->name('war.warehouse.destroy');
+
+
 
 
         Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');

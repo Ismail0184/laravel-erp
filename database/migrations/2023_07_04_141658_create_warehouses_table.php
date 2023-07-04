@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dev_warehouses', function (Blueprint $table) {
+        Schema::create('warehouses', function (Blueprint $table) {
             $table->id('warehouse_id');
             $table->string('warehouse_name');
             $table->string('nick_name');
@@ -28,6 +28,8 @@ return new class extends Migration
             $table->bigInteger('ledger_id');
             $table->bigInteger('ledger_id_RM');
             $table->bigInteger('ledger_id_FG');
+            $table->integer('sconid');
+            $table->integer('pcomid');
             $table->timestamps();
         });
     }
@@ -39,6 +41,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dev_warehouses');
+        Schema::dropIfExists('warehouses');
     }
 };

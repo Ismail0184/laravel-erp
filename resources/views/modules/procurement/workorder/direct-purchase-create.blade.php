@@ -40,7 +40,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Vendor <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
@@ -146,7 +145,6 @@
                 </tbody>
             </table>
         </form>
-
         @if($COUNT_journals_data > 0)
             <div class="col-lg-12">
                 <div class="card">
