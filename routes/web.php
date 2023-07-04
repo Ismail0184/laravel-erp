@@ -305,12 +305,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/procurement/vendor/category/update/{id}', [VendorCategoryController::class,'update'])->name('pro.vendor.category.update');
     Route::post('/procurement/vendor/category/destroy/{id}', [VendorCategoryController::class,'destroy'])->name('pro.vendor.category.destroy');
 //Procurement/vendor/vendor Info
-    Route::get('/procurement/vendor/vendorinfo/',[VendorInfoController::class,'index'])->name('pro.vendor.vendorinfo.view');
-    Route::get('/procurement/vendor/vendorinfo/create', [VendorInfoController::class,'create'])->name('pro.vendor.vendorinfo.create');
-    Route::post('/procurement/vendor/vendorinfo/store', [VendorInfoController::class,'store'])->name('pro.vendor.vendorinfo.store');
-    Route::get('/procurement/vendor/vendorinfo/edit/{id}', [VendorInfoController::class,'edit'])->name('pro.vendor.vendorinfo.edit');
-    Route::post('/procurement/vendor/vendorinfo/update/{id}', [VendorInfoController::class,'update'])->name('pro.vendor.vendorinfo.update');
-    Route::post('/procurement/vendor/vendorinfo/destroy/{id}', [VendorInfoController::class,'destroy'])->name('pro.vendor.vendorinfo.destroy');
+    Route::get('/procurement/vendor/vendor-info/',[VendorInfoController::class,'index'])->name('pro.vendor.vendorinfo.view');
+    Route::get('/procurement/vendor/vendor-info/create', [VendorInfoController::class,'create'])->name('pro.vendor.vendorinfo.create');
+    Route::post('/procurement/vendor/vendor-info/store', [VendorInfoController::class,'store'])->name('pro.vendor.vendorinfo.store');
+    Route::get('/procurement/vendor/vendor-info/edit/{id}', [VendorInfoController::class,'edit'])->name('pro.vendor.vendorinfo.edit');
+    Route::post('/procurement/vendor/vendor-info/update/{id}', [VendorInfoController::class,'update'])->name('pro.vendor.vendorinfo.update');
+    Route::post('/procurement/vendor/vendor-info/destroy/{id}', [VendorInfoController::class,'destroy'])->name('pro.vendor.vendorinfo.destroy');
 //Procurement/Work Order or purchase
     Route::get('/procurement/work-order/create',[ProPurchaseMasterController::class,'create'])->name('pro.workorder.create');
     Route::get('/procurement/direct-purchase/create', [ProPurchaseMasterController::class,'directPurchaseCreate'])->name('pro.directpurchase.create');

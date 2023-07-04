@@ -37,7 +37,8 @@
                                 @foreach($vendors as $vendor)
                                     <option value="{{$vendor->vendor_id}}" @if(request('id')>0) @if($vendor->vendor_id==$editValue->vendor_id) selected @endif @endif>{{$vendor->vendor_id}} : {{$vendor->vendor_name}}</option>
                                 @endforeach
-                            </select>                        </div>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group row mb-2">
