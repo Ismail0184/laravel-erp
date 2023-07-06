@@ -28,6 +28,7 @@ use App\Http\Controllers\Procurement\Vendor\VendorCategoryController;
 use App\Http\Controllers\Procurement\Vendor\VendorInfoController;
 use App\Http\Controllers\Procurement\workorder\ProPurchaseMasterController;
 use App\Http\Controllers\Warehouse\warehouse\WhWarehouseController;
+use App\Http\Controllers\Accounts\Products\AccProductGroupController;
 
 
 // home
@@ -161,6 +162,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/coa/bank/update/{cc_code}', [CostCenterController::class,'update'])->name('acc.bank.update');
     Route::post('/accounts/coa/bank/destroy/{cc_code}', [CostCenterController::class,'destroy'])->name('acc.bank.destroy');
 
+
     //Accounts/coa/create bank
     Route::get('/accounts/coa/cbook/',[CostCenterController::class,'index'])->name('acc.cbook.view');
     Route::get('/accounts/coa/cbook/create', [CostCenterController::class,'create'])->name('acc.cbook.create');
@@ -169,6 +171,14 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/coa/cbook/edit/{cc_code}', [CostCenterController::class,'edit'])->name('acc.cbook.edit');
     Route::post('/accounts/coa/cbook/update/{cc_code}', [CostCenterController::class,'update'])->name('acc.cbook.update');
     Route::post('/accounts/coa/cbook/destroy/{cc_code}', [CostCenterController::class,'destroy'])->name('acc.cbook.destroy');
+
+    //Accounts/coa/create bank
+    Route::get('/accounts/product/group/',[AccProductGroupController::class,'index'])->name('acc.product.group.view');
+    Route::get('/accounts/product/group/create', [AccProductGroupController::class,'create'])->name('acc.cbook.create');
+    Route::post('/accounts/product/group/store', [AccProductGroupController::class,'store'])->name('acc.cbook.store');
+    Route::get('/accounts/product/group/edit/{id}', [AccProductGroupController::class,'edit'])->name('acc.cbook.edit');
+    Route::post('/accounts/product/group/update/{id}', [AccProductGroupController::class,'update'])->name('acc.cbook.update');
+    Route::post('/accounts/product/group/destroy/{id}', [AccProductGroupController::class,'destroy'])->name('acc.cbook.destroy');
 
     //Accounts/voucher/receipt voucher
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
@@ -321,7 +331,7 @@ Route::get('/', [HomeController::class,'index']);
 
     Route::post('/procurement/workorder/store', [ProPurchaseMasterController::class,'store'])->name('pro.vendor.vendorinfo.store');
     Route::get('/procurement/workorder/edit/{id}', [ProPurchaseMasterController::class,'edit'])->name('pro.vendor.vendorinfos.edit');
-    Route::post('/procurement/workorder/update/{id}', [ProPurchaseMasterController::class,'update'])->name('pro.vendor.vendorinfos.update');
+    Route::post('/procurement/workorder/update/{po_no}', [ProPurchaseMasterController::class,'update'])->name('pro.workorder.update');
     Route::post('/procurement/workorder/destroy/{id}', [ProPurchaseMasterController::class,'destroy'])->name('pro.vendor.vendorinfos.destroy');
 
     //warehouse/create warehouse
