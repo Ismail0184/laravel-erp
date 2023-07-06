@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('po_subject')->nullable();
             $table->text('po_details')->nullable();
             $table->string('quotation_no')->nullable();
-            $table->date('quotation_date');
+            $table->date('quotation_date')->nullable();;
             $table->integer('vendor_id');
             $table->integer('warehouse_id');
             $table->double('tax')->nullable();
@@ -28,9 +28,9 @@ return new class extends Migration
             $table->enum('status',['MANUAL','UNCHECKED','CHECKED','RECOMMENDED','PROCESSING','COMPLETED','DELETED']);
             $table->integer('entry_by');
             $table->timestamp('entry_at')->nullable(true)->useCurrent();
-            $table->integer('checked_by')->nullable();;
+            $table->integer('checked_by')->nullable()->nullable();
             $table->timestamp('checked_at')->nullable(true)->useCurrent();
-            $table->integer('approved_by')->nullable();;
+            $table->integer('approved_by')->nullable();
             $table->timestamp('approved_at')->nullable(true)->useCurrent();
             $table->integer('audited_by')->nullable();;
             $table->timestamp('audited_at')->nullable(true)->useCurrent();

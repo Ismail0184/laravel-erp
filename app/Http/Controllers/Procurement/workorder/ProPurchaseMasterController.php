@@ -38,12 +38,12 @@ class ProPurchaseMasterController extends Controller
     {
         $vendors=ProVendorInfo::where('status','active')->get();
         $warehouses=WhWarehouse::where('status','active')->get();
-        $po_number = Auth::user()->id.date('YmdHis');
-        if(Session::get('po_number')>0)
+        $po_no = Auth::user()->id.date('YmdHis');
+        if(Session::get('po_no')>0)
         {
-            $masterData = ProPurchaseMaster::find(Session::get('po_number'));
-            $poDatas = AccReceipt::where('po_number', Session::get('po_number'))->get();
-            $COUNT_po_datas = AccReceipt::where('po_number', Session::get('po_number'))->count();
+            $masterData = ProPurchaseMaster::find(Session::get('po_no'));
+            $poDatas = ProPurchaseMaster::where('po_no', Session::get('po_no'))->get();
+            $COUNT_po_datas = ProPurchaseMaster::where('po_no', Session::get('po_no'))->count();
         } else {
             $masterData = '0';
             $poDatas = '0';
@@ -51,7 +51,7 @@ class ProPurchaseMasterController extends Controller
 
         }
         return view('modules.procurement.workorder.direct-purchase-create',
-            compact(['vendors','po_number','masterData','poDatas','COUNT_po_datas','warehouses']));
+            compact(['vendors','po_no','masterData','poDatas','COUNT_po_datas','warehouses']));
     }
 
     /**

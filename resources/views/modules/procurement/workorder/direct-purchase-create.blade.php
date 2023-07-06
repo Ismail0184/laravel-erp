@@ -12,7 +12,7 @@
                 <h4 class="card-title mb-4">Create {{$title}} <small class="text-danger float-right">(field marked with * are mandatorys)
                     </small>
                 </h4>
-                <form style="font-size: 11px" method="POST" action="@if(Session::get('journal_no')>0) {{route('acc.voucher.journal.mupdate', ['voucher_no'=>$masterData->voucher_no])}} @else {{route('pro.workorder.initiate')}} @endif">
+                <form style="font-size: 11px" method="POST" action="@if(Session::get('po_no')>0) {{route('acc.voucher.journal.mupdate', ['voucher_no'=>$masterData->voucher_no])}} @else {{route('pro.workorder.initiate')}} @endif">
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="entry_at" value="{{date('Y-m-d H:i:s')}}">
@@ -22,11 +22,11 @@
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Po No <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
                             <input type="hidden" name="journal_type" value="journal" class="form-control" />
-                            <input type="text" readonly name="po_no" @if(Session::get('po_no')>0) value="{{Session::get('po_no')}}" @else value="{{$po_number}}" @endif class="form-control" required />
+                            <input type="text" readonly name="po_no" @if(Session::get('po_no')>0) value="{{Session::get('po_no')}}" @else value="{{$po_no}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Po Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="po_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('journal_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" name="po_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('po_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Warehouse</label>
                         <div class="col-sm-3">
@@ -50,11 +50,11 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Tax(%)</label>
                         <div class="col-sm-3">
-                            <input type="number" name="tax" @if(Session::get('journal_no')>0) value="{{$masterData->tax}}" @endif class="form-control" />
+                            <input type="number" name="tax" @if(Session::get('po_no')>0) value="{{$masterData->tax}}" @endif class="form-control" />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">VAT(%)</label>
                         <div class="col-sm-3">
-                            <input type="number" name="vat" @if(Session::get('journal_no')>0) value="{{$masterData->vat}}" @endif class="form-control" />
+                            <input type="number" name="vat" @if(Session::get('po_no')>0) value="{{$masterData->vat}}" @endif class="form-control" />
                         </div>
                     </div>
                     @if($COUNT_po_datas > 0)
@@ -62,10 +62,10 @@
                         <div class="form-group row justify-content-end">
                             <div class="col-sm-7">
                                 <div>
-                                    @if(Session::get('journal_no'))
+                                    @if(Session::get('po_no'))
                                         <a href="{{route('acc.voucher.journal.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'journal'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');">Cancel</a>
                                     @endif
-                                    <button type="submit" class="btn btn-success w-md">@if(Session::get('journal_no')) Update @else Initiate & Proceed @endif</button>
+                                    <button type="submit" class="btn btn-success w-md">@if(Session::get('po_no')) Update @else Initiate & Proceed @endif</button>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    @if(Session::get('journal_no')>0)
+    @if(Session::get('po_no')>0)
         <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.journal.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.journal.store')}} @endif">
             @csrf
             @if ($message = Session::get('destroy_message'))
@@ -85,7 +85,7 @@
             @elseif( $message = Session::get('update_message'))
                 <p class="text-center text-primary">{{ $message }}</p>
             @endif
-            <input type="hidden" name="journal_no" value="{{$masterData->voucher_no}}">
+            <input type="hidden" name="po_no" value="{{$masterData->voucher_no}}">
             <input type="hidden" name="journal_date" value="{{$masterData->voucher_date}}">
             <input type="hidden" name="amount" value="{{$masterData->amount}}">
             <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
