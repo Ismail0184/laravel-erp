@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Warehouse\warehouse;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\AccLedger;
 use App\Models\Warehouse\warehouse\WhWarehouse;
 use Illuminate\Http\Request;
+use function Termwind\renderUsing;
 
 class WhWarehouseController extends Controller
 {
@@ -26,7 +28,8 @@ class WhWarehouseController extends Controller
      */
     public function create()
     {
-        //
+        $ledgerss=AccLedger::where('status','active')->get();
+        return view('modules.warehouse.warehouse.create',compact('ledgerss'));
     }
 
     /**
@@ -37,7 +40,8 @@ class WhWarehouseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        WhWarehouse::storeWarehouse($request);
+        return redirect('/warehouse/warehouse/')->with('store_message','A warehouse has been successfully created!!');
     }
 
     /**
@@ -59,7 +63,10 @@ class WhWarehouseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ledgerss=AccLedger::where('status','active')->get();
+        $warehouse = WhWarehouse::find($id);
+        return view('modules.warehouse.warehouse.create',compact('ledgerss','warehouse'));
+
     }
 
     /**
@@ -71,7 +78,8 @@ class WhWarehouseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        WhWarehouse::updateWarehouse($request, $id);
+        return redirect('/warehouse/warehouse/')->with('update_message','This warehouse (Uid = '.$id.') has been updated!!');
     }
 
     /**
@@ -82,6 +90,7 @@ class WhWarehouseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        WhWarehouse::destroyWarehouse($id);
+        return redirect('/warehouse/warehouse/')->with('destroy_message','This warehouse (Uid = '.$id.') has been deleted!!');
     }
 }

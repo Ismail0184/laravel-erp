@@ -16,9 +16,6 @@
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="entry_at" value="{{date('Y-m-d H:i:s')}}">
-                    <input type="hidden" name="maturity_date" value="2000-01-01">
-                    <input type="hidden" name="journal_type" value="journal">
-                    <input type="hidden" name="vouchertype" value="multiple">
                     <input type="hidden" name="status" value="MANUAL">
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Po No <span class="required text-danger">*</span></label>
@@ -34,8 +31,8 @@
                         <div class="col-sm-3">
                             <select class="form-control select2" name="vendor_id" required="required">
                                 <option value=""></option>
-                                @foreach($vendors as $vendor)
-                                    <option value="{{$vendor->vendor_id}}" @if(request('id')>0) @if($vendor->vendor_id==$editValue->vendor_id) selected @endif @endif>{{$vendor->vendor_id}} : {{$vendor->vendor_name}}</option>
+                                @foreach($warehouses as $warehouse)
+                                    <option value="{{$warehouse->warehouse_id}}" @if(request('id')>0) @if($warehouse->vendor_id==$editValue->vendor_id) selected @endif @endif>{{$warehouse->warehouse_id}} : {{$warehouse->warehouse_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -50,15 +47,13 @@
                                 @endforeach
                             </select>
                         </div>
-                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Cheque No</label>
+                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Tax(%)</label>
                         <div class="col-sm-3">
-                            <input type="text" name="cheque_no" @if(Session::get('journal_no')>0) value="{{$masterData->cheque_no}}" @endif class="form-control" />
+                            <input type="number" name="tax" @if(Session::get('journal_no')>0) value="{{$masterData->tax}}" @endif class="form-control" />
                         </div>
-                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Chq. Date</label>
+                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">VAT(%)</label>
                         <div class="col-sm-3">
-                            <input type="date" name="cheque_date" @if(Session::get('journal_no')>0) value="{{$masterData->cheque_date}}" @endif class="form-control" />
-                            <input type="hidden" name="cash_bank_ledger" value="0" class="form-control" />
-                            <input type="hidden" name="amount" value="0" class="form-control" />
+                            <input type="number" name="vat" @if(Session::get('journal_no')>0) value="{{$masterData->vat}}" @endif class="form-control" />
                         </div>
                     </div>
                     @if($COUNT_po_datas > 0)
