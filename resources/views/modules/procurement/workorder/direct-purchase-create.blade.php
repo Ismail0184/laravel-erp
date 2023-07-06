@@ -12,24 +12,25 @@
                 <h4 class="card-title mb-4">Create {{$title}} <small class="text-danger float-right">(field marked with * are mandatorys)
                     </small>
                 </h4>
-                <form style="font-size: 11px" method="POST" action="@if(Session::get('journal_no')>0) {{route('acc.voucher.journal.mupdate', ['voucher_no'=>$masterData->voucher_no])}} @else {{route('acc.voucher.journal.initiate')}} @endif">
+                <form style="font-size: 11px" method="POST" action="@if(Session::get('journal_no')>0) {{route('acc.voucher.journal.mupdate', ['voucher_no'=>$masterData->voucher_no])}} @else {{route('pro.workorder.initiate')}} @endif">
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="entry_at" value="{{date('Y-m-d H:i:s')}}">
                     <input type="hidden" name="status" value="MANUAL">
+                    <input type="hidden" name="po_type" value="DP">
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Po No <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
                             <input type="hidden" name="journal_type" value="journal" class="form-control" />
-                            <input type="text" readonly name="voucher_no" @if(Session::get('journal_no')>0) value="{{Session::get('journal_no')}}" @else value="{{$po_number}}" @endif class="form-control" required />
+                            <input type="text" readonly name="po_no" @if(Session::get('po_no')>0) value="{{Session::get('po_no')}}" @else value="{{$po_number}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Po Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="voucher_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('journal_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" name="po_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('journal_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Warehouse</label>
                         <div class="col-sm-3">
-                            <select class="form-control select2" name="vendor_id" required="required">
+                            <select class="form-control select2" name="warehouse_id" required="required">
                                 <option value=""></option>
                                 @foreach($warehouses as $warehouse)
                                     <option value="{{$warehouse->warehouse_id}}" @if(request('id')>0) @if($warehouse->vendor_id==$editValue->vendor_id) selected @endif @endif>{{$warehouse->warehouse_id}} : {{$warehouse->warehouse_name}}</option>

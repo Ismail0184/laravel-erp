@@ -33,6 +33,7 @@ class ProPurchaseMasterController extends Controller
     {
         return view('modules.procurement.workorder.workorder-create');
     }
+
     public function directPurchaseCreate()
     {
         $vendors=ProVendorInfo::where('status','active')->get();
@@ -61,7 +62,8 @@ class ProPurchaseMasterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        ProPurchaseMaster::initiateDirectPurchase($request);
+        return redirect('/procurement/direct-purchase/create');
     }
 
     /**

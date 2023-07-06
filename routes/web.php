@@ -312,9 +312,13 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/procurement/vendor/vendor-info/edit/{id}', [VendorInfoController::class,'edit'])->name('pro.vendor.vendorinfo.edit');
     Route::post('/procurement/vendor/vendor-info/update/{id}', [VendorInfoController::class,'update'])->name('pro.vendor.vendorinfo.update');
     Route::post('/procurement/vendor/vendor-info/destroy/{id}', [VendorInfoController::class,'destroy'])->name('pro.vendor.vendorinfo.destroy');
-//Procurement/Work Order or purchase
+
+    //Procurement/Work Order or purchase
     Route::get('/procurement/work-order/create',[ProPurchaseMasterController::class,'create'])->name('pro.workorder.create');
     Route::get('/procurement/direct-purchase/create', [ProPurchaseMasterController::class,'directPurchaseCreate'])->name('pro.directpurchase.create');
+    Route::post('/procurement/work-order/initiate', [ProPurchaseMasterController::class,'store'])->name('pro.workorder.initiate');
+
+
     Route::post('/procurement/workorder/store', [ProPurchaseMasterController::class,'store'])->name('pro.vendor.vendorinfo.store');
     Route::get('/procurement/workorder/edit/{id}', [ProPurchaseMasterController::class,'edit'])->name('pro.vendor.vendorinfos.edit');
     Route::post('/procurement/workorder/update/{id}', [ProPurchaseMasterController::class,'update'])->name('pro.vendor.vendorinfos.update');
