@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Developer\DevWarehouse;
 use App\Models\Procurement\Vendor\ProVendorInfo;
 use App\Models\Procurement\workorder\ProPurchaseMaster;
+use App\Models\Warehouse\warehouse\warehouse;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -34,7 +35,7 @@ class ProPurchaseMasterController extends Controller
     public function directPurchaseCreate()
     {
         $vendors=ProVendorInfo::where('status','active')->get();
-        $warehouses=DevWarehouse::where('status','active')->get();
+        $warehouses=warehouse::where('status','active')->get();
         $po_number = Auth::user()->id.date('YmdHis');
         if(Session::get('po_number')>0)
         {

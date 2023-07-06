@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Warehouse\warehouse;
 
 use App\Http\Controllers\Controller;
-use App\Models\Warehouse\warehouse\warehouse;
+use App\Models\Warehouse\warehouse\WhWarehouse;
 use Illuminate\Http\Request;
 
-class WerWarehouseController extends Controller
+class WhWarehouseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,8 @@ class WerWarehouseController extends Controller
      */
     public function index()
     {
-        //
+        $warehouses = WhWarehouse::all();
+        return view('modules.warehouse.warehouse.index', compact('warehouses'));
     }
 
     /**
@@ -25,8 +26,7 @@ class WerWarehouseController extends Controller
      */
     public function create()
     {
-        $warehouses = warehouse::all();
-        return view('modules.warehouse.warehouse.index',compact('warehouses'));
+        //
     }
 
     /**
@@ -37,7 +37,7 @@ class WerWarehouseController extends Controller
      */
     public function store(Request $request)
     {
-        warehouse::storeWarehouse($request);
+        //
     }
 
     /**
