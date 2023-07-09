@@ -174,11 +174,11 @@ Route::get('/', [HomeController::class,'index']);
 
     //Accounts/coa/create bank
     Route::get('/accounts/product/group/',[AccProductGroupController::class,'index'])->name('acc.product.group.view');
-    Route::get('/accounts/product/group/create', [AccProductGroupController::class,'create'])->name('acc.cbook.create');
-    Route::post('/accounts/product/group/store', [AccProductGroupController::class,'store'])->name('acc.cbook.store');
-    Route::get('/accounts/product/group/edit/{id}', [AccProductGroupController::class,'edit'])->name('acc.cbook.edit');
-    Route::post('/accounts/product/group/update/{id}', [AccProductGroupController::class,'update'])->name('acc.cbook.update');
-    Route::post('/accounts/product/group/destroy/{id}', [AccProductGroupController::class,'destroy'])->name('acc.cbook.destroy');
+    Route::get('/accounts/product/group/create', [AccProductGroupController::class,'create'])->name('acc.product.group.create');
+    Route::post('/accounts/product/group/store', [AccProductGroupController::class,'store'])->name('acc.product.group.store');
+    Route::get('/accounts/product/group/edit/{group_id}', [AccProductGroupController::class,'edit'])->name('acc.product.group.edit');
+    Route::post('/accounts/product/group/update/{group_id}', [AccProductGroupController::class,'update'])->name('acc.product.group.update');
+    Route::post('/accounts/product/group/destroy/{group_id}', [AccProductGroupController::class,'destroy'])->name('acc.product.group.destroy');
 
     //Accounts/voucher/receipt voucher
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');

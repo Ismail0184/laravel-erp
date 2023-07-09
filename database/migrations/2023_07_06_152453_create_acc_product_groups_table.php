@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('acc_product_groups', function (Blueprint $table) {
             $table->id('group_id');
-            $table->string('group_name');
+            $table->string('group_name')->unique();
             $table->enum('status',['active','inactive','suspended','deleted']);
             $table->integer('entry_by');
             $table->integer('sconid');

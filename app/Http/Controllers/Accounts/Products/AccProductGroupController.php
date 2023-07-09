@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounts\Products;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Products\AccProductGroup;
 use Illuminate\Http\Request;
 
 class AccProductGroupController extends Controller
@@ -14,7 +15,8 @@ class AccProductGroupController extends Controller
      */
     public function index()
     {
-        return view();
+        $groups = AccProductGroup::all();
+        return view('modules.accounts.products.group.index', compact('groups'));
     }
 
     /**
@@ -24,7 +26,7 @@ class AccProductGroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.accounts.products.group.create');
     }
 
     /**
@@ -35,7 +37,8 @@ class AccProductGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AccProductGroup::storeProductGroup($request);
+        return redirect('/accounts/product/group/')->with('store_message','A product group has been created !!');
     }
 
     /**
@@ -57,7 +60,8 @@ class AccProductGroupController extends Controller
      */
     public function edit($id)
     {
-        //
+        $group = AccProductGroup::find($id);
+        return view('modules.accounts.products.group.create',compact('group'));
     }
 
     /**
@@ -69,7 +73,8 @@ class AccProductGroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccProductGroup::updateProductGroup($request, $id);
+        return redirect('/accounts/product/group/')->with('update_message','A product group (uid='.$id.') has been updated !!');
     }
 
     /**
@@ -80,6 +85,7 @@ class AccProductGroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccProductGroup::destroyProductGroup($id);
+        return redirect('/accounts/product/group/')->with('destroy_message','A product group (uid='.$id.') has been deleted !!');
     }
 }
