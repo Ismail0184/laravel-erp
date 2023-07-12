@@ -16,7 +16,7 @@ class AccProductBrandController extends Controller
     public function index()
     {
         $brands = AccProductBrand::all();
-        return view('modules.accounts.products.brand.index',compact('brand'));
+        return view('modules.accounts.products.brand.index',compact('brands'));
     }
 
     /**
@@ -26,7 +26,7 @@ class AccProductBrandController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.accounts.products.brand.create');
     }
 
     /**
