@@ -46,6 +46,17 @@
                         </div>
                     </div>
                     <div class="form-group row mb-3">
+                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Sub-Group Name <span class="required text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="group_id" required>
+                                <option value=""> -- select a choose -- </option>
+                                @foreach($subGroups as $item)
+                                    <option value="{{$item->item_id}}" @if(request('item_id')>0) @if($item->sub_group_id==$group->group_id) selected @endif @endif>{{$item->sub_group_id}} : {{$item->sub_group_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
                         <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Custom Code</label>
                         <div class="col-sm-9">
                             <input type="text" name="custom_id" @if(request('item_id')>0) value="{{$item->custom_id}}" @endif class="form-control" />

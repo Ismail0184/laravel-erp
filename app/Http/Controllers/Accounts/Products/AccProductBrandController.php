@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Accounts\Products;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounts\Products\AccProductItem;
-use App\Models\Accounts\Products\AccProductSubGroup;
+use App\Models\Accounts\Products\AccProductBrand;
 use Illuminate\Http\Request;
 
-class AccProductItemController extends Controller
+class AccProductBrandController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class AccProductItemController extends Controller
      */
     public function index()
     {
-        $items = AccProductItem::all();
-        return view('modules.accounts.products.item.index',compact('items'));
+        $brands = AccProductBrand::all();
+        return view('modules.accounts.products.brand.index',compact('brand'));
     }
 
     /**
@@ -27,9 +26,7 @@ class AccProductItemController extends Controller
      */
     public function create()
     {
-        $subGroups = AccProductSubGroup::where('status','active')->orderBy('sub_group_id')->get();
-        //$brands =
-        return view('modules.accounts.products.item.create',compact('subGroups'));
+        //
     }
 
     /**
