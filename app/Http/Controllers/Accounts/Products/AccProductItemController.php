@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Accounts\Products;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounts\Products\AccProductUnit;
 use Illuminate\Http\Request;
 
-class AccProductsUnitController extends Controller
+class AccProductItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,7 @@ class AccProductsUnitController extends Controller
      */
     public function index()
     {
-        $units = AccProductUnit::all();
-        return view('modules.accounts.products.unit.index',compact('units'));
+        //
     }
 
     /**
@@ -26,8 +24,7 @@ class AccProductsUnitController extends Controller
      */
     public function create()
     {
-        return view('modules.accounts.products.unit.create');
-
+        //
     }
 
     /**
@@ -38,8 +35,7 @@ class AccProductsUnitController extends Controller
      */
     public function store(Request $request)
     {
-        AccProductUnit::storeUnit($request);
-        return redirect('/accounts/product/unit/')->with('store_message','A new unit has been successfully inserted');
+        //
     }
 
     /**
@@ -61,8 +57,7 @@ class AccProductsUnitController extends Controller
      */
     public function edit($id)
     {
-        $unit = AccProductUnit::find($id);
-        return view('modules.accounts.products.unit.create',compact('unit'));
+        //
     }
 
     /**
@@ -74,8 +69,7 @@ class AccProductsUnitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        AccProductUnit::updateUnit($request, $id);
-        return redirect('/accounts/product/unit/')->with('update_message','This unit (uid='.$id.') has been successfully updated');
+        //
     }
 
     /**
@@ -86,7 +80,6 @@ class AccProductsUnitController extends Controller
      */
     public function destroy($id)
     {
-        AccProductUnit::destroyUnit($id);
-        return redirect('/accounts/product/unit/')->with('update_message','This unit (uid='.$id.') has been deleted');
+        //
     }
 }
