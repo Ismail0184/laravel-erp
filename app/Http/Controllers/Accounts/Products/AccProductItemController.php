@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Accounts\Products;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Products\AccProductItem;
+use App\Models\Accounts\Products\AccProductSubGroup;
 use Illuminate\Http\Request;
 
 class AccProductItemController extends Controller
@@ -14,7 +16,8 @@ class AccProductItemController extends Controller
      */
     public function index()
     {
-        //
+        $items = AccProductItem::all();
+        return view('modules.accounts.products.item.index',compact('items'));
     }
 
     /**
@@ -24,7 +27,8 @@ class AccProductItemController extends Controller
      */
     public function create()
     {
-        //
+        $subGroups = AccProductSubGroup::where('status','active')->orderBy('sub_group_id')->get();
+        return view('modules.accounts.products.item.create',compact('subGroups'));
     }
 
     /**

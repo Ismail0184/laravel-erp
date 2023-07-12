@@ -37,7 +37,7 @@
                                     <img src="{{asset('/')}}assets/images/logo-light.svg" alt="" height="22">
                                 </span>
                         <span class="logo-lg">
-                                    <img src="{{asset('/')}}assets/images/logo-light.png" alt="" height="50" width="80">
+                                    <img src="{{asset('/')}}assets/images/logo-light.png" alt="" height="19">
                                 </span>
                     </a>
                 </div>

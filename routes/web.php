@@ -31,6 +31,7 @@ use App\Http\Controllers\Warehouse\warehouse\WhWarehouseController;
 use App\Http\Controllers\Accounts\Products\AccProductGroupController;
 use App\Http\Controllers\Accounts\Products\AccProductSubGroupController;
 use App\Http\Controllers\Accounts\Products\AccProductsUnitController;
+use App\Http\Controllers\Accounts\Products\AccProductItemController;
 
 
 // home
@@ -199,12 +200,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/product/unit/destroy/{unit_id}', [AccProductsUnitController::class,'destroy'])->name('acc.product.unit.destroy');
 
     //Accounts/product/item
-    Route::get('/accounts/product/item/',[AccProductsUnitController::class,'index'])->name('acc.product.item.view');
-    Route::get('/accounts/product/item/create', [AccProductsUnitController::class,'create'])->name('acc.product.item.create');
-    Route::post('/accounts/product/item/store', [AccProductsUnitController::class,'store'])->name('acc.product.item.store');
-    Route::get('/accounts/product/item/edit/{unit_id}', [AccProductsUnitController::class,'edit'])->name('acc.product.item.edit');
-    Route::post('/accounts/product/item/update/{unit_id}', [AccProductsUnitController::class,'update'])->name('acc.product.item.update');
-    Route::post('/accounts/product/item/destroy/{unit_id}', [AccProductsUnitController::class,'destroy'])->name('acc.product.item.destroy');
+    Route::get('/accounts/product/item/',[AccProductItemController::class,'index'])->name('acc.product.item.view');
+    Route::get('/accounts/product/item/create', [AccProductItemController::class,'create'])->name('acc.product.item.create');
+    Route::post('/accounts/product/item/store', [AccProductItemController::class,'store'])->name('acc.product.item.store');
+    Route::get('/accounts/product/item/edit/{unit_id}', [AccProductItemController::class,'edit'])->name('acc.product.item.edit');
+    Route::post('/accounts/product/item/update/{unit_id}', [AccProductItemController::class,'update'])->name('acc.product.item.update');
+    Route::post('/accounts/product/item/destroy/{unit_id}', [AccProductItemController::class,'destroy'])->name('acc.product.item.destroy');
 
     //Accounts/voucher/receipt voucher
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');

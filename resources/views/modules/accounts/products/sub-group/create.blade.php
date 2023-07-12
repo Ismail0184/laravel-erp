@@ -20,7 +20,8 @@
                                 @foreach($groups as $group)
                                     <option value="{{$group->group_id}}" @if(request('sub_group_id')>0) @if($subGroup->group_id==$group->group_id) selected @endif @endif>{{$group->group_id}} : {{$group->group_name}}</option>
                                 @endforeach
-                            </select>                        </div>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group row mb-4">
                         <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Sub-Group Name <span class="required text-danger">*</span></label>
