@@ -196,9 +196,9 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/product/brand/',[AccProductBrandController::class,'index'])->name('acc.product.brand.view');
     Route::get('/accounts/product/brand/create', [AccProductBrandController::class,'create'])->name('acc.product.brand.create');
     Route::post('/accounts/product/brand/store', [AccProductBrandController::class,'store'])->name('acc.product.brand.store');
-    Route::get('/accounts/product/brand/edit/{unit_id}', [AccProductBrandController::class,'edit'])->name('acc.product.brand.edit');
-    Route::post('/accounts/product/brand/update/{unit_id}', [AccProductBrandController::class,'update'])->name('acc.product.brand.update');
-    Route::post('/accounts/product/brand/destroy/{unit_id}', [AccProductBrandController::class,'destroy'])->name('acc.product.brand.destroy');
+    Route::get('/accounts/product/brand/edit/{brand_id}', [AccProductBrandController::class,'edit'])->name('acc.product.brand.edit');
+    Route::post('/accounts/product/brand/update/{brand_id}', [AccProductBrandController::class,'update'])->name('acc.product.brand.update');
+    Route::post('/accounts/product/brand/destroy/{brand_id}', [AccProductBrandController::class,'destroy'])->name('acc.product.brand.destroy');
 
     //Accounts/product/unit management
     Route::get('/accounts/product/unit/',[AccProductsUnitController::class,'index'])->name('acc.product.unit.view');

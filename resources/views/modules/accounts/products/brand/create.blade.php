@@ -17,7 +17,7 @@
                         <div class="col-sm-9">
                             <select class="form-control" name="vendor_id" required>
                                 <option> -- select a choose -- </option>
-                                <option>1</option>
+                                <option @if($brand->vendor_id=='1') selected @endif value="1">ABC Company</option>
                             </select>
                         </div>
                     </div>

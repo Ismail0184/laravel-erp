@@ -42,9 +42,9 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <form action="{{route('acc.product.group.destroy', ['brand_id' => $brand->brand_id])}}" method="post">
+                                        <form action="{{route('acc.product.brand.destroy', ['brand_id' => $brand->brand_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('acc.product.group.edit',['brand_id' => $brand->brand_id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('acc.product.brand.edit',['brand_id' => $brand->brand_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

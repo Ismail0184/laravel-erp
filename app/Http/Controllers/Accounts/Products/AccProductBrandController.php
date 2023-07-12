@@ -37,7 +37,8 @@ class AccProductBrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AccProductBrand::storeBrand($request);
+        return redirect('/accounts/product/brand/')->with('store_message','A new brand has been successfully created');
     }
 
     /**
@@ -59,7 +60,8 @@ class AccProductBrandController extends Controller
      */
     public function edit($id)
     {
-        //
+        $brand = AccProductBrand::find($id);
+        return view('modules.accounts.products.brand.create',compact('brand'));
     }
 
     /**
@@ -71,7 +73,8 @@ class AccProductBrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccProductBrand::updateBrand($request, $id);
+        return redirect('/accounts/product/brand/')->with('update_message','This brand (uid='.$id.') has been successfully updated!!');
     }
 
     /**
@@ -82,6 +85,7 @@ class AccProductBrandController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccProductBrand::destroyBrand($id);
+        return redirect('/accounts/product/brand/')->with('destroy_message','This brand (uid='.$id.') has been deleted!!');
     }
 }
