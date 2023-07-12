@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Accounts\Products;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Products\AccProductSubGroup;
 use Illuminate\Http\Request;
 
-class AccProductSubGroup extends Controller
+class AccProductSubGroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,8 @@ class AccProductSubGroup extends Controller
      */
     public function index()
     {
-        //
+        $groups = AccProductSubGroup::all();
+        return view('modules.accounts.products.sub-group.index',compact('groups'));
     }
 
     /**
