@@ -30,6 +30,7 @@ use App\Http\Controllers\Procurement\workorder\ProPurchaseMasterController;
 use App\Http\Controllers\Warehouse\warehouse\WhWarehouseController;
 use App\Http\Controllers\Accounts\Products\AccProductGroupController;
 use App\Http\Controllers\Accounts\Products\AccProductSubGroupController;
+use App\Http\Controllers\Accounts\Products\AccProductsUnitController;
 
 
 // home
@@ -185,9 +186,17 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/product/sub-group/',[AccProductSubGroupController::class,'index'])->name('acc.product.sub-group.view');
     Route::get('/accounts/product/sub-group/create', [AccProductSubGroupController::class,'create'])->name('acc.product.sub-group.create');
     Route::post('/accounts/product/sub-group/store', [AccProductSubGroupController::class,'store'])->name('acc.product.sub-group.store');
-    Route::get('/accounts/product/sub-group/edit/{group_id}', [AccProductSubGroupController::class,'edit'])->name('acc.sub-product.group.edit');
-    Route::post('/accounts/product/sub-group/update/{group_id}', [AccProductSubGroupController::class,'update'])->name('acc.sub-product.group.update');
-    Route::post('/accounts/product/sub-group/destroy/{group_id}', [AccProductSubGroupController::class,'destroy'])->name('acc.product.sub-group.destroy');
+    Route::get('/accounts/product/sub-group/edit/{sub_group_id}', [AccProductSubGroupController::class,'edit'])->name('acc.product.sub-group.edit');
+    Route::post('/accounts/product/sub-group/update/{sub_group_id}', [AccProductSubGroupController::class,'update'])->name('acc.product.sub-group.update');
+    Route::post('/accounts/product/sub-group/destroy/{sub_group_id}', [AccProductSubGroupController::class,'destroy'])->name('acc.product.sub-group.destroy');
+
+    //Accounts/product/unit management
+    Route::get('/accounts/product/unit/',[AccProductsUnitController::class,'index'])->name('acc.product.unit.view');
+    Route::get('/accounts/product/unit/create', [AccProductsUnitController::class,'create'])->name('acc.product.unit.create');
+    Route::post('/accounts/product/unit/store', [AccProductsUnitController::class,'store'])->name('acc.product.unit.store');
+    Route::get('/accounts/product/unit/edit/{sub_group_id}', [AccProductsUnitController::class,'edit'])->name('acc.product.unit.edit');
+    Route::post('/accounts/product/unit/update/{sub_group_id}', [AccProductsUnitController::class,'update'])->name('acc.product.unit.update');
+    Route::post('/accounts/product/unit/destroy/{sub_group_id}', [AccProductsUnitController::class,'destroy'])->name('acc.product.unit.destroy');
 
     //Accounts/voucher/receipt voucher
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');

@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}} <a href="{{route('acc.product.group.create')}}" class="btn btn-success" style="margin-left: 81%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('acc.product.sub-group.create')}}" class="btn btn-success" style="margin-left: 77.5%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -23,28 +23,30 @@
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th>ID</th>
-                                <th>Name</th>
+                                <th>Sub Group Name</th>
+                                <th>Group Name</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($groups as $group)
+                            @foreach($subGroups as $subGroup)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td>{{$group->group_id}}</td>
-                                    <td>@if($group->status=='deleted')<del>{{$group->group_name}}</del> @else {{$group->group_name}} @endif</td>
+                                    <td>{{$subGroup->sub_group_id}}</td>
+                                    <td>@if($subGroup->status=='deleted')<del>{{$subGroup->sub_group_name}}</del> @else {{$subGroup->sub_group_name}} @endif</td>
+                                    <td>{{$subGroup->group->group_name}}</td>
                                     <td>
-                                        @if($group->status == 'active') <span class="badge badge-success">Active</span>
-                                        @elseif($group->status == 'inactive') <span class="badge badge-warning">Inactive</span>
-                                        @elseif($group->status == 'suspended') <span class="badge badge-danger">Suspended</span>
-                                        @elseif($group->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
+                                        @if($subGroup->status == 'active') <span class="badge badge-success">Active</span>
+                                        @elseif($subGroup->status == 'inactive') <span class="badge badge-warning">Inactive</span>
+                                        @elseif($subGroup->status == 'suspended') <span class="badge badge-danger">Suspended</span>
+                                        @elseif($subGroup->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <form action="{{route('acc.product.group.destroy', ['group_id' => $group->group_id])}}" method="post">
+                                        <form action="{{route('acc.product.sub-group.destroy', ['sub_group_id' => $subGroup->sub_group_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('acc.product.group.edit',['group_id' => $group->group_id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('acc.product.sub-group.edit',['sub_group_id' => $subGroup->sub_group_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
