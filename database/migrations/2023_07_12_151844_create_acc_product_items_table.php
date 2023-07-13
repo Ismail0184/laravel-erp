@@ -15,17 +15,17 @@ return new class extends Migration
     {
         Schema::create('acc_product_items', function (Blueprint $table) {
             $table->id('item_id')->unique();
-            $table->integer('serial');
+            $table->integer('serial')->nullable();
             $table->string('custom_id')->unique()->nullable();
             $table->string('item_name')->unique();
-            $table->text('item_description');
+            $table->text('item_description')->nullable();
             $table->enum('consumable_type',['Consumable','Non-Consumable','Service']);
             $table->enum('product_nature',['Salable','Purchasable','Both']);
             $table->bigInteger('sub_group_id');
             $table->integer('unit_id');
             $table->integer('brand_id');
-            $table->integer('pack_unit');
-            $table->integer('sub_pack_size');
+            $table->integer('pack_unit')->nullable();
+            $table->integer('sub_pack_size')->nullable();
             $table->integer('pack_size')->nullable();
             $table->double('g_weight')->nullable();
             $table->double('p_price')->nullable();

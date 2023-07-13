@@ -66,7 +66,11 @@ class AccProductItemController extends Controller
      */
     public function edit($id)
     {
-        //
+        $subGroups = AccProductSubGroup::where('status','active')->orderBy('sub_group_id')->get();
+        $brands = AccProductBrand::where('status','active')->get();
+        $units = AccProductUnit::where('status','active')->get();
+        $item = AccProductItem::find($id);
+        return view('modules.accounts.products.item.create',compact(['subGroups','brands','units','item']));
     }
 
     /**
@@ -78,7 +82,8 @@ class AccProductItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        AccProductItem::updateItem($request, $id);
+        return redirect('/accounts/product/item/')->with('update_message','This product (uid='.$id.') has been successfully updated!!');
     }
 
     /**
@@ -89,6 +94,8 @@ class AccProductItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccProductItem::destroyProduct($id);
+        return redirect('/accounts/product/item/')->with('update_message','This product (uid='.$id.') has been deleted!!');
+
     }
 }

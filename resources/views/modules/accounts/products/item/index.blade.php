@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title='Product Items') {{$title}}
+    @php($title='Products') {{$title}}
 @endsection
 
 @section('body')
@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}} <a href="{{route('acc.product.item.create')}}" class="btn btn-success" style="margin-left: 81%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('acc.product.item.create')}}" class="btn btn-success" style="margin-left: 84.8%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -23,7 +23,10 @@
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th>ID</th>
-                                <th>Name</th>
+                                <th>Product Name</th>
+                                <th>Sub Group</th>
+                                <th>Brand</th>
+                                <th>Unit</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 10%">Option</th>
                             </tr>
@@ -32,8 +35,11 @@
                             @foreach($items as $item)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td>{{$item->item_id}}</td>
-                                    <td>@if($item->status=='deleted')<del>{{$item->group_name}}</del> @else {{$item->group_name}} @endif</td>
+                                    <td>{{$item->item_id}} : {{$item->custom_id}}</td>
+                                    <td>@if($item->status=='deleted')<del>{{$item->item_name}}</del> @else {{$item->item_name}} @endif</td>
+                                    <td>{{$item->subGroup->sub_group_name}}</td>
+                                    <td>{{$item->brand->brand_name}}</td>
+                                    <td>{{$item->unit->unit_name}}</td>
                                     <td>
                                         @if($item->status == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($item->status == 'inactive') <span class="badge badge-warning">Inactive</span>

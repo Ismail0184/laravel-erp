@@ -213,9 +213,9 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/product/item/',[AccProductItemController::class,'index'])->name('acc.product.item.view');
     Route::get('/accounts/product/item/create', [AccProductItemController::class,'create'])->name('acc.product.item.create');
     Route::post('/accounts/product/item/store', [AccProductItemController::class,'store'])->name('acc.product.item.store');
-    Route::get('/accounts/product/item/edit/{unit_id}', [AccProductItemController::class,'edit'])->name('acc.product.item.edit');
-    Route::post('/accounts/product/item/update/{unit_id}', [AccProductItemController::class,'update'])->name('acc.product.item.update');
-    Route::post('/accounts/product/item/destroy/{unit_id}', [AccProductItemController::class,'destroy'])->name('acc.product.item.destroy');
+    Route::get('/accounts/product/item/edit/{item_id}', [AccProductItemController::class,'edit'])->name('acc.product.item.edit');
+    Route::post('/accounts/product/item/update/{item_id}', [AccProductItemController::class,'update'])->name('acc.product.item.update');
+    Route::post('/accounts/product/item/destroy/{item_id}', [AccProductItemController::class,'destroy'])->name('acc.product.item.destroy');
 
     //Accounts/product/Tariff Master
     Route::get('/accounts/product/tariff-master/',[AccProductTariffMasterController::class,'index'])->name('acc.product.tariff-master.view');
@@ -372,6 +372,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/procurement/work-order/create',[ProPurchaseMasterController::class,'create'])->name('pro.workorder.create');
     Route::get('/procurement/direct-purchase/create', [ProPurchaseMasterController::class,'directPurchaseCreate'])->name('pro.directpurchase.create');
     Route::post('/procurement/work-order/initiate', [ProPurchaseMasterController::class,'store'])->name('pro.workorder.initiate');
+    Route::get('/procurement/work-order/cancelall/{voucher_no}', [ProPurchaseMasterController::class,'destroy'])->name('acc.voucher.journal.cancelall');
 
 
     Route::post('/procurement/workorder/store', [ProPurchaseMasterController::class,'store'])->name('pro.vendor.vendorinfo.store');
@@ -387,9 +388,6 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/warehouse/warehouse/update/{warehouse_id}', [WhWarehouseController::class,'update'])->name('wh.warehouse.update');
     Route::post('/warehouse/warehouse/destroy/{warehouse_id}', [WhWarehouseController::class,'destroy'])->name('wh.warehouse.destroy');
 
-
-
-
-        Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
+    Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
 });

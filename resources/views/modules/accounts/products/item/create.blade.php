@@ -10,7 +10,7 @@
             <div class="card-body">
                 <h4 class="card-title mb-4">@if(request('item_id')) Update @else Create @endif {{$title}} <small class="text-danger float-right">(field marked with * are mandatory)
                     </small></h4>
-                <form method="POST" action="@if(request('item_id')>0) {{route('acc.product.sub-group.update', ['item_id'=>$item->item_id])}} @else {{route('acc.product.sub-group.store')}} @endif">
+                <form method="POST" action="@if(request('item_id')>0) {{route('acc.product.item.update', ['item_id'=>$item->item_id])}} @else {{route('acc.product.item.store')}} @endif">
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                     <div class="form-group row mb-3">
@@ -18,8 +18,8 @@
                         <div class="col-sm-9">
                             <select class="form-control" name="sub_group_id" required>
                                 <option value=""> -- select a choose -- </option>
-                                @foreach($subGroups as $item)
-                                    <option value="{{$item->item_id}}" @if(request('item_id')>0) @if($item->sub_group_id==$group->group_id) selected @endif @endif>{{$item->sub_group_id}} : {{$item->sub_group_name}}</option>
+                                @foreach($subGroups as $subGroup)
+                                    <option value="{{$subGroup->sub_group_id}}" @if(request('item_id')>0) @if($subGroup->sub_group_id==$item->sub_group_id) selected @endif @endif>{{$subGroup->sub_group_id}} : {{$subGroup->sub_group_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -29,9 +29,9 @@
                         <div class="col-sm-9">
                             <select class="form-control" name="consumable_type" required>
                                 <option value="">-- select a choose --</option>
-                                <option @if($item->consumable_type =='Consumable') selected @endif value="Consumable">Consumable</option>
-                                <option @if($item->consumable_type =='Non-Consumable') selected @endif value="Non-Consumable">Non-Consumable</option>
-                                <option @if($item->consumable_type =='Service') selected @endif value="Service">Service</option>
+                                <option @if(request('item_id')>0) @if($item->consumable_type =='Consumable') selected @endif @endif value="Consumable">Consumable</option>
+                                <option @if(request('item_id')>0) @if($item->consumable_type =='Non-Consumable') selected @endif @endif value="Non-Consumable">Non-Consumable</option>
+                                <option @if(request('item_id')>0) @if($item->consumable_type =='Service') selected @endif @endif value="Service">Service</option>
                             </select>
                         </div>
                     </div>
@@ -40,9 +40,9 @@
                         <div class="col-sm-9">
                             <select class="form-control" name="product_nature" required>
                                 <option value="">-- select a choose --</option>
-                                <option @if($item->product_nature =='Salable') selected @endif value="Salable">Salable</option>
-                                <option @if($item->product_nature =='Purchasable') selected @endif value="Purchasable">Purchasable</option>
-                                <option @if($item->product_nature =='Both') selected @endif value="Both">Both</option>
+                                <option @if(request('item_id')>0) @if($item->product_nature =='Salable') selected @endif @endif value="Salable">Salable</option>
+                                <option @if(request('item_id')>0) @if($item->product_nature =='Purchasable') selected @endif @endif value="Purchasable">Purchasable</option>
+                                <option @if(request('item_id')>0) @if($item->product_nature =='Both') selected @endif @endif value="Both">Both</option>
                             </select>
                         </div>
                     </div>
@@ -55,6 +55,12 @@
                                     <option value="{{$brand->brand_id}}" @if(request('item_id')>0) @if($brand->brand_id==$item->brand_id) selected @endif @endif>{{$brand->brand_id}} : {{$brand->brand_name}}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Serial</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="serial" @if(request('item_id')>0) value="{{$item->serial}}" @endif class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -73,17 +79,26 @@
                     <div class="form-group row mb-3">
                         <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Item Description</label>
                         <div class="col-sm-9">
-                            <textarea name="item_description" class="form-control">{{$item->item_description}}</textarea>
+                            <textarea name="item_description" class="form-control">@if(request('item_id')>0) {{$item->item_description}} @endif</textarea>
                         </div>
                     </div>
 
                     <div class="form-group row mb-3">
                         <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Unit <span class="required text-danger">*</span></label>
-                        <div class="col-sm-9">
-                            <select class="form-control" name="unit" required>
+                        <div class="col-sm-5">
+                            <select class="form-control" name="unit_id" required>
                                 <option value=""> -- select a choose -- </option>
                                 @foreach($units as $unit)
-                                    <option value="{{$unit->unit_id}}" @if(request('item_id')>0) @if($unit->unit_id==$item->unit) selected @endif @endif>{{$unit->unit_id}} : {{$unit->unit_name}}</option>
+                                    <option value="{{$unit->unit_id}}" @if(request('item_id')>0) @if($unit->unit_id==$item->unit_id) selected @endif @endif>{{$unit->unit_id}} : {{$unit->unit_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <select class="form-control" name="pack_unit" required>
+                                <option value=""> -- select a choose -- </option>
+                                @foreach($units as $unit)
+                                    <option value="{{$unit->unit_id}}" @if(request('item_id')>0) @if($unit->unit_id==$item->pack_unit) selected @endif @endif>{{$unit->unit_id}} : {{$unit->unit_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -161,7 +176,7 @@
                             <select class="form-control" name="H_S_code" required>
                                 <option value=""> -- select a choose -- </option>
                                 @foreach($units as $unit)
-                                    <option value="{{$unit->unit_id}}" @if(request('item_id')>0) @if($unit->unit_id==$item->unit) selected @endif @endif>{{$unit->unit_id}} : {{$unit->unit_name}}</option>
+                                    <option value="{{$unit->unit_id}}" @if(request('item_id')>0) @if($unit->unit_id==$item->unit_id) selected @endif @endif>{{$unit->unit_id}} : {{$unit->unit_name}}</option>
                                 @endforeach
                             </select>
                         </div>

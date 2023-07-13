@@ -6,6 +6,7 @@
 @endsection
 
 @section('body')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
@@ -26,14 +27,14 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Po Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="po_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('po_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" name="po_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('po_no')>0) value="{{$masterData->po_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Warehouse</label>
                         <div class="col-sm-3">
                             <select class="form-control select2" name="warehouse_id" required="required">
                                 <option value=""></option>
                                 @foreach($warehouses as $warehouse)
-                                    <option value="{{$warehouse->warehouse_id}}" @if(request('id')>0) @if($warehouse->vendor_id==$editValue->vendor_id) selected @endif @endif>{{$warehouse->warehouse_id}} : {{$warehouse->warehouse_name}}</option>
+                                    <option value="{{$warehouse->warehouse_id}}" @if(Session::get('po_no')>0) @if($warehouse->warehouse_id==$masterData->warehouse_id) selected @endif @endif>{{$warehouse->warehouse_id}} : {{$warehouse->warehouse_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -44,7 +45,7 @@
                             <select class="form-control select2" name="vendor_id" required="required">
                                 <option value=""></option>
                                 @foreach($vendors as $vendor)
-                                    <option value="{{$vendor->vendor_id}}" @if(request('id')>0) @if($vendor->vendor_id==$editValue->vendor_id) selected @endif @endif>{{$vendor->vendor_id}} : {{$vendor->vendor_name}}</option>
+                                    <option value="{{$vendor->vendor_id}}" @if(Session::get('po_no')>0) @if($vendor->vendor_id==$masterData->vendor_id) selected @endif @endif>{{$vendor->vendor_id}} : {{$vendor->vendor_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -90,37 +91,36 @@
             <input type="hidden" name="amount" value="{{$masterData->amount}}">
             <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
             <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
-            <input type="hidden" name="vouchertype" value="multiple">
             <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px">
                 <thead class="table-success">
                 <tr>
                     <th style="text-align: center">Item Name <span class="required text-danger">*</span></th>
                     <th style="text-align: center; width: 15%">Item Details</th>
-                    <th style="text-align: center; width: 20%">Buy Qty <span class="required text-danger">*</span></th>
-                    <th style="text-align: center;width:15%;">Unit Price</th>
-                    <th style="width:15%; text-align:center">Amount</th>
+                    <th style="text-align: center; width: 12%">Buy Qty <span class="required text-danger">*</span></th>
+                    <th style="text-align: center;width:12%;">Unit Price</th>
+                    <th style="width:12%; text-align:center">Amount</th>
                     <th style="text-align:center;width: 5%">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr style="background-color: white">
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" name="ledger_id" required="required">
-                            <option value=""></option>
-                        </select>
-                    </td>
-                    <td style="vertical-align: middle">
-                        <select class="form-control select2" name="cc_code" required="required">
-                            <option value=""></option>
+                        <select class="form-control select2" name="item_id" required="required">
+                            <option>-- select a choose --</option>
+                            @foreach($items as $item)
+                            <option value="{{$item->item_id}}">{{$item->custom_id}} : {{$item->item_name}}</option>
+                            @endforeach
                         </select>
                     </td>
                     <td style="vertical-align: middle">
                         <textarea  name="narration" class="form-control" style="height: 70px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('journal_narration')}} @endif</textarea>
                     </td>
-                    <td style="vertical-align: middle"><input type="file" class="form-control" /></td>
+                    <td style="vertical-align: middle"><input type="number" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" /></td>
                     <td style="vertical-align: middle">
-                        <input type="number" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" placeholder="debit"   />
-                        <input type="number" style="margin-top: 5px;text-align: center" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" placeholder="credit"  />
+                        <input type="number" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" />
+                    </td>
+                    <td style="vertical-align: middle">
+                        <input type="number" style="text-align: center" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" />
                     </td>
                     <td style="vertical-align: middle">
                         @if(request('id')>0)
@@ -144,7 +144,7 @@
                                 <tr>
                                     <th style="width: 5%; text-align: center">#</th>
                                     <th style="width: 5%; text-align: center">Uid</th>
-                                    <th>Account Head</th>
+                                    <th>Item Description</th>
                                     <th>Narration</th>
                                     <th class="text-center">Type</th>
                                     <th>Debit Amount</th>
@@ -156,7 +156,7 @@
 
                             </table>
                             <div>
-                                <form action="" method="post">
+                                <form action="{{}}" method="post">
                                     @csrf
                                     <input type="hidden" name="journal_type" value="journal">
                                     <input type="hidden" name="vouchertype" value="multiple">
