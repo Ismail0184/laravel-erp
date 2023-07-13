@@ -3,13 +3,9 @@
 namespace App\Http\Controllers\Accounts\Products;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounts\Products\AccProductBrand;
-use App\Models\Accounts\Products\AccProductItem;
-use App\Models\Accounts\Products\AccProductSubGroup;
-use App\Models\Accounts\Products\AccProductUnit;
 use Illuminate\Http\Request;
 
-class AccProductItemController extends Controller
+class AccProductTariffMasterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +14,7 @@ class AccProductItemController extends Controller
      */
     public function index()
     {
-        $items = AccProductItem::all();
-        return view('modules.accounts.products.item.index',compact('items'));
+        //
     }
 
     /**
@@ -29,10 +24,7 @@ class AccProductItemController extends Controller
      */
     public function create()
     {
-        $subGroups = AccProductSubGroup::where('status','active')->orderBy('sub_group_id')->get();
-        $brands = AccProductBrand::where('status','active')->get();
-        $units = AccProductUnit::where('status','active')->get();
-        return view('modules.accounts.products.item.create',compact(['subGroups','brands','units']));
+        //
     }
 
     /**
@@ -43,8 +35,7 @@ class AccProductItemController extends Controller
      */
     public function store(Request $request)
     {
-        AccProductItem::storeItem($request);
-        return redirect('/accounts/product/item/')->with('store_message','A new product has been successfully added!!');
+        //
     }
 
     /**

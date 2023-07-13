@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('consumable_type',['Consumable','Non-Consumable','Service']);
             $table->enum('product_nature',['Salable','Purchasable','Both']);
             $table->bigInteger('sub_group_id');
-            $table->integer('unit');
+            $table->integer('unit_id');
             $table->integer('brand_id');
             $table->integer('pack_unit');
             $table->integer('sub_pack_size');

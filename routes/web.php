@@ -33,6 +33,7 @@ use App\Http\Controllers\Accounts\Products\AccProductSubGroupController;
 use App\Http\Controllers\Accounts\Products\AccProductsUnitController;
 use App\Http\Controllers\Accounts\Products\AccProductItemController;
 use App\Http\Controllers\Accounts\Products\AccProductBrandController;
+use App\Http\Controllers\Accounts\Products\AccProductTariffMasterController;
 
 
 // home
@@ -215,6 +216,14 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/product/item/edit/{unit_id}', [AccProductItemController::class,'edit'])->name('acc.product.item.edit');
     Route::post('/accounts/product/item/update/{unit_id}', [AccProductItemController::class,'update'])->name('acc.product.item.update');
     Route::post('/accounts/product/item/destroy/{unit_id}', [AccProductItemController::class,'destroy'])->name('acc.product.item.destroy');
+
+    //Accounts/product/Tariff Master
+    Route::get('/accounts/product/tariff-master/',[AccProductTariffMasterController::class,'index'])->name('acc.product.tariff-master.view');
+    Route::get('/accounts/product/tariff-master/create', [AccProductTariffMasterController::class,'create'])->name('acc.product.tariff-master.create');
+    Route::post('/accounts/product/tariff-master/store', [AccProductTariffMasterController::class,'store'])->name('acc.product.tariff-master.store');
+    Route::get('/accounts/product/tariff-master/edit/{unit_id}', [AccProductTariffMasterController::class,'edit'])->name('acc.product.tariff-master.edit');
+    Route::post('/accounts/product/tariff-master/update/{unit_id}', [AccProductTariffMasterController::class,'update'])->name('acc.product.tariff-master.update');
+    Route::post('/accounts/product/tariff-master/destroy/{unit_id}', [AccProductTariffMasterController::class,'destroy'])->name('acc.product.tariff-master.destroy');
 
     //Accounts/voucher/receipt voucher
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
