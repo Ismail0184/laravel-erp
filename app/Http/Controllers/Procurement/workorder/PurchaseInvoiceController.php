@@ -3,7 +3,14 @@
 namespace App\Http\Controllers\Procurement\workorder;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Products\AccProductItem;
+use App\Models\Procurement\Vendor\ProVendorInfo;
+use App\Models\Procurement\workorder\ProPurchaseInvoice;
+use App\Models\Procurement\workorder\ProPurchaseMaster;
+use App\Models\Warehouse\warehouse\WhWarehouse;
 use Illuminate\Http\Request;
+use Auth;
+use Session;
 
 class PurchaseInvoiceController extends Controller
 {
@@ -35,7 +42,8 @@ class PurchaseInvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        ProPurchaseInvoice::storeInvoice($request);
+        return redirect('/procurement/direct-purchase/create')->with('store_message','A item has been added!!');
     }
 
     /**
@@ -57,7 +65,16 @@ class PurchaseInvoiceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $vendors=ProVendorInfo::where('status','active')->get();
+        $warehouses=WhWarehouse::where('status','active')->get();
+        $po_no = Auth::user()->id.date('YmdHis');
+        $masterData = ProPurchaseMaster::find(Session::get('po_no'));
+        $poDatas = ProPurchaseInvoice::where('po_no', Session::get('po_no'))->get();
+        $COUNT_po_datas = ProPurchaseInvoice::where('po_no', Session::get('po_no'))->count();
+        $items = AccProductItem::where('status','active')->get();
+        $editValue = ProPurchaseInvoice::findOrFail($id);
+        return view('modules.procurement.workorder.direct-purchase-create',
+            compact(['vendors','po_no','masterData','poDatas','COUNT_po_datas','warehouses','items','editValue']));
     }
 
     /**
@@ -69,7 +86,8 @@ class PurchaseInvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        ProPurchaseInvoice::updateInvoice($request, $id);
+        return redirect('/procurement/direct-purchase/create')->with('update_message','This product (uid='.$id.') has been successfully updated!!');
     }
 
     /**
@@ -80,6 +98,7 @@ class PurchaseInvoiceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        ProPurchaseInvoice::destroyInvoice($id);
+        return redirect('/procurement/direct-purchase/create')->with('update_message','This product (uid='.$id.') has been deleted!');
     }
 }

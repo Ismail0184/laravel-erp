@@ -38,4 +38,10 @@ class ProPurchaseMaster extends Model
         self::$po->save();
         Session::put('po_no', $request->po_no);
     }
+
+    public static function destroyPO($id)
+    {
+        self::$po = ProPurchaseMaster::find($id);
+        self::$po->delete();
+    }
 }

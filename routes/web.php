@@ -34,6 +34,7 @@ use App\Http\Controllers\Accounts\Products\AccProductsUnitController;
 use App\Http\Controllers\Accounts\Products\AccProductItemController;
 use App\Http\Controllers\Accounts\Products\AccProductBrandController;
 use App\Http\Controllers\Accounts\Products\AccProductTariffMasterController;
+use App\Http\Controllers\Procurement\workorder\PurchaseInvoiceController;
 
 
 // home
@@ -370,9 +371,16 @@ Route::get('/', [HomeController::class,'index']);
 
     //Procurement/Work Order or purchase
     Route::get('/procurement/work-order/create',[ProPurchaseMasterController::class,'create'])->name('pro.workorder.create');
-    Route::get('/procurement/direct-purchase/create', [ProPurchaseMasterController::class,'directPurchaseCreate'])->name('pro.directpurchase.create');
+    Route::get('/procurement/direct-purchase/create', [ProPurchaseMasterController::class,'directPurchaseCreate'])->name('pro.direct-purchase.create');
     Route::post('/procurement/work-order/initiate', [ProPurchaseMasterController::class,'store'])->name('pro.workorder.initiate');
-    Route::get('/procurement/work-order/cancelall/{voucher_no}', [ProPurchaseMasterController::class,'destroy'])->name('acc.voucher.journal.cancelall');
+    Route::get('/procurement/work-order/cancel/{po_no}', [ProPurchaseMasterController::class,'destroy'])->name('pro.workorder.cancel');
+    Route::post('/procurement/work-order/cancelall/{po_no}', [ProPurchaseMasterController::class,'destroyall'])->name('pro.workorder.cancelall');
+    Route::post('/procurement/work-order/confirm/{po_no}', [ProPurchaseMasterController::class,'confirm'])->name('pro.workorder.confirm');
+
+    Route::post('/procurement/work-order/product/store', [PurchaseInvoiceController::class,'store'])->name('pro.workorder.product.store');
+    Route::get('/procurement/work-order/product/edit/{id}', [PurchaseInvoiceController::class,'edit'])->name('pro.workorder.product.edit');
+    Route::post('/procurement/work-order/product/update/{id}', [PurchaseInvoiceController::class,'update'])->name('pro.workorder.product.update');
+    Route::post('/procurement/work-order/product/destroy/{id}', [PurchaseInvoiceController::class,'destroy'])->name('pro.workorder.product.destroy');
 
 
     Route::post('/procurement/workorder/store', [ProPurchaseMasterController::class,'store'])->name('pro.vendor.vendorinfo.store');

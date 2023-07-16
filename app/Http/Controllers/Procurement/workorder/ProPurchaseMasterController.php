@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Accounts\Products\AccProductItem;
 use App\Models\Developer\DevWarehouse;
 use App\Models\Procurement\Vendor\ProVendorInfo;
+use App\Models\Procurement\workorder\ProPurchaseInvoice;
 use App\Models\Procurement\workorder\ProPurchaseMaster;
 use App\Models\Warehouse\warehouse\warehouse;
 use App\Models\Warehouse\warehouse\WhWarehouse;
@@ -43,8 +44,8 @@ class ProPurchaseMasterController extends Controller
         if(Session::get('po_no')>0)
         {
             $masterData = ProPurchaseMaster::find(Session::get('po_no'));
-            $poDatas = ProPurchaseMaster::where('po_no', Session::get('po_no'))->get();
-            $COUNT_po_datas = ProPurchaseMaster::where('po_no', Session::get('po_no'))->count();
+            $poDatas = ProPurchaseInvoice::where('po_no', Session::get('po_no'))->get();
+            $COUNT_po_datas = ProPurchaseInvoice::where('po_no', Session::get('po_no'))->count();
             $items = AccProductItem::where('status','active')->get();
         } else {
             $masterData = '0';
@@ -108,8 +109,27 @@ class ProPurchaseMasterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
+        ProPurchaseMaster::destroyPO($id);
+        Session::forget('po_no');
+        return redirect('/procurement/direct-purchase/create');
+    }
 
+    public function destroyall($id)
+    {
+        ProPurchaseInvoice::destroyInvoiceAll($id);
+        ProPurchaseMaster::destroyPO($id);
+        Session::forget('po_no');
+        return redirect('/procurement/direct-purchase/create');
+    }
+
+    public function confirm($id)
+    {
+        ProPurchaseInvoice::destroyInvoice($id);
+        ProPurchaseMaster::destroyPO($id);
+        Session::forget('po_no');
+        return redirect('/procurement/direct-purchase/create');
     }
 }
