@@ -50,6 +50,7 @@ class ProPurchaseMasterController extends Controller
             $masterData = '0';
             $poDatas = '0';
             $COUNT_po_datas = '0';
+            $items = '0';
         }
         return view('modules.procurement.workorder.direct-purchase-create',
             compact(['vendors','po_no','masterData','poDatas','COUNT_po_datas','warehouses','items']));
