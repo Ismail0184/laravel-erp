@@ -63,6 +63,10 @@ class ProPurchaseInvoice extends Model
         self::$invoice->delete();
     }
 
+    public static function confirmInvoice($request, $id)
+    {
+        ProPurchaseInvoice::where('po_no',$id)->update(['status'=>$request->status]);
+    }
 
     public function item()
     {

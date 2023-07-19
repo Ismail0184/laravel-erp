@@ -44,4 +44,11 @@ class ProPurchaseMaster extends Model
         self::$po = ProPurchaseMaster::find($id);
         self::$po->delete();
     }
+
+    public static function confirmWorkOrder($request, $id)
+    {
+        self::$po = ProPurchaseMaster::findOrFail($id);
+        self::$po->status = $request->status;
+        self::$po->save();
+    }
 }

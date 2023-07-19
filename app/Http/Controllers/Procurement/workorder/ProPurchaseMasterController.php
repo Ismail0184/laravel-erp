@@ -125,10 +125,10 @@ class ProPurchaseMasterController extends Controller
         return redirect('/procurement/direct-purchase/create');
     }
 
-    public function confirm($id)
+    public function confirm(Request $request, $id)
     {
-        ProPurchaseInvoice::destroyInvoice($id);
-        ProPurchaseMaster::destroyPO($id);
+        ProPurchaseInvoice::confirmInvoice($request, $id);
+        ProPurchaseMaster::confirmWorkOrder($request, $id);
         Session::forget('po_no');
         return redirect('/procurement/direct-purchase/create');
     }

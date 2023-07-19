@@ -162,7 +162,6 @@
                         <td class="text-center" style="vertical-align: middle">
                             <form action="{{route('pro.workorder.product.destroy', ['id' => $poData->id])}}" method="post">
                                 @csrf
-                                <input type="hidden" name="vouchertype" value="multiple">
                                 <a href="{{route('pro.workorder.product.edit',['id' => $poData->id])}}" title="Update" class="btn btn-success btn-sm">
                                     <i class="fa fa-edit"></i>
                                 </a>
@@ -186,6 +185,8 @@
                     <div style="margin-top: 20px">
                     <form action="{{route('pro.workorder.confirm', ['po_no' => $masterData->po_no])}}" method="post">
                         @csrf
+                        <input type="hidden" name="status" value="UNCHECKED">
+                        <input type="hidden" name="po_no" value="{{$masterData->po_no}}">
                         <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Confirm & Finish Voucher</button>
                     </form>
                     </div>

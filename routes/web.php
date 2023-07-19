@@ -382,11 +382,8 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/procurement/work-order/product/update/{id}', [PurchaseInvoiceController::class,'update'])->name('pro.workorder.product.update');
     Route::post('/procurement/work-order/product/destroy/{id}', [PurchaseInvoiceController::class,'destroy'])->name('pro.workorder.product.destroy');
 
-
-    Route::post('/procurement/workorder/store', [ProPurchaseMasterController::class,'store'])->name('pro.vendor.vendorinfo.store');
-    Route::get('/procurement/workorder/edit/{id}', [ProPurchaseMasterController::class,'edit'])->name('pro.vendor.vendorinfos.edit');
-    Route::post('/procurement/workorder/update/{po_no}', [ProPurchaseMasterController::class,'update'])->name('pro.workorder.update');
-    Route::post('/procurement/workorder/destroy/{id}', [ProPurchaseMasterController::class,'destroy'])->name('pro.vendor.vendorinfos.destroy');
+    // procurement/work-order/view
+    Route::post('/procurement/work-order/view', [ProPurchaseMasterController::class,'index'])->name('pro.vendor.vendorinfo.store');
 
     //warehouse/create warehouse
     Route::get('/warehouse/warehouse/',[WhWarehouseController::class,'index'])->name('wh.warehouse.view');
