@@ -373,6 +373,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/procurement/work-order/create',[ProPurchaseMasterController::class,'create'])->name('pro.workorder.create');
     Route::get('/procurement/direct-purchase/create', [ProPurchaseMasterController::class,'directPurchaseCreate'])->name('pro.direct-purchase.create');
     Route::post('/procurement/work-order/initiate', [ProPurchaseMasterController::class,'store'])->name('pro.workorder.initiate');
+    Route::post('/procurement/work-order/update', [ProPurchaseMasterController::class,'store'])->name('pro.workorder.update');
     Route::get('/procurement/work-order/cancel/{po_no}', [ProPurchaseMasterController::class,'destroy'])->name('pro.workorder.cancel');
     Route::post('/procurement/work-order/cancelall/{po_no}', [ProPurchaseMasterController::class,'destroyall'])->name('pro.workorder.cancelall');
     Route::post('/procurement/work-order/confirm/{po_no}', [ProPurchaseMasterController::class,'confirm'])->name('pro.workorder.confirm');
@@ -383,7 +384,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/procurement/work-order/product/destroy/{id}', [PurchaseInvoiceController::class,'destroy'])->name('pro.workorder.product.destroy');
 
     // procurement/work-order/view
-    Route::post('/procurement/work-order/view', [ProPurchaseMasterController::class,'index'])->name('pro.vendor.vendorinfo.store');
+    Route::get('/procurement/work-order/view', [ProPurchaseMasterController::class,'index'])->name('pro.workorder.view');
+    Route::post('/procurement/work-order/view',[ProPurchaseMasterController::class,'filterWorkOrder'])->name('pro.workorder.filter');
+    Route::get('/procurement/work-order/show/{po_no}', [ProPurchaseMasterController::class,'show'])->name('pro.workorder.show');
+    Route::get('/procurement/work-order/print/{po_no}', [ProPurchaseMasterController::class,'voucherPrint'])->name('pro.workorder.print');
+    Route::get('/procurement/work-order/download/{po_no}', [ProPurchaseMasterController::class,'downalodvoucher'])->name('pro.workorder.download');
+    Route::get('/procurement/work-order/destroy/{po_no}', [ProPurchaseMasterController::class,'downalodvoucher'])->name('pro.workorder.destroy');
 
     //warehouse/create warehouse
     Route::get('/warehouse/warehouse/',[WhWarehouseController::class,'index'])->name('wh.warehouse.view');

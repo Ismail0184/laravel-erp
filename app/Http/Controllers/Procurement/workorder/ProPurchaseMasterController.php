@@ -23,7 +23,8 @@ class ProPurchaseMasterController extends Controller
      */
     public function index()
     {
-        //return view('modules.porcurement.workorder.');
+        $workOrderViews = ProPurchaseMaster::all();
+        return view('modules.procurement.workorder.workorderview.index',compact('workOrderViews'));
     }
 
     /**
@@ -77,7 +78,7 @@ class ProPurchaseMasterController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**

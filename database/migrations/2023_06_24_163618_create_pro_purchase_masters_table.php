@@ -25,7 +25,7 @@ return new class extends Migration
             $table->double('tax')->nullable();
             $table->double('vat')->nullable();
             $table->enum('po_type',['WO','DP','Asset','Stationary','Others']);
-            $table->enum('status',['MANUAL','UNCHECKED','CHECKED','RECOMMENDED','PROCESSING','COMPLETED','DELETED']);
+            $table->enum('status',['MANUAL','UNCHECKED','CHECKED','RECOMMENDED','PROCESSING','COMPLETED','AUDITED','DELETED']);
             $table->integer('entry_by');
             $table->timestamp('entry_at')->nullable(true)->useCurrent();
             $table->integer('checked_by')->nullable()->nullable();
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->timestamp('approved_at')->nullable(true)->useCurrent();
             $table->integer('audited_by')->nullable();;
             $table->timestamp('audited_at')->nullable(true)->useCurrent();
-            $table->string('deleted_resone','255')->nullable();;
+            $table->string('deleted_reason','255')->nullable();;
             $table->integer('deleted_by')->nullable();;
             $table->timestamp('deleted_at')->nullable(true)->useCurrent();
             $table->string('ip',55)->nullable();;
