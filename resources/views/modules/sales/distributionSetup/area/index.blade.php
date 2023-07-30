@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Region') {{$title}}
+    @php($title = 'Area') {{$title}}
 @endsection
 
 @section('body')
@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}} <a href="{{route('sales.ds.region.create')}}" class="btn btn-success" style="margin-left: 85.9%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('sales.ds.area.create')}}" class="btn btn-success" style="margin-left: 87.6%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -22,31 +22,33 @@
                             <thead>
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
-                                <th style="width: 5%; text-align: center">Region ID</th>
-                                <th>Region name</th>
+                                <th style="width: 5%; text-align: center">Area ID</th>
+                                <th>Area name</th>
+                                <th>Region</th>
                                 <th>In-charge Person</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($regions as $region)
+                            @foreach($areas as $area)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td style="text-align: center">{{$region->region_id}}</td>
-                                    <td>@if($region->status == 'deleted')<del>{{$region->region_name}}</del> @else {{$region->region_name}}@endif</td>
-                                    <td>{{$region->user->name}}</td>
+                                    <td style="text-align: center">{{$area->area_id}}</td>
+                                    <td>@if($area->status == 'deleted')<del>{{$area->area_name}}</del> @else {{$area->area_name}}@endif</td>
+                                    <td>{{$area->region->region_name}}</td>
+                                    <td>{{$area->user->name}}</td>
                                     <td>
-                                        @if($region->status == 'active') <span class="badge badge-success">Active</span>
-                                        @elseif($region->status == 'inactive') <span class="badge badge-warning">Inactive</span>
-                                        @elseif($region->status == 'suspended') <span class="badge badge-danger">Suspended</span>
-                                        @elseif($region->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
+                                        @if($area->status == 'active') <span class="badge badge-success">Active</span>
+                                        @elseif($area->status == 'inactive') <span class="badge badge-warning">Inactive</span>
+                                        @elseif($area->status == 'suspended') <span class="badge badge-danger">Suspended</span>
+                                        @elseif($area->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <form action="{{route('sales.ds.region.destroy', ['region_id' => $region->region_id])}}" method="post">
+                                        <form action="{{route('sales.ds.area.destroy', ['region_id' => $area->region_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('sales.ds.region.edit',['region_id' => $region->region_id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('sales.ds.area.edit',['region_id' => $area->region_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
@@ -64,6 +66,3 @@
         </div>
     </div>
 @endsection
-
-
-
