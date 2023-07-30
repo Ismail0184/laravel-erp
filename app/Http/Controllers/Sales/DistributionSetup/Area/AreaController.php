@@ -64,7 +64,10 @@ class AreaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $users = User::all();
+        $regions = SalRegion::where('status','active')->get();
+        $area = SalArea::findOrFail($id);
+        return view('modules.sales.distributionSetup.area.create',compact(['users','regions','area']));
     }
 
     /**
@@ -76,7 +79,8 @@ class AreaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        SalArea::updateArea($request, $id);
+        return redirect('/sales/distribution-setup/area/')->with('update_message','This area (UID = '.$id.') has been updated');
     }
 
     /**
@@ -87,6 +91,7 @@ class AreaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        SalArea::destroyArea($id);
+        return redirect('/sales/distribution-setup/area/')->with('destroy_message','This area (UID = '.$id.') has been deleted');
     }
 }

@@ -416,9 +416,9 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/sales/distribution-setup/area/',[AreaController::class,'index'])->name('sales.ds.area.view');
     Route::get('/sales/distribution-setup/area/create',[AreaController::class,'create'])->name('sales.ds.area.create');
     Route::post('/sales/distribution-setup/area/store', [AreaController::class,'store'])->name('sales.ds.area.store');
-    Route::get('/sales/distribution-setup/area/edit/{region_id}', [AreaController::class,'edit'])->name('sales.ds.area.edit');
-    Route::post('/sales/distribution-setup/area/update/{region_id}', [AreaController::class,'update'])->name('sales.ds.area.update');
-    Route::post('/sales/distribution-setup/area/destroy/{region_id}', [AreaController::class,'destroy'])->name('sales.ds.area.destroy');
+    Route::get('/sales/distribution-setup/area/edit/{area_id}', [AreaController::class,'edit'])->name('sales.ds.area.edit');
+    Route::post('/sales/distribution-setup/area/update/{area_id}', [AreaController::class,'update'])->name('sales.ds.area.update');
+    Route::post('/sales/distribution-setup/area/destroy/{area_id}', [AreaController::class,'destroy'])->name('sales.ds.area.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

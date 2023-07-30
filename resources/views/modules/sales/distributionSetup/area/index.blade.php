@@ -46,9 +46,9 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <form action="{{route('sales.ds.area.destroy', ['region_id' => $area->region_id])}}" method="post">
+                                        <form action="{{route('sales.ds.area.destroy', ['area_id' => $area->area_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('sales.ds.area.edit',['region_id' => $area->region_id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('sales.ds.area.edit',['area_id' => $area->area_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

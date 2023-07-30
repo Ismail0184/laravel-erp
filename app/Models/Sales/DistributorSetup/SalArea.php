@@ -17,14 +17,35 @@ class SalArea extends Model
     public static function storeArea($request)
     {
         self::$area = new SalArea();
-        self::$area->serial = $request->serial;
-        self::$area->area_name = $request->area_name;
-        self::$area->region_id = $request->region_id;
-        self::$area->in_charge_person = $request->in_charge_person;
-        self::$area->status = 'active';
-        self::$area->entry_by = $request->entry_by;
-        self::$area->sconid = '1';
-        self::$area->pcomid = '1';
+        self::$area->serial             = $request->serial;
+        self::$area->area_name          = $request->area_name;
+        self::$area->region_id          = $request->region_id;
+        self::$area->in_charge_person   = $request->in_charge_person;
+        self::$area->status             = 'active';
+        self::$area->entry_by           = $request->entry_by;
+        self::$area->sconid             = '1';
+        self::$area->pcomid             = '1';
+        self::$area->save();
+    }
+
+    public static function updateArea($request,$id)
+    {
+        self::$area = SalArea::findOrfail($id);
+        self::$area->serial             = $request->serial;
+        self::$area->area_name          = $request->area_name;
+        self::$area->region_id          = $request->region_id;
+        self::$area->in_charge_person   = $request->in_charge_person;
+        self::$area->status             = $request->status;
+        self::$area->entry_by           = $request->entry_by;
+        self::$area->sconid             = '1';
+        self::$area->pcomid             = '1';
+        self::$area->save();
+    }
+
+    public static function destroyArea($id)
+    {
+        self::$area = SalArea::findOrfail($id);
+        self::$area->status             = 'deleted';
         self::$area->save();
     }
 
