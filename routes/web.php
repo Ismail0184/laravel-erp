@@ -35,6 +35,7 @@ use App\Http\Controllers\Accounts\Products\AccProductItemController;
 use App\Http\Controllers\Accounts\Products\AccProductBrandController;
 use App\Http\Controllers\Accounts\Products\AccProductTariffMasterController;
 use App\Http\Controllers\Procurement\workorder\PurchaseInvoiceController;
+use App\Http\Controllers\Sales\DistributionSetup\Region\RegionController;
 
 
 // home
@@ -403,12 +404,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/warehouse/warehouse/destroy/{warehouse_id}', [WhWarehouseController::class,'destroy'])->name('wh.warehouse.destroy');
 
     //sales/distributor-setup/region
-    Route::get('/sales/distribution-setup/region/',[WhWarehouseController::class,'index'])->name('sales.ds.region');
-    Route::get('/sales/distribution-setup/region/create',[WhWarehouseController::class,'create'])->name('wh.warehouse.create');
-    Route::post('/sales/distribution-setup/region/store', [WhWarehouseController::class,'store'])->name('wh.warehouse.store');
-    Route::get('/sales/distribution-setup/region/edit/{warehouse_id}', [WhWarehouseController::class,'edit'])->name('wh.warehouse.edit');
-    Route::post('/sales/distribution-setup/region/update/{warehouse_id}', [WhWarehouseController::class,'update'])->name('wh.warehouse.update');
-    Route::post('/sales/distribution-setup/region/destroy/{warehouse_id}', [WhWarehouseController::class,'destroy'])->name('wh.warehouse.destroy');
+    Route::get('/sales/distribution-setup/region/',[RegionController::class,'index'])->name('sales.ds.region');
+    Route::get('/sales/distribution-setup/region/create',[RegionController::class,'create'])->name('wh.warehouse.create');
+    Route::post('/sales/distribution-setup/region/store', [RegionController::class,'store'])->name('wh.warehouse.store');
+    Route::get('/sales/distribution-setup/region/edit/{warehouse_id}', [RegionController::class,'edit'])->name('wh.warehouse.edit');
+    Route::post('/sales/distribution-setup/region/update/{warehouse_id}', [RegionController::class,'update'])->name('wh.warehouse.update');
+    Route::post('/sales/distribution-setup/region/destroy/{warehouse_id}', [RegionController::class,'destroy'])->name('wh.warehouse.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

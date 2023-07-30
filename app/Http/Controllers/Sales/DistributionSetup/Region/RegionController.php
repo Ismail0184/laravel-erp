@@ -14,7 +14,7 @@ class RegionController extends Controller
      */
     public function index()
     {
-        //
+        return view('modules.sales.distributionSetup.region.index');
     }
 
     /**
