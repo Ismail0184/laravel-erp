@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Procurement\workorder;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Products\AccProductItem;
-use App\Models\Developer\DevWarehouse;
 use App\Models\Procurement\Vendor\ProVendorInfo;
 use App\Models\Procurement\workorder\ProPurchaseInvoice;
 use App\Models\Procurement\workorder\ProPurchaseMaster;
@@ -23,7 +22,36 @@ class ProPurchaseMasterController extends Controller
      */
     public function index()
     {
-        $workOrderViews = ProPurchaseMaster::all();
+        $limit = 20;
+        $workOrderViews = ProPurchaseMaster::query()->limit($limit)->get();
+        return view('modules.procurement.workorder.workorderview.index',compact('workOrderViews'));
+    }
+
+    public function filterWorkOrder(Request $request)
+    {
+        $f_data = $request->f_date;
+        $t_data = $request->t_date;
+        $journal_type = $request->journal_type;
+        $po_type = $request->po_type;
+        $status = $request->status;
+        $workorder = $request->po_no;
+        $query = ProPurchaseMaster::query();
+        if ($f_data && $t_data) {
+            $query->whereBetween('po_date', [$f_data,$t_data]);
+        }
+        if($po_type)
+        {
+            $query->where('po_type',$journal_type);
+        }
+        if($status)
+        {
+            $query->where('status',$status);
+        }
+        if($workorder)
+        {
+            $query->where('po_no',$workorder);
+        }
+        $workOrderViews = $query->get();
         return view('modules.procurement.workorder.workorderview.index',compact('workOrderViews'));
     }
 
@@ -89,7 +117,29 @@ class ProPurchaseMasterController extends Controller
      */
     public function edit($id)
     {
-        //
+        $vendors=ProVendorInfo::where('status','active')->get();
+        $warehouses=WhWarehouse::where('status','active')->get();
+        $po_no = Auth::user()->id.date('YmdHis');
+        if(Session::get('po_no')>0)
+        {
+            $masterData = ProPurchaseMaster::find(Session::get('po_no'));
+            $poDatas = ProPurchaseInvoice::where('po_no', Session::get('po_no'))->get();
+            $COUNT_po_datas = ProPurchaseInvoice::where('po_no', Session::get('po_no'))->count();
+            $items = AccProductItem::where('status','active')->get();
+        } else {
+            $masterData = '0';
+            $poDatas = '0';
+            $COUNT_po_datas = '0';
+            $items = '0';
+        }
+        if(\request('id')>0)
+        {
+            $this->editValue = ProPurchaseMaster::find($id);
+        }
+        return view('modules.procurement.workorder.direct-purchase-create',
+            compact(['vendors',
+                'po_no',
+                'masterData','poDatas','COUNT_po_datas','warehouses','items']));
     }
 
     /**

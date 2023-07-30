@@ -373,7 +373,9 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/procurement/work-order/create',[ProPurchaseMasterController::class,'create'])->name('pro.workorder.create');
     Route::get('/procurement/direct-purchase/create', [ProPurchaseMasterController::class,'directPurchaseCreate'])->name('pro.direct-purchase.create');
     Route::post('/procurement/work-order/initiate', [ProPurchaseMasterController::class,'store'])->name('pro.workorder.initiate');
-    Route::post('/procurement/work-order/update', [ProPurchaseMasterController::class,'store'])->name('pro.workorder.update');
+    Route::get('/procurement/work-order/edit/{po_no}', function (Request $request){ session(['po_no'=>request('po_no')]);
+        return redirect('/procurement/direct-purchase/create');})->name('pro.workorder.edit');
+    Route::post('/procurement/work-order/update/{po_no}', [ProPurchaseMasterController::class,'update'])->name('pro.workorder.dupdate');
     Route::get('/procurement/work-order/cancel/{po_no}', [ProPurchaseMasterController::class,'destroy'])->name('pro.workorder.cancel');
     Route::post('/procurement/work-order/cancelall/{po_no}', [ProPurchaseMasterController::class,'destroyall'])->name('pro.workorder.cancelall');
     Route::post('/procurement/work-order/confirm/{po_no}', [ProPurchaseMasterController::class,'confirm'])->name('pro.workorder.confirm');
@@ -391,6 +393,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/procurement/work-order/download/{po_no}', [ProPurchaseMasterController::class,'downalodvoucher'])->name('pro.workorder.download');
     Route::get('/procurement/work-order/destroy/{po_no}', [ProPurchaseMasterController::class,'downalodvoucher'])->name('pro.workorder.destroy');
 
+
     //warehouse/create warehouse
     Route::get('/warehouse/warehouse/',[WhWarehouseController::class,'index'])->name('wh.warehouse.view');
     Route::get('/warehouse/warehouse/create',[WhWarehouseController::class,'create'])->name('wh.warehouse.create');
@@ -398,6 +401,14 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/warehouse/warehouse/edit/{warehouse_id}', [WhWarehouseController::class,'edit'])->name('wh.warehouse.edit');
     Route::post('/warehouse/warehouse/update/{warehouse_id}', [WhWarehouseController::class,'update'])->name('wh.warehouse.update');
     Route::post('/warehouse/warehouse/destroy/{warehouse_id}', [WhWarehouseController::class,'destroy'])->name('wh.warehouse.destroy');
+
+    //sales/distributor-setup/region
+    Route::get('/sales/distribution-setup/region/',[WhWarehouseController::class,'index'])->name('sales.ds.region');
+    Route::get('/sales/distribution-setup/region/create',[WhWarehouseController::class,'create'])->name('wh.warehouse.create');
+    Route::post('/sales/distribution-setup/region/store', [WhWarehouseController::class,'store'])->name('wh.warehouse.store');
+    Route::get('/sales/distribution-setup/region/edit/{warehouse_id}', [WhWarehouseController::class,'edit'])->name('wh.warehouse.edit');
+    Route::post('/sales/distribution-setup/region/update/{warehouse_id}', [WhWarehouseController::class,'update'])->name('wh.warehouse.update');
+    Route::post('/sales/distribution-setup/region/destroy/{warehouse_id}', [WhWarehouseController::class,'destroy'])->name('wh.warehouse.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

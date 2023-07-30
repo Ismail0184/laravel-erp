@@ -54,13 +54,13 @@
                                     </div>
                                     <div class="col-xl col-sm-6">
                                         <div class="form-group mt-3 mb-0">
-                                            <label>Voucher No</label>
+                                            <label>Po No</label>
                                             <input type="text" class="form-control" name="po_no" value="{{ request('po_no') ? request('po_no') : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-xl col-sm-6 align-self-end">
                                         <div class="mt-3">
-                                            <button type="submit" class="btn btn-success w-md">View Vouchers</button>
+                                            <button type="submit" class="btn btn-success w-md">View Work Order</button>
                                         </div>
                                     </div>
                                 </div>
@@ -81,9 +81,9 @@
                                 <thead>
                                 <tr>
                                     <th style="width: 5%; text-align: center">#</th>
-                                    <th style="width: 5%; text-align: center">Voucher No</th>
+                                    <th style="width: 5%; text-align: center">PO/WO No</th>
                                     <th>Date</th>
-                                    <th>Received From</th>
+                                    <th>Purchase from</th>
                                     <th>Amount</th>
                                     <th>Type</th>
                                     <th>Status</th>
@@ -94,17 +94,17 @@
                                 @foreach($workOrderViews as $workOrderView)
                                     <tr>
                                         <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
-                                        <td style="vertical-align: middle">@if($workOrderView->status == 'DELETED')<del>{{$workOrderView->voucher_no}}</del> @else {{$workOrderView->voucher_no}} @endif</td>
-                                        <td style="vertical-align: middle">{{$workOrderView->voucher_date}}</td>
+                                        <td style="vertical-align: middle">@if($workOrderView->status == 'DELETED')<del>{{$workOrderView->po_no}}</del> @else {{$workOrderView->po_no}} @endif</td>
+                                        <td style="vertical-align: middle">{{$workOrderView->po_date}}</td>
                                         <td style="vertical-align: middle">@if($workOrderView->cash_bank_ledger) {{$workOrderView->accledger->ledger_name}} @else N/A @endif</td>
                                         <td class="text-right" style="vertical-align: middle">{{number_format($workOrderView->amount,2)}}</td>
                                         <td style="vertical-align: middle">
-                                            @if($workOrderView->journal_type == 'receipt') <span class="badge badge-success">Receipt</span>
-                                            @elseif($workOrderView->journal_type == 'payment') <span class="badge badge-danger">Payment</span>
-                                            @elseif($workOrderView->journal_type == 'contra') <span class="badge badge-warning">Contra</span>
-                                            @elseif($workOrderView->journal_type == 'journal') <span class="badge badge-pink">Journal</span>
-                                            @elseif($workOrderView->journal_type == 'AUDITED') <span class="badge badge-pill">Bank Payment</span>
-                                            @else($workOrderView->journal_type == 'DELETED') <span class="badge badge-secondary">Others</span>
+                                            @if($workOrderView->po_type == 'DP') <span class="badge badge-success">Direct Purchase</span>
+                                            @elseif($workOrderView->po_type == 'payment') <span class="badge badge-danger">Payment</span>
+                                            @elseif($workOrderView->po_type == 'contra') <span class="badge badge-warning">Contra</span>
+                                            @elseif($workOrderView->po_type == 'journal') <span class="badge badge-pink">Journal</span>
+                                            @elseif($workOrderView->po_type == 'AUDITED') <span class="badge badge-pill">Bank Payment</span>
+                                            @else($workOrderView->po_type == 'DELETED') <span class="badge badge-secondary">Others</span>
                                             @endif
                                         </td>
                                         </td>
@@ -119,29 +119,20 @@
                                         </td>
                                         <td class="text-center" style="vertical-align: middle">
                                             @php($getVoucherDate=now()->diffInDays($workOrderView->created_at))
-                                            <form action="{{route('pro.workorder.destroy', ['po_no' => $workOrderView->po_no])}}" method="post">
+                                            <form action="{{route('pro.workorder.dupdate', ['po_no' => $workOrderView->po_no])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="journal_type" value="{{$workOrderView->journal_type}}">
                                                 <input type="hidden" name="vouchertype" value="{{$workOrderView->vouchertype}}">
-                                                <a target="_blank" href="@if($workOrderView->journal_type == 'receipt'){{route('acc.voucher.receipt.show',['voucher_no' => $workOrderView->voucher_no])}}@elseif($workOrderView->journal_type == 'payment'){{route('acc.voucher.payment.show',['voucher_no' => $workOrderView->voucher_no])}}@elseif($workOrderView->journal_type == 'journal'){{route('acc.voucher.journal.show',['voucher_no' => $workOrderView->voucher_no])}}@elseif($workOrderView->journal_type == 'contra'){{route('acc.voucher.contra.show',['voucher_no' => $workOrderView->voucher_no])}}@elseif($workOrderView->journal_type == 'bank-payment'){{route('acc.voucher.chequepayment.show',['voucher_no' => $workOrderView->voucher_no])}}@endif" title="View Voucher" class="btn btn-primary btn-sm">
+                                                <a target="_blank" href="{{route('pro.workorder.show',['po_no' => $workOrderView->po_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
                                                     <i class="fa fa-book-reader"></i>
                                                 </a>
                                                 @if($workOrderView->status !== 'DELETED')
-                                                    <a target="_blank" href="@if($workOrderView->journal_type == 'receipt'){{route('acc.voucher.receipt.download',['voucher_no' => $workOrderView->voucher_no])}}@elseif($workOrderView->journal_type == 'payment'){{route('acc.voucher.payment.download',['voucher_no' => $workOrderView->voucher_no])}}@elseif($workOrderView->journal_type == 'journal'){{route('acc.voucher.journal.download',['voucher_no' => $workOrderView->voucher_no])}}@elseif($workOrderView->journal_type == 'contra'){{route('acc.voucher.contra.download',['voucher_no' => $workOrderView->voucher_no])}}@elseif($workOrderView->journal_type == 'bank-payment'){{route('acc.voucher.chequepayment.download',['voucher_no' => $workOrderView->voucher_no])}}@endif" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
+                                                    <a target="_blank" href="{{route('pro.workorder.download',['po_no' => $workOrderView->po_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                         <i class="fa fa-download"></i>
                                                     </a>
                                                     @if($workOrderView->status=='UNCHECKED' || $workOrderView->status=='MANUAL')
                                                         @if($getVoucherDate<2)
-                                                            <a target="_blank" href="@if($workOrderView->journal_type == 'receipt')@if($workOrderView->vouchertype=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $workOrderView->voucher_no])}} @elseif($workOrderView->vouchertype=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $workOrderView->voucher_no])}} @endif
-                                                        @elseif($workOrderView->journal_type == 'payment')
-                                                        @if($workOrderView->vouchertype=='single'){{route('acc.voucher.payment.voucher.edit',['voucher_no' => $workOrderView->voucher_no])}} @elseif($workOrderView->vouchertype=='multiple') {{route('acc.voucher.payment.voucher.editMultiple',['voucher_no' => $workOrderView->voucher_no])}} @endif
-                                                        @elseif($workOrderView->journal_type == 'journal')
-                                                        {{route('acc.voucher.journal.voucher.edit',['voucher_no' => $workOrderView->voucher_no])}}
-                                                        @elseif($workOrderView->journal_type == 'contra')
-                                                        {{route('acc.voucher.contra.voucher.edit',['voucher_no' => $workOrderView->voucher_no])}}
-                                                        @elseif($workOrderView->journal_type == 'bank-payment')
-                                                        {{route('acc.voucher.chequepayment.voucher.edit',['voucher_no' => $workOrderView->voucher_no])}}
-                                                        @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
+                                                            <a target="_blank" href="{{route('pro.workorder.edit',['po_no' => $workOrderView->po_no])}}" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
                                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
