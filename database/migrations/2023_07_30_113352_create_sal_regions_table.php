@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('sal_regions', function (Blueprint $table) {
             $table->id('region_id');
-            $table->integer('serial');
+            $table->integer('serial')->nullable();
             $table->string('region_name')->unique();
             $table->integer('in_charge_person');
             $table->enum('status',['active','inactive','suspended','deleted']);

@@ -404,12 +404,20 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/warehouse/warehouse/destroy/{warehouse_id}', [WhWarehouseController::class,'destroy'])->name('wh.warehouse.destroy');
 
     //sales/distributor-setup/region
-    Route::get('/sales/distribution-setup/region/',[RegionController::class,'index'])->name('sales.ds.region');
-    Route::get('/sales/distribution-setup/region/create',[RegionController::class,'create'])->name('wh.warehouse.create');
-    Route::post('/sales/distribution-setup/region/store', [RegionController::class,'store'])->name('wh.warehouse.store');
-    Route::get('/sales/distribution-setup/region/edit/{warehouse_id}', [RegionController::class,'edit'])->name('wh.warehouse.edit');
-    Route::post('/sales/distribution-setup/region/update/{warehouse_id}', [RegionController::class,'update'])->name('wh.warehouse.update');
-    Route::post('/sales/distribution-setup/region/destroy/{warehouse_id}', [RegionController::class,'destroy'])->name('wh.warehouse.destroy');
+    Route::get('/sales/distribution-setup/region/',[RegionController::class,'index'])->name('sales.ds.region.view');
+    Route::get('/sales/distribution-setup/region/create',[RegionController::class,'create'])->name('sales.ds.region.create');
+    Route::post('/sales/distribution-setup/region/store', [RegionController::class,'store'])->name('sales.ds.region.store');
+    Route::get('/sales/distribution-setup/region/edit/{region_id}', [RegionController::class,'edit'])->name('sales.ds.region.edit');
+    Route::post('/sales/distribution-setup/region/update/{region_id}', [RegionController::class,'update'])->name('sales.ds.region.update');
+    Route::post('/sales/distribution-setup/region/destroy/{region_id}', [RegionController::class,'destroy'])->name('sales.ds.region.destroy');
+
+    //sales/distributor-setup/Area
+    Route::get('/sales/distribution-setup/area/',[RegionController::class,'index'])->name('sales.ds.area.view');
+    Route::get('/sales/distribution-setup/area/create',[RegionController::class,'create'])->name('sales.ds.area.create');
+    Route::post('/sales/distribution-setup/area/store', [RegionController::class,'store'])->name('sales.ds.area.store');
+    Route::get('/sales/distribution-setup/area/edit/{region_id}', [RegionController::class,'edit'])->name('sales.ds.area.edit');
+    Route::post('/sales/distribution-setup/area/update/{region_id}', [RegionController::class,'update'])->name('sales.ds.area.update');
+    Route::post('/sales/distribution-setup/area/destroy/{region_id}', [RegionController::class,'destroy'])->name('sales.ds.area.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

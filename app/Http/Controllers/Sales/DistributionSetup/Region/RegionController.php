@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Sales\DistributionSetup\Region;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sales\DistributionSetup\SalRegion;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RegionController extends Controller
@@ -14,7 +16,8 @@ class RegionController extends Controller
      */
     public function index()
     {
-        return view('modules.sales.distributionSetup.region.index');
+        $regions = SalRegion::all();
+        return view('modules.sales.distributionSetup.region.index',compact('regions'));
     }
 
     /**
@@ -24,7 +27,8 @@ class RegionController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::all();
+        return view('modules.sales.distributionSetup.region.create',compact('users'));
     }
 
     /**
@@ -35,7 +39,8 @@ class RegionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        SalRegion::storeRegion($request);
+        return redirect('/sales/distribution-setup/region/')->with('store_message','A region has been successfully inserted');
     }
 
     /**
@@ -57,7 +62,9 @@ class RegionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $users = User::all();
+        $region = SalRegion::findOrFail($id);
+        return view('modules.sales.distributionSetup.region.create',compact(['users','region']));
     }
 
     /**
@@ -69,7 +76,8 @@ class RegionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        SalRegion::updateRegion($request, $id);
+        return redirect('/sales/distribution-setup/region/')->with('update_message','This Region (UID='.$id.') has been updated');
     }
 
     /**
@@ -80,6 +88,7 @@ class RegionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        SalRegion::destroyRegion($id);
+        return redirect('/sales/distribution-setup/region/')->with('destroy_message','This Region (UID='.$id.') has been deleted');
     }
 }
