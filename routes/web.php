@@ -37,6 +37,7 @@ use App\Http\Controllers\Accounts\Products\AccProductTariffMasterController;
 use App\Http\Controllers\Procurement\workorder\PurchaseInvoiceController;
 use App\Http\Controllers\Sales\DistributionSetup\Region\RegionController;
 use App\Http\Controllers\Sales\DistributionSetup\Area\AreaController;
+use App\Http\Controllers\Sales\DistributionSetup\Territory\TerritoryController;
 
 
 // home
@@ -419,6 +420,14 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/sales/distribution-setup/area/edit/{area_id}', [AreaController::class,'edit'])->name('sales.ds.area.edit');
     Route::post('/sales/distribution-setup/area/update/{area_id}', [AreaController::class,'update'])->name('sales.ds.area.update');
     Route::post('/sales/distribution-setup/area/destroy/{area_id}', [AreaController::class,'destroy'])->name('sales.ds.area.destroy');
+
+    //sales/distributor-setup/Territory
+    Route::get('/sales/distribution-setup/territory/',[TerritoryController::class,'index'])->name('sales.ds.territory.view');
+    Route::get('/sales/distribution-setup/territory/create',[TerritoryController::class,'create'])->name('sales.ds.territory.create');
+    Route::post('/sales/distribution-setup/territory/store', [TerritoryController::class,'store'])->name('sales.ds.territory.store');
+    Route::get('/sales/distribution-setup/territory/edit/{territory_id}', [TerritoryController::class,'edit'])->name('sales.ds.territory.edit');
+    Route::post('/sales/distribution-setup/territory/update/{territory_id}', [TerritoryController::class,'update'])->name('sales.ds.territory.update');
+    Route::post('/sales/distribution-setup/territory/destroy/{territory_id}', [TerritoryController::class,'destroy'])->name('sales.ds.territory.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

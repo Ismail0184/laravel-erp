@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models\Sales\DistributorSetup;
+namespace App\Models\Sales\DistributionSetup;
 
-use App\Models\Sales\DistributionSetup\SalRegion;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

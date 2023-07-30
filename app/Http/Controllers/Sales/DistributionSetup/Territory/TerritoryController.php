@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Sales\DistributionSetup\Area;
+namespace App\Http\Controllers\Sales\DistributionSetup\Territory;
 
 use App\Http\Controllers\Controller;
-use App\Models\Sales\DistributionSetup\SalArea;
-use App\Models\Sales\DistributionSetup\SalRegion;
-use App\Models\User;
+use App\Models\Sales\DistributionSetup\SalTerritory;
 use Illuminate\Http\Request;
 
-class AreaController extends Controller
+class TerritoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +15,8 @@ class AreaController extends Controller
      */
     public function index()
     {
-        $areas = SalArea::all();
-        return view('modules.sales.distributionSetup.area.index',compact('areas'));
+        $territory = SalTerritory::all();
+        return view('modules.sales.distributionSetup.territory.index',compact('territory'));
     }
 
     /**
@@ -28,9 +26,7 @@ class AreaController extends Controller
      */
     public function create()
     {
-        $users = User::all();
-        $regions = SalRegion::where('status','active')->get();
-        return view('modules.sales.distributionSetup.area.create',compact(['users','regions']));
+        //
     }
 
     /**
@@ -41,8 +37,7 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
-        SalArea::storeArea($request);
-        return redirect('/sales/distribution-setup/area/')->with('store_message','A area has been successfully inserted');
+        //
     }
 
     /**
@@ -64,10 +59,7 @@ class AreaController extends Controller
      */
     public function edit($id)
     {
-        $users = User::all();
-        $regions = SalRegion::where('status','active')->get();
-        $area = SalArea::findOrFail($id);
-        return view('modules.sales.distributionSetup.area.create',compact(['users','regions','area']));
+        //
     }
 
     /**
@@ -79,8 +71,7 @@ class AreaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        SalArea::updateArea($request, $id);
-        return redirect('/sales/distribution-setup/area/')->with('update_message','This area (UID = '.$id.') has been updated');
+        //
     }
 
     /**
@@ -91,7 +82,6 @@ class AreaController extends Controller
      */
     public function destroy($id)
     {
-        SalArea::destroyArea($id);
-        return redirect('/sales/distribution-setup/area/')->with('destroy_message','This area (UID = '.$id.') has been deleted');
+        //
     }
 }
