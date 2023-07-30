@@ -429,6 +429,14 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/sales/distribution-setup/territory/update/{territory_id}', [TerritoryController::class,'update'])->name('sales.ds.territory.update');
     Route::post('/sales/distribution-setup/territory/destroy/{territory_id}', [TerritoryController::class,'destroy'])->name('sales.ds.territory.destroy');
 
+    //sales/distributor-setup/Territory
+    Route::get('/sales/distribution-setup/town/',[TerritoryController::class,'index'])->name('sales.ds.town.view');
+    Route::get('/sales/distribution-setup/town/create',[TerritoryController::class,'create'])->name('sales.ds.town.create');
+    Route::post('/sales/distribution-setup/town/store', [TerritoryController::class,'store'])->name('sales.ds.town.store');
+    Route::get('/sales/distribution-setup/town/edit/{territory_id}', [TerritoryController::class,'edit'])->name('sales.ds.town.edit');
+    Route::post('/sales/distribution-setup/town/update/{territory_id}', [TerritoryController::class,'update'])->name('sales.ds.town.update');
+    Route::post('/sales/distribution-setup/town/destroy/{territory_id}', [TerritoryController::class,'destroy'])->name('sales.ds.town.destroy');
+
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
 });
