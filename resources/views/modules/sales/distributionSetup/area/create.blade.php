@@ -9,7 +9,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-4">@if(request('region_id')) Update @else Create @endif {{$title}}</h4>
+                <h4 class="card-title mb-4">@if(request('area_id')) Update @else Create @endif {{$title}}</h4>
                 <form method="POST" action="@if(request('area_id')>0) {{route('sales.ds.area.update', ['area_id'=>$area->area_id])}} @else {{route('sales.ds.area.store')}} @endif">
                     @csrf
                     <div class="form-group row mb-4">
@@ -19,7 +19,7 @@
                             <select class="form-control select2" name="region_id" required="required">
                                 <option value=""> -- Select region -- </option>
                                 @foreach($regions as $region)
-                                    <option value="{{$region->region_id}}" @if(request('area_id')>0) @if($region->region_id==$region->region_id) selected @endif @endif>{{$region->region_id}} : {{$region->region_name}}</option>
+                                    <option value="{{$region->region_id}}" @if(request('area_id')>0) @if($region->region_id==$area->region_id) selected @endif @endif>{{$region->region_id}} : {{$region->region_name}}</option>
                                 @endforeach
                             </select>
                         </div>

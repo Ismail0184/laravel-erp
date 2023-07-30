@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Sales\DistributionSetup\Territory;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sales\DistributionSetup\SalArea;
 use App\Models\Sales\DistributionSetup\SalTerritory;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TerritoryController extends Controller
@@ -15,8 +17,8 @@ class TerritoryController extends Controller
      */
     public function index()
     {
-        $territory = SalTerritory::all();
-        return view('modules.sales.distributionSetup.territory.index',compact('territory'));
+        $territories = SalTerritory::all();
+        return view('modules.sales.distributionSetup.territory.index',compact('territories'));
     }
 
     /**
@@ -26,7 +28,9 @@ class TerritoryController extends Controller
      */
     public function create()
     {
-        //
+        $areas = SalArea::where('status','active')->get();
+        $users = User::all();
+        return view('modules.sales.distributionSetup.territory.create',compact(['areas','users']));
     }
 
     /**
@@ -37,7 +41,8 @@ class TerritoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        SalTerritory::storeTerritory($request);
+        return redirect('/sales/distribution-setup/territory/')->with('store_message','A territory has been successfully inserted!!');
     }
 
     /**
