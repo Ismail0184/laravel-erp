@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Region')
+    @php($title = 'Area')
     {{$title}}
 @endsection
 

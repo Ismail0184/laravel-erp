@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Sales\DistributionSetup\Town;
+namespace App\Http\Controllers\Sales\Dealer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Sales\DistributionSetup\SalTerritory;
-use App\Models\Sales\DistributionSetup\SalTown;
-use App\Models\User;
+use App\Models\Sales\Dealer\SalDealerInfo;
 use Illuminate\Http\Request;
 
-class TownController extends Controller
+class DealerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +15,8 @@ class TownController extends Controller
      */
     public function index()
     {
-        $towns = SalTown::all();
-        return view('modules.sales.distributionSetup.town.index',compact(['towns']));
+        $dealers = SalDealerInfo::all();
+        return view('modules.sales.dealer.index',compact(['dealers']));
     }
 
     /**
@@ -28,9 +26,7 @@ class TownController extends Controller
      */
     public function create()
     {
-        $territories = SalTerritory::where('status','active')->get();
-        $users = User::all();
-        return view('modules.sales.distributionSetup.town.create',compact('territories','users'));
+        //
     }
 
     /**
@@ -41,8 +37,7 @@ class TownController extends Controller
      */
     public function store(Request $request)
     {
-        SalTown::storeTown($request);
-        return redirect('/sales/distribution-setup/town/')->with('store_message','A new town has been successfully inserted!!');
+        //
     }
 
     /**
@@ -64,11 +59,7 @@ class TownController extends Controller
      */
     public function edit($id)
     {
-        $territories = SalTerritory::where('status','active')->get();
-        $users = User::all();
-        $town = SalTown::findOrFail($id);
-        return view('modules.sales.distributionSetup.town.create',compact('territories','users','town'));
-
+        //
     }
 
     /**
@@ -80,8 +71,7 @@ class TownController extends Controller
      */
     public function update(Request $request, $id)
     {
-        SalTown::updateTown($request, $id);
-        return redirect('/sales/distribution-setup/town/')->with('update_message','This town (Uid='.$id.') has been updated!!');
+        //
     }
 
     /**
@@ -92,7 +82,6 @@ class TownController extends Controller
      */
     public function destroy($id)
     {
-        SalTown::destroyTown($id);
-        return redirect('/sales/distribution-setup/town/')->with('destroy_message','This town (Uid='.$id.') has been deleted!!');
+        //
     }
 }

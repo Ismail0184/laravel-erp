@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id('town_id');
             $table->integer('serial')->nullable();
             $table->string('town_name')->unique();
-            $table->integer('territory');
+            $table->integer('territory_id');
             $table->integer('in_charge_person');
             $table->enum('status',['active','inactive','suspended','deleted']);
             $table->integer('entry_by');

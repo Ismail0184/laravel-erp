@@ -38,6 +38,8 @@ use App\Http\Controllers\Procurement\workorder\PurchaseInvoiceController;
 use App\Http\Controllers\Sales\DistributionSetup\Region\RegionController;
 use App\Http\Controllers\Sales\DistributionSetup\Area\AreaController;
 use App\Http\Controllers\Sales\DistributionSetup\Territory\TerritoryController;
+use App\Http\Controllers\Sales\DistributionSetup\Town\TownController;
+use App\Http\Controllers\Sales\Dealer\DealerController;
 
 
 // home
@@ -429,13 +431,21 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/sales/distribution-setup/territory/update/{territory_id}', [TerritoryController::class,'update'])->name('sales.ds.territory.update');
     Route::post('/sales/distribution-setup/territory/destroy/{territory_id}', [TerritoryController::class,'destroy'])->name('sales.ds.territory.destroy');
 
-    //sales/distributor-setup/Territory
-    Route::get('/sales/distribution-setup/town/',[TerritoryController::class,'index'])->name('sales.ds.town.view');
-    Route::get('/sales/distribution-setup/town/create',[TerritoryController::class,'create'])->name('sales.ds.town.create');
-    Route::post('/sales/distribution-setup/town/store', [TerritoryController::class,'store'])->name('sales.ds.town.store');
-    Route::get('/sales/distribution-setup/town/edit/{territory_id}', [TerritoryController::class,'edit'])->name('sales.ds.town.edit');
-    Route::post('/sales/distribution-setup/town/update/{territory_id}', [TerritoryController::class,'update'])->name('sales.ds.town.update');
-    Route::post('/sales/distribution-setup/town/destroy/{territory_id}', [TerritoryController::class,'destroy'])->name('sales.ds.town.destroy');
+    //sales/distributor-setup/Town
+    Route::get('/sales/distribution-setup/town/',[TownController::class,'index'])->name('sales.ds.town.view');
+    Route::get('/sales/distribution-setup/town/create',[TownController::class,'create'])->name('sales.ds.town.create');
+    Route::post('/sales/distribution-setup/town/store', [TownController::class,'store'])->name('sales.ds.town.store');
+    Route::get('/sales/distribution-setup/town/edit/{town_id}', [TownController::class,'edit'])->name('sales.ds.town.edit');
+    Route::post('/sales/distribution-setup/town/update/{town_id}', [TownController::class,'update'])->name('sales.ds.town.update');
+    Route::post('/sales/distribution-setup/town/destroy/{town_id}', [TownController::class,'destroy'])->name('sales.ds.town.destroy');
+
+    //sales/distributor-setup/Dealer Info
+    Route::get('/sales/dealer/',[DealerController::class,'index'])->name('sales.dealer.view');
+    Route::get('/sales/dealer/create',[DealerController::class,'create'])->name('sales.dealer.create');
+    Route::post('/sales/dealer/store', [DealerController::class,'store'])->name('sales.dealer.store');
+    Route::get('/sales/dealer/edit/{town_id}', [DealerController::class,'edit'])->name('sales.dealer.edit');
+    Route::post('/sales/dealer/update/{town_id}', [DealerController::class,'update'])->name('sales.dealer.update');
+    Route::post('/sales/dealer/destroy/{town_id}', [DealerController::class,'destroy'])->name('sales.dealer.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
