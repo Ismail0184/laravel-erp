@@ -65,7 +65,9 @@ class SubMenuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $mainmenus = DevMainMenu::where('status', 1)->orderBy('main_menu_id')->get();
+        $submenu=DevSubMenu::find($id);
+        return view('modules.developer.submenu.create',compact(['mainmenus','submenu']));
     }
 
     /**

@@ -41,14 +41,12 @@
                             <input type="text" name="sub_url" @if(request('sub_menu_id')>0) value="{{$submenu->sub_url}}" @endif class="form-control" required />
                         </div>
                     </div>
-
                     <div class="form-group row mb-2">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">FA Icon </label>
                         <div class="col-sm-9">
                             <input type="text" name="faicon" @if(request('sub_menu_id')>0) value="{{$submenu->faicon}}" @endif class="form-control" />
                         </div>
                     </div>
-
                     @if(request('sub_menu_id')>0)
                         <div class="form-group row mb-2">
                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Status <span class="required text-danger">*</span></label>

@@ -41,12 +41,12 @@
                                     <td>{{$submenu->main_menu_id}} : {{$submenu->mainmenuforsubmenu->main_menu_name ?? 'N/A'}}</td>
                                     <td>@if($submenu->status == '1') <span class="badge badge-success">Active</span> @elseif($submenu->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
-                                        <form action="{{route('dev.sub-menu.destroy', ['main_menu_id' => $submenu->main_menu_id])}}" method="post">
+                                        <form action="{{route('dev.sub-menu.destroy', ['sub_menu_id' => $submenu->sub_menu_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('dev.sub-menu.show',['main_menu_id' => $submenu->main_menu_id])}}" title="View" class="btn btn-primary btn-sm">
+                                            <a href="{{route('dev.sub-menu.show',['sub_menu_id' => $submenu->sub_menu_id])}}" title="View" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book"></i>
                                             </a>
-                                            <a href="{{route('dev.sub-menu.edit',['main_menu_id' => $submenu->main_menu_id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('dev.sub-menu.edit',['sub_menu_id' => $submenu->sub_menu_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

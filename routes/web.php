@@ -82,10 +82,10 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/developer/sub-menu/',[SubMenuController::class,'index'])->name('dev.sub-menu.view');
     Route::get('/developer/sub-menu/create', [SubMenuController::class,'create'])->name('dev.sub-menu.create');
     Route::post('/developer/sub-menu/store', [SubMenuController::class,'store'])->name('dev.sub-menu.store');
-    Route::get('/developer/sub-menu/show/{main_menu_id}', [SubMenuController::class,'show'])->name('dev.sub-menu.show');
-    Route::get('/developer/sub-menu/edit/{main_menu_id}', [SubMenuController::class,'edit'])->name('dev.sub-menu.edit');
-    Route::post('/developer/sub-menu/update/{main_menu_id}', [SubMenuController::class,'update'])->name('dev.sub-menu.update');
-    Route::post('developer/sub-menu/destroy/{main_menu_id}', [SubMenuController::class,'destroy'])->name('dev.sub-menu.destroy');
+    Route::get('/developer/sub-menu/show/{sub_menu_id}', [SubMenuController::class,'show'])->name('dev.sub-menu.show');
+    Route::get('/developer/sub-menu/edit/{sub_menu_id}', [SubMenuController::class,'edit'])->name('dev.sub-menu.edit');
+    Route::post('/developer/sub-menu/update/{sub_menu_id}', [SubMenuController::class,'update'])->name('dev.sub-menu.update');
+    Route::post('developer/sub-menu/destroy/{sub_menu_id}', [SubMenuController::class,'destroy'])->name('dev.sub-menu.destroy');
 
     //Accounts/coa/class
     Route::get('/accounts/coa/class/',[ClassController::class,'index'])->name('acc.class.view');
