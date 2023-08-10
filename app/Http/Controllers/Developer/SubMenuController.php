@@ -19,8 +19,7 @@ class SubMenuController extends Controller
 
     public function index()
     {
-
-        $this->submenus = DevSubMenu::all();
+        $this->submenus = DevSubMenu::query()->orderBy('main_menu_id')->orderBy('sub_menu_id')->get();
         return view('modules.developer.submenu.index', ['submenus'=>$this->submenus]);
     }
 
@@ -31,9 +30,8 @@ class SubMenuController extends Controller
      */
     public function create()
     {
-
-        $this->mainmenu = DevMainMenu::where('status', 1)->get();
-        return view('modules.developer.submenu.create');
+        $mainmenus = DevMainMenu::where('status', 1)->orderBy('main_menu_id')->get();
+        return view('modules.developer.submenu.create',compact('mainmenus'));
     }
 
     /**
@@ -44,7 +42,8 @@ class SubMenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DevSubMenu::storeSubMenu($request);
+        return redirect('/developer/sub-menu/')->with('store_message','A sub-menu has been successfully created!!');
     }
 
     /**

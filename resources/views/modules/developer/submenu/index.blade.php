@@ -38,7 +38,7 @@
                                     <td style="text-align: center">{{$submenu->sub_menu_id}}</td>
                                     <td>{{$submenu->sub_menu_name}}</td>
                                     <td>{{$submenu->sub_url}}</td>
-                                    <td>{{ $submenu->mainmenuforsubmenu->main_menu_name}}</td>
+                                    <td>{{$submenu->main_menu_id}} : {{$submenu->mainmenuforsubmenu->main_menu_name ?? 'N/A'}}</td>
                                     <td>@if($submenu->status == '1') <span class="badge badge-success">Active</span> @elseif($submenu->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
                                         <form action="{{route('dev.sub-menu.destroy', ['main_menu_id' => $submenu->main_menu_id])}}" method="post">
@@ -64,6 +64,3 @@
         </div>
     </div>
 @endsection
-
-
-
