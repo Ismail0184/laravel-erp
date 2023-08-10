@@ -439,13 +439,21 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/sales/distribution-setup/town/update/{town_id}', [TownController::class,'update'])->name('sales.ds.town.update');
     Route::post('/sales/distribution-setup/town/destroy/{town_id}', [TownController::class,'destroy'])->name('sales.ds.town.destroy');
 
+    //sales/Dealer Category
+    Route::get('/sales/dealer/category/',[DealerController::class,'index'])->name('sales.dealer.category.view');
+    Route::get('/sales/dealer/category/create',[DealerController::class,'create'])->name('sales.dealer.category.create');
+    Route::post('/sales/dealer/category/store', [DealerController::class,'store'])->name('sales.dealer.category.store');
+    Route::get('/sales/dealer/category/edit/{town_id}', [DealerController::class,'edit'])->name('sales.dealer.category.edit');
+    Route::post('/sales/dealer/category/update/{town_id}', [DealerController::class,'update'])->name('sales.dealer.category.update');
+    Route::post('/sales/dealer/category/destroy/{town_id}', [DealerController::class,'destroy'])->name('sales.dealer.category.destroy');
+
     //sales/distributor-setup/Dealer Info
-    Route::get('/sales/dealer/',[DealerController::class,'index'])->name('sales.dealer.view');
-    Route::get('/sales/dealer/create',[DealerController::class,'create'])->name('sales.dealer.create');
-    Route::post('/sales/dealer/store', [DealerController::class,'store'])->name('sales.dealer.store');
-    Route::get('/sales/dealer/edit/{town_id}', [DealerController::class,'edit'])->name('sales.dealer.edit');
-    Route::post('/sales/dealer/update/{town_id}', [DealerController::class,'update'])->name('sales.dealer.update');
-    Route::post('/sales/dealer/destroy/{town_id}', [DealerController::class,'destroy'])->name('sales.dealer.destroy');
+    Route::get('/sales/dealer/info/',[DealerController::class,'index'])->name('sales.dealer.view');
+    Route::get('/sales/dealer/info/create',[DealerController::class,'create'])->name('sales.dealer.create');
+    Route::post('/sales/dealer/info/store', [DealerController::class,'store'])->name('sales.dealer.store');
+    Route::get('/sales/dealer/info/edit/{town_id}', [DealerController::class,'edit'])->name('sales.dealer.edit');
+    Route::post('/sales/dealer/info/update/{town_id}', [DealerController::class,'update'])->name('sales.dealer.update');
+    Route::post('/sales/dealer/info/destroy/{town_id}', [DealerController::class,'destroy'])->name('sales.dealer.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

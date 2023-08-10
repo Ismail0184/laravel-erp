@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Town') {{$title}}
+    @php($title = 'Dealer') {{$title}}
 @endsection
 
 @section('body')
@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}} <a href="{{route('sales.ds.town.create')}}" class="btn btn-success" style="margin-left: 87%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('sales.dealer.create')}}" class="btn btn-success" style="margin-left: 86.5%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -22,8 +22,8 @@
                             <thead>
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
-                                <th style="width: 5%; text-align: center">Territory Id</th>
-                                <th>Territory name</th>
+                                <th style="width: 5%; text-align: center">Dealer Id</th>
+                                <th>Dealer name</th>
                                 <th>Area</th>
                                 <th>In-charge Person</th>
                                 <th>Status</th>
@@ -31,24 +31,24 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($towns as $town)
+                            @foreach($dealers as $dealer)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td style="text-align: center">{{$town->town_id}}</td>
-                                    <td>@if($town->status == 'deleted')<del>{{$town->town_name}}</del> @else {{$town->town_name}}@endif</td>
-                                    <td>{{$town->territory->territory_name}}</td>
-                                    <td>{{$town->user->name}}</td>
+                                    <td style="text-align: center">{{$dealer->town_id}}</td>
+                                    <td>@if($dealer->status == 'deleted')<del>{{$dealer->town_name}}</del> @else {{$dealer->town_name}}@endif</td>
+                                    <td>{{$dealer->territory->territory_name}}</td>
+                                    <td>{{$dealer->user->name}}</td>
                                     <td>
-                                        @if($town->status == 'active') <span class="badge badge-success">Active</span>
-                                        @elseif($town->status == 'inactive') <span class="badge badge-warning">Inactive</span>
-                                        @elseif($town->status == 'suspended') <span class="badge badge-danger">Suspended</span>
-                                        @elseif($town->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
+                                        @if($dealer->status == 'active') <span class="badge badge-success">Active</span>
+                                        @elseif($dealer->status == 'inactive') <span class="badge badge-warning">Inactive</span>
+                                        @elseif($dealer->status == 'suspended') <span class="badge badge-danger">Suspended</span>
+                                        @elseif($dealer->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <form action="{{route('sales.ds.town.destroy', ['town_id' => $town->town_id])}}" method="post">
+                                        <form action="{{route('sales.ds.town.destroy', ['town_id' => $dealer->town_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('sales.ds.town.edit',['town_id' => $town->town_id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('sales.ds.town.edit',['town_id' => $dealer->town_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

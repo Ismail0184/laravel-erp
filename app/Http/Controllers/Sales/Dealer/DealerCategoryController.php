@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Sales\Dealer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Sales\Dealer\SalDealerInfo;
 use Illuminate\Http\Request;
 
-class DealerController extends Controller
+class DealerCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,7 @@ class DealerController extends Controller
      */
     public function index()
     {
-        $dealers = SalDealerInfo::all();
-        return view('modules.sales.dealer.index',compact(['dealers']));
+        //
     }
 
     /**
@@ -26,7 +24,7 @@ class DealerController extends Controller
      */
     public function create()
     {
-        return view('modules.sales.dealer.create');
+        //
     }
 
     /**
