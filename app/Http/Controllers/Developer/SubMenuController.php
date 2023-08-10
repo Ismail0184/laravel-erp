@@ -79,7 +79,8 @@ class SubMenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DevSubMenu::updateSubMenu($request,$id);
+        return redirect('/developer/sub-menu/')->with('update_message','This sub-menu (uid='.$id.') has been successfully updated');
     }
 
     /**
@@ -90,6 +91,7 @@ class SubMenuController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DevSubMenu::destroySubMenu($id);
+        return redirect('/developer/sub-menu/')->with('destory_message','This sub-menu (uid='.$id.') has been successfully updated');
     }
 }
