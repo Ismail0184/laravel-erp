@@ -449,13 +449,13 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/sales/dealer/category/update/{cat_id}', [DealerCategoryController::class,'update'])->name('sales.dealer.category.update');
     Route::post('/sales/dealer/category/destroy/{cat_id}', [DealerCategoryController::class,'destroy'])->name('sales.dealer.category.destroy');
 
-    //sales/Dealer Category
+    //sales/Dealer Type
     Route::get('/sales/dealer/type/',[DealerTypeController::class,'index'])->name('sales.dealer.type.view');
     Route::get('/sales/dealer/type/create',[DealerTypeController::class,'create'])->name('sales.dealer.type.create');
     Route::post('/sales/dealer/type/store', [DealerTypeController::class,'store'])->name('sales.dealer.type.store');
-    Route::get('/sales/dealer/type/edit/{cat_id}', [DealerTypeController::class,'edit'])->name('sales.dealer.type.edit');
-    Route::post('/sales/dealer/type/update/{cat_id}', [DealerTypeController::class,'update'])->name('sales.dealer.type.update');
-    Route::post('/sales/dealer/type/destroy/{cat_id}', [DealerTypeController::class,'destroy'])->name('sales.dealer.type.destroy');
+    Route::get('/sales/dealer/type/edit/{type_id}', [DealerTypeController::class,'edit'])->name('sales.dealer.type.edit');
+    Route::post('/sales/dealer/type/update/{type_id}', [DealerTypeController::class,'update'])->name('sales.dealer.type.update');
+    Route::post('/sales/dealer/type/destroy/{type_id}', [DealerTypeController::class,'destroy'])->name('sales.dealer.type.destroy');
 
     //sales/distributor-setup/Dealer Info
     Route::get('/sales/dealer/info/',[DealerController::class,'index'])->name('sales.dealer.view');

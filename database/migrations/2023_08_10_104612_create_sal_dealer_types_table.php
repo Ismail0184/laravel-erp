@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('entry_by');
             $table->integer('sconid');
             $table->integer('pcomid');
+            $table->timestamps();
         });
     }
 

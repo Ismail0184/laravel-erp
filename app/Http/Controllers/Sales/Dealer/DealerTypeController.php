@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Sales\Dealer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sales\Dealer\SalDealerType;
 use Illuminate\Http\Request;
 
 class DealerTypeController extends Controller
@@ -14,7 +15,8 @@ class DealerTypeController extends Controller
      */
     public function index()
     {
-        return view('modules.sales.dealer.type.index');
+        $types = SalDealerType::all();
+        return view('modules.sales.dealer.type.index',compact('types'));
     }
 
     /**
@@ -24,7 +26,7 @@ class DealerTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.sales.dealer.type.create');
     }
 
     /**
@@ -35,7 +37,8 @@ class DealerTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        SalDealerType::storeType($request);
+        return redirect('/sales/dealer/type/')->with('store_message','This Dealer Type has been successfully inserted!!');
     }
 
     /**
@@ -57,7 +60,8 @@ class DealerTypeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $type = SalDealerType::find($id);
+        return view('modules.sales.dealer.type.create',compact('type'));
     }
 
     /**
@@ -69,7 +73,8 @@ class DealerTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        SalDealerType::updateType($request, $id);
+        return redirect('/sales/dealer/type/')->with('update_message','This type (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -80,6 +85,7 @@ class DealerTypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        SalDealerType::destroyDealerType($id);
+        return redirect('/sales/dealer/type/')->with('destroy_message','This dealer type is deleted');
     }
 }
