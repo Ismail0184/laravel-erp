@@ -92,6 +92,6 @@ class SubMenuController extends Controller
     public function destroy($id)
     {
         DevSubMenu::destroySubMenu($id);
-        return redirect('/developer/sub-menu/')->with('destory_message','This sub-menu (uid='.$id.') has been successfully updated');
+        return redirect('/developer/sub-menu/')->with('destroy_message','This sub-menu (uid='.$id.') has been deleted!!');
     }
 }

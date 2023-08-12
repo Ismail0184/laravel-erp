@@ -37,14 +37,11 @@ class DevSubMenu extends Model
     public static function updateSubMenu($request,$id)
     {
         self::$submenu = DevSubMenu::find($id);
-        self::$submenu->sub_menu_id = $request->sub_menu_id;
         self::$submenu->serial = $request->serial;
         self::$submenu->sub_menu_name = $request->sub_menu_name;
         self::$submenu->sub_url = $request->sub_url;
         self::$submenu->faicon = $request->faicon;
-        self::$submenu->main_menu_id = $request->main_menu_id;
-        self::$submenu->module_id = self::getModuleId($request->main_menu_id);
-        self::$submenu->status = 1;
+        self::$submenu->status = $request->status;
         self::$submenu->sconid = 1;
         self::$submenu->pcomid = 1;
         self::$submenu->save();

@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Sub Menu')
-    {{$title}}
+    @php($title = 'Dealer Category') {{$title}}
 @endsection
 
 @section('body')
@@ -11,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}} <a href="{{route('dev.sub-menu.create')}}" class="btn btn-primary" style="margin-left: 85.6%">Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('sales.dealer.category.create')}}" class="btn btn-success" style="margin-left: 79.7%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -23,34 +22,29 @@
                             <thead>
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
-                                <th>Sub Menu Name</th>
-                                <th>URL</th>
-                                <th>Main Menu</th>
+                                <th>Category Name</th>
                                 <th>Status</th>
-                                <th class="text-center" style="width: 15%">Option</th>
+                                <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($submenus as $submenu)
+                            @foreach($categories as $category)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td>@if($submenu->status == 'deleted')<del>{{$submenu->sub_menu_id}} : {{$submenu->sub_menu_name}}</del> @else {{$submenu->sub_menu_id}} : {{$submenu->sub_menu_name}} @endif</td>
-                                    <td>{{$submenu->sub_url}}</td>
-                                    <td>{{$submenu->main_menu_id}} : {{$submenu->mainmenuforsubmenu->main_menu_name ?? 'N/A'}}</td>
-                                    <td>
-                                        @if($submenu->status == 'active') <span class="badge badge-success">Active</span>
-                                        @elseif($submenu->status == 'inactive') <span class="badge badge-warning">Inactive</span>
-                                        @elseif($submenu->status == 'suspended') <span class="badge badge-danger">Suspended</span>
-                                        @elseif($submenu->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
+                                    <td>{{$category->cat_id}} : @if($category->status == 'deleted')<del> {{$category->category_name}} </del> @else {{$category->category_name}} @endif</td>
+                                    <td style="vertical-align: middle">
+                                        @if($category->status == 'active') <span class="badge badge-success">Active</span>
+                                        @elseif($category->status == 'inactive') <span class="badge badge-soft-danger">Inactive</span>
+                                        @elseif($category->status == 'deleted') <span class="badge badge-danger"><del>DELETED</del></span>
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <form action="{{route('dev.sub-menu.destroy', ['sub_menu_id' => $submenu->sub_menu_id])}}" method="post">
+                                        <form action="{{route('sales.dealer.category.destroy', ['cat_id' => $category->cat_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('dev.sub-menu.edit',['sub_menu_id' => $submenu->sub_menu_id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('sales.dealer.category.edit',['cat_id' => $category->cat_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
+                                            <button category="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
@@ -65,3 +59,6 @@
         </div>
     </div>
 @endsection
+
+
+

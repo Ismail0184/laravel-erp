@@ -12,6 +12,7 @@
                 <h4 class="card-title mb-4">@if(request('sub_menu_id')) Update @else Create @endif {{$title}}  <small class="text-danger float-right"> field marked with * are mandatory</small></h4>
                 <form method="POST" action="@if(request('sub_menu_id')>0) {{route('dev.sub-menu.update', ['sub_menu_id'=>$submenu->sub_menu_id])}} @else {{route('dev.sub-menu.store')}} @endif">
                     @csrf
+                    @if(!request('sub_menu_id')>0)
                     <div class="form-group row mb-2">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Main Menu <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
@@ -23,6 +24,7 @@
                             </select>
                         </div>
                     </div>
+                    @endif
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Serial Number</label>
                         <div class="col-sm-9">
@@ -36,7 +38,7 @@
                         </div>
                     </div>
                     <div class="form-group row mb-2">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">URL <span class="required text-danger">*</span></label>
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Route <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
                             <input type="text" name="sub_url" @if(request('sub_menu_id')>0) value="{{$submenu->sub_url}}" @endif class="form-control" required />
                         </div>
@@ -52,8 +54,10 @@
                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Status <span class="required text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="status">
-                                    <option @if($submenu->status ==1) selected @endif value="1">Active</option>
-                                    <option @if($submenu->status ==0) selected @endif value="0">Inactive</option>
+                                    <option @if($submenu->status =='active') selected @endif value="active">Active</option>
+                                    <option @if($submenu->status =='inactive') selected @endif value="inactive">Inactive</option>
+                                    <option @if($submenu->status =='suspended') selected @endif value="suspended">Suspended</option>
+                                    <option @if($submenu->status =='deleted') selected @endif value="deleted">Deleted</option>
                                 </select>
                             </div>
                         </div>

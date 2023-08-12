@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Sales\Dealer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sales\Dealer\SalDealerCategory;
 use Illuminate\Http\Request;
 
 class DealerCategoryController extends Controller
@@ -14,7 +15,8 @@ class DealerCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = SalDealerCategory::all();
+        return view('modules.sales.dealer.category.index',compact('categories'));
     }
 
     /**
@@ -24,7 +26,7 @@ class DealerCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.sales.dealer.category.create');
     }
 
     /**
@@ -35,7 +37,8 @@ class DealerCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        SalDealerCategory::storeDealerCategory($request);
+        return redirect('/sales/dealer/category/')->with('store_message','A new category has been successfully inserted!!');
     }
 
     /**
@@ -57,7 +60,8 @@ class DealerCategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = SalDealerCategory::find($id);
+        return view('modules.sales.dealer.category.create',compact('category'));
     }
 
     /**
@@ -69,7 +73,8 @@ class DealerCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        SalDealerCategory::updateDealerCategory($request, $id);
+        return redirect('/sales/dealer/category/')->with('update_message','This category (Uid='.$id.') has been updated!!');
     }
 
     /**
@@ -80,6 +85,7 @@ class DealerCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        SalDealerCategory::destroyDealerCategory($id);
+        return redirect('/sales/dealer/category/')->with('destroy_message','This category (Uid='.$id.') has been deleted!!');
     }
 }

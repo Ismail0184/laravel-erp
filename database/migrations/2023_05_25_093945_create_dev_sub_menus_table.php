@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('dev_sub_menus', function (Blueprint $table) {
             $table->id('sub_menu_id');
-            $table->integer('serial');
+            $table->integer('serial')->nullable();
             $table->string('sub_menu_name','100');
-            $table->string('sub_url','100');
-            $table->string('faicon','33');
+            $table->string('sub_url','100')->nullable();
+            $table->string('faicon','33')->nullable();
             $table->integer('main_menu_id');
             $table->string('module_id','33');
-            $table->enum('status',['1','0'])->default('1');
+            $table->enum('status',['active','inactive','suspended','deleted'])->default('active');
             $table->integer('sconid');
             $table->integer('pcomid');
             $table->timestamps();

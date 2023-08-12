@@ -14,7 +14,7 @@ class DealerTypeController extends Controller
      */
     public function index()
     {
-        //
+        return view('modules.sales.dealer.type.index');
     }
 
     /**
