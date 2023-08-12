@@ -12,7 +12,7 @@
                 <h4 class="card-title mb-4">@if(request('sub_menu_id')) Update @else Create @endif {{$title}}  <small class="text-danger float-right"> field marked with * are mandatory</small></h4>
                 <form method="POST" action="@if(request('sub_menu_id')>0) {{route('dev.sub-menu.update', ['sub_menu_id'=>$submenu->sub_menu_id])}} @else {{route('dev.sub-menu.store')}} @endif">
                     @csrf
-                    @if(!request('sub_menu_id')>0)
+                    @if(!request('dealer')>0)
                         <div class="form-group row mb-2">
                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Main Menu <span class="required text-danger">*</span></label>
                             <div class="col-sm-9">
