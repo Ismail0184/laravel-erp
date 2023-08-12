@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Sales\Dealer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Developer\DevMainMenu;
 use App\Models\Sales\Dealer\SalDealerInfo;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class DealerController extends Controller
     public function index()
     {
         $dealers = SalDealerInfo::all();
-        return view('modules.sales.dealer.index',compact(['dealers']));
+        return view('modules.sales.dealer.dealerinfo.index',compact(['dealers']));
     }
 
     /**
@@ -26,7 +27,9 @@ class DealerController extends Controller
      */
     public function create()
     {
-        return view('modules.sales.dealer.create');
+
+        $mainmenus = DevMainMenu::all();
+        return view('modules.sales.dealer.dealerinfo.create',compact('mainmenus'));
     }
 
     /**

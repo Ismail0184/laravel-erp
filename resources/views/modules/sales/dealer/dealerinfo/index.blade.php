@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Dealer') {{$title}}
+    @php($title = 'Dealer Info') {{$title}}
 @endsection
 
 @section('body')
@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}} <a href="{{route('sales.dealer.create')}}" class="btn btn-success" style="margin-left: 86.5%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('sales.dealer.create')}}" class="btn btn-success" style="margin-left: 83.5%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
