@@ -14,7 +14,7 @@
                     @csrf
                     @if(!request('dealer')>0)
                         <div class="form-group row mb-2">
-                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Main Menu <span class="required text-danger">*</span></label>
+                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Territory <span class="required text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select class="form-control select2" name="main_menu_id" required="required">
                                     <option value="">-- select main menu --</option>
