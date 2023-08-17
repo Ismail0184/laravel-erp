@@ -35,6 +35,28 @@
                         </div>
                     </div>
                     <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Category <span class="required text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2" name="cat_id" required="required">
+                                <option value="">-- select category --</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->cat_id}}" @if(request('dealer_id')>0) @if($dealer->town_id==$category->cat_id) selected @endif @endif>{{$category->cat_id}} : {{$category->category_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Type <span class="required text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2" name="type_id" required="required">
+                                <option value="">-- select type --</option>
+                                @foreach($types as $type)
+                                    <option value="{{$type->type_id}}" @if(request('dealer_id')>0) @if($dealer->type_id==$type->type_id) selected @endif @endif>{{$type->type_id}} : {{$type->type_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Serial Number</label>
                         <div class="col-sm-9">
                             <input type="text" name="serial" @if(request('dealer_id')>0) value="{{$dealer->serial}}" @endif class="form-control" />
@@ -53,9 +75,45 @@
                         </div>
                     </div>
                     <div class="form-group row mb-2">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">FA Icon </label>
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Proprietor Name</label>
                         <div class="col-sm-9">
-                            <input type="text" name="faicon" @if(request('dealer_id')>0) value="{{$dealer->faicon}}" @endif class="form-control" />
+                            <input type="text" name="proprietor_name" @if(request('dealer_id')>0) value="{{$dealer->proprietor_name}}" @endif class="form-control"  />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Mobile</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="mobile" @if(request('dealer_id')>0) value="{{$dealer->mobile}}" @endif class="form-control"  />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Email</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="email" @if(request('dealer_id')>0) value="{{$dealer->email}}" @endif class="form-control"  />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Contact Person</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="contact_person" @if(request('dealer_id')>0) value="{{$dealer->contact_person}}" @endif class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Contact Person Designation</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="contact_person_designation" @if(request('dealer_id')>0) value="{{$dealer->contact_person_designation}}" @endif class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Contact Person Mobile</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="contact_person_mobile" @if(request('dealer_id')>0) value="{{$dealer->contact_person_mobile}}" @endif class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Address</label>
+                        <div class="col-sm-9">
+                            <textarea name="contact_person_mobile" @if(request('dealer_id')>0) value="{{$dealer->contact_person_mobile}}" @endif class="form-control" ></textarea>
                         </div>
                     </div>
                     @if(request('dealer_id')>0)

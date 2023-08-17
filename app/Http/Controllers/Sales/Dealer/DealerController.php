@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Sales\Dealer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Developer\DevMainMenu;
+use App\Models\Sales\Dealer\SalDealerCategory;
 use App\Models\Sales\Dealer\SalDealerInfo;
+use App\Models\Sales\Dealer\SalDealerType;
 use App\Models\Sales\DistributionSetup\SalTerritory;
 use App\Models\Sales\DistributionSetup\SalTown;
 use Illuminate\Http\Request;
@@ -29,10 +31,11 @@ class DealerController extends Controller
      */
     public function create()
     {
-
         $territorys = SalTerritory::where('status','active')->get();
         $towns = SalTown::where('status','active')->get();
-        return view('modules.sales.dealer.dealerinfo.create',compact(['territorys','towns']));
+        $categories = SalDealerCategory::where('status','active')->get();
+        $types = SalDealerType::where('status','active')->get();
+        return view('modules.sales.dealer.dealerinfo.create',compact(['territorys','towns','categories','types']));
     }
 
     /**
