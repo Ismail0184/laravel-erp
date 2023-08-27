@@ -31,11 +31,11 @@ class DealerController extends Controller
      */
     public function create()
     {
-        $territorys = SalTerritory::where('status','active')->get();
+        $territories = SalTerritory::where('status','active')->get();
         $towns = SalTown::where('status','active')->get();
         $categories = SalDealerCategory::where('status','active')->get();
         $types = SalDealerType::where('status','active')->get();
-        return view('modules.sales.dealer.dealerinfo.create',compact(['territorys','towns','categories','types']));
+        return view('modules.sales.dealer.dealerinfo.create',compact(['territories','towns','categories','types']));
     }
 
     /**

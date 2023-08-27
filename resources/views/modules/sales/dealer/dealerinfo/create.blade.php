@@ -17,7 +17,7 @@
                         <div class="col-sm-9">
                             <select class="form-control select2" name="territory_id" required="required">
                                 <option value="">-- select territory --</option>
-                                @foreach($territorys as $territory)
+                                @foreach($territories as $territory)
                                     <option value="{{$territory->territory_id}}" @if(request('dealer_id')>0) @if($dealer->territory_id==$territory->territory_id) selected @endif @endif>{{$territory->territory_id}} : {{$territory->territory_name}}</option>
                                 @endforeach
                             </select>
