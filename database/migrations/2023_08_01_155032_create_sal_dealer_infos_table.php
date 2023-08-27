@@ -34,7 +34,7 @@ return new class extends Migration
             $table->integer('area_id')->nullable();
             $table->integer('territory_id')->nullable();
             $table->integer('town_id')->nullable();
-            $table->integer('cat_id')->nullable();
+            $table->integer('category_id')->nullable();
             $table->integer('type_id')->nullable();
             $table->double('commission')->nullable();
             $table->enum('status',['active','inactive','suspended','deleted']);

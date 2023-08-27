@@ -10,8 +10,9 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">@if(request('dealer_id')) Update @else Create @endif {{$title}}  <small class="text-danger float-right"> field marked with * are mandatory</small></h4>
-                <form method="POST" action="@if(request('dealer_id')>0) {{route('dev.sub-menu.update', ['dealer_id'=>$dealer->dealer_id])}} @else {{route('dev.sub-menu.store')}} @endif">
+                <form method="POST" action="@if(request('dealer_id')>0) {{route('sales.dealer.update', ['dealer_id'=>$dealer->dealer_id])}} @else {{route('sales.dealer.store')}} @endif">
                     @csrf
+                    <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                     <div class="form-group row mb-2">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Territory <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
@@ -37,10 +38,10 @@
                     <div class="form-group row mb-2">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Category <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <select class="form-control select2" name="cat_id" required="required">
+                            <select class="form-control select2" name="category_id" required="required">
                                 <option value="">-- select category --</option>
                                 @foreach($categories as $category)
-                                    <option value="{{$category->cat_id}}" @if(request('dealer_id')>0) @if($dealer->town_id==$category->cat_id) selected @endif @endif>{{$category->cat_id}} : {{$category->category_name}}</option>
+                                    <option value="{{$category->cat_id}}" @if(request('dealer_id')>0) @if($dealer->category_id==$category->cat_id) selected @endif @endif>{{$category->cat_id}} : {{$category->category_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -65,7 +66,7 @@
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Dealer Custom Code</label>
                         <div class="col-sm-9">
-                            <input type="text" name="sub_menu_name" @if(request('dealer_id')>0) value="{{$dealer->sub_menu_name}}" @endif class="form-control"  />
+                            <input type="text" name="dealer_custom_id" @if(request('dealer_id')>0) value="{{$dealer->dealer_custom_id}}" @endif class="form-control"  />
                         </div>
                     </div>
                     <div class="form-group row mb-2">
@@ -113,7 +114,43 @@
                     <div class="form-group row mb-2">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Address</label>
                         <div class="col-sm-9">
-                            <textarea name="contact_person_mobile" @if(request('dealer_id')>0) value="{{$dealer->contact_person_mobile}}" @endif class="form-control" ></textarea>
+                            <textarea name="address"  class="form-control" >@if(request('dealer_id')>0) value="{{$dealer->address}}" @endif</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">National ID</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="nid" @if(request('dealer_id')>0) value="{{$dealer->nid}}" @endif class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Passport</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="passport" @if(request('dealer_id')>0) value="{{$dealer->passport}}" @endif class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">TIN</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="TIN" @if(request('dealer_id')>0) value="{{$dealer->TIN}}" @endif class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">BIN</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="BIN" @if(request('dealer_id')>0) value="{{$dealer->BIN}}" @endif class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Ledger ID <span class="required text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="text" name="ledger_id" @if(request('dealer_id')>0) value="{{$dealer->ledger_id}}" required @endif class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Commission</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="commission" @if(request('dealer_id')>0) value="{{$dealer->commission}}" @endif class="form-control" />
                         </div>
                     </div>
                     @if(request('dealer_id')>0)

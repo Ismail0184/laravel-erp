@@ -46,7 +46,8 @@ class DealerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        SalDealerInfo::storeDealer($request);
+        return redirect('/sales/dealer/info/')->with('store_message','A new dealer has been successfully created!!');
     }
 
     /**
