@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Sales\TradeScheme;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sales\Dealer\SalDealerType;
 use Illuminate\Http\Request;
 
 class TradeSchemeController extends Controller
@@ -14,7 +15,8 @@ class TradeSchemeController extends Controller
      */
     public function index()
     {
-        return view('Modules.Sales.tradeScheme.index');
+        $types = SalDealerType::where('status','active')->get();
+        return view('Modules.Sales.tradeScheme.index',compact('types'));
     }
 
     /**
