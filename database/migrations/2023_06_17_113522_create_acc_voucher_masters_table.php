@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('voucher_no');
             $table->date('voucher_date');
-            $table->string('person','55');
-            $table->string('cheque_no','55');
-            $table->date('cheque_date');
-            $table->date('maturity_date');
-            $table->string('cheque_of_bank','33');
+            $table->string('person','55')->nullable();
+            $table->string('cheque_no','55')->nullable();
+            $table->date('cheque_date')->nullable();
+            $table->date('maturity_date')->nullable();
+            $table->string('cheque_of_bank','33')->nullable();
             $table->bigInteger('cash_bank_ledger');
             $table->decimal('amount',20,2);
             $table->enum('journal_type',['receipt','payment','journal','contra','bank-payment']);

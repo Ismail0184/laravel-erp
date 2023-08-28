@@ -114,7 +114,7 @@
                     <div class="form-group row mb-2">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Address</label>
                         <div class="col-sm-9">
-                            <textarea name="address"  class="form-control" >@if(request('dealer_id')>0) value="{{$dealer->address}}" @endif</textarea>
+                            <textarea name="address"  class="form-control" >@if(request('dealer_id')>0) {{$dealer->address}} @endif</textarea>
                         </div>
                     </div>
                     <div class="form-group row mb-2">

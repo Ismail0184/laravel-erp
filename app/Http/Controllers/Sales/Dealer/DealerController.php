@@ -58,7 +58,12 @@ class DealerController extends Controller
      */
     public function show($id)
     {
-        //
+        $dealer = SalDealerInfo::findOrfail($id);
+        $territories = SalTerritory::where('status','active')->get();
+        $towns = SalTown::where('status','active')->get();
+        $categories = SalDealerCategory::where('status','active')->get();
+        $types = SalDealerType::where('status','active')->get();
+        return view('modules.sales.dealer.dealerinfo.show',compact(['dealer','territories','towns','categories','types']));
     }
 
     /**
@@ -69,7 +74,13 @@ class DealerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dealer = SalDealerInfo::findOrfail($id);
+        $territories = SalTerritory::where('status','active')->get();
+        $towns = SalTown::where('status','active')->get();
+        $categories = SalDealerCategory::where('status','active')->get();
+        $types = SalDealerType::where('status','active')->get();
+
+        return view('modules.sales.dealer.dealerinfo.create',compact(['territories','towns','categories','types','dealer']));
     }
 
     /**
@@ -81,7 +92,8 @@ class DealerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        SalDealerInfo::updateDealer($request,$id);
+        return redirect('/sales/dealer/info/')->with('update_message','This dealer (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -92,6 +104,7 @@ class DealerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        SalDealerInfo::destroyDealer($id);
+        return redirect('/sales/dealer/info/')->with('destroy_message','This dealer (uid='.$id.') has been deleted!!');
     }
 }

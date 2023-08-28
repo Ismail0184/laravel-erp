@@ -34,21 +34,24 @@
                             @foreach($dealers as $dealer)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td style="text-align: center">{{$dealer->town_id}}</td>
-                                    <td>@if($dealer->status == 'deleted')<del>{{$dealer->town_name}}</del> @else {{$dealer->town_name}}@endif</td>
+                                    <td style="text-align: center">{{$dealer->dealer_id}} : {{$dealer->dealer_custom_id}}</td>
+                                    <td>@if($dealer->status == 'deleted')<del>{{$dealer->dealer_name}}</del> @else {{$dealer->dealer_name}}@endif</td>
                                     <td>{{$dealer->territory->territory_name}}</td>
                                     <td>{{$dealer->user->name}}</td>
                                     <td>
-                                        @if($dealer->status == 'active') <span class="badge badge-success">Active</span>
+                                        @if($dealer->status     == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($dealer->status == 'inactive') <span class="badge badge-warning">Inactive</span>
                                         @elseif($dealer->status == 'suspended') <span class="badge badge-danger">Suspended</span>
                                         @elseif($dealer->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <form action="{{route('sales.ds.town.destroy', ['town_id' => $dealer->town_id])}}" method="post">
+                                        <form action="{{route('sales.dealer.destroy', ['dealer_id' => $dealer->dealer_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('sales.ds.town.edit',['town_id' => $dealer->town_id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('sales.dealer.show',['dealer_id' => $dealer->dealer_id])}}" title="show" class="btn btn-pink btn-sm">
+                                                <i class="fa fa-book"></i>
+                                            </a>
+                                            <a href="{{route('sales.dealer.edit',['dealer_id' => $dealer->dealer_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

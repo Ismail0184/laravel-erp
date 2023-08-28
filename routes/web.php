@@ -42,6 +42,7 @@ use App\Http\Controllers\Sales\DistributionSetup\Town\TownController;
 use App\Http\Controllers\Sales\Dealer\DealerController;
 use App\Http\Controllers\Sales\Dealer\DealerCategoryController;
 use App\Http\Controllers\Sales\Dealer\DealerTypeController;
+use App\Http\Controllers\Sales\TradeScheme\TradeSchemeController;
 
 
 // home
@@ -461,9 +462,19 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/sales/dealer/info/',[DealerController::class,'index'])->name('sales.dealer.view');
     Route::get('/sales/dealer/info/create',[DealerController::class,'create'])->name('sales.dealer.create');
     Route::post('/sales/dealer/info/store', [DealerController::class,'store'])->name('sales.dealer.store');
-    Route::get('/sales/dealer/info/edit/{town_id}', [DealerController::class,'edit'])->name('sales.dealer.edit');
-    Route::post('/sales/dealer/info/update/{town_id}', [DealerController::class,'update'])->name('sales.dealer.update');
-    Route::post('/sales/dealer/info/destroy/{town_id}', [DealerController::class,'destroy'])->name('sales.dealer.destroy');
+    Route::get('/sales/dealer/info/show/{dealer_id}', [DealerController::class,'show'])->name('sales.dealer.show');
+    Route::get('/sales/dealer/info/edit/{dealer_id}', [DealerController::class,'edit'])->name('sales.dealer.edit');
+    Route::post('/sales/dealer/info/update/{dealer_id}', [DealerController::class,'update'])->name('sales.dealer.update');
+    Route::post('/sales/dealer/info/destroy/{dealer_id}', [DealerController::class,'destroy'])->name('sales.dealer.destroy');
+
+    //sales/distributor-setup/Dealer Info
+    Route::get('/sales/trade-scheme/',[TradeSchemeController::class,'index'])->name('sales.ts.view');
+    Route::get('/sales/trade-scheme/create',[TradeSchemeController::class,'create'])->name('sales.ts.create');
+    Route::post('/sales/trade-scheme/store', [TradeSchemeController::class,'store'])->name('sales.ts.store');
+    Route::get('/sales/trade-scheme/show/{dealer_id}', [TradeSchemeController::class,'show'])->name('sales.ts.show');
+    Route::get('/sales/trade-scheme/edit/{dealer_id}', [TradeSchemeController::class,'edit'])->name('sales.ts.edit');
+    Route::post('/sales/trade-scheme/update/{dealer_id}', [TradeSchemeController::class,'update'])->name('sales.ts.update');
+    Route::post('/sales/trade-scheme/destroy/{dealer_id}', [TradeSchemeController::class,'destroy'])->name('sales.ts.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
