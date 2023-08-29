@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Sales\TradeScheme;
+namespace App\Http\Controllers\Sales\Dealer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounts\Products\AccProductItem;
-use App\Models\Sales\Dealer\SalDealerType;
-use App\Models\Sales\TradeScheme\SalTradeScheme;
 use Illuminate\Http\Request;
 
-class TradeSchemeController extends Controller
+class CreditLimitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +14,8 @@ class TradeSchemeController extends Controller
      */
     public function index()
     {
-        $tsdatas = SalTradeScheme::all();
-        return view('modules.Sales.tradeScheme.index',compact('tsdatas'));
+        //$creditLimits =
+        return view('modules.sales.creditLimit.index');
     }
 
     /**
@@ -28,9 +25,7 @@ class TradeSchemeController extends Controller
      */
     public function create()
     {
-        $types = SalDealerType::where('status','active')->get();
-        $items = AccProductItem::where('status','active')->get();
-        return view('modules.sales.tradeScheme.create',compact(['types','items']));
+        //
     }
 
     /**
@@ -41,8 +36,7 @@ class TradeSchemeController extends Controller
      */
     public function store(Request $request)
     {
-        SalTradeScheme::storeTS($request);
-        return redirect('/sales/trade-scheme/')->with('store_message','This Trade Scheme has been successfully created!!');
+        //
     }
 
     /**
@@ -53,8 +47,7 @@ class TradeSchemeController extends Controller
      */
     public function show($id)
     {
-        $ts = SalTradeScheme::findOrfail($id);
-        return view('modules.sales.tradeScheme.show',compact('ts'));
+        //
     }
 
     /**
@@ -65,10 +58,7 @@ class TradeSchemeController extends Controller
      */
     public function edit($id)
     {
-        $types = SalDealerType::where('status','active')->get();
-        $items = AccProductItem::where('status','active')->get();
-        $ts = SalTradeScheme::findOrfail($id);
-        return view('modules.sales.tradeScheme.create',compact(['types','items','ts']));
+        //
     }
 
     /**

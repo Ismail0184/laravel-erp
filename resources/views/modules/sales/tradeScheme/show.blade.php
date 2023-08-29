@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Dealer Info')
+    @php($title = 'Trade Scheme')
     {{$title}}
 @endsection
 
@@ -12,123 +12,57 @@
                 <div class="card-header"><h4>{{$title}}</h4></div>
 
                 <table class="table-bordered table" style="width: 100%">
+
                     <tr>
-                        <th style="width: 30%">Region</th>
+                        <th>Offer Name</th>
                         <th>:</th>
-                        <td>{{$dealer->region->region_name}}</td>
+                        <td>{{$ts->offer_name}}</td>
                     </tr>
                     <tr>
-                        <th>Area</th>
+                        <th>Scheme Duration</th>
                         <th>:</th>
-                        <td>{{$dealer->area->area_name}}</td>
+                        <td>{{$ts->start_date}} to {{$ts->end_date}}</td>
                     </tr>
                     <tr>
-                        <th>Territory</th>
+                        <th>Buy Product Name</th>
                         <th>:</th>
-                        <td>{{$dealer->territory->territory_name}}</td>
+                        <td>{{$ts->buyitem->item_name}}</td>
                     </tr>
                     <tr>
-                        <th>Town</th>
+                        <th>Buy Item Qty</th>
                         <th>:</th>
-                        <td>{{$dealer->town->town_name}}</td>
+                        <td>{{$ts->buy_item_qty}}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Gift Product Name</th>
+                        <th>:</th>
+                        <td>{{$ts->giftItem->item_name}}</td>
                     </tr>
                     <tr>
-                        <th>Category</th>
+                        <th>Gift Item Qty</th>
                         <th>:</th>
-                        <td>{{$dealer->category->category_name}}</td>
+                        <td>{{$ts->gift_item_qty}}</td>
                     </tr>
                     <tr>
-                        <th>Type</th>
+                        <th>Calculation mode</th>
                         <th>:</th>
-                        <td>{{$dealer->type->type_name}}</td>
+                        <td>{{$ts->calculation_mode}}</td>
                     </tr>
+
                     <tr>
-                        <th>Serial Number</th>
+                        <th>Gift Type</th>
                         <th>:</th>
-                        <td>{{$dealer->serial}}</td>
+                        <td>{{$ts->gift_type}}</td>
                     </tr>
-                    <tr>
-                        <th>Dealer Custom Code</th>
-                        <th>:</th>
-                        <td>{{$dealer->dealer_custom_id}}</td>
-                    </tr>
-                    <tr>
-                        <th>Dealer Name</th>
-                        <th>:</th>
-                        <td>{{$dealer->dealer_name}}</td>
-                    </tr>
-                    <tr>
-                        <th>Proprietor Name</th>
-                        <th>:</th>
-                        <td>{{$dealer->proprietor_name}}</td>
-                    </tr>
-                    <tr>
-                        <th>Mobile</th>
-                        <th>:</th>
-                        <td>{{$dealer->mobile}}</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <th>:</th>
-                        <td>{{$dealer->email}}</td>
-                    </tr>
-                    <tr>
-                        <th>Contact Person</th>
-                        <th>:</th>
-                        <td>{{$dealer->contact_person}}</td>
-                    </tr>
-                    <tr>
-                        <th>Contact Person Designation</th>
-                        <th>:</th>
-                        <td>{{$dealer->contact_person_designation}}</td>
-                    </tr>
-                    <tr>
-                        <th>Contact Person Mobile</th>
-                        <th>:</th>
-                        <td>{{$dealer->contact_person_mobile}}</td>
-                    </tr>
-                    <tr>
-                        <th>Address</th>
-                        <th>:</th>
-                        <td>{{$dealer->address}}</td>
-                    </tr>
-                    <tr>
-                        <th>National ID</th>
-                        <th>:</th>
-                        <td>{{$dealer->nid}}</td>
-                    </tr>
-                    <tr>
-                        <th>Passport</th>
-                        <th>:</th>
-                        <td>{{$dealer->passport}}</td>
-                    </tr>
-                    <tr>
-                        <th>TIN</th>
-                        <th>:</th>
-                        <td>{{$dealer->TIN}}</td>
-                    </tr>
-                    <tr>
-                        <th>BIN</th>
-                        <th>:</th>
-                        <td>{{$dealer->BIN}}</td>
-                    </tr>
-                    <tr>
-                        <th>BIN</th>
-                        <th>:</th>
-                        <td>{{$dealer->ledger_id}}</td>
-                    </tr>
-                    <tr>
-                        <th>Commission</th>
-                        <th>:</th>
-                        <td>{{$dealer->commission}}</td>
-                    </tr>
+
                     <tr>
                         <th>Status</th>
                         <th>:</th>
-                        <td>@if($dealer->status     == 'active') <span class="badge badge-success">Active</span>
-                            @elseif($dealer->status == 'inactive') <span class="badge badge-warning">Inactive</span>
-                            @elseif($dealer->status == 'suspended') <span class="badge badge-danger">Suspended</span>
-                            @elseif($dealer->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
+                        <td>@if($ts->status     == 'active') <span class="badge badge-success">Active</span>
+                            @elseif($ts->status == 'inactive') <span class="badge badge-warning">Inactive</span>
+                            @elseif($ts->status == 'suspended') <span class="badge badge-danger">Suspended</span>
+                            @elseif($ts->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
                             @endif
                         </td>
                     </tr>
@@ -137,7 +71,7 @@
                 <div class="form-group row justify-content-end">
                     <div class="col-sm-9">
                         <div>
-                            <a class="btn btn-danger" href="{{route('sales.dealer.view')}}">Go Back</a>
+                            <a class="btn btn-danger" href="{{route('sales.ts.view')}}">Go Back</a>
                         </div>
                     </div>
                 </div>

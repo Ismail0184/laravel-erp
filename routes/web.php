@@ -1,48 +1,48 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\home\HomeController;
 use App\Http\Controllers\Accounts\COA\ClassController;
-use App\Http\Controllers\Accounts\COA\SubClassController;
-use App\Http\Controllers\Accounts\COA\LedgerGroupController;
-use App\Http\Controllers\Accounts\COA\LedgerController;
-use App\Http\Controllers\Accounts\COA\SubLedgerController;
-use App\Http\Controllers\Accounts\COA\SubSubLedgerController;
+use App\Http\Controllers\Accounts\COA\COAController;
 use App\Http\Controllers\Accounts\COA\CostCategoryController;
 use App\Http\Controllers\Accounts\COA\CostCenterController;
-use App\Http\Controllers\Developer\ModulesController;
-use App\Http\Controllers\Developer\MainMenuController;
-use App\Http\Controllers\Developer\SubMenuController;
-use App\Http\Controllers\Accounts\Vouchers\ReceiptVoucherController;
-use App\Http\Controllers\Accounts\Vouchers\PaymentVoucherController;
-use App\Http\Controllers\Accounts\Vouchers\VoucherMasterController;
-use App\Http\Controllers\Accounts\Vouchers\JournalVoucherController;
-use App\Http\Controllers\Accounts\Vouchers\ContraVoucherController;
-use App\Http\Controllers\Accounts\Vouchers\ChequePaymentVoucherController;
-use App\Http\Controllers\Accounts\COA\COAController;
-use App\Http\Controllers\Accounts\Vouchers\VoucherViewController;
-use App\Http\Controllers\Accounts\Reports\AccReportsController;
-
-use App\Http\Controllers\Procurement\Vendor\VendorTypeController;
-use App\Http\Controllers\Procurement\Vendor\VendorCategoryController;
-use App\Http\Controllers\Procurement\Vendor\VendorInfoController;
-use App\Http\Controllers\Procurement\workorder\ProPurchaseMasterController;
-use App\Http\Controllers\Warehouse\warehouse\WhWarehouseController;
+use App\Http\Controllers\Accounts\COA\LedgerController;
+use App\Http\Controllers\Accounts\COA\LedgerGroupController;
+use App\Http\Controllers\Accounts\COA\SubClassController;
+use App\Http\Controllers\Accounts\COA\SubLedgerController;
+use App\Http\Controllers\Accounts\COA\SubSubLedgerController;
+use App\Http\Controllers\Accounts\Products\AccProductBrandController;
 use App\Http\Controllers\Accounts\Products\AccProductGroupController;
+use App\Http\Controllers\Accounts\Products\AccProductItemController;
 use App\Http\Controllers\Accounts\Products\AccProductSubGroupController;
 use App\Http\Controllers\Accounts\Products\AccProductsUnitController;
-use App\Http\Controllers\Accounts\Products\AccProductItemController;
-use App\Http\Controllers\Accounts\Products\AccProductBrandController;
 use App\Http\Controllers\Accounts\Products\AccProductTariffMasterController;
+use App\Http\Controllers\Accounts\Reports\AccReportsController;
+use App\Http\Controllers\Accounts\Vouchers\ChequePaymentVoucherController;
+use App\Http\Controllers\Accounts\Vouchers\ContraVoucherController;
+use App\Http\Controllers\Accounts\Vouchers\JournalVoucherController;
+use App\Http\Controllers\Accounts\Vouchers\PaymentVoucherController;
+use App\Http\Controllers\Accounts\Vouchers\ReceiptVoucherController;
+use App\Http\Controllers\Accounts\Vouchers\VoucherMasterController;
+use App\Http\Controllers\Accounts\Vouchers\VoucherViewController;
+use App\Http\Controllers\Developer\MainMenuController;
+use App\Http\Controllers\Developer\ModulesController;
+use App\Http\Controllers\Developer\SubMenuController;
+use App\Http\Controllers\home\HomeController;
+use App\Http\Controllers\Procurement\Vendor\VendorCategoryController;
+use App\Http\Controllers\Procurement\Vendor\VendorInfoController;
+use App\Http\Controllers\Procurement\Vendor\VendorTypeController;
+use App\Http\Controllers\Procurement\workorder\ProPurchaseMasterController;
 use App\Http\Controllers\Procurement\workorder\PurchaseInvoiceController;
-use App\Http\Controllers\Sales\DistributionSetup\Region\RegionController;
+use App\Http\Controllers\Sales\Dealer\CreditLimitController;
+use App\Http\Controllers\Sales\Dealer\DealerCategoryController;
+use App\Http\Controllers\Sales\Dealer\DealerController;
+use App\Http\Controllers\Sales\Dealer\DealerTypeController;
 use App\Http\Controllers\Sales\DistributionSetup\Area\AreaController;
+use App\Http\Controllers\Sales\DistributionSetup\Region\RegionController;
 use App\Http\Controllers\Sales\DistributionSetup\Territory\TerritoryController;
 use App\Http\Controllers\Sales\DistributionSetup\Town\TownController;
-use App\Http\Controllers\Sales\Dealer\DealerController;
-use App\Http\Controllers\Sales\Dealer\DealerCategoryController;
-use App\Http\Controllers\Sales\Dealer\DealerTypeController;
 use App\Http\Controllers\Sales\TradeScheme\TradeSchemeController;
+use App\Http\Controllers\Warehouse\warehouse\WhWarehouseController;
+use Illuminate\Support\Facades\Route;
 
 
 // home
@@ -467,14 +467,23 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/sales/dealer/info/update/{dealer_id}', [DealerController::class,'update'])->name('sales.dealer.update');
     Route::post('/sales/dealer/info/destroy/{dealer_id}', [DealerController::class,'destroy'])->name('sales.dealer.destroy');
 
-    //sales/distributor-setup/Dealer Info
+    //sales/Trade Scheme
     Route::get('/sales/trade-scheme/',[TradeSchemeController::class,'index'])->name('sales.ts.view');
     Route::get('/sales/trade-scheme/create',[TradeSchemeController::class,'create'])->name('sales.ts.create');
     Route::post('/sales/trade-scheme/store', [TradeSchemeController::class,'store'])->name('sales.ts.store');
-    Route::get('/sales/trade-scheme/show/{dealer_id}', [TradeSchemeController::class,'show'])->name('sales.ts.show');
-    Route::get('/sales/trade-scheme/edit/{dealer_id}', [TradeSchemeController::class,'edit'])->name('sales.ts.edit');
-    Route::post('/sales/trade-scheme/update/{dealer_id}', [TradeSchemeController::class,'update'])->name('sales.ts.update');
-    Route::post('/sales/trade-scheme/destroy/{dealer_id}', [TradeSchemeController::class,'destroy'])->name('sales.ts.destroy');
+    Route::get('/sales/trade-scheme/show/{id}', [TradeSchemeController::class,'show'])->name('sales.ts.show');
+    Route::get('/sales/trade-scheme/edit/{id}', [TradeSchemeController::class,'edit'])->name('sales.ts.edit');
+    Route::post('/sales/trade-scheme/update/{id}', [TradeSchemeController::class,'update'])->name('sales.ts.update');
+    Route::post('/sales/trade-scheme/destroy/{id}', [TradeSchemeController::class,'destroy'])->name('sales.ts.destroy');
+
+    //sales/Credit Limit
+    Route::get('/sales/credit-limit-request/',[CreditLimitController::class,'index'])->name('sales.cl.view');
+    Route::get('/sales/credit-limit-request/create',[CreditLimitController::class,'create'])->name('sales.cl.create');
+    Route::post('/sales/credit-limit-request/store', [CreditLimitController::class,'store'])->name('sales.cl.store');
+    Route::get('/sales/credit-limit-request/show/{id}', [CreditLimitController::class,'show'])->name('sales.cl.show');
+    Route::get('/sales/credit-limit-request/edit/{id}', [CreditLimitController::class,'edit'])->name('sales.cl.edit');
+    Route::post('/sales/credit-limit-request/update/{id}', [CreditLimitController::class,'update'])->name('sales.cl.update');
+    Route::post('/sales/credit-limit-request/destroy/{id}', [CreditLimitController::class,'destroy'])->name('sales.cl.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

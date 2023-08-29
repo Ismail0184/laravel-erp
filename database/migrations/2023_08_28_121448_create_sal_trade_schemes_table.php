@@ -25,8 +25,11 @@ return new class extends Migration
             $table->enum('status',['active','inactive','suspended','deleted']);
             $table->enum('calculation_mode',['auto','manual']);
             $table->enum('gift_type',['cash','non-cash','free_own_products','free_other_SKU','free_other_products']);
+            $table->integer('dealer_id')->nullable();
             $table->integer('dealer_type');
             $table->integer('entry_by');
+            $table->integer('sconid');
+            $table->integer('pcomid');
             $table->timestamps();
         });
     }

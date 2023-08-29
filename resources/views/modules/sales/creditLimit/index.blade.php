@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Trade Schemes') {{$title}}
+    @php($title = 'Credit Limit') {{$title}}
 @endsection
 
 @section('body')
