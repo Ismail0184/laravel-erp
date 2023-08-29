@@ -20,10 +20,12 @@ return new class extends Migration
             $table->double('requested_limit');
             $table->double('approved_limit');
             $table->text('remarks')->nullable();
+            $table->text('approved_remarks')->nullable();
             $table->integer('entry_by');
             $table->integer('approved_by')->nullable();
             $table->timestamp('approved_at')->nullable(true)->useCurrent();
-            $table->enum('status',['UNAPPROVED','APPROVED','REJECTED','HOLD']);
+            $table->enum('status',['UNAPPROVED','APPROVED','REJECTED','HOLD','deleted']);
+            $table->enum('limit_type',['SINGLE','UNLIMITED']);
             $table->integer('sconid');
             $table->integer('pcomid');
             $table->timestamps();

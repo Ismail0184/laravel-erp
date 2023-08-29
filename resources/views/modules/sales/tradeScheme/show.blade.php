@@ -69,9 +69,9 @@
                 </table>
 
                 <div class="form-group row justify-content-end">
-                    <div class="col-sm-9">
+                    <div class="col-sm-12">
                         <div>
-                            <a class="btn btn-danger" href="{{route('sales.ts.view')}}">Go Back</a>
+                            <a class="btn btn-success" href="{{route('sales.ts.view')}}">Go Back</a>
                         </div>
                     </div>
                 </div>

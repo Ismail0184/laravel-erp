@@ -84,11 +84,11 @@
                         <div class="col-sm-9">
                             <select class="form-control select2" name="gift_type" required="required">
                                 <option value="">-- select type --</option>
-                                <option value="cash" @if($ts->gift_type=='cash') selected @endif>Cash</option>
-                                <option value="non-cash" @if($ts->gift_type=='non-cash') selected @endif>Non-Cash</option>
-                                <option value="non-cash" @if($ts->gift_type=='free_own_products') selected @endif>Free own Products</option>
-                                <option value="non-cash" @if($ts->gift_type=='free_other_SKU') selected @endif>Free other SKU</option>
-                                <option value="non-cash" @if($ts->gift_type=='free_other_products') selected @endif>Free other Products</option>
+                                <option value="cash"  @if(request('id')>0) @if($ts->gift_type=='cash') selected @endif @endif>Cash</option>
+                                <option value="non-cash" @if(request('id')>0) @if($ts->gift_type=='non-cash') selected @endif @endif>Non-Cash</option>
+                                <option value="free_own_products" @if(request('id')>0) @if($ts->gift_type=='free_own_products') selected @endif @endif>Free own Products</option>
+                                <option value="free_other_SKU" @if(request('id')>0) @if($ts->gift_type=='free_other_SKU') selected @endif @endif>Free other SKU</option>
+                                <option value="free_other_products" @if(request('id')>0) @if($ts->gift_type=='free_other_products') selected @endif @endif>Free other Products</option>
                             </select>
                         </div>
                     </div>
@@ -97,8 +97,8 @@
                         <div class="col-sm-9">
                             <select class="form-control select2" name="calculation_mode" required="required">
                                 <option value="">-- select mode --</option>
-                                <option value="auto">Auto</option>
-                                <option value="manual">Manual</option>
+                                <option value="auto" @if(request('id')>0) @if($ts->calculation_mode=='auto') selected @endif @endif>Auto</option>
+                                <option value="manual" @if(request('id')>0) @if($ts->calculation_mode=='manual') selected @endif @endif>Manual</option>
                             </select>
                         </div>
                     </div>

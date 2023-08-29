@@ -37,7 +37,7 @@
                                     <td>@if($data->status == 'deleted')<del>{{$data->offer_name}}</del> @else {{$data->offer_name}}@endif</td>
                                     <td style="text-align: left">{{$data->start_date}}</td>
                                     <td style="text-align: left">{{$data->end_date}}</td>
-                                    <td></td>
+                                    <td style="text-align: left">{{$data->buyitem->item_name}}</td>
                                     <td>
                                         @if($data->status     == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($data->status == 'inactive') <span class="badge badge-warning">Inactive</span>

@@ -32,6 +32,31 @@ class SalTradeScheme extends Model
         self::$ts->save();
     }
 
+    public static function updateTS($request, $id)
+    {
+        self::$ts = SalTradeScheme::findOrfail($id);
+        self::$ts->offer_name = $request->offer_name;
+        self::$ts->buy_item_id = $request->buy_item_id;
+        self::$ts->buy_item_qty = $request->buy_item_qty;
+        self::$ts->gift_item_id = $request->gift_item_id;
+        self::$ts->gift_item_qty = $request->gift_item_qty;
+        self::$ts->start_date = $request->start_date;
+        self::$ts->end_date = $request->end_date;
+        self::$ts->status = $request->status;
+        self::$ts->calculation_mode = $request->calculation_mode;
+        self::$ts->gift_type = $request->gift_type;
+        self::$ts->dealer_type = $request->dealer_type;
+        self::$ts->entry_by = $request->entry_by;
+        self::$ts->sconid = 1;
+        self::$ts->pcomid = 1;
+        self::$ts->save();
+    }
+
+    public static function destroyTS($id)
+    {
+        SalTradeScheme::where('id',$id)->update(['status'=>'deleted']);
+    }
+
 
     public function buyitem()
     {

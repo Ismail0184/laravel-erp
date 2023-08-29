@@ -80,7 +80,8 @@ class TradeSchemeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        SalTradeScheme::updateTS($request, $id);
+        return redirect('/sales/trade-scheme/')->with('update_message','This Trade Scheme (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -91,6 +92,7 @@ class TradeSchemeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        SalTradeScheme::destroyTS($id);
+        return redirect('/sales/trade-scheme/')->with('destroy_message','This Trade Scheme (uid='.$id.') has been updated');
     }
 }
