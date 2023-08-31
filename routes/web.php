@@ -43,6 +43,7 @@ use App\Http\Controllers\Sales\DistributionSetup\Town\TownController;
 use App\Http\Controllers\Sales\TradeScheme\TradeSchemeController;
 use App\Http\Controllers\Warehouse\warehouse\WhWarehouseController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HRM\setup\DepartmentController;
 
 
 // home
@@ -484,6 +485,15 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/sales/credit-limit-request/edit/{id}', [CreditLimitController::class,'edit'])->name('sales.cl.edit');
     Route::post('/sales/credit-limit-request/update/{id}', [CreditLimitController::class,'update'])->name('sales.cl.update');
     Route::post('/sales/credit-limit-request/destroy/{id}', [CreditLimitController::class,'destroy'])->name('sales.cl.destroy');
+
+    //HRM/Department
+    Route::get('/hrm/setup/department/',[DepartmentController::class,'index'])->name('hrm.setup.department.view');
+    Route::get('/hrm/setup/department//create',[DepartmentController::class,'create'])->name('hrm.setup.department.create');
+    Route::post('/hrm/setup/department/store', [DepartmentController::class,'store'])->name('hrm.setup.department.store');
+    Route::get('hrm/setup/department/show/{id}', [DepartmentController::class,'show'])->name('hrm.setup.department.show');
+    Route::get('/hrm/setup/department/edit/{id}', [DepartmentController::class,'edit'])->name('hrm.setup.department.edit');
+    Route::post('/hrm/setup/department/update/{id}', [DepartmentController::class,'update'])->name('hrm.setup.department.update');
+    Route::post('/hrm/setup/department/destroy/{id}', [DepartmentController::class,'destroy'])->name('hrm.setup.department.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
