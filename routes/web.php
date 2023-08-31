@@ -27,6 +27,9 @@ use App\Http\Controllers\Developer\MainMenuController;
 use App\Http\Controllers\Developer\ModulesController;
 use App\Http\Controllers\Developer\SubMenuController;
 use App\Http\Controllers\home\HomeController;
+use App\Http\Controllers\HRM\setup\DepartmentController;
+use App\Http\Controllers\HRM\setup\DesignationController;
+use App\Http\Controllers\HRM\setup\JobLocationController;
 use App\Http\Controllers\Procurement\Vendor\VendorCategoryController;
 use App\Http\Controllers\Procurement\Vendor\VendorInfoController;
 use App\Http\Controllers\Procurement\Vendor\VendorTypeController;
@@ -43,7 +46,6 @@ use App\Http\Controllers\Sales\DistributionSetup\Town\TownController;
 use App\Http\Controllers\Sales\TradeScheme\TradeSchemeController;
 use App\Http\Controllers\Warehouse\warehouse\WhWarehouseController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HRM\setup\DepartmentController;
 
 
 // home
@@ -486,14 +488,29 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/sales/credit-limit-request/update/{id}', [CreditLimitController::class,'update'])->name('sales.cl.update');
     Route::post('/sales/credit-limit-request/destroy/{id}', [CreditLimitController::class,'destroy'])->name('sales.cl.destroy');
 
-    //HRM/Department
+    //HRM/setup/Department
     Route::get('/hrm/setup/department/',[DepartmentController::class,'index'])->name('hrm.setup.department.view');
     Route::get('/hrm/setup/department/create',[DepartmentController::class,'create'])->name('hrm.setup.department.create');
     Route::post('/hrm/setup/department/store', [DepartmentController::class,'store'])->name('hrm.setup.department.store');
-    Route::get('hrm/setup/department/show/{id}', [DepartmentController::class,'show'])->name('hrm.setup.department.show');
     Route::get('/hrm/setup/department/edit/{id}', [DepartmentController::class,'edit'])->name('hrm.setup.department.edit');
     Route::post('/hrm/setup/department/update/{id}', [DepartmentController::class,'update'])->name('hrm.setup.department.update');
     Route::post('/hrm/setup/department/destroy/{id}', [DepartmentController::class,'destroy'])->name('hrm.setup.department.destroy');
+
+    //HRM/setup/Designation
+    Route::get('/hrm/setup/designation/',[DesignationController::class,'index'])->name('hrm.setup.designation.view');
+    Route::get('/hrm/setup/designation/create',[DesignationController::class,'create'])->name('hrm.setup.designation.create');
+    Route::post('/hrm/setup/designation/store', [DesignationController::class,'store'])->name('hrm.setup.designation.store');
+    Route::get('/hrm/setup/designation/edit/{id}', [DesignationController::class,'edit'])->name('hrm.setup.designation.edit');
+    Route::post('/hrm/setup/designation/update/{id}', [DesignationController::class,'update'])->name('hrm.setup.designation.update');
+    Route::post('/hrm/setup/designation/destroy/{id}', [DesignationController::class,'destroy'])->name('hrm.setup.designation.destroy');
+
+    //HRM/setup/job Location
+    Route::get('/hrm/setup/job-location/',[JobLocationController::class,'index'])->name('hrm.setup.jobLocation.view');
+    Route::get('/hrm/setup/job-location/create',[JobLocationController::class,'create'])->name('hrm.setup.jobLocation.create');
+    Route::post('/hrm/setup/job-location/store', [JobLocationController::class,'store'])->name('hrm.setup.jobLocation.store');
+    Route::get('/hrm/setup/job-location/edit/{id}', [JobLocationController::class,'edit'])->name('hrm.setup.jobLocation.edit');
+    Route::post('/hrm/setup/job-location/update/{id}', [JobLocationController::class,'update'])->name('hrm.setup.jobLocation.update');
+    Route::post('/hrm/setup/job-location/destroy/{id}', [JobLocationController::class,'destroy'])->name('hrm.setup.jobLocation.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
