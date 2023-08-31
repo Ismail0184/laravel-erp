@@ -26,7 +26,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.hrm.setup.department.create');
     }
 
     /**
@@ -37,7 +37,8 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        HrmDepartment::storeDepartment($request);
+        return redirect('/hrm/setup/department/')->with('store_message','A department has been successfully created!!');
     }
 
     /**
@@ -59,7 +60,8 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $department = HrmDepartment::findOrfail($id);
+        return view('modules.hrm.setup.department.create',compact('department'));
     }
 
     /**
@@ -71,7 +73,8 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        HrmDepartment::updateDepartment($request, $id);
+        return redirect('/hrm/setup/department/')->with('update_message','This department (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -82,6 +85,7 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        HrmDepartment::destroyDepartment($id);
+        return redirect('/hrm/setup/department/')->with('destroy_message','This department (uid='.$id.') has been deleted!!');
     }
 }

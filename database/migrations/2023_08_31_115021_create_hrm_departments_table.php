@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('hrm_departments', function (Blueprint $table) {
             $table->id();
-            $table->integer('serial');
-            $table->string('department',155);
+            $table->integer('serial')->nullable();
+            $table->string('department_name',155);
             $table->string('department_short_name',55);
-            $table->enum('status',['active','inactive','suspended','deleted']);
+            $table->enum('status',['active','inactive','suspended','deleted'])->default('active');
             $table->integer('entry_by');
             $table->integer('sconid');
             $table->integer('pcomid');
