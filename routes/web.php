@@ -46,6 +46,7 @@ use App\Http\Controllers\Sales\DistributionSetup\Town\TownController;
 use App\Http\Controllers\Sales\TradeScheme\TradeSchemeController;
 use App\Http\Controllers\Warehouse\warehouse\WhWarehouseController;
 use App\Http\Controllers\HRM\setup\EduSubjectController;
+use App\Http\Controllers\HRM\setup\EmploymentTypeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -520,6 +521,14 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/hrm/setup/education-subject/edit/{id}', [EduSubjectController::class,'edit'])->name('hrm.setup.eduSubject.edit');
     Route::post('/hrm/setup/education-subject/update/{id}', [EduSubjectController::class,'update'])->name('hrm.setup.eduSubject.update');
     Route::post('/hrm/setup/education-subject/destroy/{id}', [EduSubjectController::class,'destroy'])->name('hrm.setup.eduSubject.destroy');
+
+    //HRM/setup/employment type
+    Route::get('/hrm/setup/employment-type/',[EmploymentTypeController::class,'index'])->name('hrm.setup.employmentType.view');
+    Route::get('/hrm/setup/employment-type/create',[EmploymentTypeController::class,'create'])->name('hrm.setup.employmentType.create');
+    Route::post('/hrm/setup/employment-type/store', [EmploymentTypeController::class,'store'])->name('hrm.setup.employmentType.store');
+    Route::get('/hrm/setup/employment-type/edit/{id}', [EmploymentTypeController::class,'edit'])->name('hrm.setup.employmentType.edit');
+    Route::post('/hrm/setup/employment-type/update/{id}', [EmploymentTypeController::class,'update'])->name('hrm.setup.employmentType.update');
+    Route::post('/hrm/setup/employment-type/destroy/{id}', [EmploymentTypeController::class,'destroy'])->name('hrm.setup.employmentType.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
