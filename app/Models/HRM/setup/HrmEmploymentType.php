@@ -25,6 +25,7 @@ class HrmEmploymentType extends Model
         self::$et = HrmEmploymentType::findOrfail($id);
         self::$et->employment_type_name = $request->employment_type_name;
         self::$et->entry_by = $request->entry_by;
+        self::$et->status = $request->status;
         self::$et->sconid = 1;
         self::$et->pcomid = 1;
         self::$et->save();

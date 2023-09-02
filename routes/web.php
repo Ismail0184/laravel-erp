@@ -47,6 +47,8 @@ use App\Http\Controllers\Sales\TradeScheme\TradeSchemeController;
 use App\Http\Controllers\Warehouse\warehouse\WhWarehouseController;
 use App\Http\Controllers\HRM\setup\EduSubjectController;
 use App\Http\Controllers\HRM\setup\EmploymentTypeController;
+use App\Http\Controllers\HRM\setup\HrmRelationController;
+use App\Http\Controllers\HRM\setup\HrmUniversityController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -529,6 +531,22 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/hrm/setup/employment-type/edit/{id}', [EmploymentTypeController::class,'edit'])->name('hrm.setup.employmentType.edit');
     Route::post('/hrm/setup/employment-type/update/{id}', [EmploymentTypeController::class,'update'])->name('hrm.setup.employmentType.update');
     Route::post('/hrm/setup/employment-type/destroy/{id}', [EmploymentTypeController::class,'destroy'])->name('hrm.setup.employmentType.destroy');
+
+    //HRM/setup/Relation
+    Route::get('/hrm/setup/relation/',[HrmRelationController::class,'index'])->name('hrm.setup.relation.view');
+    Route::get('/hrm/setup/relation/create',[HrmRelationController::class,'create'])->name('hrm.setup.relation.create');
+    Route::post('/hrm/setup/relation/store', [HrmRelationController::class,'store'])->name('hrm.setup.relation.store');
+    Route::get('/hrm/setup/relation/edit/{id}', [HrmRelationController::class,'edit'])->name('hrm.setup.relation.edit');
+    Route::post('/hrm/setup/relation/update/{id}', [HrmRelationController::class,'update'])->name('hrm.setup.relation.update');
+    Route::post('/hrm/setup/relation/destroy/{id}', [HrmRelationController::class,'destroy'])->name('hrm.setup.relation.destroy');
+
+    //HRM/setup/Univeristy
+    Route::get('/hrm/setup/university/',[HrmUniversityController::class,'index'])->name('hrm.setup.university.view');
+    Route::get('/hrm/setup/university/create',[HrmUniversityController::class,'create'])->name('hrm.setup.university.create');
+    Route::post('/hrm/setup/university/store', [HrmUniversityController::class,'store'])->name('hrm.setup.university.store');
+    Route::get('/hrm/setup/university/edit/{id}', [HrmUniversityController::class,'edit'])->name('hrm.setup.university.edit');
+    Route::post('/hrm/setup/university/update/{id}', [HrmUniversityController::class,'update'])->name('hrm.setup.university.update');
+    Route::post('/hrm/setup/university/destroy/{id}', [HrmUniversityController::class,'destroy'])->name('hrm.setup.university.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
