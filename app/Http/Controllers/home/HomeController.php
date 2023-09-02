@@ -9,8 +9,6 @@ use Session;
 
 class HomeController extends Controller
 {
-    private $modules,$module;
-
     public function index()
     {
         return view('auth.login');

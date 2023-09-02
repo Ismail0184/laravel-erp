@@ -5,6 +5,7 @@ namespace App\Models\Developer;
 use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Session;
 
 class DevMainMenu extends Model
 {
@@ -50,7 +51,7 @@ class DevMainMenu extends Model
 
     public function subMenu()
     {
-        return $this->hasMany(DevSubMenu::class, 'main_menu_id', 'main_menu_id')->orderBy('serial');
+        return $this->hasMany(DevSubMenu::class, 'main_menu_id', 'main_menu_id')->where('module_id',\Session::get('module_id', 'module_id'))->orderBy('serial');
     }
 
 

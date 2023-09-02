@@ -49,6 +49,8 @@ use App\Http\Controllers\HRM\setup\EduSubjectController;
 use App\Http\Controllers\HRM\setup\EmploymentTypeController;
 use App\Http\Controllers\HRM\setup\HrmRelationController;
 use App\Http\Controllers\HRM\setup\HrmUniversityController;
+use App\Http\Controllers\HRM\setup\LeaveTypeController;
+use App\Http\Controllers\HRM\setup\HolidaysController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -547,6 +549,22 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/hrm/setup/university/edit/{id}', [HrmUniversityController::class,'edit'])->name('hrm.setup.university.edit');
     Route::post('/hrm/setup/university/update/{id}', [HrmUniversityController::class,'update'])->name('hrm.setup.university.update');
     Route::post('/hrm/setup/university/destroy/{id}', [HrmUniversityController::class,'destroy'])->name('hrm.setup.university.destroy');
+
+    //HRM/setup/type of Leave
+    Route::get('/hrm/setup/leave-type/',[LeaveTypeController::class,'index'])->name('hrm.setup.leaveType.view');
+    Route::get('/hrm/setup/leave-type/create',[LeaveTypeController::class,'create'])->name('hrm.setup.leaveType.create');
+    Route::post('/hrm/setup/leave-type/store', [LeaveTypeController::class,'store'])->name('hrm.setup.leaveType.store');
+    Route::get('/hrm/setup/leave-type/edit/{id}', [LeaveTypeController::class,'edit'])->name('hrm.setup.leaveType.edit');
+    Route::post('/hrm/setup/leave-type/update/{id}', [LeaveTypeController::class,'update'])->name('hrm.setup.leaveType.update');
+    Route::post('/hrm/setup/leave-type/destroy/{id}', [LeaveTypeController::class,'destroy'])->name('hrm.setup.leaveType.destroy');
+
+    //HRM/setup/Holidays
+    Route::get('/hrm/setup/holidays/',[HolidaysController::class,'index'])->name('hrm.setup.holidays.view');
+    Route::get('/hrm/setup/holidays/create',[HolidaysController::class,'create'])->name('hrm.setup.holidays.create');
+    Route::post('/hrm/setup/holidays/store', [HolidaysController::class,'store'])->name('hrm.setup.holidays.store');
+    Route::get('/hrm/setup/holidays/edit/{id}', [HolidaysController::class,'edit'])->name('hrm.setup.holidays.edit');
+    Route::post('/hrm/setup/holidays/update/{id}', [HolidaysController::class,'update'])->name('hrm.setup.holidays.update');
+    Route::post('/hrm/setup/holidays/destroy/{id}', [HolidaysController::class,'destroy'])->name('hrm.setup.holidays.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
