@@ -51,7 +51,7 @@ class DevMainMenu extends Model
 
     public function subMenu()
     {
-        return $this->hasMany(DevSubMenu::class, 'main_menu_id', 'main_menu_id')->where('module_id',\Session::get('module_id', 'module_id'))->orderBy('serial');
+        return $this->hasMany(DevSubMenu::class, 'main_menu_id', 'main_menu_id')->where('module_id',\Session::get('module_id', 'module_id'))->where('status','active')->orderBy('serial');
     }
 
 

@@ -51,6 +51,8 @@ use App\Http\Controllers\HRM\setup\HrmRelationController;
 use App\Http\Controllers\HRM\setup\HrmUniversityController;
 use App\Http\Controllers\HRM\setup\LeaveTypeController;
 use App\Http\Controllers\HRM\setup\HolidaysController;
+use App\Http\Controllers\HRM\setup\EducationalQualificationController;
+use App\Http\Controllers\HRM\setup\ActionTypeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -565,6 +567,22 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/hrm/setup/holidays/edit/{id}', [HolidaysController::class,'edit'])->name('hrm.setup.holidays.edit');
     Route::post('/hrm/setup/holidays/update/{id}', [HolidaysController::class,'update'])->name('hrm.setup.holidays.update');
     Route::post('/hrm/setup/holidays/destroy/{id}', [HolidaysController::class,'destroy'])->name('hrm.setup.holidays.destroy');
+
+    //HRM/setup/Educational Qualification
+    Route::get('/hrm/setup/educational-qualification/',[EducationalQualificationController::class,'index'])->name('hrm.setup.eduQua.view');
+    Route::get('/hrm/setup/educational-qualification/create',[EducationalQualificationController::class,'create'])->name('hrm.setup.eduQua.create');
+    Route::post('/hrm/setup/educational-qualification/store', [EducationalQualificationController::class,'store'])->name('hrm.setup.eduQua.store');
+    Route::get('/hrm/setup/educational-qualification/edit/{id}', [EducationalQualificationController::class,'edit'])->name('hrm.setup.eduQua.edit');
+    Route::post('/hrm/setup/educational-qualification/update/{id}', [EducationalQualificationController::class,'update'])->name('hrm.setup.eduQua.update');
+    Route::post('/hrm/setup/educational-qualification/destroy/{id}', [EducationalQualificationController::class,'destroy'])->name('hrm.setup.eduQua.destroy');
+
+    //HRM/setup/Educational Qualification
+    Route::get('/hrm/setup/action-type/',[ActionTypeController::class,'index'])->name('hrm.setup.actionType.view');
+    Route::get('/hrm/setup/action-type/create',[ActionTypeController::class,'create'])->name('hrm.setup.actionType.create');
+    Route::post('/hrm/setup/action-type/store', [ActionTypeController::class,'store'])->name('hrm.setup.actionType.store');
+    Route::get('/hrm/setup/action-type/edit/{id}', [ActionTypeController::class,'edit'])->name('hrm.setup.actionType.edit');
+    Route::post('/hrm/setup/action-type/update/{id}', [ActionTypeController::class,'update'])->name('hrm.setup.actionType.update');
+    Route::post('/hrm/setup/action-type/destroy/{id}', [ActionTypeController::class,'destroy'])->name('hrm.setup.actionType.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

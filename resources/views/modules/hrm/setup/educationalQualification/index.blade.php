@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Employment Type') {{$title}}
+    @php($title = 'Educational Qualifications') {{$title}}
 @endsection
 
 @section('body')
@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}} <a href="{{route('hrm.setup.employmentType.create')}}" class="btn btn-success" style="margin-left: 78.2%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('hrm.setup.eduQua.create')}}" class="btn btn-success" style="margin-left: 72.3%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -23,28 +23,30 @@
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th style="width: 5%; text-align: center">ID</th>
-                                <th>Type Name</th>
+                                <th>Educational Qualification Name</th>
+                                <th>Short Name</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($employmentTypes as $employmentType)
+                            @foreach($eduQuas as $eduQua)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td style="text-align: center">{{$employmentType->id}}</td>
-                                    <td>@if($employmentType->status == 'deleted')<del>{{$employmentType->employment_type_name}}</del> @else {{$employmentType->employment_type_name}}@endif</td>
+                                    <td style="text-align: center">{{$eduQua->id}}</td>
+                                    <td>@if($eduQua->status == 'deleted')<del>{{$eduQua->name}}</del> @else {{$eduQua->name}}@endif</td>
+                                    <td>{{$eduQua->short_name}}</td>
                                     <td>
-                                        @if($employmentType->status == 'active') <span class="badge badge-success">Active</span>
-                                        @elseif($employmentType->status == 'inactive') <span class="badge badge-warning">Inactive</span>
-                                        @elseif($employmentType->status == 'suspended') <span class="badge badge-danger">Suspended</span>
-                                        @elseif($employmentType->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
+                                        @if($eduQua->status == 'active') <span class="badge badge-success">Active</span>
+                                        @elseif($eduQua->status == 'inactive') <span class="badge badge-warning">Inactive</span>
+                                        @elseif($eduQua->status == 'suspended') <span class="badge badge-danger">Suspended</span>
+                                        @elseif($eduQua->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <form action="{{route('hrm.setup.employmentType.destroy', ['id' => $employmentType->id])}}" method="post">
+                                        <form action="{{route('hrm.setup.eduQua.destroy', ['id' => $eduQua->id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('hrm.setup.employmentType.edit',['id' => $employmentType->id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('hrm.setup.eduQua.edit',['id' => $eduQua->id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

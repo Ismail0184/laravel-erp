@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\HRM\setup;
 
 use App\Http\Controllers\Controller;
-use App\Models\HRM\setup\HrmEduQualification;
+use App\Models\HRM\setup\HrmActionType;
 use Illuminate\Http\Request;
 
-class EducationalQualificationController extends Controller
+class ActionTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class EducationalQualificationController extends Controller
      */
     public function index()
     {
-        $eduQuas = HrmEduQualification::all();
-        return view('modules.hrm.setup.educationalQualification.index',compact('eduQuas'));
+        $actionTypes = HrmActionType::all();
+        return view('modules.hrm.setup.actionType.index',compact('actionTypes'));
     }
 
     /**
@@ -26,7 +26,7 @@ class EducationalQualificationController extends Controller
      */
     public function create()
     {
-        return view('modules.hrm.setup.educationalQualification.create');
+        return view('modules.hrm.setup.actionType.create');
     }
 
     /**
@@ -37,8 +37,8 @@ class EducationalQualificationController extends Controller
      */
     public function store(Request $request)
     {
-        HrmEduQualification::storeEduQua($request);
-        return redirect('/hrm/setup/educational-qualification/')->with('store_message','A new educational qualification has been successfully created!!');
+        HrmActionType::storeActionType($request);
+        return redirect('/hrm/setup/action-type/')->with('store_message','A new action type has been created!!');
     }
 
     /**
@@ -60,8 +60,8 @@ class EducationalQualificationController extends Controller
      */
     public function edit($id)
     {
-        $eduQua = HrmEduQualification::findOrfail($id);
-        return view('modules.hrm.setup.educationalQualification.create',compact('eduQua'));
+        $actionType = HrmActionType::findOrfail($id);
+        return view('modules.hrm.setup.actiontype.create',compact('actionType'));
     }
 
     /**
@@ -73,8 +73,8 @@ class EducationalQualificationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        HrmEduQualification::updateEduQua($request, $id);
-        return redirect('/hrm/setup/educational-qualification/')->with('update_message','This educational qualification (uid='.$id.') has been updated!!');
+        HrmActionType::updateActionType($request, $id);
+        return view('/hrm/setup/action-type/')->with('update_message','This action type (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -85,7 +85,7 @@ class EducationalQualificationController extends Controller
      */
     public function destroy($id)
     {
-        HrmEduQualification::destroyEduQua($id);
-        return redirect('/hrm/setup/educational-qualification/')->with('destroy_message','This educational qualification (uid='.$id.') has been deleted!!');
+        HrmActionType::destroyActionType($id);
+        return redirect('/hrm/setup/action-type/')->with('destroy_message','This action type has been deleted!!');
     }
 }
