@@ -53,6 +53,8 @@ use App\Http\Controllers\HRM\setup\LeaveTypeController;
 use App\Http\Controllers\HRM\setup\HolidaysController;
 use App\Http\Controllers\HRM\setup\EducationalQualificationController;
 use App\Http\Controllers\HRM\setup\ActionTypeController;
+use App\Http\Controllers\HRM\setup\HrmOrganizationController;
+use App\Http\Controllers\HRM\setup\EduExamTitleController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -576,13 +578,29 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/hrm/setup/educational-qualification/update/{id}', [EducationalQualificationController::class,'update'])->name('hrm.setup.eduQua.update');
     Route::post('/hrm/setup/educational-qualification/destroy/{id}', [EducationalQualificationController::class,'destroy'])->name('hrm.setup.eduQua.destroy');
 
-    //HRM/setup/Educational Qualification
+    //HRM/setup/Action Type
     Route::get('/hrm/setup/action-type/',[ActionTypeController::class,'index'])->name('hrm.setup.actionType.view');
     Route::get('/hrm/setup/action-type/create',[ActionTypeController::class,'create'])->name('hrm.setup.actionType.create');
     Route::post('/hrm/setup/action-type/store', [ActionTypeController::class,'store'])->name('hrm.setup.actionType.store');
     Route::get('/hrm/setup/action-type/edit/{id}', [ActionTypeController::class,'edit'])->name('hrm.setup.actionType.edit');
     Route::post('/hrm/setup/action-type/update/{id}', [ActionTypeController::class,'update'])->name('hrm.setup.actionType.update');
     Route::post('/hrm/setup/action-type/destroy/{id}', [ActionTypeController::class,'destroy'])->name('hrm.setup.actionType.destroy');
+
+    //HRM/setup/Organization
+    Route::get('/hrm/setup/organization/',[HrmOrganizationController::class,'index'])->name('hrm.setup.organization.view');
+    Route::get('/hrm/setup/organization/create',[HrmOrganizationController::class,'create'])->name('hrm.setup.organization.create');
+    Route::post('/hrm/setup/organization/store', [HrmOrganizationController::class,'store'])->name('hrm.setup.organization.store');
+    Route::get('/hrm/setup/organization/edit/{id}', [HrmOrganizationController::class,'edit'])->name('hrm.setup.organization.edit');
+    Route::post('/hrm/setup/organization/update/{id}', [HrmOrganizationController::class,'update'])->name('hrm.setup.organization.update');
+    Route::post('/hrm/setup/organization/destroy/{id}', [HrmOrganizationController::class,'destroy'])->name('hrm.setup.organization.destroy');
+
+    //HRM/setup/Education Exam Title
+    Route::get('/hrm/setup/education-exam-title/',[EduExamTitleController::class,'index'])->name('hrm.setup.eduExamtitle.view');
+    Route::get('/hrm/setup/education-exam-title/create',[EduExamTitleController::class,'create'])->name('hrm.setup.eduExamtitle.create');
+    Route::post('/hrm/setup/education-exam-title/store', [EduExamTitleController::class,'store'])->name('hrm.setup.eduExamtitle.store');
+    Route::get('/hrm/setup/education-exam-title/edit/{id}', [EduExamTitleController::class,'edit'])->name('hrm.setup.eduExamtitle.edit');
+    Route::post('/hrm/setup/education-exam-title/update/{id}', [EduExamTitleController::class,'update'])->name('hrm.setup.eduExamtitle.update');
+    Route::post('/hrm/setup/education-exam-title/destroy/{id}', [EduExamTitleController::class,'destroy'])->name('hrm.setup.eduExamtitle.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

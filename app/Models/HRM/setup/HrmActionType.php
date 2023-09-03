@@ -17,8 +17,8 @@ class HrmActionType extends Model
         self::$at->action_type_name = $request->action_type_name;
         self::$at->effect = $request->effect;
         self::$at->entry_by = $request->entry_by;
-        self::$at->sconid = $request->sconid;
-        self::$at->pcomid = $request->pcomid;
+        self::$at->sconid = 1;
+        self::$at->pcomid = 1;
         self::$at->save();
     }
 
@@ -29,8 +29,8 @@ class HrmActionType extends Model
         self::$at->effect = $request->effect;
         self::$at->status = $request->status;
         self::$at->entry_by = $request->entry_by;
-        self::$at->sconid = $request->sconid;
-        self::$at->pcomid = $request->pcomid;
+        self::$at->sconid = 1;
+        self::$at->pcomid = 1;
         self::$at->save();
     }
 

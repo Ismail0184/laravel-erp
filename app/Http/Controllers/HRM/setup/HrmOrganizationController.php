@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\HRM\setup;
 
 use App\Http\Controllers\Controller;
-use App\Models\HRM\setup\HrmActionType;
+use App\Models\HRM\setup\HrmOrganization;
 use Illuminate\Http\Request;
 
-class ActionTypeController extends Controller
+class HrmOrganizationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class ActionTypeController extends Controller
      */
     public function index()
     {
-        $actionTypes = HrmActionType::all();
-        return view('modules.hrm.setup.actionType.index',compact('actionTypes'));
+        $organizations = HrmOrganization::all();
+        return view('modules.hrm.setup.organization.index',compact('organizations'));
     }
 
     /**
@@ -26,7 +26,7 @@ class ActionTypeController extends Controller
      */
     public function create()
     {
-        return view('modules.hrm.setup.actionType.create');
+        return view('modules.hrm.setup.organization.create');
     }
 
     /**
@@ -37,8 +37,8 @@ class ActionTypeController extends Controller
      */
     public function store(Request $request)
     {
-        HrmActionType::storeActionType($request);
-        return redirect('/hrm/setup/action-type/')->with('store_message','A new action type has been created!!');
+        HrmOrganization::storeOrganization($request);
+        return redirect('/hrm/setup/organization/')->with('store_message','A new organization has been created!!');
     }
 
     /**
@@ -60,8 +60,8 @@ class ActionTypeController extends Controller
      */
     public function edit($id)
     {
-        $actionType = HrmActionType::findOrfail($id);
-        return view('modules.hrm.setup.actiontype.create',compact('actionType'));
+        $organization = HrmOrganization::findOrfail($id);
+        return view('modules.hrm.setup.organization.create',compact('organization'));
     }
 
     /**
@@ -73,8 +73,8 @@ class ActionTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        HrmActionType::updateActionType($request, $id);
-        return redirect('/hrm/setup/action-type/')->with('update_message','This action type (uid='.$id.') has been updated!!');
+        HrmOrganization::updateOrganization($request, $id);
+        return redirect('/hrm/setup/organization/')->with('update_message','This organization (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -85,7 +85,7 @@ class ActionTypeController extends Controller
      */
     public function destroy($id)
     {
-        HrmActionType::destroyActionType($id);
-        return redirect('/hrm/setup/action-type/')->with('destroy_message','This action type has been deleted!!');
+        HrmOrganization::destroyOrganization($id);
+        return redirect('/hrm/setup/organization/')->with('destroy_message','This organization (uid='.$id.') has been deleted!!');
     }
 }

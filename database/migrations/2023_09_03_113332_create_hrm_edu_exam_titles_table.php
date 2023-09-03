@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('hrm_action_types', function (Blueprint $table) {
+        Schema::create('hrm_edu_exam_titles', function (Blueprint $table) {
             $table->id();
-            $table->string('action_type_name');
-            $table->string('effect',33);
+            $table->string('exam_title');
             $table->enum('status',['active','inactive','suspended','deleted'])->default('active');
             $table->integer('entry_by');
             $table->integer('sconid');
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hrm_action_types');
+        Schema::dropIfExists('hrm_edu_exam_titles');
     }
 };
