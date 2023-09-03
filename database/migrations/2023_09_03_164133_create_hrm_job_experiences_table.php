@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('hrm_travel_natures', function (Blueprint $table) {
+        Schema::create('hrm_job_experiences', function (Blueprint $table) {
             $table->id();
-            $table->string('travel_nature_name');
+            $table->string('job_experience_name');
             $table->enum('status',['active','inactive','suspended','deleted'])->default('active');
             $table->integer('entry_by');
             $table->integer('sconid');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hrm_travel_natures');
+        Schema::dropIfExists('hrm_job_experiences');
     }
 };

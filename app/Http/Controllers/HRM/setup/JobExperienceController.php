@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\HRM\setup;
 
 use App\Http\Controllers\Controller;
-use App\Models\HRM\setup\HrmTravelNature;
+use App\Models\HRM\setup\HrmJobExperience;
 use Illuminate\Http\Request;
 
-class TravelNatureController extends Controller
+class JobExperienceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class TravelNatureController extends Controller
      */
     public function index()
     {
-        $travelNatures = HrmTravelNature::all();
-        return view('modules.hrm.setup.travelNature.index',compact('travelNatures'));
+        $jobExperiences = HrmJobExperience::all();
+        return view('modules.hrm.setup.jobExperience.index',compact('jobExperiences'));
     }
 
     /**
@@ -26,7 +26,7 @@ class TravelNatureController extends Controller
      */
     public function create()
     {
-        return view('modules.hrm.setup.travelNature.create');
+        return view('modules.hrm.setup.jobExperience.create');
     }
 
     /**
@@ -37,8 +37,8 @@ class TravelNatureController extends Controller
      */
     public function store(Request $request)
     {
-        HrmTravelNature::storeTravelNature($request);
-        return redirect('/hrm/setup/travel-nature/')->with('store_message','A travel nature has been created!!');
+        HrmJobExperience::storeJobExperience($request);
+        return redirect('/hrm/setup/job-experience/')->with('store_message','A job experience has been successfully created!!');
     }
 
     /**
@@ -60,8 +60,8 @@ class TravelNatureController extends Controller
      */
     public function edit($id)
     {
-        $travelNature = HrmTravelNature::findOrfail($id);
-        return view('modules.hrm.setup.travelNature.create',compact('travelNature'));
+        $jobExperience = HrmJobExperience::findOrfail($id);
+        return view('modules.hrm.setup.jobExperience.create',compact('jobExperience'));
     }
 
     /**
@@ -73,8 +73,8 @@ class TravelNatureController extends Controller
      */
     public function update(Request $request, $id)
     {
-        HrmTravelNature::updateTravelNature($request, $id);
-        return redirect('/hrm/setup/travel-nature/')->with('update_message')->with('This travel nature (uid='.$id.') has been updated');
+        HrmJobExperience::updateJobExperience($request, $id);
+        return redirect('/hrm/setup/job-experience/')->with('update_message','This job experience (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -85,7 +85,7 @@ class TravelNatureController extends Controller
      */
     public function destroy($id)
     {
-        HrmTravelNature::destroyTravelNature($id);
-        return redirect('/hrm/setup/travel-nature/')->with('update_message','This travel nature (uid='.$id.') has beend deleted');
+        HrmJobExperience::destroyJobExperience($id);
+        return redirect('/hrm/setup/job-experience/')->with('destroy_message','This job experience (uid='.$id.') has been deleted!!');
     }
 }

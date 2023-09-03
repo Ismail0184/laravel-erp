@@ -58,6 +58,8 @@ use App\Http\Controllers\HRM\setup\EduExamTitleController;
 use App\Http\Controllers\HRM\setup\DemotionReasonController;
 use App\Http\Controllers\HRM\setup\HrmProfessionController;
 use App\Http\Controllers\HRM\setup\TravelScopeController;
+use App\Http\Controllers\HRM\setup\TravelNatureController;
+use App\Http\Controllers\HRM\setup\JobExperienceController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -628,6 +630,30 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/hrm/setup/travel-scope/edit/{id}', [TravelScopeController::class,'edit'])->name('hrm.setup.travelScope.edit');
     Route::post('/hrm/setup/travel-scope/update/{id}', [TravelScopeController::class,'update'])->name('hrm.setup.travelScope.update');
     Route::post('/hrm/setup/travel-scope/destroy/{id}', [TravelScopeController::class,'destroy'])->name('hrm.setup.travelScope.destroy');
+
+    //HRM/setup/Travel Nature
+    Route::get('/hrm/setup/travel-nature/',[TravelNatureController::class,'index'])->name('hrm.setup.travelNature.view');
+    Route::get('/hrm/setup/travel-nature/create',[TravelNatureController ::class,'create'])->name('hrm.setup.travelNature.create');
+    Route::post('/hrm/setup/travel-nature/store', [TravelNatureController::class,'store'])->name('hrm.setup.travelNature.store');
+    Route::get('/hrm/setup/travel-nature/edit/{id}', [TravelNatureController::class,'edit'])->name('hrm.setup.travelNature.edit');
+    Route::post('/hrm/setup/travel-nature/update/{id}', [TravelNatureController::class,'update'])->name('hrm.setup.travelNature.update');
+    Route::post('/hrm/setup/travel-nature/destroy/{id}', [TravelNatureController::class,'destroy'])->name('hrm.setup.travelNature.destroy');
+
+    //HRM/setup/Job Experience
+    Route::get('/hrm/setup/job-experience/',[JobExperienceController::class,'index'])->name('hrm.setup.jobExperience.view');
+    Route::get('/hrm/setup/job-experience/create',[JobExperienceController ::class,'create'])->name('hrm.setup.jobExperience.create');
+    Route::post('/hrm/setup/job-experience/store', [JobExperienceController::class,'store'])->name('hrm.setup.jobExperience.store');
+    Route::get('/hrm/setup/job-experience/edit/{id}', [JobExperienceController::class,'edit'])->name('hrm.setup.jobExperience.edit');
+    Route::post('/hrm/setup/job-experience/update/{id}', [JobExperienceController::class,'update'])->name('hrm.setup.jobExperience.update');
+    Route::post('/hrm/setup/job-experience/destroy/{id}', [JobExperienceController::class,'destroy'])->name('hrm.setup.jobExperience.destroy');
+
+    //HRM/setup/Employee Information
+    Route::get('/hrm/setup/employee-information/',[JobExperienceController::class,'index'])->name('hrm.setup.jobExperience.view');
+    Route::get('/hrm/setup/job-experience/create',[JobExperienceController ::class,'create'])->name('hrm.setup.jobExperience.create');
+    Route::post('/hrm/setup/job-experience/store', [JobExperienceController::class,'store'])->name('hrm.setup.jobExperience.store');
+    Route::get('/hrm/setup/job-experience/edit/{id}', [JobExperienceController::class,'edit'])->name('hrm.setup.jobExperience.edit');
+    Route::post('/hrm/setup/job-experience/update/{id}', [JobExperienceController::class,'update'])->name('hrm.setup.jobExperience.update');
+    Route::post('/hrm/setup/job-experience/destroy/{id}', [JobExperienceController::class,'destroy'])->name('hrm.setup.jobExperience.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
