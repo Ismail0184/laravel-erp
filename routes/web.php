@@ -602,6 +602,14 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/hrm/setup/education-exam-title/update/{id}', [EduExamTitleController::class,'update'])->name('hrm.setup.eduExamtitle.update');
     Route::post('/hrm/setup/education-exam-title/destroy/{id}', [EduExamTitleController::class,'destroy'])->name('hrm.setup.eduExamtitle.destroy');
 
+    //HRM/setup/Demotion Reason
+    Route::get('/hrm/setup/demotion-reason/',[DemotionReasonController::class,'index'])->name('hrm.setup.demotionReason.view');
+    Route::get('/hrm/setup/demotion-reason/create',[DemotionReasonController ::class,'create'])->name('hrm.setup.demotionReason.create');
+    Route::post('/hrm/setup/demotion-reason/store', [DemotionReasonController::class,'store'])->name('hrm.setup.demotionReason.store');
+    Route::get('/hrm/setup/demotion-reason/edit/{id}', [DemotionReasonController::class,'edit'])->name('hrm.setup.demotionReason.edit');
+    Route::post('/hrm/setup/demotion-reason/update/{id}', [DemotionReasonController::class,'update'])->name('hrm.setup.demotionReason.update');
+    Route::post('/hrm/setup/demotion-reason/destroy/{id}', [DemotionReasonController::class,'destroy'])->name('hrm.setup.demotionReason.destroy');
+
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
 });
