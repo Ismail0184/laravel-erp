@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\HRM\setup;
 
 use App\Http\Controllers\Controller;
-use App\Models\HRM\setup\HrmDemotionreason;
-use App\Models\HRM\setup\HrmEduExamTitle;
+use App\Models\HRM\setup\HrmTravelScope;
 use Illuminate\Http\Request;
 
-class DemotionReasonController extends Controller
+class TravelScopeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class DemotionReasonController extends Controller
      */
     public function index()
     {
-        $demotionReasons = HrmDemotionreason::all();
-        return view('modules.hrm.setup.demotionReason.index',compact('demotionReasons'));
+        $travelScopes = HrmTravelScope::all();
+        return view('modules.hrm.setup.travelScope.index',compact('travelScopes'));
     }
 
     /**
@@ -27,7 +26,7 @@ class DemotionReasonController extends Controller
      */
     public function create()
     {
-        return view('modules.hrm.setup.demotionReason.create');
+        return view('modules.hrm.setup.travelScope.create');
     }
 
     /**
@@ -38,8 +37,8 @@ class DemotionReasonController extends Controller
      */
     public function store(Request $request)
     {
-        HrmDemotionreason::storeDemotionReason($request);
-        return redirect('/hrm/setup/demotion-reason/')->with('store_message','A demotion reason has been created!!');
+        HrmTravelScope::storeTravelScope($request);
+        return redirect('/hrm/setup/travel-scope/')->with('store_message','A travel scope has been created!!');
     }
 
     /**
@@ -61,8 +60,8 @@ class DemotionReasonController extends Controller
      */
     public function edit($id)
     {
-        $demotionReason = HrmDemotionreason::findOrfail($id);
-        return view('modules.hrm.setup.demotionReason.create',compact('demotionReason'));
+        $travelScope = HrmTravelScope::findOrfail($id);
+        return view('modules.hrm.setup.travelScope.create',compact('travelScope'));
     }
 
     /**
@@ -74,8 +73,8 @@ class DemotionReasonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        HrmDemotionreason::updateDemotionReason($request, $id);
-        return redirect('/hrm/setup/demotion-reason/')->with('update_message','This demotion reason (uid='.$id.') has been updated!!');
+        HrmTravelScope::updateTravelScope($request, $id);
+        return redirect('/hrm/setup/travel-scope/')->with('update_message','This travel scope (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -86,7 +85,7 @@ class DemotionReasonController extends Controller
      */
     public function destroy($id)
     {
-        HrmDemotionreason::destroyDemotionReason($id);
-        return redirect('/hrm/setup/demotion-reason/')->with('destroy_message','This demotion reason (uid='.$id.') has been deleted!!');
+        HrmTravelScope::destroyTravelScope($id);
+        return redirect('/hrm/setup/travel-scope/')->with('destroy_message','This travel scope (uid='.$id.') has been deleted!!');
     }
 }

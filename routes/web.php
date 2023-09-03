@@ -55,6 +55,9 @@ use App\Http\Controllers\HRM\setup\EducationalQualificationController;
 use App\Http\Controllers\HRM\setup\ActionTypeController;
 use App\Http\Controllers\HRM\setup\HrmOrganizationController;
 use App\Http\Controllers\HRM\setup\EduExamTitleController;
+use App\Http\Controllers\HRM\setup\DemotionReasonController;
+use App\Http\Controllers\HRM\setup\HrmProfessionController;
+use App\Http\Controllers\HRM\setup\TravelScopeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -609,6 +612,22 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/hrm/setup/demotion-reason/edit/{id}', [DemotionReasonController::class,'edit'])->name('hrm.setup.demotionReason.edit');
     Route::post('/hrm/setup/demotion-reason/update/{id}', [DemotionReasonController::class,'update'])->name('hrm.setup.demotionReason.update');
     Route::post('/hrm/setup/demotion-reason/destroy/{id}', [DemotionReasonController::class,'destroy'])->name('hrm.setup.demotionReason.destroy');
+
+    //HRM/setup/Profession Type
+    Route::get('/hrm/setup/profession-type/',[HrmProfessionController::class,'index'])->name('hrm.setup.profession.view');
+    Route::get('/hrm/setup/profession-type/create',[HrmProfessionController ::class,'create'])->name('hrm.setup.profession.create');
+    Route::post('/hrm/setup/profession-type/store', [HrmProfessionController::class,'store'])->name('hrm.setup.profession.store');
+    Route::get('/hrm/setup/profession-type/edit/{id}', [HrmProfessionController::class,'edit'])->name('hrm.setup.profession.edit');
+    Route::post('/hrm/setup/profession-type/update/{id}', [HrmProfessionController::class,'update'])->name('hrm.setup.profession.update');
+    Route::post('/hrm/setup/profession-type/destroy/{id}', [HrmProfessionController::class,'destroy'])->name('hrm.setup.profession.destroy');
+
+    //HRM/setup/Travel Scope
+    Route::get('/hrm/setup/travel-scope/',[TravelScopeController::class,'index'])->name('hrm.setup.travelScope.view');
+    Route::get('/hrm/setup/travel-scope/create',[TravelScopeController ::class,'create'])->name('hrm.setup.travelScope.create');
+    Route::post('/hrm/setup/travel-scope/store', [TravelScopeController::class,'store'])->name('hrm.setup.travelScope.store');
+    Route::get('/hrm/setup/travel-scope/edit/{id}', [TravelScopeController::class,'edit'])->name('hrm.setup.travelScope.edit');
+    Route::post('/hrm/setup/travel-scope/update/{id}', [TravelScopeController::class,'update'])->name('hrm.setup.travelScope.update');
+    Route::post('/hrm/setup/travel-scope/destroy/{id}', [TravelScopeController::class,'destroy'])->name('hrm.setup.travelScope.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

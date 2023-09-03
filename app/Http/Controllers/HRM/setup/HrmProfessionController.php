@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\HRM\setup;
 
 use App\Http\Controllers\Controller;
-use App\Models\HRM\setup\HrmDemotionreason;
-use App\Models\HRM\setup\HrmEduExamTitle;
+use App\Models\HRM\setup\HrmProfession;
 use Illuminate\Http\Request;
 
-class DemotionReasonController extends Controller
+class HrmProfessionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class DemotionReasonController extends Controller
      */
     public function index()
     {
-        $demotionReasons = HrmDemotionreason::all();
-        return view('modules.hrm.setup.demotionReason.index',compact('demotionReasons'));
+        $professions = HrmProfession::all();
+        return view('modules.hrm.setup.profession.index',compact('professions'));
     }
 
     /**
@@ -27,7 +26,7 @@ class DemotionReasonController extends Controller
      */
     public function create()
     {
-        return view('modules.hrm.setup.demotionReason.create');
+        return view('modules.hrm.setup.profession.create');
     }
 
     /**
@@ -38,8 +37,8 @@ class DemotionReasonController extends Controller
      */
     public function store(Request $request)
     {
-        HrmDemotionreason::storeDemotionReason($request);
-        return redirect('/hrm/setup/demotion-reason/')->with('store_message','A demotion reason has been created!!');
+        HrmProfession::storeProfessionType($request);
+        return redirect('/hrm/setup/profession-type/')->with('store_messsage','A profession type has been created');
     }
 
     /**
@@ -61,8 +60,8 @@ class DemotionReasonController extends Controller
      */
     public function edit($id)
     {
-        $demotionReason = HrmDemotionreason::findOrfail($id);
-        return view('modules.hrm.setup.demotionReason.create',compact('demotionReason'));
+        $profession = HrmProfession::findOrfail($id);
+        return view('modules.hrm.setup.profession.create',compact('profession'));
     }
 
     /**
@@ -74,8 +73,8 @@ class DemotionReasonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        HrmDemotionreason::updateDemotionReason($request, $id);
-        return redirect('/hrm/setup/demotion-reason/')->with('update_message','This demotion reason (uid='.$id.') has been updated!!');
+        HrmProfession::updateProfessionType($request, $id);
+        return redirect('/hrm/setup/profession-type/')->with('update_message','This profession type (uid='.$id.') has been updated');
     }
 
     /**
@@ -86,7 +85,7 @@ class DemotionReasonController extends Controller
      */
     public function destroy($id)
     {
-        HrmDemotionreason::destroyDemotionReason($id);
-        return redirect('/hrm/setup/demotion-reason/')->with('destroy_message','This demotion reason (uid='.$id.') has been deleted!!');
+        HrmProfession::destroyProfessionType($id);
+        return redirect('/hrm/setup/profession-type/')->with('destroy_message','This profession type (uid='.$id.') has been deleted');
     }
 }
