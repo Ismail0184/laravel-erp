@@ -14,7 +14,6 @@ class AccProductSubGroup extends Model
 
     public static function next_sub_group_id($group_id)
     {
-        $min=$group_id;
         $maxIdInDatabase = AccProductSubGroup::where('group_id',$group_id)->max('sub_group_id');
         if($maxIdInDatabase>0)
             $acc_no=$maxIdInDatabase+10000;

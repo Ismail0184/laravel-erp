@@ -13,10 +13,20 @@ class AccProductItem extends Model
 
     public static $item;
 
+    public static function next_product_id($sub_group_id)
+    {
+        $maxIdInDatabase = AccProductItem::where('sub_group_id',$sub_group_id)->max('item_id');
+        if($maxIdInDatabase>0)
+            $product_id=$maxIdInDatabase+1;
+        else
+            $product_id=$sub_group_id+1;
+        return $product_id;
+    }
+
     public static function storeItem($request)
     {
         self::$item = new AccProductItem();
-        self::$item->item_id = $request->item_id;
+        self::$item->item_id = self::next_product_id($request->sub_group_id);
         self::$item->serial = $request->serial;
         self::$item->custom_id = $request->custom_id;
         self::$item->item_name = $request->item_name;
