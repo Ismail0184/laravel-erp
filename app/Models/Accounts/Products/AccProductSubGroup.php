@@ -12,10 +12,22 @@ class AccProductSubGroup extends Model
     protected $primaryKey = 'sub_group_id';
     public static $subGroup;
 
+    public static function next_sub_group_id($group_id)
+    {
+        $min=$group_id;
+        $maxIdInDatabase = AccProductSubGroup::where('group_id',$group_id)->max('sub_group_id');
+        if($maxIdInDatabase>0)
+            $acc_no=$maxIdInDatabase+10000;
+        else
+            $acc_no=$group_id+10000;
+        return $acc_no;
+    }
+
     public static function storeSubGroup($request)
     {
         self::$subGroup = new AccProductSubGroup();
         self::$subGroup->group_id = $request->group_id;
+        self::$subGroup->sub_group_id = self::next_sub_group_id($request->group_id);
         self::$subGroup->sub_group_name = $request->sub_group_name;
         self::$subGroup->status = 'active';
         self::$subGroup->entry_by = $request->entry_by;

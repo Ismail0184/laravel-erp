@@ -12,9 +12,21 @@ class AccProductGroup extends Model
     protected $primaryKey = 'group_id';
     public static $group;
 
+    public static function next_group_id()
+    {
+        $initial=100000000;
+        $maxIdInDatabase = AccProductGroup::max('group_id');
+        if($maxIdInDatabase>0)
+            $group_id=$maxIdInDatabase+100000000;
+        else
+            $group_id=$initial;
+        return $group_id;
+    }
+
     public static function storeProductGroup($request)
     {
         self::$group = new AccProductGroup();
+        self::$group->group_id = self::next_group_id();
         self::$group->group_name = $request->group_name;
         self::$group->entry_by = $request->entry_by;
         self::$group->status = 'active';

@@ -35,7 +35,7 @@
                                     <td style="text-align: center">{{$loop->iteration}}</td>
                                     <td>{{$subGroup->sub_group_id}}</td>
                                     <td>@if($subGroup->status=='deleted')<del>{{$subGroup->sub_group_name}}</del> @else {{$subGroup->sub_group_name}} @endif</td>
-                                    <td>{{$subGroup->group->group_name}}</td>
+                                    <td>{{$subGroup->group->group_id}} : {{$subGroup->group->group_name}}</td>
                                     <td>
                                         @if($subGroup->status == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($subGroup->status == 'inactive') <span class="badge badge-warning">Inactive</span>
@@ -44,6 +44,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
+                                        @if($subGroup->status!=='deleted')
                                         <form action="{{route('acc.product.sub-group.destroy', ['sub_group_id' => $subGroup->sub_group_id])}}" method="post">
                                             @csrf
                                             <a href="{{route('acc.product.sub-group.edit',['sub_group_id' => $subGroup->sub_group_id])}}" title="Update" class="btn btn-success btn-sm">
@@ -53,6 +54,7 @@
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

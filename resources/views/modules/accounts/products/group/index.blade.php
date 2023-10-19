@@ -42,6 +42,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
+                                        @if($group->status!=='deleted')
                                         <form action="{{route('acc.product.group.destroy', ['group_id' => $group->group_id])}}" method="post">
                                             @csrf
                                             <a href="{{route('acc.product.group.edit',['group_id' => $group->group_id])}}" title="Update" class="btn btn-success btn-sm">
@@ -51,6 +52,7 @@
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

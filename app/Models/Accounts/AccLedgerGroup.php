@@ -16,6 +16,7 @@ class AccLedgerGroup extends Model
     {
         $max=(ceil(($class_id+1)/1000))*1000;
         $min=$class_id;
+
         $maxIdInDatabase = AccLedgerGroup::where('group_id','>',$min)->where('group_id','<',$max)->where('class_id','=',$class_id)->max('group_id');
         if($maxIdInDatabase>0)
             $group_id=$maxIdInDatabase+1;
