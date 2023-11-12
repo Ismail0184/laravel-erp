@@ -20,8 +20,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- end page title -->
-
                 <div class="row">
                     <div class="col-xl-4">
                         <div class="card overflow-hidden">
@@ -173,11 +171,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- end row -->
-
-
-                <!-- end row -->
-
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
@@ -382,6 +375,5 @@
                         </div>
                     </div>
                 </div>
-                <!-- end row -->
             </div>
 @endsection

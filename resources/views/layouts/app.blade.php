@@ -200,7 +200,7 @@
     </div>
     <div class="main-content">
         <div class="page-content">
-        @yield('body')
+            @yield('body')
         </div>
         <footer class="footer">
             <div class="container-fluid">
