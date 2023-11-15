@@ -60,6 +60,7 @@ use App\Http\Controllers\HRM\setup\HrmProfessionController;
 use App\Http\Controllers\HRM\setup\TravelScopeController;
 use App\Http\Controllers\HRM\setup\TravelNatureController;
 use App\Http\Controllers\HRM\setup\JobExperienceController;
+use App\Http\Controllers\HRM\setup\GradeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -646,6 +647,14 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/hrm/setup/job-experience/edit/{id}', [JobExperienceController::class,'edit'])->name('hrm.setup.jobExperience.edit');
     Route::post('/hrm/setup/job-experience/update/{id}', [JobExperienceController::class,'update'])->name('hrm.setup.jobExperience.update');
     Route::post('/hrm/setup/job-experience/destroy/{id}', [JobExperienceController::class,'destroy'])->name('hrm.setup.jobExperience.destroy');
+
+    //HRM/setup/Grade
+    Route::get('/hrm/setup/grade/',[GradeController::class,'index'])->name('hrm.setup.grade.view');
+    Route::get('/hrm/setup/grade/create',[GradeController ::class,'create'])->name('hrm.setup.grade.create');
+    Route::post('/hrm/setup/grade/store', [GradeController::class,'store'])->name('hrm.setup.grade.store');
+    Route::get('/hrm/setup/grade/edit/{id}', [GradeController::class,'edit'])->name('hrm.setup.grade.edit');
+    Route::post('/hrm/setup/grade/update/{id}', [GradeController::class,'update'])->name('hrm.setup.grade.update');
+    Route::post('/hrm/setup/grade/destroy/{id}', [GradeController::class,'destroy'])->name('hrm.setup.grade.destroy');
 
     //HRM/setup/Employee Information
     Route::get('/hrm/setup/employee-information/',[JobExperienceController::class,'index'])->name('hrm.setup.jobExperience.view');
