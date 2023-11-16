@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\HRM\setup;
 
 use App\Http\Controllers\Controller;
-use App\Models\HRM\setup\HrmGrade;
+use App\Models\HRM\setup\HrmShift;
 use Illuminate\Http\Request;
-use function Sodium\compare;
 
-class GradeController extends Controller
+class ShiftController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class GradeController extends Controller
      */
     public function index()
     {
-        $grades = HrmGrade::all();
-        return view('modules.hrm.setup.grade.index',compact('grades'));
+        $shifts = HrmShift::all();
+        return view('modules.hrm.setup.shift.index',compact('shifts'));
     }
 
     /**
@@ -27,7 +26,7 @@ class GradeController extends Controller
      */
     public function create()
     {
-        return view('modules.hrm.setup.grade.create');
+        return view('modules.hrm.setup.shift.create');
     }
 
     /**
@@ -38,8 +37,8 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-        HrmGrade::storeGrade($request);
-        return redirect('/hrm/setup/grade/')->with('store_message','A new grade has been created!!');
+        HrmShift::storeShift($request);
+        return redirect('/hrm/setup/shift/')->with('store_message','A new shift has been successfully created!!');
     }
 
     /**
@@ -61,8 +60,8 @@ class GradeController extends Controller
      */
     public function edit($id)
     {
-        $grade = HrmGrade::findOrfail($id);
-        return view('modules.hrm.setup.grade.create',compact('grade'));
+        $shift = HrmShift::findOrfail($id);
+        return view('modules.hrm.setup.shift.create',compact('shift'));
     }
 
     /**
@@ -74,8 +73,8 @@ class GradeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        HrmGrade::updateGrade($request, $id);
-        return redirect('/hrm/setup/grade/')->with('update_message','This grade (uid='.$id.') has been updated ');
+        HrmShift::updateShift($request, $id);
+        return redirect('/hrm/setup/shift/')->with('update_message','This shift (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -86,8 +85,7 @@ class GradeController extends Controller
      */
     public function destroy($id)
     {
-        HrmGrade::destroyGrade($id);
-        return redirect('/hrm/setup/grade/')->with('destroy_message','This grade (uid='.$id.') has been updated ');
-
+        HrmShift::destroyShift($id);
+        return redirect('/hrm/setup/shift/')->with('destroy_message','This shift (uid='.$id.') has been deleted!!');
     }
 }

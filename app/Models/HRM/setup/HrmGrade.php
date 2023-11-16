@@ -20,9 +20,9 @@ class HrmGrade extends Model
         self::$grade->pcomid = 1;
         self::$grade->save();
     }
-    public static function updateEmploymentType($request,$id)
+    public static function updateGrade($request,$id)
     {
-        self::$grade = HrmEmploymentType::findOrfail($id);
+        self::$grade = HrmGrade::findOrfail($id);
         self::$grade->grade = $request->grade;
         self::$grade->entry_by = $request->entry_by;
         self::$grade->status = $request->status;
@@ -31,8 +31,8 @@ class HrmGrade extends Model
         self::$grade->save();
     }
 
-    public static function destroyEmploymentType($id)
+    public static function destroyGrade($id)
     {
-        HrmEmploymentType::where('id',$id)->update(['status'=>'deleted']);
+        HrmGrade::where('id',$id)->update(['status'=>'deleted']);
     }
 }

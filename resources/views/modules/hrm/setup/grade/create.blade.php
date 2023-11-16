@@ -35,7 +35,7 @@
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-9">
                             <div>
-                                <a class="btn btn-danger" href="{{route('hrm.setup.employmentType.view')}}">Cancel</a>
+                                <a class="btn btn-danger" href="{{route('hrm.setup.grade.view')}}">Cancel</a>
                                 <button type="submit" class="btn btn-primary w-md">@if(request('id')) Update @else Save @endif</button>
                             </div>
                         </div>

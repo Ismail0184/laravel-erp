@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\HRM\setup;
+namespace App\Http\Controllers\HRM\employee;
 
 use App\Http\Controllers\Controller;
-use App\Models\HRM\setup\HrmGrade;
 use Illuminate\Http\Request;
-use function Sodium\compare;
 
-class GradeController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +14,7 @@ class GradeController extends Controller
      */
     public function index()
     {
-        $grades = HrmGrade::all();
-        return view('modules.hrm.setup.grade.index',compact('grades'));
+        //
     }
 
     /**
@@ -27,7 +24,7 @@ class GradeController extends Controller
      */
     public function create()
     {
-        return view('modules.hrm.setup.grade.create');
+        //
     }
 
     /**
@@ -38,8 +35,7 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-        HrmGrade::storeGrade($request);
-        return redirect('/hrm/setup/grade/')->with('store_message','A new grade has been created!!');
+        //
     }
 
     /**
@@ -61,8 +57,7 @@ class GradeController extends Controller
      */
     public function edit($id)
     {
-        $grade = HrmGrade::findOrfail($id);
-        return view('modules.hrm.setup.grade.create',compact('grade'));
+        //
     }
 
     /**
@@ -74,8 +69,7 @@ class GradeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        HrmGrade::updateGrade($request, $id);
-        return redirect('/hrm/setup/grade/')->with('update_message','This grade (uid='.$id.') has been updated ');
+        //
     }
 
     /**
@@ -86,8 +80,6 @@ class GradeController extends Controller
      */
     public function destroy($id)
     {
-        HrmGrade::destroyGrade($id);
-        return redirect('/hrm/setup/grade/')->with('destroy_message','This grade (uid='.$id.') has been updated ');
-
+        //
     }
 }
