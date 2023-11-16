@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\HRM\setup;
 
 use App\Http\Controllers\Controller;
+use App\Models\HRM\setup\HrmGrade;
 use Illuminate\Http\Request;
+use function Sodium\compare;
 
 class GradeController extends Controller
 {
@@ -14,7 +16,8 @@ class GradeController extends Controller
      */
     public function index()
     {
-        //
+        $grades = HrmGrade::all();
+        return view('modules.hrm.setup.grade.index',compact('grades'));
     }
 
     /**
@@ -24,7 +27,7 @@ class GradeController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.hrm.setup.grade.create');
     }
 
     /**
@@ -35,7 +38,8 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        HrmGrade::storeGrade($request);
+        return redirect('/hrm/setup/grade/')->with('store_message','A new grade has been created!!');
     }
 
     /**
@@ -57,7 +61,8 @@ class GradeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $grade = HrmGrade::findOrfail($id);
+        return view('modules.hrm.setup.grade.create',compact('grade'));
     }
 
     /**

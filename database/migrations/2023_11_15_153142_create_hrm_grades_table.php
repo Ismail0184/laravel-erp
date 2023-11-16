@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('hrm_grades', function (Blueprint $table) {
             $table->id();
+            $table->string('grade');
+            $table->enum('status',['active','inactive','suspended','deleted'])->default('active');
+            $table->integer('entry_by');
+            $table->integer('updated_by')->nullable();
+            $table->integer('sconid');
+            $table->integer('pcomid');
             $table->timestamps();
         });
     }
