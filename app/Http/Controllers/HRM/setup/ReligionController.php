@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\HRM\employee;
+namespace App\Http\Controllers\HRM\setup;
 
 use App\Http\Controllers\Controller;
-use App\Models\HRM\employee\HrmEmployee;
-use App\Models\HRM\setup\HrmBlood;
+use App\Models\HRM\setup\HrmReligion;
 use Illuminate\Http\Request;
+use function Sodium\compare;
 
-class EmployeeController extends Controller
+class ReligionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = HrmEmployee::all();
-        return view('modules.hrm.employee.index',compact('employees'));
+        $religions = HrmReligion::all();
+        return view('modules.hrm.setup.religion.index',compact('religions'));
     }
 
     /**
@@ -27,8 +27,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $bloods = HrmBlood::where('status','active')->get();
-        return view('modules.hrm.employee.create',compact(['bloods']));
+        return view('modules.hrm.setup.religion.create');
     }
 
     /**
@@ -39,7 +38,8 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        HrmReligion::storeReligion($request);
+        return redirect('/hrm/setup/religion/')->with('store_message','A religion has been successfully created!!');
     }
 
     /**
@@ -61,7 +61,8 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $religion = HrmReligion::findOrfail($id);
+        return view('modules.hrm.setup.religion.create',compact(''))
     }
 
     /**

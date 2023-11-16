@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\HRM\employee;
+namespace App\Http\Controllers\HRM\setup;
 
 use App\Http\Controllers\Controller;
-use App\Models\HRM\employee\HrmEmployee;
 use App\Models\HRM\setup\HrmBlood;
 use Illuminate\Http\Request;
 
-class EmployeeController extends Controller
+class BloodController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = HrmEmployee::all();
-        return view('modules.hrm.employee.index',compact('employees'));
+        $bloods = HrmBlood::all();
+        return view('modules.hrm.setup.blood.index',compact('bloods'));
     }
 
     /**
@@ -27,8 +26,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $bloods = HrmBlood::where('status','active')->get();
-        return view('modules.hrm.employee.create',compact(['bloods']));
+        return view('modules.hrm.setup.blood.create');
     }
 
     /**
@@ -39,7 +37,8 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        HrmBlood::storeBlood($request);
+        return redirect('/hrm/setup/blood/')->with('store_message','A blood group has been successfully created!!');
     }
 
     /**
@@ -61,7 +60,9 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $blood = HrmBlood::findOrfail($id);
+        return view('modules.hrm.setup.blood.create',compact('blood'));
+
     }
 
     /**
@@ -73,7 +74,9 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        HrmBlood::updateBlood($request, $id);
+        return redirect('/hrm/setup/blood/')->with('update_message','This blood group (uid='.$id.') has been updated!!');
+
     }
 
     /**

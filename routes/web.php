@@ -63,6 +63,8 @@ use App\Http\Controllers\HRM\setup\JobExperienceController;
 use App\Http\Controllers\HRM\setup\GradeController;
 use App\Http\Controllers\HRM\setup\ShiftController;
 use App\Http\Controllers\HRM\employee\EmployeeController;
+use App\Http\Controllers\HRM\setup\BloodController;
+use App\Http\Controllers\HRM\setup\ReligionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -666,13 +668,30 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/hrm/setup/shift/update/{id}', [ShiftController::class,'update'])->name('hrm.setup.shift.update');
     Route::post('/hrm/setup/shift/destroy/{id}', [ShiftController::class,'destroy'])->name('hrm.setup.shift.destroy');
 
+    //HRM/setup/blood
+    Route::get('/hrm/setup/blood/',[BloodController::class,'index'])->name('hrm.setup.blood.view');
+    Route::get('/hrm/setup/blood/create',[BloodController ::class,'create'])->name('hrm.setup.blood.create');
+    Route::post('/hrm/setup/blood/store', [BloodController::class,'store'])->name('hrm.setup.blood.store');
+    Route::get('/hrm/setup/blood/edit/{id}', [BloodController::class,'edit'])->name('hrm.setup.blood.edit');
+    Route::post('/hrm/setup/blood/update/{id}', [BloodController::class,'update'])->name('hrm.setup.blood.update');
+    Route::post('/hrm/setup/blood/destroy/{id}', [BloodController::class,'destroy'])->name('hrm.setup.blood.destroy');
+
+    //HRM/setup/Religion
+    Route::get('/hrm/setup/religion/',[ReligionController::class,'index'])->name('hrm.setup.religion.view');
+    Route::get('/hrm/setup/religion/create',[ReligionController ::class,'create'])->name('hrm.setup.religion.create');
+    Route::post('/hrm/setup/religion/store', [ReligionController::class,'store'])->name('hrm.setup.religion.store');
+    Route::get('/hrm/setup/religion/edit/{id}', [ReligionController::class,'edit'])->name('hrm.setup.religion.edit');
+    Route::post('/hrm/setup/religion/update/{id}', [ReligionController::class,'update'])->name('hrm.setup.religion.update');
+    Route::post('/hrm/setup/religion/destroy/{id}', [ReligionController::class,'destroy'])->name('hrm.setup.religion.destroy');
+
+
     //HRM/setup/Employee Information
     Route::get('/hrm/employee/',[EmployeeController::class,'index'])->name('hrm.employee.view');
-    Route::get('/hrm/employee/create',[EmployeeController ::class,'create'])->name('hrm.setup.employee.create');
-    Route::post('/hrm/employee/store', [EmployeeController::class,'store'])->name('hrm.setup.employee.store');
-    Route::get('/hrm/employee/edit/{id}', [EmployeeController::class,'edit'])->name('hrm.setup.employee.edit');
-    Route::post('/hrm/employee/update/{id}', [EmployeeController::class,'update'])->name('hrm.setup.employee.update');
-    Route::post('/hrm/employee/destroy/{id}', [EmployeeController::class,'destroy'])->name('hrm.setup.employee.destroy');
+    Route::get('/hrm/employee/create',[EmployeeController ::class,'create'])->name('hrm.employee.create');
+    Route::post('/hrm/employee/store', [EmployeeController::class,'store'])->name('hrm.employee.store');
+    Route::get('/hrm/employee/edit/{id}', [EmployeeController::class,'edit'])->name('hrm.employee.edit');
+    Route::post('/hrm/employee/update/{id}', [EmployeeController::class,'update'])->name('hrm.employee.update');
+    Route::post('/hrm/employee/destroy/{id}', [EmployeeController::class,'destroy'])->name('hrm.employee.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
