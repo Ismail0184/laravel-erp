@@ -690,6 +690,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/hrm/employee/create',[EmployeeController ::class,'create'])->name('hrm.employee.create');
     Route::post('/hrm/employee/store', [EmployeeController::class,'store'])->name('hrm.employee.store');
     Route::get('/hrm/employee/edit/{id}', [EmployeeController::class,'edit'])->name('hrm.employee.edit');
+    Route::get('/hrm/employee/show/{id}', [EmployeeController::class,'show'])->name('hrm.employee.show');
     Route::post('/hrm/employee/update/{id}', [EmployeeController::class,'update'])->name('hrm.employee.update');
     Route::post('/hrm/employee/destroy/{id}', [EmployeeController::class,'destroy'])->name('hrm.employee.destroy');
 

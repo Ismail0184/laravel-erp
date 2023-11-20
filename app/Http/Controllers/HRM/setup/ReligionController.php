@@ -62,7 +62,7 @@ class ReligionController extends Controller
     public function edit($id)
     {
         $religion = HrmReligion::findOrfail($id);
-        return view('modules.hrm.setup.religion.create',compact(''))
+        return view('modules.hrm.setup.religion.create',compact('religion'));
     }
 
     /**
@@ -74,7 +74,8 @@ class ReligionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        HrmReligion::updateReligion($request, $id);
+        return redirect('/hrm/setup/religion/')->with('update_message','This religion (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -85,6 +86,7 @@ class ReligionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        HrmReligion::destroyReligion($id);
+        return redirect('/hrm/setup/religion/')->with('update_message','This religion (uid='.$id.') has been deleted!!');
     }
 }

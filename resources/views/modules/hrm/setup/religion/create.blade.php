@@ -16,7 +16,7 @@
                     <div class="form-group row mb-2">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Religion Name <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" name="religion_name" @if(request('id')>0) value="{{$religion->religion_name}}" @endif class="form-control" required>
+                            <input type="text" name="name" @if(request('id')>0) value="{{$religion->name}}" @endif class="form-control" required>
                         </div>
                     </div>
                     @if(request('id')>0)

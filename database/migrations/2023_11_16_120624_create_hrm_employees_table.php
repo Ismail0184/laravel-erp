@@ -31,6 +31,8 @@ return new class extends Migration
             $table->string('passport_id',15)->nullable();
             $table->string('driving_license',22)->nullable();
             $table->enum('job_status',['In Service','Not In Service'])->default('In Service');
+            $table->enum('status',['active','inactive','suspended','deleted'])->default('active');
+            $table->string('image',500)->nullable();
             $table->integer('entry_by');
             $table->integer('updated_by')->nullable();
             $table->integer('sconid');

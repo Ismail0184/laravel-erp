@@ -23,7 +23,7 @@
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th style="width: 5%; text-align: center">ID</th>
-                                <th>religion Type Name</th>
+                                <th>Religion Name</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 10%">Option</th>
                             </tr>
@@ -33,7 +33,7 @@
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
                                     <td style="text-align: center">{{$religion->id}}</td>
-                                    <td>@if($religion->status == 'deleted')<del>{{$religion->religion_name}}</del> @else {{$religion->religion_name}}@endif</td>
+                                    <td>@if($religion->status == 'deleted')<del>{{$religion->name}}</del> @else {{$religion->name}}@endif</td>
                                     <td>
                                         @if($religion->status == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($religion->status == 'inactive') <span class="badge badge-warning">Inactive</span>
