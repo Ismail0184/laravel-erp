@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HRM\employee\HrmEmployee;
 use App\Models\HRM\setup\HrmBlood;
 use App\Models\HRM\setup\HrmReligion;
+use App\Models\HRM\setup\HrmState;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -67,7 +68,9 @@ class EmployeeController extends Controller
         $employee = HrmEmployee::findOrfail($id);
         $bloods = HrmBlood::where('status','active')->get();
         $religions = HrmReligion::where('status','active')->get();
-        return view('modules.hrm.employee.edit',compact(['employee','bloods','religions']));
+        $states = HrmState::all();
+
+        return view('modules.hrm.employee.edit',compact(['employee','bloods','religions','states']));
     }
 
     /**

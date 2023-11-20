@@ -297,8 +297,22 @@
                                             <div class="form-group row mb-2">
                                                 <label for="horizontal-email-input" class="col-sm-4 col-form-label">State</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" name="present_address_state" @if(request('id')>0) value="{{$employee->present_address_state}}" @endif class="form-control">
-                                                </div>
+                                                    <select class="form-control" name="marital_status">
+                                                        <option value=""> -- select a state -- </option>
+                                                        @foreach($states as $state)
+                                                        <option value="{{$state->id}}">{{$state->state_name}}</option>
+                                                        @endforeach
+                                                    </select>                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-4 col-form-label">City</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" name="marital_status">
+                                                        <option value=""> -- select a state -- </option>
+                                                        @foreach($states as $state)
+                                                            <option value="{{$state->id}}">{{$state->state_name}}</option>
+                                                        @endforeach
+                                                    </select>                                                </div>
                                             </div>
                                         </div>
                                     </td>

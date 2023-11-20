@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('hrm_states', function (Blueprint $table) {
             $table->id();
+            $table->integer('country_code')->nullable();
+            $table->string('state_name','55');
             $table->timestamps();
         });
     }
