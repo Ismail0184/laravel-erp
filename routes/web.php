@@ -689,9 +689,13 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/hrm/employee/',[EmployeeController::class,'index'])->name('hrm.employee.view');
     Route::get('/hrm/employee/create',[EmployeeController ::class,'create'])->name('hrm.employee.create');
     Route::post('/hrm/employee/store', [EmployeeController::class,'store'])->name('hrm.employee.store');
+    Route::post('/hrm/employee/contact-information/store', [EmployeeController::class,'contactInformationStore'])->name('hrm.employeeContactInfo.store');
+    Route::post('/hrm/employee/job-information/store', [EmployeeController::class,'jobInfoStore'])->name('hrm.employeeJobInfo.store');
     Route::get('/hrm/employee/edit/{id}', [EmployeeController::class,'edit'])->name('hrm.employee.edit');
     Route::get('/hrm/employee/show/{id}', [EmployeeController::class,'show'])->name('hrm.employee.show');
     Route::post('/hrm/employee/update/{id}', [EmployeeController::class,'update'])->name('hrm.employee.update');
+    Route::post('/hrm/employee/contact-information/update/{id}', [EmployeeController::class,'contactInformationUpdate'])->name('hrm.employeeContactInfo.update');
+    Route::post('/hrm/employee/job-information/update/{id}', [EmployeeController::class,'jobInformationUpdate'])->name('hrm.employeeJobInfo.update');
     Route::post('/hrm/employee/destroy/{id}', [EmployeeController::class,'destroy'])->name('hrm.employee.destroy');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
