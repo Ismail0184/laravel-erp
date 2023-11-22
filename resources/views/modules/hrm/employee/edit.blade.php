@@ -575,8 +575,8 @@
                             </div>
                         </form>
                     </div>
-                    <div class="tab-pane" id="family" role="tabpanel">
-                        <form method="POST" action="@if($jobEmployeeId>0) {{route('hrm.employeeJobInfo.update', ['id'=>$employee->id])}} @else {{route('hrm.employeeJobInfo.store')}} @endif" enctype="multipart/form-data">
+                    <div class="tab-pane @if(Session::get('key')=='family') active @endif" id="family" role="tabpanel">
+                        <form method="POST" action="{{route('hrm.employeeFamilyInfo.store')}}" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                             <input type="hidden" name="employee_id" value="{{request('id')}}">
@@ -595,13 +595,13 @@
                                         <div class="form-group row mb-2">
                                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Name</label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="name" @if($familyEmployeeId>0)  @endif class="form-control">
+                                                <input type="text" name="name" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group row mb-2">
                                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Relationship</label>
                                             <div class="col-sm-9">
-                                                <select class="form-control" name="employment_type">
+                                                <select class="form-control" name="relationship">
                                                     <option value=""> -- select a relationship -- </option>
                                                     @foreach($relations as $relation)
                                                         <option value="{{$relation->id}}">{{$relation->relation_name}}</option>
@@ -612,48 +612,59 @@
                                         <div class="form-group row mb-2">
                                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">NID</label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="name" @if($familyEmployeeId>0)  @endif class="form-control">
+                                                <input type="text" name="nid"  class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group row mb-2">
                                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Mobile</label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="name" @if($familyEmployeeId>0)  @endif class="form-control">
+                                                <input type="text" name="mobile" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group row mb-2">
                                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Email</label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="name" @if($familyEmployeeId>0)  @endif class="form-control">
+                                                <input type="text" name="email" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group row mb-2">
                                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Profession</label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="name" @if($familyEmployeeId>0)  @endif class="form-control">
+                                                <input type="text" name="profession" class="form-control">
                                             </div>
                                         </div>
                                     </td>
                                     <td style="width: 60%;vertical-align: top">
-                                        <table class="table mb-0" style="width: 95%; font-size: 12px" align="right">
+                                        <table class="table mb-0" style="width: 95%; font-size: 11px" align="right">
                                             <thead class="thead-light">
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
                                                 <th>Relationship</th>
                                                 <th>Mobile</th>
-                                                <th>Email</th>
                                                 <th>Profession</th>
                                                 <th>Option</th>
                                             </tr>
                                             </thead>
                                             <tbody>
+                                            @foreach($familyInfos as $familyInfo)
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
+                                                <th scope="row" style="vertical-align: middle">{{$loop->iteration}}</th>
+                                                <td style="vertical-align: middle">{{$familyInfo->name}}</td>
+                                                <td style="vertical-align: middle">{{$familyInfo->relationships->relation_name}}</td>
+                                                <td style="vertical-align: middle">{{$familyInfo->mobile}}</td>
+                                                <td style="vertical-align: middle">{{$familyInfo->profession}}</td>
+                                                <td style="vertical-align: middle; text-align: center">
+                                                    <form action="{{route('hrm.employeeFamilyInfo.destroy', ['id' => $familyInfo->id])}}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="employee_id" value="{{request('id')}}">
+                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
                                             </tr>
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </td>
@@ -673,9 +684,152 @@
                         </form>
 
                     </div>
-                    <div class="tab-pane" id="education" role="tabpanel">
-                        <p class="mb-0">this is education section
-                        </p>
+                    <div class="tab-pane @if(Session::get('key')=='education') active @endif" id="education" role="tabpanel">
+                        <form method="POST" action="{{route('hrm.employeeEducationInfo.store')}}" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
+                            <input type="hidden" name="employee_id" value="{{request('id')}}">
+                            <div class="card-header">Education Information
+                                @if ($message = Session::get('destroy_message'))
+                                    <span class="text-center text-danger">{{ $message }}</span>
+                                @elseif( $message = Session::get('education_store_message'))
+                                    <span class="text-center text-success">{{ $message }}</span>
+                                @elseif( $message = Session::get('education_update_message'))
+                                    <span class="text-center text-primary">{{ $message }}</span>
+                                @endif
+                            </div><hr/>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 40%">
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Course</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="education_degree">
+                                                    <option value=""> -- select a course -- </option>
+                                                    @foreach($hrmEduExamTitles as $hrmEduExamTitle)
+                                                        <option value="{{$hrmEduExamTitle->id}}">{{$hrmEduExamTitle->exam_title}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Subject</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="education_degree">
+                                                    <option value=""> -- select a subject -- </option>
+                                                    @foreach($hrmEduSubjects as $hrmEduSubject)
+                                                        <option value="{{$hrmEduSubject->id}}">{{$hrmEduSubject->subject_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Grade</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="grade"  class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">CGPA</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="cgpa"  class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Passed Year</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="passing_year" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Scale</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="scale" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Institute</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="institute">
+                                                    <option value=""> -- select a institute -- </option>
+                                                    @foreach($hrmUniversities as $university)
+                                                        <option value="{{$university->id}}">{{$university->university_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Last Education?</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="last_education">
+                                                    <option value="no">No</option>
+                                                    <option value="yes">Yes</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Institute Type</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="institute_type">
+                                                    <option>Local</option>
+                                                    <option>Foreign</option>
+                                                    <option>Professional</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="width: 60%;vertical-align: top">
+                                        <table class="table mb-0" style="width: 95%; font-size: 11px" align="right">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Education</th>
+                                                <th>Passed Year</th>
+                                                <th>Grade</th>
+                                                <th>Institute</th>
+                                                <th>Option</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($educations as $education)
+                                                <tr>
+                                                    <th scope="row" style="vertical-align: middle">{{$loop->iteration}}</th>
+                                                    <td style="vertical-align: middle">{{$education->Courses->exam_title}}</td>
+                                                    <td style="vertical-align: middle">{{$education->passing_year}}</td>
+                                                    <td style="vertical-align: middle">{{$education->grade}}</td>
+                                                    <td style="vertical-align: middle">{{$education->institutes->university_name}}</td>
+                                                    <td style="vertical-align: middle; text-align: center">
+                                                        <form action="{{route('hrm.employeeEducationInfo.destroy', ['id' => $education->id])}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="employee_id" value="{{request('id')}}">
+                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+
+                            <div class="form-group row justify-content-end">
+                                <div class="col-sm-10">
+                                    <div>
+                                        <a class="btn btn-danger" href="{{route('hrm.employee.view')}}">Cancel</a>
+                                        <button type="submit" class="btn btn-primary w-md">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
                     <div class="tab-pane" id="employment" role="tabpanel">
                         <p class="mb-0">this is employment section

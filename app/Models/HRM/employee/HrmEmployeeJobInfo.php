@@ -2,6 +2,7 @@
 
 namespace App\Models\HRM\employee;
 
+use App\Models\HRM\setup\HrmRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,4 +58,6 @@ class HrmEmployeeJobInfo extends Model
         self::$employee->pcomid = 1;
         self::$employee->save();
     }
+
+
 }

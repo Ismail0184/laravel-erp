@@ -689,8 +689,18 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/hrm/employee/',[EmployeeController::class,'index'])->name('hrm.employee.view');
     Route::get('/hrm/employee/create',[EmployeeController ::class,'create'])->name('hrm.employee.create');
     Route::post('/hrm/employee/store', [EmployeeController::class,'store'])->name('hrm.employee.store');
+    // contact info
     Route::post('/hrm/employee/contact-information/store', [EmployeeController::class,'contactInformationStore'])->name('hrm.employeeContactInfo.store');
+    // job info
     Route::post('/hrm/employee/job-information/store', [EmployeeController::class,'jobInfoStore'])->name('hrm.employeeJobInfo.store');
+    // family info
+    Route::post('/hrm/employee/family-information/store', [EmployeeController::class,'familyInfoStore'])->name('hrm.employeeFamilyInfo.store');
+    Route::post('/hrm/employee/family-information/destroy/{id}', [EmployeeController::class,'familyInformationDestroy'])->name('hrm.employeeFamilyInfo.destroy');
+    // Education info
+    Route::post('/hrm/employee/education-information/store', [EmployeeController::class,'educationInfoStore'])->name('hrm.employeeEducationInfo.store');
+    Route::post('/hrm/employee/education-information/destroy/{id}', [EmployeeController::class,'educationInformationDestroy'])->name('hrm.employeeEducationInfo.destroy');
+
+
     Route::get('/hrm/employee/edit/{id}', [EmployeeController::class,'edit'])->name('hrm.employee.edit');
     Route::get('/hrm/employee/show/{id}', [EmployeeController::class,'show'])->name('hrm.employee.show');
     Route::post('/hrm/employee/update/{id}', [EmployeeController::class,'update'])->name('hrm.employee.update');

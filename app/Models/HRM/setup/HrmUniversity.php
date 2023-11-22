@@ -26,6 +26,7 @@ class HrmUniversity extends Model
         self::$university = HrmUniversity::findOrfail($id);
         self::$university->university_name = $request->university_name;
         self::$university->entry_by = $request->entry_by;
+        self::$university->status = $request->status;
         self::$university->sconid = 1;
         self::$university->pcomid = 1;
         self::$university->save();
