@@ -9,6 +9,7 @@ use App\Models\HRM\employee\HrmEmployeeEducationInfo;
 use App\Models\HRM\employee\HrmEmployeeEmployment;
 use App\Models\HRM\employee\HrmEmployeeFamilyInfo;
 use App\Models\HRM\employee\HrmEmployeeJobInfo;
+use App\Models\HRM\employee\HrmEmployeeSupervisorInfo;
 use App\Models\HRM\setup\HrmBlood;
 use App\Models\HRM\setup\HrmCity;
 use App\Models\HRM\setup\HrmDepartment;
@@ -82,13 +83,19 @@ class EmployeeController extends Controller
     public function educationInfoStore(Request $request)
     {
         HrmEmployeeEducationInfo::storeEducationInfo($request);
-        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'education')->with('education_store_message',' --> education has been added!!');
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'education')->with('education_store_message',' --> has been added!!');
     }
 
     public function employmentInfoStore(Request $request)
     {
         HrmEmployeeEmployment::storeEmploymentInfo($request);
-        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'employment')->with('employment_store_message',' --> employment has been added!!');
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'employment')->with('employment_store_message',' --> has been added!!');
+    }
+
+    public function supervisorInfoStore(Request $request)
+    {
+        HrmEmployeeSupervisorInfo::storeSupervisorInfo($request);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'supervisor')->with('supervisor_store_message',' --> has been added!!');
     }
 
     /**
@@ -124,6 +131,7 @@ class EmployeeController extends Controller
         $familyInfos = HrmEmployeeFamilyInfo::where('employee_id', $id)->get();
         $educations = HrmEmployeeEducationInfo::where('employee_id', $id)->get();
         $employments = HrmEmployeeEmployment::where('employee_id', $id)->get();
+        $supervisors = HrmEmployeeSupervisorInfo::where('employee_id',$id)->get();
 
         $employmentTypes = HrmEmploymentType::where('status','active')->get();
         $jobLocations = HrmJobLocation::where('status','active')->get();
@@ -135,7 +143,8 @@ class EmployeeController extends Controller
         $hrmEduExamTitles = HrmEduExamTitle::where('status','active')->orderBy('exam_title','asc')->get();
         $hrmEduSubjects = HrmEduSubject::where('status','active')->orderBy('subject_name','asc')->get();
         $hrmUniversities = HrmUniversity::where('status','active')->orderBy('university_name','asc')->get();
-        return view('modules.hrm.employee.edit',compact(['employments','hrmUniversities','hrmEduSubjects','hrmEduExamTitles','educations','familyInfos','employee','bloods','religions','states','cities','contactEmployeeId','contactInfo','employmentTypes','jobLocations','departments','designations','grades','shifts','jobEmployeeId','jobInfo','relations']));
+        $employees = HrmEmployee::where('job_status','In Service')->get();
+        return view('modules.hrm.employee.edit',compact(['supervisors','employees','employments','hrmUniversities','hrmEduSubjects','hrmEduExamTitles','educations','familyInfos','employee','bloods','religions','states','cities','contactEmployeeId','contactInfo','employmentTypes','jobLocations','departments','designations','grades','shifts','jobEmployeeId','jobInfo','relations']));
     }
 
     /**

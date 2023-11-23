@@ -967,71 +967,29 @@
                                             <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                                             <input type="hidden" name="employee_id" value="{{request('id')}}">
 
-
                                             <div class="form-group row mb-2">
-                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Company</label>
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Supervisor</label>
                                                 <div class="col-sm-9">
-                                                    <select class="form-control select2" style="width: 100%;" name="designation">
-                                                        <option value=""> -- select a designation -- </option>
-                                                            @foreach($designations as $designation)
-                                                                <option value="{{$designation->id}}" @if($jobEmployeeId>0) @if($designation->id==$jobInfo->designation) selected @endif @endif>{{$designation->designation_name}}</option>
+                                                    <select class="form-control select2" style="width: 100%;" name="supervisor">
+                                                        <option value=""> -- select a supervisor -- </option>
+                                                            @foreach($employees as $employee)
+                                                                <option value="{{$employee->id}}">{{$employee->code}} : {{$employee->full_name}}</option>
                                                             @endforeach
                                                     </select>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row mb-2">
-                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Address</label>
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Level</label>
                                                 <div class="col-sm-9">
-                                                    <textarea type="text" name="address"  class="form-control"></textarea>
+                                                    <input type="number" name="level"  class="form-control">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row mb-2">
-                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Job Title</label>
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Effective Date</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="job_title"  class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row mb-2">
-                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Start Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" name="start_date" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row mb-2">
-                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">End Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" name="end_date" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row mb-2">
-                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Last Salary</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="last_salary"  class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row mb-2">
-                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Exper. Letter</label>
-                                                <div class="col-sm-9">
-                                                    <select class="form-control" name="exp_letter">
-                                                        <option value="yes">Yes</option>
-                                                        <option value="no">No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row mb-4">
-                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">NOC</label>
-                                                <div class="col-sm-9">
-                                                    <select class="form-control" name="noc">
-                                                        <option value="yes">Yes</option>
-                                                        <option value="no">No</option>
-                                                    </select>
+                                                    <input type="date" name="effective_date"  class="form-control">
                                                 </div>
                                             </div>
 
@@ -1050,25 +1008,21 @@
                                             <thead class="thead-light">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Job Title</th>
-                                                <th>Duration</th>
-                                                <th>Last Salary</th>
-                                                <th>Exper. Letter</th>
-                                                <th>NOC</th>
+                                                <th>Supervisor Name</th>
+                                                <th>Level</th>
+                                                <th>Effective Date</th>
                                                 <th>Option</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($employments as $employment)
+                                            @foreach($supervisors as $supervisor)
                                                 <tr>
                                                     <th scope="row" style="vertical-align: middle">{{$loop->iteration}}</th>
-                                                    <td style="vertical-align: middle">{{$employment->company_name}}</td>
-                                                    <td style="vertical-align: middle">{{$employment->start_date}} - {{$employment->end_date}}</td>
-                                                    <td style="vertical-align: middle">{{$employment->last_salary}}</td>
-                                                    <td style="vertical-align: middle">{{$employment->exp_letter}}</td>
-                                                    <td style="vertical-align: middle">{{$employment->noc}}</td>
+                                                    <td style="vertical-align: middle">{{$supervisor->getSupervisor->full_name}}</td>
+                                                    <td style="vertical-align: middle">{{$supervisor->level}}</td>
+                                                    <td style="vertical-align: middle">{{$supervisor->effective_date}}</td>
                                                     <td style="vertical-align: middle; text-align: center">
-                                                        <form action="{{route('hrm.employeeSupervisorInfo.destroy', ['id' => $employment->id])}}" method="post">
+                                                        <form action="{{route('hrm.employeeSupervisorInfo.destroy', ['id' => $supervisor->id])}}" method="post">
                                                             @csrf
                                                             <input type="hidden" name="employee_id" value="{{request('id')}}">
                                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
