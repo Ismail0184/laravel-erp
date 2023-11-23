@@ -576,12 +576,8 @@
                         </form>
                     </div>
                     <div class="tab-pane @if(Session::get('key')=='family') active @endif" id="family" role="tabpanel">
-                        <form method="POST" action="{{route('hrm.employeeFamilyInfo.store')}}" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
-                            <input type="hidden" name="employee_id" value="{{request('id')}}">
                             <div class="card-header">Family Information
-                                @if ($message = Session::get('destroy_message'))
+                                @if ($message = Session::get('family_destroy_message'))
                                     <span class="text-center text-danger">{{ $message }}</span>
                                 @elseif( $message = Session::get('family_store_message'))
                                     <span class="text-center text-success">{{ $message }}</span>
@@ -592,6 +588,12 @@
                             <table style="width: 100%">
                                 <tr>
                                     <td style="width: 40%">
+                                        <form method="POST" action="{{route('hrm.employeeFamilyInfo.store')}}" enctype="multipart/form-data">
+                                            @csrf
+
+                                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
+                                            <input type="hidden" name="employee_id" value="{{request('id')}}">
+
                                         <div class="form-group row mb-2">
                                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Name</label>
                                             <div class="col-sm-9">
@@ -627,12 +629,22 @@
                                                 <input type="text" name="email" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="form-group row mb-2">
+                                        <div class="form-group row mb-4">
                                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Profession</label>
                                             <div class="col-sm-9">
                                                 <input type="text" name="profession" class="form-control">
                                             </div>
                                         </div>
+
+                                            <div class="form-group row justify-content-end">
+                                                <div class="col-sm-8">
+                                                    <div>
+                                                        <a class="btn btn-danger" href="{{route('hrm.employee.view')}}">Cancel</a>
+                                                        <button type="submit" class="btn btn-primary w-md">Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </td>
                                     <td style="width: 60%;vertical-align: top">
                                         <table class="table mb-0" style="width: 95%; font-size: 11px" align="right">
@@ -670,27 +682,10 @@
                                     </td>
                                 </tr>
                             </table>
-
-
-
-                            <div class="form-group row justify-content-end">
-                                <div class="col-sm-10">
-                                    <div>
-                                        <a class="btn btn-danger" href="{{route('hrm.employee.view')}}">Cancel</a>
-                                        <button type="submit" class="btn btn-primary w-md">Add</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-
                     </div>
                     <div class="tab-pane @if(Session::get('key')=='education') active @endif" id="education" role="tabpanel">
-                        <form method="POST" action="{{route('hrm.employeeEducationInfo.store')}}" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
-                            <input type="hidden" name="employee_id" value="{{request('id')}}">
                             <div class="card-header">Education Information
-                                @if ($message = Session::get('destroy_message'))
+                                @if ($message = Session::get('education_destroy_message'))
                                     <span class="text-center text-danger">{{ $message }}</span>
                                 @elseif( $message = Session::get('education_store_message'))
                                     <span class="text-center text-success">{{ $message }}</span>
@@ -701,6 +696,10 @@
                             <table style="width: 100%">
                                 <tr>
                                     <td style="width: 40%">
+                                        <form method="POST" action="{{route('hrm.employeeEducationInfo.store')}}" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
+                                            <input type="hidden" name="employee_id" value="{{request('id')}}">
                                         <div class="form-group row mb-2">
                                             <label for="horizontal-email-input" class="col-sm-3 col-form-label">Course</label>
                                             <div class="col-sm-9">
@@ -780,6 +779,16 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                            <div class="form-group row justify-content-end">
+                                                <div class="col-sm-10">
+                                                    <div>
+                                                        <a class="btn btn-danger" href="{{route('hrm.employee.view')}}">Cancel</a>
+                                                        <button type="submit" class="btn btn-primary w-md">Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </td>
                                     <td style="width: 60%;vertical-align: top">
                                         <table class="table mb-0" style="width: 95%; font-size: 11px" align="right">
@@ -817,28 +826,266 @@
                                     </td>
                                 </tr>
                             </table>
-
-
-
-                            <div class="form-group row justify-content-end">
-                                <div class="col-sm-10">
-                                    <div>
-                                        <a class="btn btn-danger" href="{{route('hrm.employee.view')}}">Cancel</a>
-                                        <button type="submit" class="btn btn-primary w-md">Add</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-
                     </div>
-                    <div class="tab-pane" id="employment" role="tabpanel">
-                        <p class="mb-0">this is employment section
-                        </p>
+                    <div class="tab-pane @if(Session::get('key')=='employment') active @endif" id="employment" role="tabpanel">
+                            <div class="card-header">Employment Information
+                                @if ($message = Session::get('employment_destroy_message'))
+                                    <span class="text-center text-danger">{{ $message }}</span>
+                                @elseif( $message = Session::get('employment_store_message'))
+                                    <span class="text-center text-success">{{ $message }}</span>
+                                @elseif( $message = Session::get('employment_update_message'))
+                                    <span class="text-center text-primary">{{ $message }}</span>
+                                @endif
+                            </div><hr/>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 40%">
+                                        <form method="POST" action="{{route('hrm.employeeEmploymentInfo.store')}}" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
+                                            <input type="hidden" name="employee_id" value="{{request('id')}}">
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Company</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="company_name"  class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Address</label>
+                                            <div class="col-sm-9">
+                                                <textarea type="text" name="address"  class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Job Title</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="job_title"  class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Start Date</label>
+                                            <div class="col-sm-9">
+                                                <input type="date" name="start_date" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">End Date</label>
+                                            <div class="col-sm-9">
+                                                <input type="date" name="end_date" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Last Salary</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="last_salary"  class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Exper. Letter</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="exp_letter">
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-4">
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">NOC</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="noc">
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                            <div class="form-group row justify-content-end">
+                                                <div class="col-sm-8">
+                                                    <div>
+                                                        <a class="btn btn-danger" href="{{route('hrm.employee.view')}}">Cancel</a>
+                                                        <button type="submit" class="btn btn-primary w-md">Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td style="width: 60%;vertical-align: top">
+                                        <table class="table mb-0" style="width: 95%; font-size: 11px" align="right">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Job Title</th>
+                                                <th>Duration</th>
+                                                <th>Last Salary</th>
+                                                <th>Exper. Letter</th>
+                                                <th>NOC</th>
+                                                <th>Option</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($employments as $employment)
+                                                <tr>
+                                                    <th scope="row" style="vertical-align: middle">{{$loop->iteration}}</th>
+                                                    <td style="vertical-align: middle">{{$employment->company_name}}</td>
+                                                    <td style="vertical-align: middle">{{$employment->start_date}} - {{$employment->end_date}}</td>
+                                                    <td style="vertical-align: middle">{{$employment->last_salary}}</td>
+                                                    <td style="vertical-align: middle">{{$employment->exp_letter}}</td>
+                                                    <td style="vertical-align: middle">{{$employment->noc}}</td>
+                                                    <td style="vertical-align: middle; text-align: center">
+                                                        <form action="{{route('hrm.employeeEmploymentInfo.destroy', ['id' => $employment->id])}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="employee_id" value="{{request('id')}}">
+                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
                     </div>
-                    <div class="tab-pane" id="supervisor" role="tabpanel">
-                        <p class="mb-0">this is supervisor section
-                        </p>
+                    <div class="tab-pane @if(Session::get('key')=='supervisor') active @endif" id="supervisor" role="tabpanel">
+                            <div class="card-header">Supervisor Information
+                                @if ($message = Session::get('supervisor_destroy_message'))
+                                    <span class="text-center text-danger">{{ $message }}</span>
+                                @elseif( $message = Session::get('supervisor_store_message'))
+                                    <span class="text-center text-success">{{ $message }}</span>
+                                @elseif( $message = Session::get('supervisor_update_message'))
+                                    <span class="text-center text-primary">{{ $message }}</span>
+                                @endif
+                            </div><hr/>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 40%">
+                                        <form method="POST" action="{{route('hrm.employeeSupervisorInfo.store')}}" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
+                                            <input type="hidden" name="employee_id" value="{{request('id')}}">
+
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Company</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control select2" style="width: 100%;" name="designation">
+                                                        <option value=""> -- select a designation -- </option>
+                                                            @foreach($designations as $designation)
+                                                                <option value="{{$designation->id}}" @if($jobEmployeeId>0) @if($designation->id==$jobInfo->designation) selected @endif @endif>{{$designation->designation_name}}</option>
+                                                            @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Address</label>
+                                                <div class="col-sm-9">
+                                                    <textarea type="text" name="address"  class="form-control"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Job Title</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="job_title"  class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Start Date</label>
+                                                <div class="col-sm-9">
+                                                    <input type="date" name="start_date" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">End Date</label>
+                                                <div class="col-sm-9">
+                                                    <input type="date" name="end_date" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Last Salary</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="last_salary"  class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Exper. Letter</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" name="exp_letter">
+                                                        <option value="yes">Yes</option>
+                                                        <option value="no">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">NOC</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" name="noc">
+                                                        <option value="yes">Yes</option>
+                                                        <option value="no">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row justify-content-end">
+                                                <div class="col-sm-8">
+                                                    <div>
+                                                        <a class="btn btn-danger" href="{{route('hrm.employee.view')}}">Cancel</a>
+                                                        <button type="submit" class="btn btn-primary w-md">Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td style="width: 60%;vertical-align: top">
+                                        <table class="table mb-0" style="width: 95%; font-size: 11px" align="right">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Job Title</th>
+                                                <th>Duration</th>
+                                                <th>Last Salary</th>
+                                                <th>Exper. Letter</th>
+                                                <th>NOC</th>
+                                                <th>Option</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($employments as $employment)
+                                                <tr>
+                                                    <th scope="row" style="vertical-align: middle">{{$loop->iteration}}</th>
+                                                    <td style="vertical-align: middle">{{$employment->company_name}}</td>
+                                                    <td style="vertical-align: middle">{{$employment->start_date}} - {{$employment->end_date}}</td>
+                                                    <td style="vertical-align: middle">{{$employment->last_salary}}</td>
+                                                    <td style="vertical-align: middle">{{$employment->exp_letter}}</td>
+                                                    <td style="vertical-align: middle">{{$employment->noc}}</td>
+                                                    <td style="vertical-align: middle; text-align: center">
+                                                        <form action="{{route('hrm.employeeSupervisorInfo.destroy', ['id' => $employment->id])}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="employee_id" value="{{request('id')}}">
+                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
                     </div>
+
+
                     <div class="tab-pane" id="documents" role="tabpanel">
                         <p class="mb-0">this is documents section
                         </p>

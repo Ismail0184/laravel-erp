@@ -11,30 +11,30 @@ class HrmEmployeeEducationInfo extends Model
 {
     use HasFactory;
 
-    public static $employee;
+    public static $educational;
 
     public static function storeEducationInfo($request)
     {
-        self::$employee = new HrmEmployeeEducationInfo();
-        self::$employee->employee_id = $request->employee_id;
-        self::$employee->education_degree = $request->education_degree;
-        self::$employee->grade = $request->grade;
-        self::$employee->passing_year = $request->passing_year;
-        self::$employee->cgpa = $request->cgpa;
-        self::$employee->scale = $request->scale;
-        self::$employee->institute = $request->institute;
-        self::$employee->last_education = $request->last_education;
-        self::$employee->institute_type = $request->institute_type;
-        self::$employee->entry_by = $request->entry_by;
-        self::$employee->sconid = 1;
-        self::$employee->pcomid = 1;
-        self::$employee->save();
+        self::$educational = new HrmEmployeeEducationInfo();
+        self::$educational->employee_id = $request->employee_id;
+        self::$educational->education_degree = $request->education_degree;
+        self::$educational->grade = $request->grade;
+        self::$educational->passing_year = $request->passing_year;
+        self::$educational->cgpa = $request->cgpa;
+        self::$educational->scale = $request->scale;
+        self::$educational->institute = $request->institute;
+        self::$educational->last_education = $request->last_education;
+        self::$educational->institute_type = $request->institute_type;
+        self::$educational->entry_by = $request->entry_by;
+        self::$educational->sconid = 1;
+        self::$educational->pcomid = 1;
+        self::$educational->save();
     }
 
     public static function destroyEducationInfo($id)
     {
-        self::$employee = HrmEmployeeEducationInfo::findOrfail($id);
-        self::$employee->delete();
+        self::$educational = HrmEmployeeEducationInfo::findOrfail($id);
+        self::$educational->delete();
 
     }
 

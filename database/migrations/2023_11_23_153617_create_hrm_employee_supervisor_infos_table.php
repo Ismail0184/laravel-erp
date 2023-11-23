@@ -13,18 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('hrm_employee_employments', function (Blueprint $table) {
+        Schema::create('hrm_employee_supervisor_infos', function (Blueprint $table) {
             $table->id();
             $table->integer('employee_id');
-            $table->string('company_name')->nullable();
-            $table->text('address')->nullable();
-            $table->string('job_title')->nullable();
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
-            $table->integer('last_salary')->nullable();
-            $table->enum('exp_letter',['yes','no']);
-            $table->enum('noc',['yes','no']);
-            $table->string('remarks')->nullable();
+            $table->integer('supervisor')->nullable();
+            $table->integer('level')->nullable();
+            $table->date('effective_date')->nullable();
             $table->integer('entry_by');
             $table->integer('updated_by')->nullable();
             $table->integer('sconid');
@@ -40,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hrm_employee_employments');
+        Schema::dropIfExists('hrm_employee_supervisor_infos');
     }
 };

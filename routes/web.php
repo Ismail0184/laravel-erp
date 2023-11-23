@@ -699,6 +699,12 @@ Route::get('/', [HomeController::class,'index']);
     // Education info
     Route::post('/hrm/employee/education-information/store', [EmployeeController::class,'educationInfoStore'])->name('hrm.employeeEducationInfo.store');
     Route::post('/hrm/employee/education-information/destroy/{id}', [EmployeeController::class,'educationInformationDestroy'])->name('hrm.employeeEducationInfo.destroy');
+    // Employment info
+    Route::post('/hrm/employee/employment-information/store', [EmployeeController::class,'employmentInfoStore'])->name('hrm.employeeEmploymentInfo.store');
+    Route::post('/hrm/employee/employment-information/destroy/{id}', [EmployeeController::class,'employmentInformationDestroy'])->name('hrm.employeeEmploymentInfo.destroy');
+    // Supervisor info
+    Route::post('/hrm/employee/supervisor-information/store', [EmployeeController::class,'supervisorInfoStore'])->name('hrm.employeeSupervisorInfo.store');
+    Route::post('/hrm/employee/supervisor-information/destroy/{id}', [EmployeeController::class,'supervisorInformationDestroy'])->name('hrm.employeeSupervisorInfo.destroy');
 
 
     Route::get('/hrm/employee/edit/{id}', [EmployeeController::class,'edit'])->name('hrm.employee.edit');

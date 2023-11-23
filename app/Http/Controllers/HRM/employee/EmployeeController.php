@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HRM\employee\HrmEmployee;
 use App\Models\HRM\employee\HrmEmployeeContactInfo;
 use App\Models\HRM\employee\HrmEmployeeEducationInfo;
+use App\Models\HRM\employee\HrmEmployeeEmployment;
 use App\Models\HRM\employee\HrmEmployeeFamilyInfo;
 use App\Models\HRM\employee\HrmEmployeeJobInfo;
 use App\Models\HRM\setup\HrmBlood;
@@ -70,18 +71,24 @@ class EmployeeController extends Controller
     public function jobInfoStore(Request $request)
     {
         HrmEmployeeJobInfo::storeJobInfo($request);
-        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'job')->with('job_store_message',' --> has been added!!');
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'job')->with('job_store_message',' --> job has been added!!');
     }
     public function familyInfoStore(Request $request)
     {
         HrmEmployeeFamilyInfo::storeFamilyInfo($request);
-        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'family')->with('family_store_message',' --> has been added!!');
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'family')->with('family_store_message',' --> family has been added!!');
     }
 
     public function educationInfoStore(Request $request)
     {
         HrmEmployeeEducationInfo::storeEducationInfo($request);
-        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'education')->with('education_store_message',' --> has been added!!');
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'education')->with('education_store_message',' --> education has been added!!');
+    }
+
+    public function employmentInfoStore(Request $request)
+    {
+        HrmEmployeeEmployment::storeEmploymentInfo($request);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'employment')->with('employment_store_message',' --> employment has been added!!');
     }
 
     /**
@@ -116,6 +123,7 @@ class EmployeeController extends Controller
 
         $familyInfos = HrmEmployeeFamilyInfo::where('employee_id', $id)->get();
         $educations = HrmEmployeeEducationInfo::where('employee_id', $id)->get();
+        $employments = HrmEmployeeEmployment::where('employee_id', $id)->get();
 
         $employmentTypes = HrmEmploymentType::where('status','active')->get();
         $jobLocations = HrmJobLocation::where('status','active')->get();
@@ -127,7 +135,7 @@ class EmployeeController extends Controller
         $hrmEduExamTitles = HrmEduExamTitle::where('status','active')->orderBy('exam_title','asc')->get();
         $hrmEduSubjects = HrmEduSubject::where('status','active')->orderBy('subject_name','asc')->get();
         $hrmUniversities = HrmUniversity::where('status','active')->orderBy('university_name','asc')->get();
-        return view('modules.hrm.employee.edit',compact(['hrmUniversities','hrmEduSubjects','hrmEduExamTitles','educations','familyInfos','employee','bloods','religions','states','cities','contactEmployeeId','contactInfo','employmentTypes','jobLocations','departments','designations','grades','shifts','jobEmployeeId','jobInfo','relations']));
+        return view('modules.hrm.employee.edit',compact(['employments','hrmUniversities','hrmEduSubjects','hrmEduExamTitles','educations','familyInfos','employee','bloods','religions','states','cities','contactEmployeeId','contactInfo','employmentTypes','jobLocations','departments','designations','grades','shifts','jobEmployeeId','jobInfo','relations']));
     }
 
     /**
@@ -177,5 +185,11 @@ class EmployeeController extends Controller
     {
         HrmEmployeeEducationInfo::destroyEducationInfo($id);
         return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'education')->with('education_destroy_message',' --> has been deleted!!');
+    }
+
+    public function employmentInformationDestroy(Request $request, $id)
+    {
+        HrmEmployeeEmployment::destroyEmploymentInfo($id);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'employment')->with('employment_destroy_message',' --> has been deleted!!');
     }
 }
