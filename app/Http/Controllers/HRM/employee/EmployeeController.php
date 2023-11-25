@@ -5,20 +5,25 @@ namespace App\Http\Controllers\HRM\employee;
 use App\Http\Controllers\Controller;
 use App\Models\HRM\employee\HrmEmployee;
 use App\Models\HRM\employee\HrmEmployeeContactInfo;
+use App\Models\HRM\employee\HrmEmployeeDocumentInfo;
 use App\Models\HRM\employee\HrmEmployeeEducationInfo;
 use App\Models\HRM\employee\HrmEmployeeEmployment;
 use App\Models\HRM\employee\HrmEmployeeFamilyInfo;
 use App\Models\HRM\employee\HrmEmployeeJobInfo;
+use App\Models\HRM\employee\HrmEmployeeLanguage;
 use App\Models\HRM\employee\HrmEmployeeSupervisorInfo;
 use App\Models\HRM\setup\HrmBlood;
 use App\Models\HRM\setup\HrmCity;
 use App\Models\HRM\setup\HrmDepartment;
 use App\Models\HRM\setup\HrmDesignation;
+use App\Models\HRM\setup\HrmDocumentCategory;
 use App\Models\HRM\setup\HrmEduExamTitle;
 use App\Models\HRM\setup\HrmEduSubject;
 use App\Models\HRM\setup\HrmEmploymentType;
 use App\Models\HRM\setup\HrmGrade;
 use App\Models\HRM\setup\HrmJobLocation;
+use App\Models\HRM\setup\HrmLanaguageProficiencyLevel;
+use App\Models\HRM\setup\HrmLanguage;
 use App\Models\HRM\setup\HrmRelation;
 use App\Models\HRM\setup\HrmReligion;
 use App\Models\HRM\setup\HrmShift;
@@ -98,6 +103,12 @@ class EmployeeController extends Controller
         return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'supervisor')->with('supervisor_store_message',' --> has been added!!');
     }
 
+    public function documentInfoStore(Request $request)
+    {
+        HrmEmployeeDocumentInfo::storeDocumentInfo($request);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'document')->with('document_store_message',' --> has been added!!');
+    }
+
     /**
      * Display the specified resource.
      *
@@ -132,6 +143,7 @@ class EmployeeController extends Controller
         $educations = HrmEmployeeEducationInfo::where('employee_id', $id)->get();
         $employments = HrmEmployeeEmployment::where('employee_id', $id)->get();
         $supervisors = HrmEmployeeSupervisorInfo::where('employee_id',$id)->get();
+        $documents = HrmEmployeeDocumentInfo::where('employee_id',$id)->get();
 
         $employmentTypes = HrmEmploymentType::where('status','active')->get();
         $jobLocations = HrmJobLocation::where('status','active')->get();
@@ -144,7 +156,10 @@ class EmployeeController extends Controller
         $hrmEduSubjects = HrmEduSubject::where('status','active')->orderBy('subject_name','asc')->get();
         $hrmUniversities = HrmUniversity::where('status','active')->orderBy('university_name','asc')->get();
         $employees = HrmEmployee::where('job_status','In Service')->get();
-        return view('modules.hrm.employee.edit',compact(['supervisors','employees','employments','hrmUniversities','hrmEduSubjects','hrmEduExamTitles','educations','familyInfos','employee','bloods','religions','states','cities','contactEmployeeId','contactInfo','employmentTypes','jobLocations','departments','designations','grades','shifts','jobEmployeeId','jobInfo','relations']));
+        $documentCategories = HrmDocumentCategory::all();
+        $languages = HrmLanguage::where('status','active')->get();
+        $languageProficiencies = HrmLanaguageProficiencyLevel::where('status','active')->get();
+        return view('modules.hrm.employee.edit',compact(['languageProficiencies','languages','documents','documentCategories','supervisors','employees','employments','hrmUniversities','hrmEduSubjects','hrmEduExamTitles','educations','familyInfos','employee','bloods','religions','states','cities','contactEmployeeId','contactInfo','employmentTypes','jobLocations','departments','designations','grades','shifts','jobEmployeeId','jobInfo','relations']));
     }
 
     /**
@@ -200,5 +215,17 @@ class EmployeeController extends Controller
     {
         HrmEmployeeEmployment::destroyEmploymentInfo($id);
         return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'employment')->with('employment_destroy_message',' --> has been deleted!!');
+    }
+
+    public function supervisorInformationDestroy(Request $request, $id)
+    {
+        HrmEmployeeSupervisorInfo::destroySupervisorInfo($id);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'supervisor')->with('supervisor_destroy_message',' --> has been deleted!!');
+    }
+
+    public function documentInformationDestroy(Request $request, $id)
+    {
+        HrmEmployeeDocumentInfo::destroyDocumentInfo($id);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'document')->with('document_destroy_message',' --> has been deleted!!');
     }
 }

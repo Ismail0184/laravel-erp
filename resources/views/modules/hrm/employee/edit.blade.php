@@ -58,7 +58,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(Session::get('key')=='documents') active @endif" data-toggle="tab" href="#documents" role="tab">
+                        <a class="nav-link @if(Session::get('key')=='document') active @endif" data-toggle="tab" href="#document" role="tab">
                             <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
                             <span class="d-none d-sm-block">Documents</span>
                         </a>
@@ -1038,16 +1038,202 @@
                                 </tr>
                             </table>
                     </div>
+                    <div class="tab-pane @if(Session::get('key')=='document') active @endif" id="document" role="tabpanel">
+                            <div class="card-header">Document Information
+                                @if ($message = Session::get('document_destroy_message'))
+                                    <span class="text-center text-danger">{{ $message }}</span>
+                                @elseif( $message = Session::get('document_store_message'))
+                                    <span class="text-center text-success">{{ $message }}</span>
+                                @elseif( $message = Session::get('document_update_message'))
+                                    <span class="text-center text-primary">{{ $message }}</span>
+                                @endif
+                            </div><hr/>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 40%">
+                                        <form method="POST" action="{{route('hrm.employeeDocumentInfo.store')}}" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
+                                            <input type="hidden" name="employee_id" value="{{request('id')}}">
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Category <span class="required text-danger">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" name="category_id" required>
+                                                        <option value=""> -- select a category -- </option>
+                                                        @foreach($documentCategories as $category)
+                                                            <option value="{{$category->id}}">{{$category->category}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Doc Title</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="doc_title"  class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Doc Id</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="doc_id"  class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Document <span class="required text-danger">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input type="file" name="image"  class="form-control" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Remarks</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="remarks"  class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row justify-content-end">
+                                                <div class="col-sm-8">
+                                                    <div>
+                                                        <a class="btn btn-danger" href="{{route('hrm.employee.view')}}">Cancel</a>
+                                                        <button type="submit" class="btn btn-primary w-md">Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td style="width: 60%;vertical-align: top">
+                                        <table class="table mb-0" style="width: 95%; font-size: 11px" align="right">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Category</th>
+                                                <th>Title</th>
+                                                <th>Id</th>
+                                                <th>Remarks</th>
+                                                <th>Option</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($documents as $document)
+                                                <tr>
+                                                    <th scope="row" style="vertical-align: middle">{{$loop->iteration}}</th>
+                                                    <td style="vertical-align: middle">{{$document->categorys->category}}</td>
+                                                    <td style="vertical-align: middle">{{$document->doc_title}}</td>
+                                                    <td style="vertical-align: middle">{{$document->doc_id}}</td>
+                                                    <td style="vertical-align: middle">{{$document->remarks}}</td>
+                                                    <td style="vertical-align: middle; text-align: center">
+                                                        <form action="{{route('hrm.employeeDocumentInfo.destroy', ['id' => $document->id])}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="employee_id" value="{{request('id')}}">
+                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                    </div>
+                    <div class="tab-pane @if(Session::get('key')=='language') active @endif" id="language" role="tabpanel">
+                            <div class="card-header">Language Skill Information
+                                @if ($message = Session::get('language_destroy_message'))
+                                    <span class="text-center text-danger">{{ $message }}</span>
+                                @elseif( $message = Session::get('language_store_message'))
+                                    <span class="text-center text-success">{{ $message }}</span>
+                                @elseif( $message = Session::get('language_update_message'))
+                                    <span class="text-center text-primary">{{ $message }}</span>
+                                @endif
+                            </div><hr/>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 40%">
+                                        <form method="POST" action="{{route('hrm.employeeLanguageInfo.store')}}" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
+                                            <input type="hidden" name="employee_id" value="{{request('id')}}">
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Language <span class="required text-danger">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" name="language" required>
+                                                        <option value=""> -- select a language -- </option>
+                                                        @foreach($languages as $language)
+                                                            <option value="{{$language->id}}">{{$language->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-2">
+                                                <label for="horizontal-email-input" class="col-sm-3 col-form-label">Proficiency <span class="required text-danger">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" name="category_id" required>
+                                                        <option value=""> -- select a language -- </option>
+                                                        @foreach($languageProficiencies as $proficiency)
+                                                            <option value="{{$proficiency->id}}">{{$proficiency->level}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
 
 
-                    <div class="tab-pane" id="documents" role="tabpanel">
-                        <p class="mb-0">this is documents section
-                        </p>
+                                            <div class="form-group row justify-content-end">
+                                                <div class="col-sm-8">
+                                                    <div>
+                                                        <a class="btn btn-danger" href="{{route('hrm.employee.view')}}">Cancel</a>
+                                                        <button type="submit" class="btn btn-primary w-md">Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td style="width: 60%;vertical-align: top">
+                                        <table class="table mb-0" style="width: 95%; font-size: 11px" align="right">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Category</th>
+                                                <th>Title</th>
+                                                <th>Id</th>
+                                                <th>Remarks</th>
+                                                <th>Option</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($documents as $document)
+                                                <tr>
+                                                    <th scope="row" style="vertical-align: middle">{{$loop->iteration}}</th>
+                                                    <td style="vertical-align: middle">{{$document->categorys->category}}</td>
+                                                    <td style="vertical-align: middle">{{$document->doc_title}}</td>
+                                                    <td style="vertical-align: middle">{{$document->doc_id}}</td>
+                                                    <td style="vertical-align: middle">{{$document->remarks}}</td>
+                                                    <td style="vertical-align: middle; text-align: center">
+                                                        <form action="{{route('hrm.employeeDocumentInfo.destroy', ['id' => $document->id])}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="employee_id" value="{{request('id')}}">
+                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
                     </div>
-                    <div class="tab-pane" id="language" role="tabpanel">
-                        <p class="mb-0">this is language section
-                        </p>
-                    </div>
+
                     <div class="tab-pane" id="bank" role="tabpanel">
                         <p class="mb-0">this is bank section
                         </p>

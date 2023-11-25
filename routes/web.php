@@ -705,6 +705,12 @@ Route::get('/', [HomeController::class,'index']);
     // Supervisor info
     Route::post('/hrm/employee/supervisor-information/store', [EmployeeController::class,'supervisorInfoStore'])->name('hrm.employeeSupervisorInfo.store');
     Route::post('/hrm/employee/supervisor-information/destroy/{id}', [EmployeeController::class,'supervisorInformationDestroy'])->name('hrm.employeeSupervisorInfo.destroy');
+    // Document info
+    Route::post('/hrm/employee/document-information/store', [EmployeeController::class,'documentInfoStore'])->name('hrm.employeeDocumentInfo.store');
+    Route::post('/hrm/employee/document-information/destroy/{id}', [EmployeeController::class,'documentInformationDestroy'])->name('hrm.employeeDocumentInfo.destroy');
+    // Language info
+    Route::post('/hrm/employee/language-information/store', [EmployeeController::class,'languageInfoStore'])->name('hrm.employeeLanguageInfo.store');
+    Route::post('/hrm/employee/language-information/destroy/{id}', [EmployeeController::class,'languageInformationDestroy'])->name('hrm.employeeLanguageInfo.destroy');
 
 
     Route::get('/hrm/employee/edit/{id}', [EmployeeController::class,'edit'])->name('hrm.employee.edit');
