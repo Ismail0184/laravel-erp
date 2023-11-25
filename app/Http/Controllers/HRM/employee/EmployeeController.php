@@ -4,6 +4,7 @@ namespace App\Http\Controllers\HRM\employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\HRM\employee\HrmEmployee;
+use App\Models\HRM\employee\HrmEmployeeBankAccountInfo;
 use App\Models\HRM\employee\HrmEmployeeContactInfo;
 use App\Models\HRM\employee\HrmEmployeeDocumentInfo;
 use App\Models\HRM\employee\HrmEmployeeEducationInfo;
@@ -11,7 +12,11 @@ use App\Models\HRM\employee\HrmEmployeeEmployment;
 use App\Models\HRM\employee\HrmEmployeeFamilyInfo;
 use App\Models\HRM\employee\HrmEmployeeJobInfo;
 use App\Models\HRM\employee\HrmEmployeeLanguage;
+use App\Models\HRM\employee\HrmEmployeeLanguageSkill;
+use App\Models\HRM\employee\HrmEmployeeSocialMediaInfo;
 use App\Models\HRM\employee\HrmEmployeeSupervisorInfo;
+use App\Models\HRM\employee\HrmEmployeeTalentInfo;
+use App\Models\HRM\setup\HrmBank;
 use App\Models\HRM\setup\HrmBlood;
 use App\Models\HRM\setup\HrmCity;
 use App\Models\HRM\setup\HrmDepartment;
@@ -27,7 +32,9 @@ use App\Models\HRM\setup\HrmLanguage;
 use App\Models\HRM\setup\HrmRelation;
 use App\Models\HRM\setup\HrmReligion;
 use App\Models\HRM\setup\HrmShift;
+use App\Models\HRM\setup\HrmSocialMedia;
 use App\Models\HRM\setup\HrmState;
+use App\Models\HRM\setup\HrmTalent;
 use App\Models\HRM\setup\HrmUniversity;
 use Illuminate\Http\Request;
 
@@ -109,6 +116,30 @@ class EmployeeController extends Controller
         return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'document')->with('document_store_message',' --> has been added!!');
     }
 
+    public function languageInfoStore(Request $request)
+    {
+        HrmEmployeeLanguageSkill::storeLanguageSkillInfo($request);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'language')->with('language_store_message',' --> has been added!!');
+    }
+
+    public function bankAccountInfoStore(Request $request)
+    {
+        HrmEmployeeBankAccountInfo::storeBankAccountInfo($request);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'bank')->with('bank_store_message',' --> has been added!!');
+    }
+
+    public function socialMediaInfoStore(Request $request)
+    {
+        HrmEmployeeSocialMediaInfo::storeSocialMediaInfo($request);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'social')->with('social_store_message',' --> has been added!!');
+    }
+
+    public function talentInfoStore(Request $request)
+    {
+        HrmEmployeeTalentInfo::storeTalentInfo($request);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'talent')->with('talent_store_message',' --> has been added!!');
+    }
+
     /**
      * Display the specified resource.
      *
@@ -117,7 +148,21 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        return "cooming soon!!";
+        $employee = HrmEmployee::findOrfail($id);
+        $employeeContactInfo = HrmEmployeeContactInfo::where('employee_id', $id)->first();
+        $employeeJobInfo = HrmEmployeeJobInfo::where('employee_id', $id)->first();
+        $education = HrmEmployeeEducationInfo::where('employee_id',$id)->get();
+        $employments = HrmEmployeeEmployment::where('employee_id',$id)->get();
+        $educations = HrmEmployeeEducationInfo::where('employee_id',$id)->get();
+        return view('modules.hrm.employee.show',compact(
+            [
+                'employee',
+                'employeeContactInfo',
+                'employeeJobInfo',
+                'education',
+                'employments',
+                'educations'
+            ]));
     }
 
     /**
@@ -144,6 +189,10 @@ class EmployeeController extends Controller
         $employments = HrmEmployeeEmployment::where('employee_id', $id)->get();
         $supervisors = HrmEmployeeSupervisorInfo::where('employee_id',$id)->get();
         $documents = HrmEmployeeDocumentInfo::where('employee_id',$id)->get();
+        $languageSkills = HrmEmployeeLanguageSkill::where('employee_id',$id)->get();
+        $bankAccs = HrmEmployeeBankAccountInfo::where('employee_id',$id)->get();
+        $socialMediaInfos = HrmEmployeeSocialMediaInfo::where('employee_id',$id)->get();
+        $talentInfos = HrmEmployeeTalentInfo::where('employee_id',$id)->get();
 
         $employmentTypes = HrmEmploymentType::where('status','active')->get();
         $jobLocations = HrmJobLocation::where('status','active')->get();
@@ -159,7 +208,10 @@ class EmployeeController extends Controller
         $documentCategories = HrmDocumentCategory::all();
         $languages = HrmLanguage::where('status','active')->get();
         $languageProficiencies = HrmLanaguageProficiencyLevel::where('status','active')->get();
-        return view('modules.hrm.employee.edit',compact(['languageProficiencies','languages','documents','documentCategories','supervisors','employees','employments','hrmUniversities','hrmEduSubjects','hrmEduExamTitles','educations','familyInfos','employee','bloods','religions','states','cities','contactEmployeeId','contactInfo','employmentTypes','jobLocations','departments','designations','grades','shifts','jobEmployeeId','jobInfo','relations']));
+        $banks = HrmBank::all();
+        $socialMedias = HrmSocialMedia::where('status','active')->get();
+        $talents = HrmTalent::all();
+        return view('modules.hrm.employee.edit',compact(['talents','talentInfos','socialMediaInfos','socialMedias','bankAccs','banks','languageSkills','languageProficiencies','languages','documents','documentCategories','supervisors','employees','employments','hrmUniversities','hrmEduSubjects','hrmEduExamTitles','educations','familyInfos','employee','bloods','religions','states','cities','contactEmployeeId','contactInfo','employmentTypes','jobLocations','departments','designations','grades','shifts','jobEmployeeId','jobInfo','relations']));
     }
 
     /**
@@ -227,5 +279,29 @@ class EmployeeController extends Controller
     {
         HrmEmployeeDocumentInfo::destroyDocumentInfo($id);
         return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'document')->with('document_destroy_message',' --> has been deleted!!');
+    }
+
+    public function languageInformationDestroy(Request $request, $id)
+    {
+        HrmEmployeeLanguageSkill::destroyLanguageSkillInfo($id);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'language')->with('language_destroy_message',' --> has been deleted!!');
+    }
+
+    public function bankInformationDestroy(Request $request, $id)
+    {
+        HrmEmployeeBankAccountInfo::destroyBankAccountInfo($id);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'bank')->with('bank_destroy_message',' --> has been deleted!!');
+    }
+
+    public function socialMediaDestroy(Request $request, $id)
+    {
+        HrmEmployeeSocialMediaInfo::destroySocialMediaInfo($id);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'social')->with('social_destroy_message',' --> has been deleted!!');
+    }
+
+    public function talentInfoDestroy(Request $request, $id)
+    {
+        HrmEmployeeTalentInfo::destroyTalentInfo($id);
+        return redirect()->route('hrm.employee.edit', ['id' => $request->employee_id])->with('key', 'talent')->with('talent_destroy_message',' --> has been deleted!!');
     }
 }

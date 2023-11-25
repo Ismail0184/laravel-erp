@@ -46,7 +46,7 @@
                                     <td class="text-center" style="vertical-align: middle">
                                         <form action="{{route('hrm.employee.destroy', ['id' => $employee->id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('hrm.employee.show',['id' => $employee->id])}}" title="show" class="btn btn-primary btn-sm">
+                                            <a href="{{route('hrm.employee.show',['id' => $employee->id])}}" title="show" target="_blank" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
                                             <a href="{{route('hrm.employee.edit',['id' => $employee->id])}}" title="Update" class="btn btn-success btn-sm">

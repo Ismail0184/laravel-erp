@@ -60,7 +60,7 @@ class HrmEmployeeContactInfo extends Model
         self::$employee->permanent_address_police_station = $request->permanent_address_police_station;
         self::$employee->permanent_address_post_office = $request->permanent_address_post_office;
         self::$employee->permanent_address_zip_code = $request->permanent_address_zip_code;
-        self::$employee->update_by = $request->entry_by;
+        self::$employee->updated_by = $request->entry_by;
         self::$employee->sconid = 1;
         self::$employee->pcomid = 1;
         self::$employee->save();

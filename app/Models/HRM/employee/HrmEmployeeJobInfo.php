@@ -2,6 +2,7 @@
 
 namespace App\Models\HRM\employee;
 
+use App\Models\HRM\setup\HrmDesignation;
 use App\Models\HRM\setup\HrmRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -50,13 +51,15 @@ class HrmEmployeeJobInfo extends Model
         self::$employee->designation = $request->designation;
         self::$employee->grade = $request->grade;
         self::$employee->shift = $request->shift;
-        self::$employee->entry_by = $request->entry_by;
-        self::$employee->sconid = 1;
-        self::$employee->pcomid = 1;
         self::$employee->updated_by = $request->entry_by;
         self::$employee->sconid = 1;
         self::$employee->pcomid = 1;
         self::$employee->save();
+    }
+
+    public function getDesignation()
+    {
+        return $this->belongsTo(HrmDesignation::class,'designation','id');
     }
 
 

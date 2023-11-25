@@ -13,18 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('hrm_employee_education_infos', function (Blueprint $table) {
+        Schema::create('hrm_employee_social_media_infos', function (Blueprint $table) {
             $table->id();
             $table->integer('employee_id');
-            $table->integer('education_degree')->nullable();
-            $table->integer('education_subject')->nullable();
-            $table->string('grade')->nullable();
-            $table->integer('passing_year')->nullable();
-            $table->string('cgpa')->nullable();
-            $table->string('scale')->nullable();
-            $table->integer('institute')->nullable();
-            $table->enum('last_education',['no','yes']);
-            $table->enum('institute_type',['Local','Foreign','Professional']);
+            $table->integer('social_media_id');
+            $table->string('account_name');
+            $table->string('account_url');
             $table->integer('entry_by');
             $table->integer('updated_by')->nullable();
             $table->integer('sconid');
@@ -40,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hrm_employee_education_infos');
+        Schema::dropIfExists('hrm_employee_social_media_infos');
     }
 };

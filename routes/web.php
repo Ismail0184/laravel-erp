@@ -708,9 +708,20 @@ Route::get('/', [HomeController::class,'index']);
     // Document info
     Route::post('/hrm/employee/document-information/store', [EmployeeController::class,'documentInfoStore'])->name('hrm.employeeDocumentInfo.store');
     Route::post('/hrm/employee/document-information/destroy/{id}', [EmployeeController::class,'documentInformationDestroy'])->name('hrm.employeeDocumentInfo.destroy');
-    // Language info
-    Route::post('/hrm/employee/language-information/store', [EmployeeController::class,'languageInfoStore'])->name('hrm.employeeLanguageInfo.store');
-    Route::post('/hrm/employee/language-information/destroy/{id}', [EmployeeController::class,'languageInformationDestroy'])->name('hrm.employeeLanguageInfo.destroy');
+    // Language skill info
+    Route::post('/hrm/employee/language-skill/store', [EmployeeController::class,'languageInfoStore'])->name('hrm.employeeLanguageInfo.store');
+    Route::post('/hrm/employee/language-skill/destroy/{id}', [EmployeeController::class,'languageInformationDestroy'])->name('hrm.employeeLanguageInfo.destroy');
+    // Hrm/employee/Bank A/c info
+    Route::post('/hrm/employee/bank-account/store', [EmployeeController::class,'bankAccountInfoStore'])->name('hrm.employeeBankInfo.store');
+    Route::post('/hrm/employee/bank-account/destroy/{id}', [EmployeeController::class,'bankInformationDestroy'])->name('hrm.employeeBankInfo.destroy');
+
+    // Hrm/employee/Social Media info
+    Route::post('/hrm/employee/social-media-info/store', [EmployeeController::class,'socialMediaInfoStore'])->name('hrm.employeeBankInfo.store');
+    Route::post('/hrm/employee/social-media-info/destroy/{id}', [EmployeeController::class,'socialMediaDestroy'])->name('hrm.employeeBankInfo.destroy');
+
+    // Hrm/employee/Talen info
+    Route::post('/hrm/employee/talent-info/store', [EmployeeController::class,'talentInfoStore'])->name('hrm.employeeTalentInfo.store');
+    Route::post('/hrm/employee/talent-info/destroy/{id}', [EmployeeController::class,'talentInfoDestroy'])->name('hrm.employeeTalentInfo.destroy');
 
 
     Route::get('/hrm/employee/edit/{id}', [EmployeeController::class,'edit'])->name('hrm.employee.edit');

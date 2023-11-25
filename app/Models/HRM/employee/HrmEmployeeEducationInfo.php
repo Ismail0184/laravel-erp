@@ -3,6 +3,7 @@
 namespace App\Models\HRM\employee;
 
 use App\Models\HRM\setup\HrmEduExamTitle;
+use App\Models\HRM\setup\HrmEduSubject;
 use App\Models\HRM\setup\HrmUniversity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,7 @@ class HrmEmployeeEducationInfo extends Model
         self::$educational = new HrmEmployeeEducationInfo();
         self::$educational->employee_id = $request->employee_id;
         self::$educational->education_degree = $request->education_degree;
+        self::$educational->education_subject = $request->education_subject;
         self::$educational->grade = $request->grade;
         self::$educational->passing_year = $request->passing_year;
         self::$educational->cgpa = $request->cgpa;
@@ -41,6 +43,11 @@ class HrmEmployeeEducationInfo extends Model
     public function Courses()
     {
         return $this->belongsTo(HrmEduExamTitle::class,'education_degree','id');
+    }
+
+    public function subjects()
+    {
+        return $this->belongsTo(HrmEduSubject::class,'education_subject','id');
     }
 
     public function institutes()
