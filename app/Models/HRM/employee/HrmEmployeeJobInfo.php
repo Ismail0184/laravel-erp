@@ -2,8 +2,13 @@
 
 namespace App\Models\HRM\employee;
 
+use App\Models\HRM\setup\HrmDepartment;
 use App\Models\HRM\setup\HrmDesignation;
+use App\Models\HRM\setup\HrmEmploymentType;
+use App\Models\HRM\setup\HrmGrade;
+use App\Models\HRM\setup\HrmJobLocation;
 use App\Models\HRM\setup\HrmRelation;
+use App\Models\HRM\setup\HrmShift;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,9 +62,33 @@ class HrmEmployeeJobInfo extends Model
         self::$employee->save();
     }
 
+    public function getDepartment()
+    {
+        return $this->belongsTo(HrmDepartment::class,'department','id');
+    }
     public function getDesignation()
     {
         return $this->belongsTo(HrmDesignation::class,'designation','id');
+    }
+
+    public function employmentType()
+    {
+        return $this->belongsTo(HrmEmploymentType::class,'employment_type','id');
+    }
+
+    public function Grade()
+    {
+        return $this->belongsTo(HrmGrade::class,'grade','id');
+    }
+
+    public function Shift()
+    {
+        return $this->belongsTo(HrmShift::class,'shift','id');
+    }
+
+    public function jobLocation()
+    {
+        return $this->belongsTo(HrmJobLocation::class,'job_location','id');
     }
 
 

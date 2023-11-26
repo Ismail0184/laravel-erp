@@ -83,7 +83,7 @@
         }
 
         .main-title{
-            font-size: 1.5rem;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #f7f7f7ec;
@@ -150,14 +150,13 @@
 
 
         .skill-title{
-            text-transform: uppercase;
             color: #f7f7f7;
             font-size: 1rem;
         }
 
         .sub-title{
             padding-top: 2rem;
-            font-size: 1.2rem;
+            font-size: 1rem;
             text-transform: uppercase;
             color: #f7f7f7;
         }
@@ -188,6 +187,7 @@
             color: #2F80ED;
             margin-bottom: 1.2rem;
             position: relative;
+            font-size: 1rem;
         }
 
         .right-title::after{
@@ -205,12 +205,12 @@
         .para{
             line-height: 1.6rem;
             color: #718096;
-            font-size: 1rem;
+            font-size: .80rem;
         }
         .table{
             line-height: 1.6rem;
             color: #718096;
-            font-size: 1rem;
+            font-size: .80rem;
         }
 
         .sect{
@@ -313,7 +313,8 @@
                 <ul>
                     <li>
                         <i class="fa fa-phone"></i>
-                        {{$employeeContactInfo->mobile}}
+                        {{$employeeContactInfo->mobile}}<br>
+                        {{$employeeContactInfo->alternative_mobile}}
                     </li>
                     <li>
                         <i class="fa fa-fax"></i>
@@ -331,122 +332,53 @@
                         <i class="fa fa-instagram"></i>
                         @loremipsum
                     </li-->
-                    <li>
-                        <i class="fa fa-map-marker"></i>
-                        {{$employeeContactInfo->present_address}}
-                    </li>
                 </ul>
             </div>
-            <!--div class="skills-section">
-                <h3 class="main-title">Skills</h3>
+
+            <div class="references-section">
+                <h3 class="main-title">Family Info</h3>
+                @foreach($familyInfos as $familyInfo)
+                <div class="referee">
+                    <h6 class="sub-title">{{$familyInfo->name}}</h6>
+                    <p class="sub-para">{{$familyInfo->relationships->relation_name}}</p>
+                    <ul>
+                        <li><i class="fa fa-phone"></i>{{$familyInfo->mobile}}</li>
+                        <li><i class="fa fa-fax"></i>{{$familyInfo->email}}</li>
+                    </ul>
+                </div>
+                @endforeach
+            </div>
+            <div class="skills-section">
+                <h3 class="main-title">Language Skills</h3>
                 <ul>
+                    @foreach($languageInfos as $languageInfo)
                     <li>
-                        <p class="skill-title">Javascript</p>
+                        <p class="skill-title">{{$languageInfo->languageName->name}}</p>
                         <div class="progress-bar">
                             <div class="progress js-progress"></div>
                         </div>
                     </li>
-                    <li>
-                        <p class="skill-title">Photoshop</p>
-                        <div class="progress-bar">
-                            <div class="progress ps-progress"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <p class="skill-title">Java</p>
-                        <div class="progress-bar">
-                            <div class="progress j-progress"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <p class="skill-title">C++</p>
-                        <div class="progress-bar">
-                            <div class="progress c-progress"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <p class="skill-title">Ruby</p>
-                        <div class="progress-bar">
-                            <div class="progress ps-progress"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <p class="skill-title">Node js</p>
-                        <div class="progress-bar">
-                            <div class="progress n-progress"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <p class="skill-title">html/css</p>
-                        <div class="progress-bar">
-                            <div class="progress ps-progress"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <p class="skill-title">illustrator</p>
-                        <div class="progress-bar">
-                            <div class="progress ps-progress"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <p class="skill-title">Wordpress</p>
-                        <div class="progress-bar">
-                            <div class="progress ps-progress"></div>
-                        </div>
-                    </li>
+                    @endforeach
                 </ul>
-            </div-->
-            <div class="references-section">
-                <h3 class="main-title">References</h3>
-                <div class="referee">
-                    <h6 class="sub-title">Michael Bowen</h6>
-                    <p class="sub-para">Product Manager</p>
-                    <ul>
-                        <li>
-                            <i class="fa fa-phone"></i>
-                            07661892982
-                        </li>
-                        <li>
-                            <i class="fa fa-fax"></i>
-                            loremipsum@gmail.com
-                        </li>
-                    </ul>
-                </div>
-                <div class="referee">
-                    <h6 class="sub-title">Joseph Kumar</h6>
-                    <p class="sub-para">Senior Developer</p>
-                    <ul>
-                        <li>
-                            <i class="fa fa-phone"></i>
-                            07661892982
-                        </li>
-                        <li>
-                            <i class="fa fa-fax"></i>
-                            loremipsum@gmail.com
-                        </li>
-                    </ul>
-                </div>
-                <div class="referee">
-                    <h6 class="sub-title">Rick Ross</h6>
-                    <p class="sub-para">Product Manager</p>
-                    <ul>
-                        <li>
-                            <i class="fa fa-phone"></i>
-                            07661892982
-                        </li>
-                        <li>
-                            <i class="fa fa-fax"></i>
-                            loremipsum@gmail.com
-                        </li>
-                    </ul>
-                </div>
+            </div>
+
+            <div class="contact-info">
+                <h3 class="main-title">Social Media</h3>
+                <ul>
+                    @foreach($socialMedias as $socialMedia)
+                    <li>
+                        <i class="fa fa-{{$socialMedia->socialMedia->social_media_name}}"></i>
+                        {{$socialMedia->account_url}}
+                    </li>
+                    @endforeach
+                </ul>
             </div>
         </div>
     </section>
     <section class="right-section">
         <div class="right-main-content">
             <section class="about sect">
-                <h2 class="right-title">About</h2>
+                <h2 class="right-title">Personal Info</h2>
                 <table style="width: 100%; border-collapse: collapse;" class="table">
                     <tr>
                         <th>Father's Name</th><th style="width: 2%">:</th><td>{{$employee->father_name}}</td>
@@ -475,6 +407,68 @@
                     <tr>
                         <th>Nationality</th><th style="width: 2%">:</th><td>{{$employee->getNationality->nationality}}</td>
                     </tr>
+                </table>
+            </section>
+            <section class="about sect">
+                <h2 class="right-title">Contact Info</h2>
+                <table style="width: 100%; border-collapse: collapse;" class="table">
+                    <tr>
+                        <th>Present Address</th><th style="width: 2%">:</th><td>{{$employeeContactInfo->present_address}},
+                            Post Office # {{$employeeContactInfo->presentAddressPO->name}},
+                            Police Station # {{$employeeContactInfo->presentAddressPS->name}},
+                            {{$employeeContactInfo->presentAddressCity->city_name}}-{{$employeeContactInfo->present_address_zip_code}},
+                            {{$employeeContactInfo->presentAddressState->state_name}},
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Permanent Address</th><th style="width: 2%">:</th><td>{{$employeeContactInfo->permanent_address}},
+                            Post Office # {{$employeeContactInfo->permanentAddressPO->name}},
+                            Police Station # {{$employeeContactInfo->permanentAddressPS->name}},
+                            {{$employeeContactInfo->permanentAddressCity->city_name}}-{{$employeeContactInfo->permanent_address_zip_code}},
+                            {{$employeeContactInfo->permanentAddressState->state_name}},
+                        </td>
+                    </tr>
+                </table>
+            </section>
+            <section class="about sect">
+                <h2 class="right-title">Job Info</h2>
+                <table style="width: 100%; border-collapse: collapse;" class="table">
+                    <tr>
+                        <th>Appointment Ref. No</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->appointment_ref_no}}</td>
+                        <th>Appointment Date</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->appointment_date}}</td>
+                    </tr>
+                    <tr>
+                        <th>Confirmation Date</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->confirmation_date}}</td>
+                        <th>Joining Date</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->joining_date}}</td>
+                    </tr>
+                    <tr>
+                        <th>Corporate Mobile No.</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->corporate_mobile}}</td>
+                        <th>Corporate Email ID</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->corporate_email}}</td>
+                    </tr>
+                    <tr>
+                        <th>Employment Type</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->employmentType->employment_type_name}}</td>
+                        <th>Job Location</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->jobLocation->job_location_name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Department</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->getDepartment->department_name}}</td>
+                        <th>Designation</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->getDesignation->designation_name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Grade</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->Grade->grade}}</td>
+                        <th>Shift</th><th style="width: 2%">:</th><td>{{$employeeJobInfo->Shift->shift_name}}</td>
+                    </tr>
+                </table>
+            </section>
+            <section class="about sect">
+                <h2 class="right-title">Reporting Authority</h2>
+                <table style="width: 100%; border-collapse: collapse;" class="table">
+                    @foreach($supervisors as $supervisor)
+                    <tr>
+                        <th>Level {{$supervisor->level}} :</th>
+                        <th>Authority Name</th><th style="width: 2%">:</th><td>{{$supervisor->getSupervisor->full_name}}</td>
+                        <th>Effective From</th><th style="width: 2%">:</th><td>{{$supervisor->effective_date}}</td>
+                    </tr>
+                    @endforeach
                 </table>
             </section>
 

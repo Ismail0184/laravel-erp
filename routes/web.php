@@ -65,6 +65,8 @@ use App\Http\Controllers\HRM\setup\ShiftController;
 use App\Http\Controllers\HRM\employee\EmployeeController;
 use App\Http\Controllers\HRM\setup\BloodController;
 use App\Http\Controllers\HRM\setup\ReligionController;
+use App\Http\Controllers\HRM\payroll\HrmPayrollSalaryController;
+use App\Http\Controllers\HRM\payroll\HrmPayrollSalaryScaleController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -719,7 +721,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/hrm/employee/social-media-info/store', [EmployeeController::class,'socialMediaInfoStore'])->name('hrm.employeeBankInfo.store');
     Route::post('/hrm/employee/social-media-info/destroy/{id}', [EmployeeController::class,'socialMediaDestroy'])->name('hrm.employeeBankInfo.destroy');
 
-    // Hrm/employee/Talen info
+    // Hrm/employee/Talent info
     Route::post('/hrm/employee/talent-info/store', [EmployeeController::class,'talentInfoStore'])->name('hrm.employeeTalentInfo.store');
     Route::post('/hrm/employee/talent-info/destroy/{id}', [EmployeeController::class,'talentInfoDestroy'])->name('hrm.employeeTalentInfo.destroy');
 
@@ -730,6 +732,14 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/hrm/employee/contact-information/update/{id}', [EmployeeController::class,'contactInformationUpdate'])->name('hrm.employeeContactInfo.update');
     Route::post('/hrm/employee/job-information/update/{id}', [EmployeeController::class,'jobInformationUpdate'])->name('hrm.employeeJobInfo.update');
     Route::post('/hrm/employee/destroy/{id}', [EmployeeController::class,'destroy'])->name('hrm.employee.destroy');
+
+    // HRM/ Payroll / Salary Scale info
+    Route::get('/hrm/payroll/salary-scale/',[HrmPayrollSalaryScaleController::class,'index'])->name('hrm.payroll.salaryScale');
+    Route::get('/hrm/payroll/salary-scale/create/',[HrmPayrollSalaryScaleController::class,'create'])->name('hrm.payroll.salaryScale.create');
+
+    // HRM/ Payroll / Salary and allowance info
+    Route::get('/hrm/payroll/salary-and-allowance/',[HrmPayrollSalaryController::class,'index'])->name('hrm.payroll.salary');
+    Route::get('/hrm/payroll/salary-and-allowance/create/{id}',[HrmPayrollSalaryController::class,'create'])->name('hrm.payroll.salary.create');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

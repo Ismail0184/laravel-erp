@@ -606,15 +606,15 @@
                                             <input type="hidden" name="employee_id" value="{{request('id')}}">
 
                                         <div class="form-group row mb-2">
-                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Name</label>
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Name <span class="required text-danger">*</span></label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="name" class="form-control">
+                                                <input type="text" name="name" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="form-group row mb-2">
-                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Relationship</label>
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Relation <span class="required text-danger">*</span></label>
                                             <div class="col-sm-9">
-                                                <select class="form-control" name="relationship">
+                                                <select class="form-control" name="relationship" required>
                                                     <option value=""> -- select a relationship -- </option>
                                                     @foreach($relations as $relation)
                                                         <option value="{{$relation->id}}">{{$relation->relation_name}}</option>
@@ -629,7 +629,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group row mb-2">
-                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Mobile</label>
+                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Mobile <span class="required text-danger">*</span></label>
                                             <div class="col-sm-9">
                                                 <input type="text" name="mobile" class="form-control">
                                             </div>

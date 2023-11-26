@@ -157,6 +157,10 @@ class EmployeeController extends Controller
         $education = HrmEmployeeEducationInfo::where('employee_id',$id)->get();
         $employments = HrmEmployeeEmployment::where('employee_id',$id)->get();
         $educations = HrmEmployeeEducationInfo::where('employee_id',$id)->get();
+        $familyInfos = HrmEmployeeFamilyInfo::where('employee_id', $id)->get();
+        $supervisors = HrmEmployeeSupervisorInfo::where('employee_id', $id)->get();
+        $languageInfos = HrmEmployeeLanguageSkill::where('employee_id', $id)->get();
+        $socialMedias = HrmEmployeeSocialMediaInfo::where('employee_id', $id)->get();
         return view('modules.hrm.employee.show',compact(
             [
                 'employee',
@@ -164,7 +168,11 @@ class EmployeeController extends Controller
                 'employeeJobInfo',
                 'education',
                 'employments',
-                'educations'
+                'educations',
+                'familyInfos',
+                'supervisors',
+                'languageInfos',
+                'socialMedias'
             ]));
     }
 

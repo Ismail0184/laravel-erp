@@ -2,6 +2,10 @@
 
 namespace App\Models\HRM\employee;
 
+use App\Models\HRM\setup\HrmCity;
+use App\Models\HRM\setup\HrmPoliceStation;
+use App\Models\HRM\setup\HrmPostOffice;
+use App\Models\HRM\setup\HrmState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -74,6 +78,40 @@ class HrmEmployeeContactInfo extends Model
             unlink(self::$employee->image);
         }
         self::$employee->delete();
+    }
+
+    public function presentAddressPO()
+    {
+        return $this->belongsTo(HrmPostOffice::class, 'present_address_post_office','id');
+    }
+    public function presentAddressPS()
+    {
+        return $this->belongsTo(HrmPoliceStation::class,'present_address_police_station','id');
+    }
+    public function presentAddressCity()
+    {
+        return $this->belongsTo(HrmCity::class,'present_address_city','id');
+    }
+    public function presentAddressState()
+    {
+        return $this->belongsTo(HrmState::class,'present_address_state','id');
+    }
+
+    public function permanentAddressPO()
+    {
+        return $this->belongsTo(HrmPostOffice::class, 'present_address_post_office','id');
+    }
+    public function permanentAddressPS()
+    {
+        return $this->belongsTo(HrmPoliceStation::class,'present_address_police_station','id');
+    }
+    public function permanentAddressCity()
+    {
+        return $this->belongsTo(HrmCity::class,'present_address_city','id');
+    }
+    public function permanentAddressState()
+    {
+        return $this->belongsTo(HrmState::class,'present_address_state','id');
     }
 
 
