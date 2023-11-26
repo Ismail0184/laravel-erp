@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume</title>
+    <title>Resume of {{$employee->full_name}}</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
+        th{
+            text-align: left;
+        }
         *{
             padding: 0;
             margin: 0;
@@ -80,7 +83,7 @@
         }
 
         .main-title{
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #f7f7f7ec;
@@ -200,6 +203,11 @@
         }
 
         .para{
+            line-height: 1.6rem;
+            color: #718096;
+            font-size: 1rem;
+        }
+        .table{
             line-height: 1.6rem;
             color: #718096;
             font-size: 1rem;
@@ -329,7 +337,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="skills-section">
+            <!--div class="skills-section">
                 <h3 class="main-title">Skills</h3>
                 <ul>
                     <li>
@@ -387,7 +395,7 @@
                         </div>
                     </li>
                 </ul>
-            </div>
+            </div-->
             <div class="references-section">
                 <h3 class="main-title">References</h3>
                 <div class="referee">
@@ -439,15 +447,35 @@
         <div class="right-main-content">
             <section class="about sect">
                 <h2 class="right-title">About</h2>
-                <p class="para">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam molestias facilis ullam dolorum, reprehenderit dolorem accusantium sit quo
-                    dolore nostrum assumenda obcaecati animi commodi nobis labore exercitationem corporis esse eveniet optio laudantium molestiae maiores pariatur nisi cumque.
-                    Distinctio et, totam, dicta autem nostrum doloribus ipsam vel rerum, molestiae soluta laboriosam. <br>
-                    <br>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto iusto porro suscipit.
-                    Nihil blanditiis cum voluptates odio recusandae deleniti, nulla repudiandae aliquam adipisci iusto reiciendis sequi labore quos ratione accusamus consectetur,
-                    libero ex assumenda pariatur commodi animi nobis, dolore id.
-                </p>
+                <table style="width: 100%; border-collapse: collapse;" class="table">
+                    <tr>
+                        <th>Father's Name</th><th style="width: 2%">:</th><td>{{$employee->father_name}}</td>
+                        <th>Mother's Name</th><th style="width: 2%">:</th><td>{{$employee->mother_name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Spouse's Name</th><th style="width: 2%">:</th><td>{{$employee->spouse_name}}</td>
+                        <th>Date of Birth</th><th style="width: 2%">:</th><td>{{$employee->date_of_birth}}</td>
+                    </tr>
+                    <tr>
+                        <th>National ID</th><th style="width: 2%">:</th><td>{{$employee->national_id}}</td>
+                        <th>Birth Certificate ID</th><th style="width: 2%">:</th><td>{{$employee->birth_certificate_id}}</td>
+                    </tr>
+                    <tr>
+                        <th>Passport No</th><th style="width: 2%">:</th><td>{{$employee->passport_id}}</td>
+                        <th>Driving License</th><th style="width: 2%">:</th><td>{{$employee->driving_license}}</td>
+                    </tr>
+                    <tr>
+                        <th>Blood Group</th><th style="width: 2%">:</th><td>{{$employee->bloodgroup->name}}</td>
+                        <th>Religion</th><th style="width: 2%">:</th><td>{{$employee->religions->name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Gender</th><th style="width: 2%">:</th><td>{{$employee->genders->name}}</td>
+                        <th>Marital Status</th><th style="width: 2%">:</th><td>{{$employee->marital_status}}</td>
+                    </tr>
+                    <tr>
+                        <th>Nationality</th><th style="width: 2%">:</th><td>{{$employee->getNationality->nationality}}</td>
+                    </tr>
+                </table>
             </section>
 
             <section class="experince sect">
@@ -488,41 +516,6 @@
                     </div>
                 </div>
                 @endforeach
-            </section>
-            <section class="awards sect">
-                <h2 class="right-title">Awards</h2>
-                <div class="timeline">
-                    <div class="left-tl-content">
-                        <h5 class="tl-title">Microsoft</h5>
-                        <p class="para">June 2016</p>
-                    </div>
-                    <div class="right-tl-content">
-                        <div class="tl-content">
-                            <h5 class="tl-title-2">Excellent Work</h5>
-                            <p class="para">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias cupiditate vitae
-                                voluptatem deleniti,
-                                laboriosam odio nobis quae fugit facilis quo.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline">
-                    <div class="left-tl-content">
-                        <h5 class="tl-title">Alphabet Inc</h5>
-                        <p class="para">June 2016</p>
-                    </div>
-                    <div class="right-tl-content">
-                        <div class="tl-content">
-                            <h5 class="tl-title-2">The Star Employee</h5>
-                            <p class="para">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias cupiditate vitae
-                                voluptatem deleniti,
-                                laboriosam odio nobis quae fugit facilis quo.
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </section>
         </div>
     </section>

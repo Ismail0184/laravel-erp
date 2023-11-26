@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('blood_group')->nullable();
             $table->integer('gender')->nullable();
             $table->integer('religion')->nullable();
-            $table->integer('marital_status')->nullable();
+            $table->enum('marital_status',['unmarried','married'])->default('unmarried');
             $table->integer('nationality')->nullable();
             $table->string('national_id',13)->nullable();
             $table->string('birth_certificate_id',17)->nullable();

@@ -202,8 +202,8 @@
                                 <div class="col-sm-9">
                                     <select class="form-control" name="marital_status">
                                         <option value=""> -- select a status -- </option>
-                                        <option @if(request('id')>0)  @if($employee->marital_status =='0') selected @endif @endif value="0">Unmarried</option>
-                                        <option @if(request('id')>0) @if($employee->marital_status =='1') selected @endif @endif value="1">Married</option>
+                                        <option @if(request('id')>0)  @if($employee->marital_status =='unmarried') selected @endif @endif value="unmarried">Unmarried</option>
+                                        <option @if(request('id')>0) @if($employee->marital_status =='married') selected @endif @endif value="married">Married</option>
                                     </select>
                                 </div>
                             </div>
@@ -212,7 +212,9 @@
                                 <div class="col-sm-9">
                                     <select class="form-control" name="nationality">
                                         <option value=""> -- select a Nationality -- </option>
-                                        <option @if(request('id')>0)  @if($employee->nationality =='50') selected @endif @endif value="50">Bangladeshi</option>
+                                        @foreach($nationalities as $nationality)
+                                        <option @if(request('id')>0)  @if($employee->nationality==$nationality->num_code) selected @endif @endif value="{{$nationality->num_code}}">{{$nationality->nationality}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -272,15 +274,19 @@
                                                     <input type="text" name="present_address" @if($contactEmployeeId>0) value="{{$contactInfo->present_address}}" @endif class="form-control">
                                                 </div>
                                             </div>
+
                                             <div class="form-group row mb-2">
                                                 <label for="horizontal-email-input" class="col-sm-4 col-form-label">Country</label>
                                                 <div class="col-sm-8">
                                                     <select class="form-control" name="present_address_country">
                                                         <option value=""> -- select a country -- </option>
-                                                        <option value="50"> Bangladesh</option>
+                                                        @foreach($nationalities as $nationality)
+                                                            <option @if($contactEmployeeId>0)  @if($contactInfo->present_address_country==$nationality->num_code) selected @endif @endif value="{{$nationality->num_code}}">{{$nationality->en_short_name}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
+
                                             <div class="form-group row mb-2">
                                                 <label for="horizontal-email-input" class="col-sm-4 col-form-label">State</label>
                                                 <div class="col-sm-8">
@@ -308,8 +314,8 @@
                                                 <div class="col-sm-8">
                                                     <select class="form-control" name="present_address_police_station">
                                                         <option value=""> -- select a police station -- </option>
-                                                        @foreach($cities as $city)
-                                                            <option value="{{$city->id}}" @if($contactEmployeeId>0) @if($contactInfo->present_address_city==$city->id) selected @endif @endif>{{$city->city_name}}</option>
+                                                        @foreach($policeStations as $policeStation)
+                                                            <option value="{{$policeStation->id}}" @if($contactEmployeeId>0) @if($contactInfo->present_address_police_station==$policeStation->id) selected @endif @endif>{{$policeStation->name}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -319,8 +325,8 @@
                                                 <div class="col-sm-8">
                                                     <select class="form-control" name="present_address_post_office">
                                                         <option value=""> -- select a post office -- </option>
-                                                        @foreach($cities as $city)
-                                                            <option value="{{$city->id}}">{{$city->city_name}}</option>
+                                                        @foreach($postOffices as $postOffice)
+                                                            <option @if($contactEmployeeId>0) @if($contactInfo->present_address_post_office==$postOffice->id) selected @endif @endif value="{{$postOffice->id}}">{{$postOffice->name}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -342,12 +348,15 @@
                                                     <input type="text" name="permanent_address" @if($contactEmployeeId>0) value="{{$contactInfo->permanent_address}}" @endif class="form-control">
                                                 </div>
                                             </div>
+
                                             <div class="form-group row mb-2">
                                                 <label for="horizontal-email-input" class="col-sm-4 col-form-label">Country</label>
                                                 <div class="col-sm-8">
                                                     <select class="form-control" name="permanent_address_country">
                                                         <option value=""> -- select a country -- </option>
-                                                        <option value="50"> Bangladesh</option>
+                                                        @foreach($nationalities as $nationality)
+                                                            <option @if($contactEmployeeId>0)  @if($contactInfo->permanent_address_country==$nationality->num_code) selected @endif @endif value="{{$nationality->num_code}}">{{$nationality->en_short_name}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -378,8 +387,8 @@
                                                 <div class="col-sm-8">
                                                     <select class="form-control" name="permanent_address_police_station">
                                                         <option value=""> -- select a police station -- </option>
-                                                        @foreach($cities as $city)
-                                                            <option value="{{$city->id}}">{{$city->city_name}}</option>
+                                                        @foreach($policeStations as $policeStation)
+                                                            <option value="{{$policeStation->id}}" @if($contactEmployeeId>0) @if($contactInfo->permanent_address_police_station==$policeStation->id) selected @endif @endif>{{$policeStation->name}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -389,8 +398,8 @@
                                                 <div class="col-sm-8">
                                                     <select class="form-control" name="permanent_address_post_office">
                                                         <option value=""> -- select a post office -- </option>
-                                                        @foreach($cities as $city)
-                                                            <option value="{{$city->id}}">{{$city->city_name}}</option>
+                                                        @foreach($postOffices as $postOffice)
+                                                            <option @if($contactEmployeeId>0) @if($contactInfo->permanent_address_post_office==$postOffice->id) selected @endif @endif value="{{$postOffice->id}}">{{$postOffice->name}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -408,26 +417,24 @@
                                     <td>
                                         <div class="col-lg-12">
                                             <p><strong><u>Basic Contact</u></strong></p>
-                                            <div class="col-lg-12">
-                                                <div class="form-group row mb-2">
+                                            <div class="form-group row mb-2">
                                                     <label for="horizontal-email-input" class="col-sm-4 col-form-label">Mobile</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="mobile" @if($contactEmployeeId>0) value="{{$contactInfo->mobile}}" @endif class="form-control" required>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row mb-2">
+                                            <div class="form-group row mb-2">
                                                     <label for="horizontal-email-input" class="col-sm-4 col-form-label">Alternative Mobile</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="alternative_mobile" @if($contactEmployeeId>0) value="{{$contactInfo->alternative_mobile}}" @endif class="form-control" required>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row mb-10">
+                                            <div class="form-group row mb-10">
                                                     <label for="horizontal-email-input" class="col-sm-4 col-form-label">Email</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="email" @if($contactEmployeeId>0) value="{{$contactInfo->email}}" @endif class="form-control">
                                                     </div>
                                                 </div>
-                                            </div>
                                         </div>
                                     </td>
                                     <td>

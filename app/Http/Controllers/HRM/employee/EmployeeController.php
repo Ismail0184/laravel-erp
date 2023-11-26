@@ -29,6 +29,9 @@ use App\Models\HRM\setup\HrmGrade;
 use App\Models\HRM\setup\HrmJobLocation;
 use App\Models\HRM\setup\HrmLanaguageProficiencyLevel;
 use App\Models\HRM\setup\HrmLanguage;
+use App\Models\HRM\setup\HrmNationality;
+use App\Models\HRM\setup\HrmPoliceStation;
+use App\Models\HRM\setup\HrmPostOffice;
 use App\Models\HRM\setup\HrmRelation;
 use App\Models\HRM\setup\HrmReligion;
 use App\Models\HRM\setup\HrmShift;
@@ -178,6 +181,8 @@ class EmployeeController extends Controller
         $religions = HrmReligion::where('status','active')->get();
         $states = HrmState::all();
         $cities= HrmCity::all();
+        $policeStations = HrmPoliceStation::all();
+        $postOffices = HrmPostOffice::all();
         $contactEmployeeId = HrmEmployeeContactInfo::where('employee_id',$id)->count();
         $contactInfo = HrmEmployeeContactInfo::where('employee_id', $id)->first();
 
@@ -211,7 +216,8 @@ class EmployeeController extends Controller
         $banks = HrmBank::all();
         $socialMedias = HrmSocialMedia::where('status','active')->get();
         $talents = HrmTalent::all();
-        return view('modules.hrm.employee.edit',compact(['talents','talentInfos','socialMediaInfos','socialMedias','bankAccs','banks','languageSkills','languageProficiencies','languages','documents','documentCategories','supervisors','employees','employments','hrmUniversities','hrmEduSubjects','hrmEduExamTitles','educations','familyInfos','employee','bloods','religions','states','cities','contactEmployeeId','contactInfo','employmentTypes','jobLocations','departments','designations','grades','shifts','jobEmployeeId','jobInfo','relations']));
+        $nationalities = HrmNationality::where('status','active')->get();
+        return view('modules.hrm.employee.edit',compact(['postOffices','policeStations','nationalities','talents','talentInfos','socialMediaInfos','socialMedias','bankAccs','banks','languageSkills','languageProficiencies','languages','documents','documentCategories','supervisors','employees','employments','hrmUniversities','hrmEduSubjects','hrmEduExamTitles','educations','familyInfos','employee','bloods','religions','states','cities','contactEmployeeId','contactInfo','employmentTypes','jobLocations','departments','designations','grades','shifts','jobEmployeeId','jobInfo','relations']));
     }
 
     /**

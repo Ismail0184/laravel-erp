@@ -2,6 +2,11 @@
 
 namespace App\Models\HRM\employee;
 
+use App\Models\HRM\setup\HrmBlood;
+use App\Models\HRM\setup\HrmGender;
+use App\Models\HRM\setup\HrmGrade;
+use App\Models\HRM\setup\HrmNationality;
+use App\Models\HRM\setup\HrmReligion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -91,5 +96,24 @@ class HrmEmployee extends Model
             unlink(self::$employee->image);
         }
         self::$employee->delete();
+    }
+
+    public function bloodgroup()
+    {
+        return $this->belongsTo(HrmBlood::class, 'blood_group','id');
+    }
+    public function religions()
+    {
+        return $this->belongsTo(HrmReligion::class, 'religion','id');
+    }
+
+    public function genders()
+    {
+        return $this->belongsTo(HrmGender::class, 'gender','id');
+    }
+
+    public function getNationality()
+    {
+        return $this->belongsTo(HrmNationality::class,'nationality','num_code');
     }
 }
