@@ -26,7 +26,7 @@ class HrmPayrollSalaryScaleController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.hrm.payroll.salaryScale.create');
     }
 
     /**
