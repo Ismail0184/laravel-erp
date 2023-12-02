@@ -736,6 +736,8 @@ Route::get('/', [HomeController::class,'index']);
     // HRM/ Payroll / Salary Scale info
     Route::get('/hrm/payroll/salary-scale/',[HrmPayrollSalaryScaleController::class,'index'])->name('hrm.payroll.salaryScale');
     Route::get('/hrm/payroll/salary-scale/create/',[HrmPayrollSalaryScaleController::class,'create'])->name('hrm.payroll.salaryScale.create');
+    Route::post('/hrm/payroll/salary-scale/store',[HrmPayrollSalaryScaleController::class,'store'])->name('hrm.payroll.salaryScale.store');
+    Route::post('/hrm/payroll/salary-scale/destroy/{id}',[HrmPayrollSalaryScaleController::class,'destroy'])->name('hrm.payroll.salaryScale.destroy');
 
     // HRM/ Payroll / Salary and allowance info
     Route::get('/hrm/payroll/salary-and-allowance/',[HrmPayrollSalaryController::class,'index'])->name('hrm.payroll.salary');

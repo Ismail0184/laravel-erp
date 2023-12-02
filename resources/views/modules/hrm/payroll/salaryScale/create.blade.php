@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">@if(request('id')) Update @else Create @endif {{$title}}</h4>
-                <form method="POST" action="@if(request('id')>0) {{route('hrm.employee.update', ['id'=>$employee->id])}} @else {{route('hrm.employee.store')}} @endif" enctype="multipart/form-data">
+                <form method="POST" action="@if(request('id')>0) {{route('hrm.payroll.salaryScale.update', ['id'=>$employee->id])}} @else {{route('hrm.payroll.salaryScale.store')}} @endif" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
 

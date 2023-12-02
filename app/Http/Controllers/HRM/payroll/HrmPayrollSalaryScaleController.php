@@ -37,7 +37,8 @@ class HrmPayrollSalaryScaleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        HrmPayrollSalaryScale::storeSalaryScale($request);
+        return redirect('/hrm/payroll/salary-scale/')->with('store_message','Salary Scale has been created!!');
     }
 
     /**
@@ -82,6 +83,8 @@ class HrmPayrollSalaryScaleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        HrmPayrollSalaryScale::destroySalaryScale($id);
+        return redirect('/hrm/payroll/salary-scale/')->with('destroy_message','Salary Scale has been deleted!!');
+
     }
 }

@@ -14,16 +14,13 @@ class HrmPayrollSalaryScale extends Model
     public static function storeSalaryScale($request)
     {
         self::$salaryScale = new HrmPayrollSalaryScale();
-        self::$salaryScale->employee_id = $request->employee_id;
-        self::$salaryScale->education_degree = $request->education_degree;
-        self::$salaryScale->education_subject = $request->education_subject;
-        self::$salaryScale->grade = $request->grade;
-        self::$salaryScale->passing_year = $request->passing_year;
-        self::$salaryScale->cgpa = $request->cgpa;
-        self::$salaryScale->scale = $request->scale;
-        self::$salaryScale->institute = $request->institute;
-        self::$salaryScale->last_education = $request->last_education;
-        self::$salaryScale->institute_type = $request->institute_type;
+        self::$salaryScale->basic_amount = $request->basic_amount;
+        self::$salaryScale->house_rent = $request->house_rent;
+        self::$salaryScale->conveyance_bill = $request->conveyance_bill;
+        self::$salaryScale->phone_bill = $request->phone_bill;
+        self::$salaryScale->medical_allowance = $request->medical_allowance;
+        self::$salaryScale->income_tax = $request->income_tax;
+        self::$salaryScale->pf_amount = $request->pf_amount;
         self::$salaryScale->entry_by = $request->entry_by;
         self::$salaryScale->sconid = 1;
         self::$salaryScale->pcomid = 1;
