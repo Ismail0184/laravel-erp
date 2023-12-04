@@ -2,6 +2,8 @@
 
 namespace App\Models\employeeAccess\attendance;
 
+use App\Models\HRM\setup\HrmLeaveType;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -49,5 +51,25 @@ class EALeaveApplication extends Model
         self::$leaveApplication->sconid = 1;
         self::$leaveApplication->pcomid = 1;
         self::$leaveApplication->save();
+    }
+
+    public function leaveType()
+    {
+        return $this->belongsTo(HrmLeaveType::class,'type','id');
+    }
+
+    public function responsiblePerson()
+    {
+        return $this->belongsTo(User::class,'responsible_person','id');
+    }
+
+    public function RecommendedPerson()
+    {
+        return $this->belongsTo(User::class,'recommended_by','id');
+    }
+
+    public function ApprovedPerson()
+    {
+        return $this->belongsTo(User::class,'approved_by','id');
     }
 }

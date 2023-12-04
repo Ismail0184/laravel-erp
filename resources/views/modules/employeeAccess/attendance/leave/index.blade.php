@@ -52,12 +52,12 @@
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        <form action="{{route('hrm.employee.destroy', ['id' => $leaveApplication->id])}}" method="post">
+                                        <form action="{{route('ea.attendance.leaveApplication.destroy', ['id' => $leaveApplication->id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('hrm.employee.show',['id' => $leaveApplication->id])}}" title="show" target="_blank" class="btn btn-primary btn-sm">
+                                            <a href="{{route('ea.attendance.leaveApplication.show',['id' => $leaveApplication->id])}}" title="show" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
-                                            <a href="{{route('hrm.employee.edit',['id' => $leaveApplication->id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('ea.attendance.leaveApplication.edit',['id' => $leaveApplication->id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

@@ -54,7 +54,8 @@ class EALeaveApplicationController extends Controller
      */
     public function show($id)
     {
-        //
+        $leaveApplication = EALeaveApplication::findOrfail($id);
+        return view('modules.employeeAccess.attendance.leave.show',compact('leaveApplication'));
     }
 
     /**
