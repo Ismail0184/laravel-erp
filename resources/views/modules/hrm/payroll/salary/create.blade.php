@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Salary Scale')
+    @php($title = 'Salary Info')
     {{$title}}
 @endsection
 

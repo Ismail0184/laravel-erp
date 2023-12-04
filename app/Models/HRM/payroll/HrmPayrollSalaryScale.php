@@ -27,6 +27,20 @@ class HrmPayrollSalaryScale extends Model
         self::$salaryScale->save();
     }
 
+    public static function updateSalaryScale($request, $id)
+    {
+        self::$salaryScale = HrmPayrollSalaryScale::findOrfail($id);
+        self::$salaryScale->basic_amount = $request->basic_amount;
+        self::$salaryScale->house_rent = $request->house_rent;
+        self::$salaryScale->conveyance_bill = $request->conveyance_bill;
+        self::$salaryScale->phone_bill = $request->phone_bill;
+        self::$salaryScale->medical_allowance = $request->medical_allowance;
+        self::$salaryScale->income_tax = $request->income_tax;
+        self::$salaryScale->pf_amount = $request->pf_amount;
+        self::$salaryScale->entry_by = $request->entry_by;
+        self::$salaryScale->save();
+    }
+
     public static function destroySalaryScale($id)
     {
         self::$salaryScale = HrmPayrollSalaryScale::findOrfail($id);

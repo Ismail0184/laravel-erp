@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\HRM\payroll;
+namespace App\Http\Controllers\employeeAccess\attendance;
 
 use App\Http\Controllers\Controller;
-use App\Models\HRM\payroll\HrmPayrollSalaryScale;
+use App\Models\employeeAccess\attendance\EALeaveApplication;
+use App\Models\HRM\employee\HrmEmployee;
+use App\Models\HRM\setup\HrmLeaveType;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class HrmPayrollSalaryScaleController extends Controller
+class EALeaveApplicationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +18,8 @@ class HrmPayrollSalaryScaleController extends Controller
      */
     public function index()
     {
-        $salaryScales = HrmPayrollSalaryScale::all();
-        return view('modules.hrm.payroll.salaryScale.index',compact('salaryScales'));
+        $leaveApplications = EALeaveApplication::all();
+        return view('modules.employeeAccess.attendance.leave.index',compact('leaveApplications'));
     }
 
     /**
@@ -26,7 +29,9 @@ class HrmPayrollSalaryScaleController extends Controller
      */
     public function create()
     {
-        return view('modules.hrm.payroll.salaryScale.create');
+        $users = HrmEmployee::where('job_status','In Service')->get();
+        $types = HrmLeaveType::where('status','active')->get();
+        return view('modules.employeeAccess.attendance.leave.create',compact(['users','types']));
     }
 
     /**
@@ -37,8 +42,8 @@ class HrmPayrollSalaryScaleController extends Controller
      */
     public function store(Request $request)
     {
-        HrmPayrollSalaryScale::storeSalaryScale($request);
-        return redirect('/hrm/payroll/salary-scale/')->with('store_message','Salary Scale has been created!!');
+        EALeaveApplication::storeLeaveApplication($request);
+        return redirect('/employee-access/attendance/leave-application/')->with('store_message','A leave application has been successfully created!!');
     }
 
     /**
@@ -60,8 +65,7 @@ class HrmPayrollSalaryScaleController extends Controller
      */
     public function edit($id)
     {
-        $salaryScale = HrmPayrollSalaryScale::findOrfail($id);
-        return view('modules.hrm.payroll.salaryScale.create',compact('salaryScale'));
+        //
     }
 
     /**
@@ -73,8 +77,7 @@ class HrmPayrollSalaryScaleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        HrmPayrollSalaryScale::updateSalaryScale($request, $id);
-        return redirect('/hrm/payroll/salary-scale/')->with('update_message','Salary Scale has been updated!!');
+        //
     }
 
     /**
@@ -85,8 +88,6 @@ class HrmPayrollSalaryScaleController extends Controller
      */
     public function destroy($id)
     {
-        HrmPayrollSalaryScale::destroySalaryScale($id);
-        return redirect('/hrm/payroll/salary-scale/')->with('destroy_message','Salary Scale has been deleted!!');
-
+        //
     }
 }

@@ -67,6 +67,7 @@ use App\Http\Controllers\HRM\setup\BloodController;
 use App\Http\Controllers\HRM\setup\ReligionController;
 use App\Http\Controllers\HRM\payroll\HrmPayrollSalaryController;
 use App\Http\Controllers\HRM\payroll\HrmPayrollSalaryScaleController;
+use App\Http\Controllers\employeeAccess\attendance\EALeaveApplicationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -737,11 +738,26 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/hrm/payroll/salary-scale/',[HrmPayrollSalaryScaleController::class,'index'])->name('hrm.payroll.salaryScale');
     Route::get('/hrm/payroll/salary-scale/create/',[HrmPayrollSalaryScaleController::class,'create'])->name('hrm.payroll.salaryScale.create');
     Route::post('/hrm/payroll/salary-scale/store',[HrmPayrollSalaryScaleController::class,'store'])->name('hrm.payroll.salaryScale.store');
+    Route::get('/hrm/payroll/salary-scale/edit/{id}',[HrmPayrollSalaryScaleController::class,'edit'])->name('hrm.payroll.salaryScale.edit');
+    Route::post('/hrm/payroll/salary-scale/update/{id}',[HrmPayrollSalaryScaleController::class,'update'])->name('hrm.payroll.salaryScale.update');
     Route::post('/hrm/payroll/salary-scale/destroy/{id}',[HrmPayrollSalaryScaleController::class,'destroy'])->name('hrm.payroll.salaryScale.destroy');
 
     // HRM/ Payroll / Salary and allowance info
     Route::get('/hrm/payroll/salary-and-allowance/',[HrmPayrollSalaryController::class,'index'])->name('hrm.payroll.salary');
     Route::get('/hrm/payroll/salary-and-allowance/create/{id}',[HrmPayrollSalaryController::class,'create'])->name('hrm.payroll.salary.create');
+
+
+
+
+    // Employee Access/ Attendance / Leave Application
+    Route::get('/employee-access/attendance/leave-application/',[EALeaveApplicationController::class,'index'])->name('ea.attendance.leaveApplication');
+    Route::get('/employee-access/attendance/leave-application/create/',[EALeaveApplicationController::class,'create'])->name('ea.attendance.leaveApplication.create');
+    Route::post('/employee-access/attendance/leave-application/store',[EALeaveApplicationController::class,'store'])->name('ea.attendance.leaveApplication.store');
+    Route::get('/employee-access/attendance/leave-application/edit/{id}',[EALeaveApplicationController::class,'edit'])->name('ea.attendance.leaveApplication.edit');
+    Route::get('/employee-access/attendance/leave-application/show/{id}',[EALeaveApplicationController::class,'show'])->name('ea.attendance.leaveApplication.show');
+    Route::post('/employee-access/attendance/leave-application/update/{id}',[EALeaveApplicationController::class,'update'])->name('ea.attendance.leaveApplication.update');
+    Route::post('/employee-access/attendance/leave-application/destroy/{id}',[EALeaveApplicationController::class,'destroy'])->name('ea.attendance.leaveApplication.destroy');
+
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

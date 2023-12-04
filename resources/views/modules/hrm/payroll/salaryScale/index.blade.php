@@ -52,9 +52,9 @@
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        <form action="{{route('hrm.payroll.salary.create', ['id' => $salaryScale->id])}}" method="post">
+                                        <form action="{{route('hrm.payroll.salaryScale.destroy', ['id' => $salaryScale->id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('hrm.payroll.salary.edit',['id' => $salaryScale->id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('hrm.payroll.salaryScale.edit',['id' => $salaryScale->id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
