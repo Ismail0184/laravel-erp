@@ -8,6 +8,7 @@ use App\Models\HRM\employee\HrmEmployee;
 use App\Models\HRM\setup\HrmLeaveType;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Auth;
 
 class EALeaveApplicationController extends Controller
 {
@@ -18,7 +19,7 @@ class EALeaveApplicationController extends Controller
      */
     public function index()
     {
-        $leaveApplications = EALeaveApplication::all();
+        $leaveApplications = EALeaveApplication::where('employee_id',Auth::user()->id)->get();
         return view('modules.employeeAccess.attendance.leave.index',compact('leaveApplications'));
     }
 
@@ -46,6 +47,13 @@ class EALeaveApplicationController extends Controller
         return redirect('/employee-access/attendance/leave-application/')->with('store_message','A leave application has been successfully created!!');
     }
 
+
+    public function send(Request $request, $id)
+    {
+        EALeaveApplication::sendLeaveApplication($request, $id);
+        return redirect('/employee-access/attendance/leave-application/')->with('send_message','This Leave application has been sent!!');
+    }
+
     /**
      * Display the specified resource.
      *
@@ -66,7 +74,10 @@ class EALeaveApplicationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $leaveApplication = EALeaveApplication::findOrfail($id);
+        $users = HrmEmployee::where('job_status','In Service')->get();
+        $types = HrmLeaveType::where('status','active')->get();
+        return view('modules.employeeAccess.attendance.leave.create',compact(['leaveApplication','users','types']));
     }
 
     /**
@@ -78,7 +89,8 @@ class EALeaveApplicationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        EALeaveApplication::updateLeaveApplication($request, $id);
+        return redirect('/employee-access/attendance/leave-application/')->with('update_message','This Leave application has been updated!!');
     }
 
     /**
@@ -89,6 +101,7 @@ class EALeaveApplicationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        EALeaveApplication::destroyLeaveApplication($id);
+        return redirect('/employee-access/attendance/leave-application/')->with('destroy_message','This Leave application has been deleted!!');
     }
 }

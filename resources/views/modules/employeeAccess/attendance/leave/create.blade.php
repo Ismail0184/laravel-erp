@@ -8,9 +8,12 @@
 @section('body')
     <div class="col-lg-12">
         <div class="card">
+
+            @if(request('id'))
+                @if($leaveApplication->employee_id == Auth::user()->id)
             <div class="card-body">
                 <h4 class="card-title mb-4">@if(request('id')) Update @else Create @endif {{$title}} <small class="text-danger float-right"> field marked with * are mandatory</small></h4>
-                <form method="POST" action="@if(request('id')>0) {{route('ea.attendance.leaveApplication.update', ['id'=>$employee->id])}} @else {{route('ea.attendance.leaveApplication.store')}} @endif" enctype="multipart/form-data">
+                <form method="POST" action="@if(request('id')>0) {{route('ea.attendance.leaveApplication.update', ['id'=>$leaveApplication->id])}} @else {{route('ea.attendance.leaveApplication.store')}} @endif" enctype="multipart/form-data">
                     @csrf
                     <table style="width: 100%">
                         <tr>
@@ -22,7 +25,7 @@
                                         <select class="form-control" name="type" required>
                                             <option value=""> -- select a type -- </option>
                                             @foreach($types as $type)
-                                                <option value="{{$type->id}}" @if(request('code')>0) @if($type->id==$employee->blood_group) selected @endif @endif>{{$type->leave_type_name}}</option>
+                                                <option value="{{$type->id}}" @if(request('id')>0) @if($type->id==$leaveApplication->type) selected @endif @endif>{{$type->leave_type_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -30,37 +33,37 @@
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Start Date <span class="required text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="date" name="start_date" @if(request('code')>0) value="{{$employee->start_date}}" @endif id="start_date" onchange="cal()" class="form-control" required>
+                                        <input type="date" name="start_date" @if(request('id')>0) value="{{$leaveApplication->start_date}}" @endif id="start_date" onchange="cal()" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">End Date <span class="required text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="date" name="end_date" @if(request('code')>0) value="{{$employee->end_date}}" @endif id="end_date" onchange="cal()" class="form-control">
+                                        <input type="date" name="end_date" @if(request('id')>0) value="{{$leaveApplication->end_date}}" @endif id="end_date" onchange="cal()" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Total Days </label>
                                     <div class="col-sm-8">
-                                        <input type="text" id="applied" name="total_days" @if(request('code')>0) value="{{$employee->total_days}}" @endif readonly required class="form-control">
+                                        <input type="text" id="applied" name="total_days" @if(request('id')>0) value="{{$leaveApplication->total_days}}" @endif readonly required class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Leave Reason <span class="required text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="reason" @if(request('code')>0) value="{{$employee->reason}}" @endif required class="form-control">
+                                        <input type="text" name="reason" @if(request('id')>0) value="{{$leaveApplication->reason}}" @endif required class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Leave Address</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="leave_address" @if(request('code')>0) value="{{$employee->leave_address}}" @endif class="form-control">
+                                        <input type="text" name="leave_address" @if(request('id')>0) value="{{$leaveApplication->leave_address}}" @endif class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Mobile (during leave) <span class="required text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="leave_mobile_number" @if(request('code')>0) value="{{$employee->leave_mobile_number}}" @endif class="form-control">
+                                        <input type="text" name="leave_mobile_number" @if(request('id')>0) value="{{$leaveApplication->leave_mobile_number}}" @endif class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
@@ -69,7 +72,7 @@
                                         <select class="form-control select2" style="width: 100%;font-size: 11px" name="responsible_person">
                                             <option value=""> -- select a responsible person -- </option>
                                             @foreach($users as $user)
-                                                <option value="{{$user->id}}">{{$user->name}} : {{$user->full_name}}</option>
+                                                <option value="{{$user->id}}" @if(request('id')>0) @if($user->id==$leaveApplication->responsible_person) selected @endif @endif>{{$user->code}} : {{$user->full_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -80,7 +83,7 @@
                                         <select class="form-control select2" style="width: 100%;" name="recommended_by">
                                             <option value=""> -- select a person -- </option>
                                             @foreach($users as $user)
-                                                <option value="{{$user->id}}">{{$user->code}} : {{$user->full_name}}</option>
+                                                <option value="{{$user->id}}" @if(request('id')>0) @if($user->id==$leaveApplication->recommended_by) selected @endif @endif>{{$user->code}} : {{$user->full_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -91,13 +94,11 @@
                                         <select class="form-control select2" style="width: 100%;" name="approved_by">
                                             <option value=""> -- select a person -- </option>
                                             @foreach($users as $user)
-                                                <option value="{{$user->id}}">{{$user->code}} : {{$user->full_name}}</option>
+                                                <option value="{{$user->id}}" @if(request('id')>0) @if($user->id==$leaveApplication->approved_by) selected @endif @endif>{{$user->code}} : {{$user->full_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-
-
                                 <div class="form-group row mb-4">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Attachment</label>
                                     <div class="col-sm-8">
@@ -105,24 +106,13 @@
                                     </div>
                                 </div>
 
-                                @if(request('id')>0)
-                                    <div class="form-group row mb-4">
-                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Status <span class="required text-danger">*</span></label>
-                                        <div class="col-sm-9">
-                                            <select class="form-control" name="status">
-                                                <option @if($employee->status =='active') selected @endif value="active">Active</option>
-                                                <option @if($employee->status =='inactive') selected @endif value="inactive">Inactive</option>
-                                                <option @if($employee->status =='suspended') selected @endif value="suspended">Suspended</option>
-                                                <option @if($employee->status =='deleted') selected @endif value="deleted">Deleted</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                @endif
                                 <div class="form-group row justify-content-end">
                                     <div class="col-sm-9">
                                         <div>
                                             <a class="btn btn-danger" href="{{route('ea.attendance.leaveApplication')}}">Cancel</a>
+                                            @if(request('id')>0) @if($leaveApplication->status=='DRAFTED')
                                             <button type="submit" class="btn btn-primary w-md">@if(request('id')) Update @else Save @endif</button>
+                                            @endif @endif
                                         </div>
                                     </div>
                                 </div>
@@ -160,6 +150,12 @@
                     </table>
                 </form>
             </div>
+                @else
+                    <p class="text-center text-danger">
+                        You are trying to view unauthorized access.
+                    </p>
+                @endif
+            @endif
         </div>
 
         <script language="javascript">

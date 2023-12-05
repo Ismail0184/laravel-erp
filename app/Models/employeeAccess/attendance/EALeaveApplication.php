@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models\employeeAccess\attendance;
-
 use App\Models\HRM\setup\HrmLeaveType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +10,17 @@ class EALeaveApplication extends Model
 {
     use HasFactory;
 
-    public static $leaveApplication;
+    public static $leaveApplication, $image, $imageName, $directory, $imageUrl;
+
+
+    public static function getImageUrl($request)
+    {
+        self::$image        = $request->file('image');
+        self::$imageName    = self::$image->getClientOriginalName();
+        self::$directory    = 'assets/application/leave/';
+        self::$image->move(self::$directory, self::$imageName);
+        return self::$directory.self::$imageName;
+    }
 
     public static function storeLeaveApplication($request)
     {
@@ -25,7 +34,7 @@ class EALeaveApplication extends Model
         self::$leaveApplication->responsible_person = $request->responsible_person;
         self::$leaveApplication->leave_address = $request->leave_address;
         self::$leaveApplication->leave_mobile_number = $request->leave_mobile_number;
-        self::$leaveApplication->att_file = $request->att_file;
+        self::$leaveApplication->image = self::getImageUrl($request);
         self::$leaveApplication->recommended_by = $request->recommended_by;
         self::$leaveApplication->approved_by = $request->approved_by;
         self::$leaveApplication->sconid = 1;
@@ -36,6 +45,14 @@ class EALeaveApplication extends Model
     public static function updateLeaveApplication($request, $id)
     {
         self::$leaveApplication = EALeaveApplication::findOrfail($id);
+        if ($request->file('image'))
+        {
+            if (file_exists(self::$leaveApplication->image))
+            { unlink(self::$leaveApplication->image);}
+            self::$imageUrl = self::getImageUrl($request);
+        } else {
+            self::$imageUrl = self::$leaveApplication->image;
+        }
         self::$leaveApplication->employee_id = $request->employee_id;
         self::$leaveApplication->type = $request->type;
         self::$leaveApplication->start_date = $request->start_date;
@@ -45,7 +62,7 @@ class EALeaveApplication extends Model
         self::$leaveApplication->responsible_person = $request->responsible_person;
         self::$leaveApplication->leave_address = $request->leave_address;
         self::$leaveApplication->leave_mobile_number = $request->leave_mobile_number;
-        self::$leaveApplication->att_file = $request->att_file;
+        self::$leaveApplication->image = self::$imageUrl;
         self::$leaveApplication->recommended_by = $request->recommended_by;
         self::$leaveApplication->approved_by = $request->approved_by;
         self::$leaveApplication->sconid = 1;
@@ -71,5 +88,15 @@ class EALeaveApplication extends Model
     public function ApprovedPerson()
     {
         return $this->belongsTo(User::class,'approved_by','id');
+    }
+
+    public static function sendLeaveApplication($request, $id)
+    {
+        EALeaveApplication::where('id',$id)->update(['status'=>$request->status]);
+    }
+
+    public static function destroyLeaveApplication($id)
+    {
+        EALeaveApplication::where('id',$id)->update(['status'=>'DELETED']);
     }
 }

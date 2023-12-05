@@ -755,6 +755,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/employee-access/attendance/leave-application/store',[EALeaveApplicationController::class,'store'])->name('ea.attendance.leaveApplication.store');
     Route::get('/employee-access/attendance/leave-application/edit/{id}',[EALeaveApplicationController::class,'edit'])->name('ea.attendance.leaveApplication.edit');
     Route::get('/employee-access/attendance/leave-application/show/{id}',[EALeaveApplicationController::class,'show'])->name('ea.attendance.leaveApplication.show');
+    Route::post('/employee-access/attendance/leave-application/send/{id}',[EALeaveApplicationController::class,'send'])->name('ea.attendance.leaveApplication.send');
     Route::post('/employee-access/attendance/leave-application/update/{id}',[EALeaveApplicationController::class,'update'])->name('ea.attendance.leaveApplication.update');
     Route::post('/employee-access/attendance/leave-application/destroy/{id}',[EALeaveApplicationController::class,'destroy'])->name('ea.attendance.leaveApplication.destroy');
 

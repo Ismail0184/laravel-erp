@@ -15,6 +15,8 @@
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
                             <p class="text-center text-success">{{ $message }}</p>
+                        @elseif( $message = Session::get('send_message'))
+                            <p class="text-center text-success">{{ $message }}</p>
                         @elseif( $message = Session::get('update_message'))
                             <p class="text-center text-primary">{{ $message }}</p>
                         @endif
@@ -46,7 +48,7 @@
                                         @if($leaveApplication->status == 'GRANTED') <span class="badge badge-success">GRANTED</span>
                                         @elseif($leaveApplication->status == 'REJECTED') <span class="badge badge-danger">REJECTED</span>
                                         @elseif($leaveApplication->status == 'DRAFTED') <span class="badge badge-dark">DRAFTED</span>
-                                        @elseif($leaveApplication->status == 'PENDING') <span class="badge badge-warning">PENDING</span>
+                                        @elseif($leaveApplication->status == 'PENDING') <span class="badge badge-soft-dark">PENDING</span>
                                         @elseif($leaveApplication->status == 'APPROVED') <span class="badge badge-pink">APPROVED</span>
                                         @elseif($leaveApplication->status == 'RECOMMENDED') <span class="badge badge-soft-success">RECOMMENDED</span>
                                         @endif
@@ -57,12 +59,14 @@
                                             <a href="{{route('ea.attendance.leaveApplication.show',['id' => $leaveApplication->id])}}" title="show" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
+                                            @if($leaveApplication->status=='DRAFTED')
                                             <a href="{{route('ea.attendance.leaveApplication.edit',['id' => $leaveApplication->id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
                                                 <i class="fa fa-trash"></i>
                                             </button>
+                                            @endif
                                         </form>
                                     </td>
                                 </tr>
