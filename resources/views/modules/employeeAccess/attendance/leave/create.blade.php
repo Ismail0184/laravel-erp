@@ -8,10 +8,12 @@
 @section('body')
     <div class="col-lg-12">
         <div class="card">
-
-            @if(request('id'))
-                @if($leaveApplication->employee_id == Auth::user()->id)
-            <div class="card-body">
+            @if(request('id')>0) @if($leaveApplication->employee_id!==Auth::user()->id)
+                <p class="text-center text-danger">
+                    You are trying to view unauthorized access.
+                </p>
+            @endif @endif
+            <div class="card-body" @if(request('id')>0) @if($leaveApplication->employee_id!==Auth::user()->id) style="display: none" @endif @endif>
                 <h4 class="card-title mb-4">@if(request('id')) Update @else Create @endif {{$title}} <small class="text-danger float-right"> field marked with * are mandatory</small></h4>
                 <form method="POST" action="@if(request('id')>0) {{route('ea.attendance.leaveApplication.update', ['id'=>$leaveApplication->id])}} @else {{route('ea.attendance.leaveApplication.store')}} @endif" enctype="multipart/form-data">
                     @csrf
@@ -111,8 +113,11 @@
                                         <div>
                                             <a class="btn btn-danger" href="{{route('ea.attendance.leaveApplication')}}">Cancel</a>
                                             @if(request('id')>0) @if($leaveApplication->status=='DRAFTED')
-                                            <button type="submit" class="btn btn-primary w-md">@if(request('id')) Update @else Save @endif</button>
-                                            @endif @endif
+                                            <button type="submit" class="btn btn-primary w-md">Update</button>
+                                            @endif
+                                            @else
+                                            <button type="submit" class="btn btn-primary w-md">Save</button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -150,15 +155,9 @@
                     </table>
                 </form>
             </div>
-                @else
-                    <p class="text-center text-danger">
-                        You are trying to view unauthorized access.
-                    </p>
-                @endif
-            @endif
         </div>
 
-        <script language="javascript">
+        <script>
             function GetDays(){
                 var dropdt = new Date(document.getElementById("start_date").value);
                 var pickdt = new Date(document.getElementById("end_date").value);

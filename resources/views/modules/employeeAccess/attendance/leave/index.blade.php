@@ -46,6 +46,7 @@
                                     <td style="vertical-align: middle">{{$leaveApplication->reason}}</td>
                                     <td style="vertical-align: middle">
                                         @if($leaveApplication->status == 'GRANTED') <span class="badge badge-success">GRANTED</span>
+                                        @elseif($leaveApplication->status == 'DELETED') <span class="badge badge-soft-danger">DELETED</span>
                                         @elseif($leaveApplication->status == 'REJECTED') <span class="badge badge-danger">REJECTED</span>
                                         @elseif($leaveApplication->status == 'DRAFTED') <span class="badge badge-dark">DRAFTED</span>
                                         @elseif($leaveApplication->status == 'PENDING') <span class="badge badge-soft-dark">PENDING</span>
@@ -59,6 +60,11 @@
                                             <a href="{{route('ea.attendance.leaveApplication.show',['id' => $leaveApplication->id])}}" title="show" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
+                                            @if($leaveApplication->status=='GRANTED')
+                                            <a href="{{route('ea.attendance.leaveApplication.download',['id' => $leaveApplication->id])}}" title="download" class="btn btn-info btn-sm">
+                                                <i class="fa fa-download"></i>
+                                            </a>
+                                            @endif
                                             @if($leaveApplication->status=='DRAFTED')
                                             <a href="{{route('ea.attendance.leaveApplication.edit',['id' => $leaveApplication->id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>

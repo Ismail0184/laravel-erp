@@ -758,6 +758,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/employee-access/attendance/leave-application/send/{id}',[EALeaveApplicationController::class,'send'])->name('ea.attendance.leaveApplication.send');
     Route::post('/employee-access/attendance/leave-application/update/{id}',[EALeaveApplicationController::class,'update'])->name('ea.attendance.leaveApplication.update');
     Route::post('/employee-access/attendance/leave-application/destroy/{id}',[EALeaveApplicationController::class,'destroy'])->name('ea.attendance.leaveApplication.destroy');
+    Route::get('/employee-access/attendance/leave-application/download/{id}', [EALeaveApplicationController::class,'download'])->name('ea.attendance.leaveApplication.download');
 
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');

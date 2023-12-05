@@ -9,6 +9,7 @@ use App\Models\HRM\setup\HrmLeaveType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
+use PDF;
 
 class EALeaveApplicationController extends Controller
 {
@@ -64,6 +65,15 @@ class EALeaveApplicationController extends Controller
     {
         $leaveApplication = EALeaveApplication::findOrfail($id);
         return view('modules.employeeAccess.attendance.leave.show',compact('leaveApplication'));
+    }
+
+    public function download($id)
+    {
+        $this->application = EALeaveApplication::find($id);
+        $pdf = PDF::loadView('modules.employeeAccess.attendance.leave.download', [
+            'leaveApplication' =>$this->application,
+        ]);
+        return $pdf->download('leaveApplication_'.$id.'.pdf');
     }
 
     /**

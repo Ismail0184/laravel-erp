@@ -12,7 +12,6 @@ class EALeaveApplication extends Model
 
     public static $leaveApplication, $image, $imageName, $directory, $imageUrl;
 
-
     public static function getImageUrl($request)
     {
         self::$image        = $request->file('image');
@@ -75,6 +74,11 @@ class EALeaveApplication extends Model
         return $this->belongsTo(HrmLeaveType::class,'type','id');
     }
 
+    public function AppliedBy()
+    {
+        return $this->belongsTo(User::class,'employee_id','id');
+    }
+
     public function responsiblePerson()
     {
         return $this->belongsTo(User::class,'responsible_person','id');
@@ -88,6 +92,11 @@ class EALeaveApplication extends Model
     public function ApprovedPerson()
     {
         return $this->belongsTo(User::class,'approved_by','id');
+    }
+
+    public function GrantPerson()
+    {
+        return $this->belongsTo(User::class,'granted_by','id');
     }
 
     public static function sendLeaveApplication($request, $id)
