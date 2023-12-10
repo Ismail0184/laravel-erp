@@ -2,8 +2,10 @@
 
 namespace App\Models\HRM\setup;
 
+use App\Models\employeeAccess\attendance\EALeaveApplication;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class HrmLeaveType extends Model
 {
@@ -35,5 +37,10 @@ class HrmLeaveType extends Model
     public static function destroyLeaveType($id)
     {
         HrmLeaveType::where('id',$id)->update(['status'=>'deleted']);
+    }
+
+    public function LeaveTaken()
+    {
+        return $this->hasMany(EALeaveApplication::class,'type','id')->whereNotIn('status',['DELETED'])->where('employee_id',Auth::user()->id);
     }
 }

@@ -68,6 +68,7 @@ use App\Http\Controllers\HRM\setup\ReligionController;
 use App\Http\Controllers\HRM\payroll\HrmPayrollSalaryController;
 use App\Http\Controllers\HRM\payroll\HrmPayrollSalaryScaleController;
 use App\Http\Controllers\employeeAccess\attendance\EALeaveApplicationController;
+use App\Http\Controllers\employeeAccess\attendance\EALateAttendanceApplicationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -752,6 +753,7 @@ Route::get('/', [HomeController::class,'index']);
     // Employee Access/ Attendance / Leave Application
     Route::get('/employee-access/attendance/leave-application/',[EALeaveApplicationController::class,'index'])->name('ea.attendance.leaveApplication');
     Route::get('/employee-access/attendance/leave-application/create/',[EALeaveApplicationController::class,'create'])->name('ea.attendance.leaveApplication.create');
+    Route::get('/get-type-balance/{category}',[EALeaveApplicationController::class,'getTypeBalance']);
     Route::post('/employee-access/attendance/leave-application/store',[EALeaveApplicationController::class,'store'])->name('ea.attendance.leaveApplication.store');
     Route::get('/employee-access/attendance/leave-application/edit/{id}',[EALeaveApplicationController::class,'edit'])->name('ea.attendance.leaveApplication.edit');
     Route::get('/employee-access/attendance/leave-application/show/{id}',[EALeaveApplicationController::class,'show'])->name('ea.attendance.leaveApplication.show');
@@ -759,6 +761,17 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/employee-access/attendance/leave-application/update/{id}',[EALeaveApplicationController::class,'update'])->name('ea.attendance.leaveApplication.update');
     Route::post('/employee-access/attendance/leave-application/destroy/{id}',[EALeaveApplicationController::class,'destroy'])->name('ea.attendance.leaveApplication.destroy');
     Route::get('/employee-access/attendance/leave-application/download/{id}', [EALeaveApplicationController::class,'download'])->name('ea.attendance.leaveApplication.download');
+
+    // Employee Access/ Attendance / Leave Application
+    Route::get('/employee-access/attendance/late-attendance-application/',[EALateAttendanceApplicationController::class,'index'])->name('ea.attendance.lateAttendanceApplication');
+    Route::get('/employee-access/attendance/late-attendance-application/create/',[EALateAttendanceApplicationController::class,'create'])->name('ea.attendance.lateAttendanceApplication.create');
+    Route::post('/employee-access/attendance/late-attendance-application/store',[EALateAttendanceApplicationController::class,'store'])->name('ea.attendance.lateAttendanceApplication.store');
+    Route::get('/employee-access/attendance/late-attendance-application/edit/{id}',[EALateAttendanceApplicationController::class,'edit'])->name('ea.attendance.lateAttendanceApplication.edit');
+    Route::get('/employee-access/attendance/late-attendance-application/show/{id}',[EALateAttendanceApplicationController::class,'show'])->name('ea.attendance.lateAttendanceApplication.show');
+    Route::post('/employee-access/attendance/late-attendance-application/send/{id}',[EALateAttendanceApplicationController::class,'send'])->name('ea.attendance.lateAttendanceApplication.send');
+    Route::post('/employee-access/attendance/late-attendance-application/update/{id}',[EALateAttendanceApplicationController::class,'update'])->name('ea.attendance.lateAttendanceApplication.update');
+    Route::post('/employee-access/attendance/late-attendance-application/destroy/{id}',[EALateAttendanceApplicationController::class,'destroy'])->name('ea.attendance.lateAttendanceApplication.destroy');
+    Route::get('/employee-access/attendance/late-attendance-application/download/{id}', [EALateAttendanceApplicationController::class,'download'])->name('ea.attendance.lateAttendanceApplication.download');
 
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');

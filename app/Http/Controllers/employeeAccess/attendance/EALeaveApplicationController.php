@@ -24,6 +24,16 @@ class EALeaveApplicationController extends Controller
         return view('modules.employeeAccess.attendance.leave.index',compact('leaveApplications'));
     }
 
+
+    public function getTypeBalance($category)
+    {
+        $policy = HrmLeaveType::where('id', $category)->value('yearly_leave_days');
+        $type = HrmLeaveType::find($category);
+        $taken = $type->LeaveTaken->sum('total_days');
+        $balance = $policy-$taken;
+        return response()->json(['balance' => $balance]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -33,7 +43,22 @@ class EALeaveApplicationController extends Controller
     {
         $users = HrmEmployee::where('job_status','In Service')->get();
         $types = HrmLeaveType::where('status','active')->get();
-        return view('modules.employeeAccess.attendance.leave.create',compact(['users','types']));
+
+        $leaveTypes = HrmLeaveType::with('LeaveTaken')->where('status','active')->get();
+
+        $leave_taken = [];
+        foreach ($leaveTypes as $type) {
+            $categoryStock = $type->LeaveTaken->sum('total_days');
+
+            $leave_taken[] = [
+                'leave_type_name' => $type->leave_type_name,
+                'yearly_leave_days'   => $type->yearly_leave_days,
+                'total_leave_taken'   => $categoryStock,
+            ];
+        }
+
+
+        return view('modules.employeeAccess.attendance.leave.create',compact(['users','types','leave_taken']));
     }
 
     /**

@@ -24,7 +24,7 @@
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Leave Type <span class="required text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <select class="form-control" name="type" required>
+                                        <select class="form-control" name="type" id="categorySelect" onchange="getTypeBalance()" required="required">
                                             <option value=""> -- select a type -- </option>
                                             @foreach($types as $type)
                                                 <option value="{{$type->id}}" @if(request('id')>0) @if($type->id==$leaveApplication->type) selected @endif @endif>{{$type->leave_type_name}}</option>
@@ -35,21 +35,29 @@
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Start Date <span class="required text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="date" name="start_date" @if(request('id')>0) value="{{$leaveApplication->start_date}}" @endif id="start_date" onchange="cal()" class="form-control" required>
+                                        <input type="date" name="start_date" @if(request('id')>0) value="{{$leaveApplication->start_date}}" @endif id="start_date" onchange="cal1()" class="form-control" required="required">
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">End Date <span class="required text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="date" name="end_date" @if(request('id')>0) value="{{$leaveApplication->end_date}}" @endif id="end_date" onchange="cal()" class="form-control">
+                                        <input type="date" name="end_date" @if(request('id')>0) value="{{$leaveApplication->end_date}}" @endif id="end_date" onchange="cal()" required="required" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Total Days </label>
                                     <div class="col-sm-8">
-                                        <input type="text" id="applied" name="total_days" @if(request('id')>0) value="{{$leaveApplication->total_days}}" @endif readonly required class="form-control">
+                                        <input type="text" id="total_days" name="total_days" @if(request('id')>0) value="{{$leaveApplication->total_days}}" @endif readonly required class="form-control">
                                     </div>
                                 </div>
+
+                                <div class="form-group row mb-2">
+                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Balance</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="typeBalance" name="total_days" readonly required  class="form-control">
+                                    </div>
+                                </div>
+
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Leave Reason <span class="required text-danger">*</span></label>
                                     <div class="col-sm-8">
@@ -107,7 +115,6 @@
                                         <input type="file" name="image" class="form-control">
                                     </div>
                                 </div>
-
                                 <div class="form-group row justify-content-end">
                                     <div class="col-sm-9">
                                         <div>
@@ -123,33 +130,44 @@
                                 </div>
                             </td>
                             <td style="vertical-align: top">
-                                <table class="table mb-0 font-size-12">
+                                <table class="table mb-0">
                                     <thead class="thead-light">
-                                    <tr>
+                                    <tr class="font-size-13">
+                                        <th colspan="4" class="text-center bg-primary text-white">Company Leave Policy</th>
+                                    </tr>
+                                    <tr class="font-size-11">
                                         <th class="text-left" style="vertical-align: middle">Leave Type</th>
                                         <th style="text-align: center; vertical-align: middle">Policy (Yearly)</th>
                                         <th style="text-align: center; vertical-align: middle">Taken ({{date('Y')}})</th>
+                                        <th style="text-align: center; vertical-align: middle">Balance</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @php($total = 0)
-                                    @foreach($types as $type)
-                                    <tr>
-                                        <td>{{$type->leave_type_name}}</td>
-                                        <td style="text-align: center">{{$type->yearly_leave_days}}</td>
-                                        <td style="text-align: center">0</td>
+                                    @php($total_leave_taken = 0)
+                                    @foreach($leave_taken as $type)
+                                    <tr class="font-size-11">
+                                        <td>{{$type['leave_type_name']}}</td>
+                                        <td style="text-align: center">{{$type['yearly_leave_days']}}</td>
+                                        <td style="text-align: center">{{$type['total_leave_taken']}}</td>
+                                        <td class="bg-pink text-white" style="text-align: center">{{$type['yearly_leave_days']-$type['total_leave_taken']}}</td>
                                     </tr>
-                                        @php($total = $total +$type->yearly_leave_days)
+                                        @php($total =$total+$type['yearly_leave_days'])
+                                        @php($total_leave_taken = $total_leave_taken + $type['total_leave_taken'])
+
                                     @endforeach
                                     </tbody>
-                                    <tfoot>
-                                    <tr>
+                                    <tfoot class="thead-light">
+                                    <tr class="font-size-11">
                                         <th>Total</th>
                                         <th style="text-align: center">{{$total}}</th>
-                                        <th style="text-align: center">0</th>
+                                        <th style="text-align: center">{{$total_leave_taken}}</th>
+                                        <th style="text-align: center">{{$total-$total_leave_taken}}</th>
                                     </tr>
                                     </tfoot>
                                 </table>
+                                <br>
+                                <span style="margin-top: 20px" class="text-danger">**Note: To avoid rejection of your application, do not apply more leave days than the remaining balance of each leave type.</span>
                             </td>
                         </tr>
                     </table>
@@ -163,13 +181,44 @@
                 var pickdt = new Date(document.getElementById("end_date").value);
                 return parseInt((pickdt - dropdt) / (24 * 3600 * 1000))+1;
             }
-            function cal(){
+            function cal1(){
                 if(document.getElementById("end_date")){
-                    document.getElementById("applied").value=GetDays();
+                    document.getElementById("total_days").value=GetDays();
+                    document.getElementById('end_date').value = '';
+                    document.getElementById('total_days').value = '';
                 }
             }
+            function cal(){
+                if(document.getElementById("end_date")){
+                    document.getElementById("total_days").value=GetDays();
+                }
+                var value1 = document.getElementById('total_days').value;
+                var value2 = document.getElementById('typeBalance').value;
+                if (value1 > value2) {
+                    alert('oops!! exceed leave balance. Please check your leave balance from right section(Selected pink color) & apply again!! Thanks');
+                    document.getElementById('end_date').value = '';
+                    document.getElementById('total_days').value = '';
+                }
+            }
+
+            function getTypeBalance() {
+                const selectedCategory = document.getElementById("categorySelect").value;
+                $.ajax({
+                    url: `/get-type-balance/${selectedCategory}`,
+                    method: 'GET',
+                    success: function(response) {
+                        document.getElementById("typeBalance").value = response.balance;
+                    },
+                    error: function(error) {
+                        console.error("Error fetching category balance:", error);
+                    }
+                });
+
+                document.getElementById('start_date').value = '';
+                document.getElementById('end_date').value = '';
+                document.getElementById('total_days').value = '';
+            }
+            getTypeBalance();
         </script>
     </div>
 @endsection
-
-

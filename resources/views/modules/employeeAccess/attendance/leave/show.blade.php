@@ -55,8 +55,14 @@
                                     <td>{{$leaveApplication->responsiblePerson->name}}</td>
                                     <th style="width: 20%">Recommended By</th>
                                     <th style="width: 1%">:</th>
-                                    <td>{{$leaveApplication->RecommendedPerson->name}}<br>
+                                    <td>
+
+                                        {{$leaveApplication->RecommendedPerson->name}}
+                                        @empty($leaveApplication->recommended_at)
+                                         - <span class="badge badge-danger">PENDING</span><br>
+                                        @else
                                         {{$leaveApplication->recommended_at}}
+                                        @endempty
                                     </td>
                                 </tr>
 
@@ -66,22 +72,38 @@
                                     <td>{{$leaveApplication->created_at}}</td>
                                     <th style="width: 20%">Approved By</th>
                                     <th style="width: 1%">:</th>
-                                    <td>{{$leaveApplication->ApprovedPerson->name}}<br>
-                                        {{$leaveApplication->approved_at}}
+                                    <td>{{$leaveApplication->ApprovedPerson->name}}
+                                        @empty($leaveApplication->approved_at)
+                                            - <span class="badge badge-danger">PENDING</span><br>
+                                        @else
+                                            {{$leaveApplication->approved_at}}
+                                        @endempty
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>HR View Status</th>
                                     <th>:</th>
                                     <td>
-                                        {{$leaveApplication->hrm_viewed}}<br>
-                                        @if($leaveApplication->hrm_viewed=='yes') {{$leaveApplication->hrm_viewed_at}} @endif
+                                        @if($leaveApplication->hrm_viewed=='no')
+                                            <span class="badge badge-danger">PENDING</span>
+                                        @else
+                                            <span class="badge badge-success">Done</span>
+                                        @endif
+                                        <br>
+                                        @if($leaveApplication->hrm_viewed=='yes') - {{$leaveApplication->hrm_viewed_at}} @endif
                                     </td>
 
                                     <th style="width: 20%">GRANTED By</th>
                                     <th style="width: 1%">:</th>
-                                    <td>{{$leaveApplication->ApprovedPerson->name}}<br>
-                                        {{$leaveApplication->approved_at}}
+                                    <td>
+                                        @if($leaveApplication->granted_by > 0)
+                                        {{$leaveApplication->GrantPerson->name}}
+                                        @endif
+                                        @empty($leaveApplication->granted_at)
+                                            - <span class="badge badge-danger">PENDING</span><br>
+                                        @else
+                                            {{$leaveApplication->granted_at}}
+                                        @endempty
                                     </td>
                                 </tr>
                             </table>

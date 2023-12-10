@@ -15,6 +15,7 @@
     <link href="{{asset('/')}}assets/css/bootstrap.min.css"  rel="stylesheet" type="text/css" />
     <link href="{{asset('/')}}assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('/')}}assets/css/app.min.css"  rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body data-sidebar="dark">
 <div id="layout-wrapper">

@@ -14,11 +14,13 @@ class EALeaveApplication extends Model
 
     public static function getImageUrl($request)
     {
-        self::$image        = $request->file('image');
-        self::$imageName    = self::$image->getClientOriginalName();
-        self::$directory    = 'assets/application/leave/';
-        self::$image->move(self::$directory, self::$imageName);
-        return self::$directory.self::$imageName;
+        if($request->file('image')) {
+            self::$image = $request->file('image');
+            self::$imageName = self::$image->getClientOriginalName();
+            self::$directory = 'assets/application/leave/';
+            self::$image->move(self::$directory, self::$imageName);
+            return self::$directory . self::$imageName;
+        }
     }
 
     public static function storeLeaveApplication($request)
