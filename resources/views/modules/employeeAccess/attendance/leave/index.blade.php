@@ -35,38 +35,38 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($lateAttendances as $lateAttendance)
+                            @foreach($leaveApplications as $leaveApplication)
                                 <tr>
                                     <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
-                                    <td style="text-align: center; vertical-align: middle">{{$lateAttendance->id}}</td>
-                                    <td style="text-align: left; vertical-align: middle">{{$lateAttendance->created_at}}</td>
-                                    <td style="vertical-align: middle">{{$lateAttendance->start_date}}</td>
-                                    <td style="vertical-align: middle">{{$lateAttendance->end_date}}</td>
-                                    <td style="vertical-align: middle">{{$lateAttendance->total_days}}</td>
-                                    <td style="vertical-align: middle">{{$lateAttendance->reason}}</td>
+                                    <td style="text-align: center; vertical-align: middle">{{$leaveApplication->id}}</td>
+                                    <td style="text-align: left; vertical-align: middle">{{$leaveApplication->created_at}}</td>
+                                    <td style="vertical-align: middle">{{$leaveApplication->start_date}}</td>
+                                    <td style="vertical-align: middle">{{$leaveApplication->end_date}}</td>
+                                    <td style="vertical-align: middle">{{$leaveApplication->total_days}}</td>
+                                    <td style="vertical-align: middle">{{$leaveApplication->reason}}</td>
                                     <td style="vertical-align: middle">
-                                        @if($lateAttendance->status == 'GRANTED') <span class="badge badge-success">GRANTED</span>
-                                        @elseif($lateAttendance->status == 'DELETED') <span class="badge badge-soft-danger">DELETED</span>
-                                        @elseif($lateAttendance->status == 'REJECTED') <span class="badge badge-danger">REJECTED</span>
-                                        @elseif($lateAttendance->status == 'DRAFTED') <span class="badge badge-dark">DRAFTED</span>
-                                        @elseif($lateAttendance->status == 'PENDING') <span class="badge badge-soft-dark">PENDING</span>
-                                        @elseif($lateAttendance->status == 'APPROVED') <span class="badge badge-pink">APPROVED</span>
-                                        @elseif($lateAttendance->status == 'RECOMMENDED') <span class="badge badge-soft-success">RECOMMENDED</span>
+                                        @if($leaveApplication->status == 'GRANTED') <span class="badge badge-success">GRANTED</span>
+                                        @elseif($leaveApplication->status == 'DELETED') <span class="badge badge-soft-danger">DELETED</span>
+                                        @elseif($leaveApplication->status == 'REJECTED') <span class="badge badge-danger">REJECTED</span>
+                                        @elseif($leaveApplication->status == 'DRAFTED') <span class="badge badge-dark">DRAFTED</span>
+                                        @elseif($leaveApplication->status == 'PENDING') <span class="badge badge-soft-dark">PENDING</span>
+                                        @elseif($leaveApplication->status == 'APPROVED') <span class="badge badge-pink">APPROVED</span>
+                                        @elseif($leaveApplication->status == 'RECOMMENDED') <span class="badge badge-soft-success">RECOMMENDED</span>
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        <form action="{{route('ea.attendance.leaveApplication.destroy', ['id' => $lateAttendance->id])}}" method="post">
+                                        <form action="{{route('ea.attendance.leaveApplication.destroy', ['id' => $leaveApplication->id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('ea.attendance.leaveApplication.show',['id' => $lateAttendance->id])}}" title="show" class="btn btn-primary btn-sm">
+                                            <a href="{{route('ea.attendance.leaveApplication.show',['id' => $leaveApplication->id])}}" title="show" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
-                                            @if($lateAttendance->status=='GRANTED')
-                                            <a href="{{route('ea.attendance.leaveApplication.download',['id' => $lateAttendance->id])}}" title="download" class="btn btn-info btn-sm">
+                                            @if($leaveApplication->status=='GRANTED')
+                                            <a href="{{route('ea.attendance.leaveApplication.download',['id' => $leaveApplication->id])}}" title="download" class="btn btn-info btn-sm">
                                                 <i class="fa fa-download"></i>
                                             </a>
                                             @endif
-                                            @if($lateAttendance->status=='DRAFTED')
-                                            <a href="{{route('ea.attendance.leaveApplication.edit',['id' => $lateAttendance->id])}}" title="Update" class="btn btn-success btn-sm">
+                                            @if($leaveApplication->status=='DRAFTED')
+                                            <a href="{{route('ea.attendance.leaveApplication.edit',['id' => $leaveApplication->id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

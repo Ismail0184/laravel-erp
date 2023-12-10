@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('e_a_leave_applications', function (Blueprint $table) {
+        Schema::create('ea_leave_applications', function (Blueprint $table) {
             $table->id();
             $table->integer('employee_id');
             $table->integer('type');
             $table->date('start_date');
             $table->date('end_date');
             $table->double('total_days');
+            $table->double('balance_days');
             $table->string('reason',255)->nullable();
             $table->integer('responsible_person')->nullable();
             $table->string('leave_address',150)->nullable();
@@ -39,6 +40,7 @@ return new class extends Migration
             $table->timestamp('hrm_viewed_at')->nullable(true);
             $table->enum('employee_viewed',['no','yes'])->default('no');
             $table->timestamp('employee_viewed_at')->nullable(true);
+            $table->year('year');
             $table->integer('sconid');
             $table->integer('pcomid');
             $table->timestamps();
@@ -52,6 +54,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('e_a_leave_applications');
+        Schema::dropIfExists('ea_leave_applications');
     }
 };

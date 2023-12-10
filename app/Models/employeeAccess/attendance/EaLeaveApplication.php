@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Models\employeeAccess\attendance;
+
 use App\Models\HRM\setup\HrmLeaveType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EALeaveApplication extends Model
+class EaLeaveApplication extends Model
 {
     use HasFactory;
 
@@ -31,6 +32,7 @@ class EALeaveApplication extends Model
         self::$leaveApplication->start_date = $request->start_date;
         self::$leaveApplication->end_date = $request->end_date;
         self::$leaveApplication->total_days = $request->total_days;
+        self::$leaveApplication->balance_days = $request->balance_days;
         self::$leaveApplication->reason = $request->reason;
         self::$leaveApplication->responsible_person = $request->responsible_person;
         self::$leaveApplication->leave_address = $request->leave_address;
@@ -38,6 +40,7 @@ class EALeaveApplication extends Model
         self::$leaveApplication->image = self::getImageUrl($request);
         self::$leaveApplication->recommended_by = $request->recommended_by;
         self::$leaveApplication->approved_by = $request->approved_by;
+        self::$leaveApplication->year = date('Y');
         self::$leaveApplication->sconid = 1;
         self::$leaveApplication->pcomid = 1;
         self::$leaveApplication->save();
@@ -59,6 +62,7 @@ class EALeaveApplication extends Model
         self::$leaveApplication->start_date = $request->start_date;
         self::$leaveApplication->end_date = $request->end_date;
         self::$leaveApplication->total_days = $request->total_days;
+        self::$leaveApplication->balance_days = $request->balance_days;
         self::$leaveApplication->reason = $request->reason;
         self::$leaveApplication->responsible_person = $request->responsible_person;
         self::$leaveApplication->leave_address = $request->leave_address;

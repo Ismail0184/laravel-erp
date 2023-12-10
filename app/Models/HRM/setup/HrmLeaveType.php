@@ -41,6 +41,6 @@ class HrmLeaveType extends Model
 
     public function LeaveTaken()
     {
-        return $this->hasMany(EALeaveApplication::class,'type','id')->whereNotIn('status',['DELETED'])->where('employee_id',Auth::user()->id);
+        return $this->hasMany(EaLeaveApplication::class,'type','id')->whereNotIn('status',['DELETED'])->where('employee_id',Auth::user()->id);
     }
 }

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Leave Application # {{request('id')}}</title>
+    <title>Late Attendance Application # {{request('id')}}</title>
 
     <style>
         .invoice-box {
@@ -140,7 +140,7 @@
 
         <tr>
             <td colspan="5">
-                <h3 style="text-align: center; font-size: 15px; margin-top: -50px;">LEAVE APPLICATION</h3>
+                <h3 style="text-align: center; font-size: 15px; margin-top: -50px;">LATE ATTENDANCE APPLICATION</h3>
             </td>
         </tr>
         <tr class="information">
@@ -154,7 +154,7 @@
 
                         <td>
                             <strong>Application Date:</strong>
-                            {{$leaveApplication->created_at}}<br>
+                            {{$lateAttendanceApplication->created_at}}<br>
                         </td>
                     </tr>
                 </table>
@@ -170,26 +170,26 @@
             <td style="text-align: center; vertical-align: middle">Mobile (During Leave)</td>
         </tr>
         <tr class="item">
-            <td style="text-align: center; vertical-align: middle">{{$leaveApplication->start_date}} to {{$leaveApplication->start_date}}</td>
-            <td style="text-align: center; vertical-align: middle">{{$leaveApplication->total_days}}</td>
-            <td style="text-align: center; vertical-align: middle">{{$leaveApplication->reason}}</td>
-            <td style="text-align: center; vertical-align: middle">{{$leaveApplication->leave_address}}</td>
-            <td style="text-align: center; vertical-align: middle">{{$leaveApplication->leave_mobile_number}}</td>
+            <td style="text-align: center; vertical-align: middle">{{$lateAttendanceApplication->start_date}} to {{$lateAttendanceApplication->start_date}}</td>
+            <td style="text-align: center; vertical-align: middle">{{$lateAttendanceApplication->total_days}}</td>
+            <td style="text-align: center; vertical-align: middle">{{$lateAttendanceApplication->reason}}</td>
+            <td style="text-align: center; vertical-align: middle">{{$lateAttendanceApplication->leave_address}}</td>
+            <td style="text-align: center; vertical-align: middle">{{$lateAttendanceApplication->leave_mobile_number}}</td>
         </tr>
     </table>
 
     <table style="font-size: 11px; margin-top: 60px">
         <tr class="signature">
-            <td style="text-align: center; width: 25%">{{$leaveApplication->AppliedBy->name}}</td>
-            <td style="text-align: center; width: 25%">{{$leaveApplication->RecommendedPerson->name}}</td>
-            <td style="text-align: center; width: 25%">{{$leaveApplication->ApprovedPerson->name}}</td>
-            <td style="text-align: center; width: 25%">{{$leaveApplication->GrantPerson->name}}</td>
+            <td style="text-align: center; width: 25%">{{$lateAttendanceApplication->AppliedBy->name}}</td>
+            <td style="text-align: center; width: 25%">{{$lateAttendanceApplication->RecommendedPerson->name}}</td>
+            <td style="text-align: center; width: 25%">{{$lateAttendanceApplication->ApprovedPerson->name}}</td>
+            <td style="text-align: center; width: 25%">{{$lateAttendanceApplication->GrantPerson->name}}</td>
         </tr>
         <tr class="signature0">
-            <td style="text-align: center">(at: {{$leaveApplication->created_at}})</td>
-            <td style="text-align: center">(at: {{$leaveApplication->recommended_at}})</td>
-            <td style="text-align: center">(at: {{$leaveApplication->approved_at}})</td>
-            <td style="text-align: center">(at: {{$leaveApplication->granted_at}})</td>
+            <td style="text-align: center">(at: {{$lateAttendanceApplication->created_at}})</td>
+            <td style="text-align: center">(at: {{$lateAttendanceApplication->recommended_at}})</td>
+            <td style="text-align: center">(at: {{$lateAttendanceApplication->approved_at}})</td>
+            <td style="text-align: center">(at: {{$lateAttendanceApplication->granted_at}})</td>
         </tr>
 
         <tr class="signature2">

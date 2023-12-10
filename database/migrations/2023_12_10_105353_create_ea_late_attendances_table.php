@@ -19,7 +19,6 @@ return new class extends Migration
             $table->date('date');
             $table->string('late_entry_at');
             $table->string('late_reason',255)->nullable();
-            $table->string('image')->nullable();
             $table->enum('status',['DRAFTED','PENDING','RECOMMENDED','NOT RECOMMENDED','APPROVED','NOT APPROVED','REJECTED','GRANTED','DELETED'])->default('DRAFTED');
             $table->integer('recommended_by');
             $table->string('remarks_while_recommended')->nullable();
@@ -34,6 +33,7 @@ return new class extends Migration
             $table->timestamp('hrm_viewed_at')->nullable(true);
             $table->enum('employee_viewed',['no','yes'])->default('no');
             $table->timestamp('employee_viewed_at')->nullable(true);
+            $table->year('year');
             $table->integer('sconid');
             $table->integer('pcomid');
             $table->timestamps();

@@ -35,7 +35,7 @@
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Start Date <span class="required text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="date" name="start_date" @if(request('id')>0) value="{{$leaveApplication->start_date}}" @endif id="start_date" onchange="cal1()" class="form-control" required="required">
+                                        <input type="date" name="start_date" @if(request('id')>0) value="{{$leaveApplication->start_date}}" @endif id="start_date" onchange="cal1()"  class="form-control" required="required">
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2">
@@ -54,7 +54,7 @@
                                 <div class="form-group row mb-2">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Balance</label>
                                     <div class="col-sm-8">
-                                        <input type="text" id="typeBalance" name="total_days" readonly required  class="form-control">
+                                        <input type="text" id="typeBalance" name="balance_days" @if(request('id')>0) value="{{$leaveApplication->balance_days}}" @endif readonly required  class="form-control">
                                     </div>
                                 </div>
 
@@ -175,6 +175,7 @@
             </div>
         </div>
 
+
         <script>
             function GetDays(){
                 var dropdt = new Date(document.getElementById("start_date").value);
@@ -184,8 +185,11 @@
             function cal1(){
                 if(document.getElementById("end_date")){
                     document.getElementById("total_days").value=GetDays();
+                    @if(request('id')>0)
+                        @else
                     document.getElementById('end_date').value = '';
                     document.getElementById('total_days').value = '';
+                    @endif
                 }
             }
             function cal(){
@@ -196,8 +200,11 @@
                 var value2 = document.getElementById('typeBalance').value;
                 if (value1 > value2) {
                     alert('oops!! exceed leave balance. Please check your leave balance from right section(Selected pink color) & apply again!! Thanks');
+                    @if(request('id')>0)
+                    @else
                     document.getElementById('end_date').value = '';
                     document.getElementById('total_days').value = '';
+                    @endif
                 }
             }
 
@@ -214,9 +221,12 @@
                     }
                 });
 
+                @if(request('id')>0)
+                @else
                 document.getElementById('start_date').value = '';
                 document.getElementById('end_date').value = '';
                 document.getElementById('total_days').value = '';
+                @endif
             }
             getTypeBalance();
         </script>

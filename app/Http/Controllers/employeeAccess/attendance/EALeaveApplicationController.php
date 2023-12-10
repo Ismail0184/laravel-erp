@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\employeeAccess\attendance;
 
 use App\Http\Controllers\Controller;
-use App\Models\employeeAccess\attendance\EALeaveApplication;
+use App\Models\employeeAccess\attendance\EaLeaveApplication;
 use App\Models\HRM\employee\HrmEmployee;
 use App\Models\HRM\setup\HrmLeaveType;
 use App\Models\User;
@@ -20,7 +20,7 @@ class EALeaveApplicationController extends Controller
      */
     public function index()
     {
-        $leaveApplications = EALeaveApplication::where('employee_id',Auth::user()->id)->get();
+        $leaveApplications = EaLeaveApplication::where('employee_id',Auth::user()->id)->get();
         return view('modules.employeeAccess.attendance.leave.index',compact('leaveApplications'));
     }
 
@@ -69,14 +69,14 @@ class EALeaveApplicationController extends Controller
      */
     public function store(Request $request)
     {
-        EALeaveApplication::storeLeaveApplication($request);
+        EaLeaveApplication::storeLeaveApplication($request);
         return redirect('/employee-access/attendance/leave-application/')->with('store_message','A leave application has been successfully created!!');
     }
 
 
     public function send(Request $request, $id)
     {
-        EALeaveApplication::sendLeaveApplication($request, $id);
+        EaLeaveApplication::sendLeaveApplication($request, $id);
         return redirect('/employee-access/attendance/leave-application/')->with('send_message','This Leave application has been sent!!');
     }
 
@@ -88,13 +88,13 @@ class EALeaveApplicationController extends Controller
      */
     public function show($id)
     {
-        $leaveApplication = EALeaveApplication::findOrfail($id);
+        $leaveApplication = EaLeaveApplication::findOrfail($id);
         return view('modules.employeeAccess.attendance.leave.show',compact('leaveApplication'));
     }
 
     public function download($id)
     {
-        $this->application = EALeaveApplication::find($id);
+        $this->application = EaLeaveApplication::find($id);
         $pdf = PDF::loadView('modules.employeeAccess.attendance.leave.download', [
             'leaveApplication' =>$this->application,
         ]);
@@ -109,10 +109,22 @@ class EALeaveApplicationController extends Controller
      */
     public function edit($id)
     {
-        $leaveApplication = EALeaveApplication::findOrfail($id);
+        $leaveApplication = EaLeaveApplication::findOrfail($id);
         $users = HrmEmployee::where('job_status','In Service')->get();
         $types = HrmLeaveType::where('status','active')->get();
-        return view('modules.employeeAccess.attendance.leave.create',compact(['leaveApplication','users','types']));
+        $leaveTypes = HrmLeaveType::with('LeaveTaken')->where('status','active')->get();
+
+        $leave_taken = [];
+        foreach ($leaveTypes as $type) {
+            $categoryStock = $type->LeaveTaken->sum('total_days');
+
+            $leave_taken[] = [
+                'leave_type_name' => $type->leave_type_name,
+                'yearly_leave_days'   => $type->yearly_leave_days,
+                'total_leave_taken'   => $categoryStock,
+            ];
+        }
+        return view('modules.employeeAccess.attendance.leave.create',compact(['leaveApplication','users','types','leave_taken']));
     }
 
     /**
@@ -124,7 +136,7 @@ class EALeaveApplicationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        EALeaveApplication::updateLeaveApplication($request, $id);
+        EaLeaveApplication::updateLeaveApplication($request, $id);
         return redirect('/employee-access/attendance/leave-application/')->with('update_message','This Leave application has been updated!!');
     }
 
@@ -136,7 +148,7 @@ class EALeaveApplicationController extends Controller
      */
     public function destroy($id)
     {
-        EALeaveApplication::destroyLeaveApplication($id);
+        EaLeaveApplication::destroyLeaveApplication($id);
         return redirect('/employee-access/attendance/leave-application/')->with('destroy_message','This Leave application has been deleted!!');
     }
 }
