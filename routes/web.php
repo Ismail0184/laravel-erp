@@ -69,6 +69,7 @@ use App\Http\Controllers\HRM\payroll\HrmPayrollSalaryController;
 use App\Http\Controllers\HRM\payroll\HrmPayrollSalaryScaleController;
 use App\Http\Controllers\employeeAccess\attendance\EALeaveApplicationController;
 use App\Http\Controllers\employeeAccess\attendance\EALateAttendanceApplicationController;
+use App\Http\Controllers\employeeAccess\attendance\EaOutDoorDutyController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -772,6 +773,17 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/employee-access/attendance/late-attendance-application/update/{id}',[EALateAttendanceApplicationController::class,'update'])->name('ea.attendance.lateAttendanceApplication.update');
     Route::post('/employee-access/attendance/late-attendance-application/destroy/{id}',[EALateAttendanceApplicationController::class,'destroy'])->name('ea.attendance.lateAttendanceApplication.destroy');
     Route::get('/employee-access/attendance/late-attendance-application/download/{id}', [EALateAttendanceApplicationController::class,'download'])->name('ea.attendance.lateAttendanceApplication.download');
+
+    // Employee Access/ Attendance / Outdoor Duty
+    Route::get('/employee-access/attendance/outdoor-duty/',[EaOutDoorDutyController::class,'index'])->name('ea.attendance.outdoorDuty');
+    Route::get('/employee-access/attendance/outdoor-duty/create/',[EaOutDoorDutyController::class,'create'])->name('ea.attendance.outdoorDuty.create');
+    Route::post('/employee-access/attendance/outdoor-duty/store',[EaOutDoorDutyController::class,'store'])->name('ea.attendance.outdoorDuty.store');
+    Route::get('/employee-access/attendance/outdoor-duty/edit/{id}',[EaOutDoorDutyController::class,'edit'])->name('ea.attendance.outdoorDuty.edit');
+    Route::get('/employee-access/attendance/outdoor-duty/show/{id}',[EaOutDoorDutyController::class,'show'])->name('ea.attendance.outdoorDuty.show');
+    Route::post('/employee-access/attendance/outdoor-duty/send/{id}',[EaOutDoorDutyController::class,'send'])->name('ea.attendance.outdoorDuty.send');
+    Route::post('/employee-access/attendance/outdoor-duty/update/{id}',[EaOutDoorDutyController::class,'update'])->name('ea.attendance.outdoorDuty.update');
+    Route::post('/employee-access/attendance/outdoor-duty/destroy/{id}',[EaOutDoorDutyController::class,'destroy'])->name('ea.attendance.outdoorDuty.destroy');
+    Route::get('/employee-access/attendance/outdoor-duty/download/{id}', [EaOutDoorDutyController::class,'download'])->name('ea.attendance.outdoorDuty.download');
 
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');

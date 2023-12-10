@@ -116,7 +116,7 @@
                                     <div class="col-md-6 text-left">
                                         <form action="{{route('ea.attendance.leaveApplication.destroy', ['id'=>$leaveApplication->id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('ea.attendance.leaveApplication.destroy',['id' => $leaveApplication->id])}}" type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm to delete?');">Delete</a>
+                                            <button type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm to delete?');">Delete</button>
                                         </form>
                                         <form action="{{route('ea.attendance.leaveApplication.send', ['id'=>$leaveApplication->id])}}" method="post">
                                             @csrf

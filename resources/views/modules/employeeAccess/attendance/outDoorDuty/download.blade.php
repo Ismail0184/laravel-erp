@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Late Attendance Application # {{request('id')}}</title>
+    <title>Outdoor Duty Application # {{request('id')}}</title>
 
     <style>
         .invoice-box {
@@ -140,7 +140,7 @@
 
         <tr>
             <td colspan="3">
-                <h3 style="text-align: center; font-size: 15px; margin-top: -50px;">LATE ATTENDANCE APPLICATION</h3>
+                <h3 style="text-align: center; font-size: 15px; margin-top: -50px;">OUTDOOR DUTY APPLICATION</h3>
             </td>
         </tr>
         <tr class="information">
@@ -154,7 +154,7 @@
 
                         <td>
                             <strong>Application Date:</strong>
-                            {{$lateAttendanceApplication->created_at}}<br>
+                            {{$outdoorDutyApplication->created_at}}<br>
                         </td>
                     </tr>
                 </table>
@@ -164,28 +164,28 @@
 
         <tr class="heading">
             <td style="text-align: center; vertical-align: middle">Date</td>
-            <td style="text-align: center; vertical-align: middle">Late Entry At</td>
-            <td style="text-align: center; vertical-align: middle">Late Reason</td>
+            <td style="text-align: center; vertical-align: middle">OD Place</td>
+            <td style="text-align: center; vertical-align: middle">OD Purpose</td>
         </tr>
         <tr class="item">
-            <td style="text-align: center; vertical-align: middle">{{$lateAttendanceApplication->date}}</td>
-            <td style="text-align: center; vertical-align: middle">{{$lateAttendanceApplication->late_entry_at}}</td>
-            <td style="text-align: center; vertical-align: middle">{{$lateAttendanceApplication->late_reason}}</td>
+            <td style="text-align: center; vertical-align: middle">{{$outdoorDutyApplication->date}}</td>
+            <td style="text-align: center; vertical-align: middle">{{$outdoorDutyApplication->od_place}}</td>
+            <td style="text-align: center; vertical-align: middle">{{$outdoorDutyApplication->reason}}</td>
         </tr>
     </table>
 
     <table style="font-size: 11px; margin-top: 60px">
         <tr class="signature">
-            <td style="text-align: center; width: 25%">{{$lateAttendanceApplication->AppliedBy->name}}</td>
-            <td style="text-align: center; width: 25%">{{$lateAttendanceApplication->RecommendedPerson->name}}</td>
-            <td style="text-align: center; width: 25%">{{$lateAttendanceApplication->ApprovedPerson->name}}</td>
-            <td style="text-align: center; width: 25%">{{$lateAttendanceApplication->GrantPerson->name}}</td>
+            <td style="text-align: center; width: 25%">{{$outdoorDutyApplication->AppliedBy->name}}</td>
+            <td style="text-align: center; width: 25%">{{$outdoorDutyApplication->RecommendedPerson->name}}</td>
+            <td style="text-align: center; width: 25%">{{$outdoorDutyApplication->ApprovedPerson->name}}</td>
+            <td style="text-align: center; width: 25%">{{$outdoorDutyApplication->GrantPerson->name}}</td>
         </tr>
         <tr class="signature0">
-            <td style="text-align: center">(at: {{$lateAttendanceApplication->created_at}})</td>
-            <td style="text-align: center">(at: {{$lateAttendanceApplication->recommended_at}})</td>
-            <td style="text-align: center">(at: {{$lateAttendanceApplication->approved_at}})</td>
-            <td style="text-align: center">(at: {{$lateAttendanceApplication->granted_at}})</td>
+            <td style="text-align: center">(at: {{$outdoorDutyApplication->created_at}})</td>
+            <td style="text-align: center">(at: {{$outdoorDutyApplication->recommended_at}})</td>
+            <td style="text-align: center">(at: {{$outdoorDutyApplication->approved_at}})</td>
+            <td style="text-align: center">(at: {{$outdoorDutyApplication->granted_at}})</td>
         </tr>
 
         <tr class="signature2">
