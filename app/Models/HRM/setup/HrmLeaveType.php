@@ -43,4 +43,12 @@ class HrmLeaveType extends Model
     {
         return $this->hasMany(EaLeaveApplication::class,'type','id')->whereNotIn('status',['DELETED'])->where('employee_id',Auth::user()->id);
     }
+    public function LeaveApplied()
+    {
+        return $this->hasMany(EaLeaveApplication::class,'type','id')->whereNotIn('status',['DELETED','GRANTED'])->where('employee_id',Auth::user()->id);
+    }
+    public function LeaveGranted()
+    {
+        return $this->hasMany(EaLeaveApplication::class,'type','id')->where('status','GRANTED')->where('employee_id',Auth::user()->id);
+    }
 }

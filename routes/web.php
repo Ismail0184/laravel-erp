@@ -70,6 +70,8 @@ use App\Http\Controllers\HRM\payroll\HrmPayrollSalaryScaleController;
 use App\Http\Controllers\employeeAccess\attendance\EALeaveApplicationController;
 use App\Http\Controllers\employeeAccess\attendance\EALateAttendanceApplicationController;
 use App\Http\Controllers\employeeAccess\attendance\EaOutDoorDutyController;
+use App\Http\Controllers\employeeAccess\attendance\EaEarlyLeaveApplicationController;
+use App\Http\Controllers\employeeAccess\recommendation\EaRecommendationLeaveController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -763,7 +765,18 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/employee-access/attendance/leave-application/destroy/{id}',[EALeaveApplicationController::class,'destroy'])->name('ea.attendance.leaveApplication.destroy');
     Route::get('/employee-access/attendance/leave-application/download/{id}', [EALeaveApplicationController::class,'download'])->name('ea.attendance.leaveApplication.download');
 
-    // Employee Access/ Attendance / Leave Application
+    // Employee Access/ Attendance / Early Leave Application
+    Route::get('/employee-access/attendance/early-leave-application/',[EaEarlyLeaveApplicationController::class,'index'])->name('ea.attendance.earlyLeaveApplication');
+    Route::get('/employee-access/attendance/early-leave-application/create/',[EaEarlyLeaveApplicationController::class,'create'])->name('ea.attendance.earlyLeaveApplication.create');
+    Route::post('/employee-access/attendance/early-leave-application/store',[EaEarlyLeaveApplicationController::class,'store'])->name('ea.attendance.earlyLeaveApplication.store');
+    Route::get('/employee-access/attendance/early-leave-application/edit/{id}',[EaEarlyLeaveApplicationController::class,'edit'])->name('ea.attendance.earlyLeaveApplication.edit');
+    Route::get('/employee-access/attendance/early-leave-application/show/{id}',[EaEarlyLeaveApplicationController::class,'show'])->name('ea.attendance.earlyLeaveApplication.show');
+    Route::post('/employee-access/attendance/early-leave-application/send/{id}',[EaEarlyLeaveApplicationController::class,'send'])->name('ea.attendance.earlyLeaveApplication.send');
+    Route::post('/employee-access/attendance/early-leave-application/update/{id}',[EaEarlyLeaveApplicationController::class,'update'])->name('ea.attendance.earlyLeaveApplication.update');
+    Route::post('/employee-access/attendance/early-leave-application/destroy/{id}',[EaEarlyLeaveApplicationController::class,'destroy'])->name('ea.attendance.earlyLeaveApplication.destroy');
+    Route::get('/employee-access/attendance/early-leave-application/download/{id}', [EaEarlyLeaveApplicationController::class,'download'])->name('ea.attendance.earlyLeaveApplication.download');
+
+    // Employee Access/ Attendance / Late Attendance Application
     Route::get('/employee-access/attendance/late-attendance-application/',[EALateAttendanceApplicationController::class,'index'])->name('ea.attendance.lateAttendanceApplication');
     Route::get('/employee-access/attendance/late-attendance-application/create/',[EALateAttendanceApplicationController::class,'create'])->name('ea.attendance.lateAttendanceApplication.create');
     Route::post('/employee-access/attendance/late-attendance-application/store',[EALateAttendanceApplicationController::class,'store'])->name('ea.attendance.lateAttendanceApplication.store');
@@ -784,6 +797,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/employee-access/attendance/outdoor-duty/update/{id}',[EaOutDoorDutyController::class,'update'])->name('ea.attendance.outdoorDuty.update');
     Route::post('/employee-access/attendance/outdoor-duty/destroy/{id}',[EaOutDoorDutyController::class,'destroy'])->name('ea.attendance.outdoorDuty.destroy');
     Route::get('/employee-access/attendance/outdoor-duty/download/{id}', [EaOutDoorDutyController::class,'download'])->name('ea.attendance.outdoorDuty.download');
+
+    // Employee Access/ Recommend / Leave Application
+    Route::get('/employee-access/recommendation/leave/',[EaRecommendationLeaveController::class,'index'])->name('ea.recommendation.leave');
+    Route::get('/employee-access/recommendation/leave/show/{id}',[EaRecommendationLeaveController::class,'show'])->name('ea.attendance.recommendation.leave.show');
+    Route::post('/employee-access/recommendation/leave/recommend/{id}',[EaRecommendationLeaveController::class,'recommend'])->name('ea.recommendation.leave.recommend');
+    Route::post('/employee-access/recommendation/leave/reject/{id}',[EaRecommendationLeaveController::class,'reject'])->name('ea.recommendation.leave.reject');
 
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');

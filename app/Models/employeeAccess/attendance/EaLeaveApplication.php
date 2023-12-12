@@ -114,4 +114,14 @@ class EaLeaveApplication extends Model
     {
         EALeaveApplication::where('id',$id)->update(['status'=>'DELETED']);
     }
+
+    public static function recommendLeaveApplication($request, $id)
+    {
+        EALeaveApplication::where('id',$id)->update(
+            [
+                'status'=>'RECOMMENDED',
+                'remarks_while_recommended'=>$request->remarks,
+                'recommended_at'=>now()
+        ]);
+    }
 }
