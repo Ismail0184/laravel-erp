@@ -77,9 +77,9 @@
                                 @php($total_leave_taken = 0)
                                 <tr class="text-center bg-primary text-white font-size-11">
                                     <td class="text-left">Leave Categories</td>
-                                @foreach($leave_taken as $type)
+                                    @foreach($leave_taken as $type)
                                         <td>{{$type['leave_type_name']}}</td>
-                                @endforeach
+                                    @endforeach
                                 </tr>
                                 <tr class="font-size-11">
                                     <td>Leave Policy</td>

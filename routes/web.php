@@ -804,6 +804,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/employee-access/recommendation/leave/recommend/{id}',[EaRecommendationLeaveController::class,'recommend'])->name('ea.recommendation.leave.recommend');
     Route::post('/employee-access/recommendation/leave/reject/{id}',[EaRecommendationLeaveController::class,'reject'])->name('ea.recommendation.leave.reject');
 
+    // Employee Access/ Approval / Leave Application
+    Route::get('/employee-access/approval/leave/',[EaRecommendationLeaveController::class,'index'])->name('ea.approval.leave');
+    Route::get('/employee-access/approval/leave/show/{id}',[EaRecommendationLeaveController::class,'show'])->name('ea.attendance.approval.leave.show');
+    Route::post('/employee-access/approval/leave/recommend/{id}',[EaRecommendationLeaveController::class,'recommend'])->name('ea.approval.leave.recommend');
+    Route::post('/employee-access/approval/leave/reject/{id}',[EaRecommendationLeaveController::class,'reject'])->name('ea.approval.leave.reject');
+
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

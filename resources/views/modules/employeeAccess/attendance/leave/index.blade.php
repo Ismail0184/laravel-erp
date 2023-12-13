@@ -65,7 +65,7 @@
                                                 <i class="fa fa-download"></i>
                                             </a>
                                             @endif
-                                            @if($leaveApplication->status=='DRAFTED')
+                                            @if($leaveApplication->status=='DRAFTED' || $leaveApplication->status=='REJECTED')
                                             <a href="{{route('ea.attendance.leaveApplication.edit',['id' => $leaveApplication->id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>

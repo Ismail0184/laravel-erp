@@ -18,10 +18,9 @@ class EaRecommendationLeaveController extends Controller
 
     public function show($id)
     {
-        $types = HrmLeaveType::where('status','active')->get();
+
 
         $leaveTypes = HrmLeaveType::with('LeaveGranted')->with('LeaveApplied')->where('status','active')->get();
-
         $leave_taken = [];
         foreach ($leaveTypes as $type) {
             $categoryStock = $type->LeaveGranted->sum('total_days');
@@ -35,17 +34,22 @@ class EaRecommendationLeaveController extends Controller
             ];
         }
         $leaveApplication = EaLeaveApplication::findOrfail($id);
+        if (empty($leaveApplication->recommended_viewed_at))
+        {
+            EaLeaveApplication::recommendPersonView($id);
+        }
         return view('modules.employeeAccess.recommendation.leave.show',compact(['leaveApplication','leave_taken']));
-    }
-
-    public function reject($id)
-    {
-
     }
 
     public function recommend(Request $request, $id)
     {
         EaLeaveApplication::recommendLeaveApplication($request, $id);
-        return redirect('/employee-access/recommendation/leave/')->with('recommended_message','This leave application (Application Dd # '.$id.') has been recommended!!');
+        return redirect('/employee-access/recommendation/leave/')->with('recommended_message','This leave application (Application ID # '.$id.') has been recommended!!');
+    }
+
+    public function reject(Request $request, $id)
+    {
+        EaLeaveApplication::rejectLeaveApplication($request, $id);
+        return redirect('/employee-access/recommendation/leave/')->with('rejected_message','This leave application (Application ID # '.$id.') has been rejected!!');
     }
 }

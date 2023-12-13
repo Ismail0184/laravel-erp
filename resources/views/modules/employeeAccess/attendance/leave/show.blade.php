@@ -32,81 +32,173 @@
                                 </tr>
 
                                 <tr>
-                                    <th>Start Date</th>
+                                    <th>Responsible Person</th>
                                     <th>:</th>
-                                    <td>{{$leaveApplication->start_date}}</td>
+                                    <td>{{$leaveApplication->responsiblePerson->name}}</td>
                                     <th style="width: 20%">Mobile (During Leave)</th>
                                     <th style="width: 1%">:</th>
                                     <td>{{$leaveApplication->leave_mobile_number}}</td>
                                 </tr>
                                 <tr>
-                                    <th>End Date</th>
+                                    <th>Leave Duration</th>
                                     <th>:</th>
-                                    <td>{{$leaveApplication->end_date}}</td>
+                                    <td>{{$leaveApplication->start_date}} <strong>to</strong> {{$leaveApplication->end_date}}</td>
                                     <th>Total Days</th>
                                     <th>:</th>
                                     <td>{{$leaveApplication->total_days}} @if($leaveApplication->total_days > 1) Days @else Day @endif</td>
-
-
                                 </tr>
-                                <tr>
-                                    <th style="width: 20%">Responsible Person <br>(During Leave)</th>
-                                    <th style="width: 1%">:</th>
-                                    <td>{{$leaveApplication->responsiblePerson->name}}</td>
-                                    <th style="width: 20%">Recommended By</th>
-                                    <th style="width: 1%">:</th>
-                                    <td>
+                        </table>
+                        <table class="table">
+                            <tr class="text-center bg-soft-success text-black"><th colspan="9">Recommendation Status</th></tr>
+                            <tr>
+                                <th>Person</th>
+                                <th style="width: 1%">:</th>
+                                <td>{{$leaveApplication->RecommendedPerson->name}}</td>
 
-                                        {{$leaveApplication->RecommendedPerson->name}}
-                                        @empty($leaveApplication->recommended_at)
-                                         - <span class="badge badge-danger">PENDING</span><br>
-                                        @else
-                                        {{$leaveApplication->recommended_at}}
-                                        @endempty
-                                    </td>
-                                </tr>
+                                <th>View Status</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @empty($leaveApplication->recommended_viewed_at)
+                                        <span class="badge badge-danger">PENDING</span>
+                                    @else
+                                        <span class="badge badge-success">Viewed</span>
+                                    @endempty
+                                </td>
 
-                                <tr>
-                                    <th>Applied At</th>
-                                    <th>:</th>
-                                    <td>{{$leaveApplication->created_at}}</td>
-                                    <th style="width: 20%">Approved By</th>
-                                    <th style="width: 1%">:</th>
-                                    <td>{{$leaveApplication->ApprovedPerson->name}}
-                                        @empty($leaveApplication->approved_at)
-                                            - <span class="badge badge-danger">PENDING</span><br>
-                                        @else
-                                            {{$leaveApplication->approved_at}}
-                                        @endempty
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>HR View Status</th>
-                                    <th>:</th>
-                                    <td>
-                                        @if($leaveApplication->hrm_viewed=='no')
-                                            <span class="badge badge-danger">PENDING</span>
-                                        @else
-                                            <span class="badge badge-success">Done</span>
-                                        @endif
-                                        <br>
-                                        @if($leaveApplication->hrm_viewed=='yes') - {{$leaveApplication->hrm_viewed_at}} @endif
-                                    </td>
+                                <th>Viewed At</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @empty($leaveApplication->recommended_viewed_at)
+                                        <span class="badge badge-danger">PENDING</span>
+                                    @else
+                                        {{$leaveApplication->recommended_viewed_at}}
+                                    @endempty
+                                </td>
+                            <tr/>
+                            <tr>
+                                <th>Recommend Status</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @if($leaveApplication->recommended_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
+                                    @elseif($leaveApplication->recommended_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
+                                    @elseif($leaveApplication->recommended_status == 'RECOMMENDED') <span class="badge badge-success">RECOMMENDED</span>
+                                    @endif
+                                </td>
 
-                                    <th style="width: 20%">GRANTED By</th>
-                                    <th style="width: 1%">:</th>
-                                    <td>
-                                        @if($leaveApplication->granted_by > 0)
+                                <th>Recommended At</th>
+                                <th style="width: 1%">:</th>
+                                <td>@empty($leaveApplication->recommended_at)
+                                    <span class="badge badge-danger">PENDING</span>
+                                    @else {{$leaveApplication->recommended_at}} @endempty</td>
+
+
+                                <th>Remarks</th>
+                                <th style="width: 1%">:</th>
+                                <td>@empty($leaveApplication->remarks_while_recommended) N/A @else {{$leaveApplication->remarks_while_recommended}} @endempty</td>
+                            </tr>
+                        </table>
+
+                        <table class="table">
+                            <tr class="text-center bg-soft-success text-black"><th colspan="9">Approval Status</th></tr>
+                            <tr>
+                                <th>Person</th>
+                                <th style="width: 1%">:</th>
+                                <td>{{$leaveApplication->ApprovedPerson->name}}</td>
+                                <th>View Status</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @empty($leaveApplication->approved_viewed_at)
+                                        <span class="badge badge-danger">PENDING</span>
+                                    @else
+                                        <span class="badge badge-success">Viewed</span>
+                                    @endempty
+                                </td>
+                                <th>Viewed At</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @empty($leaveApplication->approved_viewed_at)
+                                        <span class="badge badge-danger">PENDING</span><br>
+                                    @else
+                                        {{$leaveApplication->approved_viewed_at}}
+                                    @endempty
+                                </td>
+                            <tr/>
+                            <tr>
+                                <th>Approve Status</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @if($leaveApplication->approved_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
+                                    @elseif($leaveApplication->approved_status == 'APPROVED') <span class="badge badge-success">APPROVED</span>
+                                    @elseif($leaveApplication->approved_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
+                                    @endif
+                                </td>
+                                <th>Approved At</th>
+                                <th style="width: 1%">:</th>
+                                <td>@empty($leaveApplication->approved_at)
+                                        <span class="badge badge-danger">PENDING</span>
+                                    @else {{$leaveApplication->approved_at}}
+                                    @endempty
+                                </td>
+                                <th>Remarks</th>
+                                <th style="width: 1%">:</th>
+                                <td>@empty($leaveApplication->remarks_while_approved) N/A @else {{$leaveApplication->remarks_while_approved}} @endempty</td>
+                            </tr>
+                        </table>
+
+                        <table class="table">
+                            <tr class="text-center bg-soft-success text-black"><th colspan="9">Granted Status (by HR department)</th></tr>
+                            <tr>
+                                <th>Person</th>
+                                <th style="width: 1%">:</th>
+                                <td>@if($leaveApplication->granted_by>0)
                                         {{$leaveApplication->GrantPerson->name}}
-                                        @endif
-                                        @empty($leaveApplication->granted_at)
-                                            - <span class="badge badge-danger">PENDING</span><br>
-                                        @else
-                                            {{$leaveApplication->granted_at}}
-                                        @endempty
-                                    </td>
-                                </tr>
-                            </table>
+                                    @else
+                                        Don't know yet.
+                                    @endif
+                                </td>
+                                <th>View Status</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @empty($leaveApplication->granted_viewed_at)
+                                        <span class="badge badge-danger">PENDING</span>
+                                    @else
+                                        <span class="badge badge-success">Viewed</span>
+                                    @endempty
+                                </td>
+                                <th>Viewed At</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @empty($leaveApplication->granted_viewed_at)
+                                        <span class="badge badge-danger">PENDING</span><br>
+                                    @else
+                                        {{$leaveApplication->granted_viewed_at}}
+                                    @endempty
+                                </td>
+                            <tr/>
+                            <tr>
+                                <th>Granted Status</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @if($leaveApplication->granted_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
+                                    @elseif($leaveApplication->granted_status == 'APPROVED') <span class="badge badge-success">APPROVED</span>
+                                    @elseif($leaveApplication->granted_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
+                                    @endif
+                                </td>
+                                <th>Granted At</th>
+                                <th style="width: 1%">:</th>
+                                <td>@empty($leaveApplication->granted_at)
+                                        <span class="badge badge-danger">PENDING</span>
+                                    @else {{$leaveApplication->granted_at}}
+                                    @endempty
+                                </td>
+                                <th>Remarks</th>
+                                <th style="width: 1%">:</th>
+                                <td>@empty($leaveApplication->remarks_while_granted) N/A @else {{$leaveApplication->remarks_while_granted}} @endempty</td>
+                            </tr>
+                        </table>
+
+
+
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-6 text-right">

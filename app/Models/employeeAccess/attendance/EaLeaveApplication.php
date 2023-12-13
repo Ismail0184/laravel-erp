@@ -107,7 +107,11 @@ class EaLeaveApplication extends Model
 
     public static function sendLeaveApplication($request, $id)
     {
-        EALeaveApplication::where('id',$id)->update(['status'=>$request->status]);
+        EALeaveApplication::where('id',$id)->update(
+            [
+                'status'=>$request->status,
+                'sent_at' => now()
+            ]);
     }
 
     public static function destroyLeaveApplication($id)
@@ -115,13 +119,30 @@ class EaLeaveApplication extends Model
         EALeaveApplication::where('id',$id)->update(['status'=>'DELETED']);
     }
 
+    public static function recommendPersonView($id)
+    {
+        EaLeaveApplication::where('id',$id)->update(
+            [
+                'recommended_viewed_at'=>now()
+            ]);
+    }
     public static function recommendLeaveApplication($request, $id)
     {
         EALeaveApplication::where('id',$id)->update(
             [
                 'status'=>'RECOMMENDED',
-                'remarks_while_recommended'=>$request->remarks,
+                'remarks_while_recommended'=>$request->remarks_while_recommended,
                 'recommended_at'=>now()
         ]);
+    }
+
+    public static function rejectLeaveApplication($request, $id)
+    {
+        EALeaveApplication::where('id',$id)->update(
+            [
+                'status'=>'REJECTED',
+                'remarks_while_recommended'=>$request->remarks_while_recommended,
+                'recommended_at'=>now()
+            ]);
     }
 }
