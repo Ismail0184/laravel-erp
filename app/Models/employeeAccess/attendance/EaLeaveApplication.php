@@ -70,6 +70,7 @@ class EaLeaveApplication extends Model
         self::$leaveApplication->image = self::$imageUrl;
         self::$leaveApplication->recommended_by = $request->recommended_by;
         self::$leaveApplication->approved_by = $request->approved_by;
+        self::$leaveApplication->status = 'DRAFTED';
         self::$leaveApplication->sconid = 1;
         self::$leaveApplication->pcomid = 1;
         self::$leaveApplication->save();
@@ -131,6 +132,7 @@ class EaLeaveApplication extends Model
         EALeaveApplication::where('id',$id)->update(
             [
                 'status'=>'RECOMMENDED',
+                'recommended_status'=>'RECOMMENDED',
                 'remarks_while_recommended'=>$request->remarks_while_recommended,
                 'recommended_at'=>now()
         ]);
@@ -141,8 +143,75 @@ class EaLeaveApplication extends Model
         EALeaveApplication::where('id',$id)->update(
             [
                 'status'=>'REJECTED',
+                'recommended_status'=>'REJECTED',
                 'remarks_while_recommended'=>$request->remarks_while_recommended,
                 'recommended_at'=>now()
+            ]);
+    }
+
+
+
+    public static function approvePersonView($id)
+    {
+        EaLeaveApplication::where('id',$id)->update(
+            [
+                'approved_viewed_at'=>now()
+            ]
+        );
+    }
+
+    public static function approveLeaveApplication($request, $id)
+    {
+        EALeaveApplication::where('id',$id)->update(
+            [
+                'status'=>'APPROVED',
+                'approved_status'=>'APPROVED',
+                'remarks_while_approved'=>$request->remarks_while_approved,
+                'approved_at'=>now()
+            ]);
+    }
+
+    public static function rejectALeaveApplication($request, $id)
+    {
+        EALeaveApplication::where('id',$id)->update(
+            [
+                'status'=>'REJECTED',
+                'approved_status'=>'REJECTED',
+                'remarks_while_approved'=>$request->remarks_while_approved,
+                'approved_at'=>now()
+            ]);
+    }
+
+
+    public static function grantedPersonView($id)
+    {
+        EaLeaveApplication::where('id',$id)->update(
+            [
+                'granted_viewed_at'=>now()
+            ]
+        );
+    }
+
+    public static function grantedLeaveApplication($request, $id)
+    {
+        EALeaveApplication::where('id',$id)->update(
+            [
+                'granted_by'=>$request->entry_by,
+                'status'=>'GRANTED',
+                'granted_status'=>'GRANTED',
+                'remarks_while_granted'=>$request->remarks_while_granted,
+                'granted_at'=>now()
+            ]);
+    }
+
+    public static function rejectGLeaveApplication($request, $id)
+    {
+        EALeaveApplication::where('id',$id)->update(
+            [
+                'status'=>'REJECTED',
+                'approved_status'=>'REJECTED',
+                'remarks_while_approved'=>$request->remarks_while_approved,
+                'approved_at'=>now()
             ]);
     }
 }

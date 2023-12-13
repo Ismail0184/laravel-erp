@@ -180,7 +180,7 @@
                                 <th style="width: 1%">:</th>
                                 <td>
                                     @if($leaveApplication->granted_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
-                                    @elseif($leaveApplication->granted_status == 'APPROVED') <span class="badge badge-success">APPROVED</span>
+                                    @elseif($leaveApplication->granted_status == 'GRANTED') <span class="badge badge-success">GRANTED</span>
                                     @elseif($leaveApplication->granted_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
                                     @endif
                                 </td>

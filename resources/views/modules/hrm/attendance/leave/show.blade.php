@@ -45,7 +45,6 @@
                                     <td>{{$leaveApplication->total_days}} @if($leaveApplication->total_days > 1) Days @else Day @endif</td>
 
                                 </tr>
-
                                 <tr>
                                     <th style="width: 20%">Responsible Person</th>
                                     <th style="width: 1%">:</th>
@@ -61,19 +60,107 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th style="width: 20%">Recommend Person</th>
-                                    <th style="width: 1%">:</th>
-                                    <td>{{$leaveApplication->RecommendedPerson->name}}</td>
-                                    <th style="width: 20%">Recommend Remarks</th>
-                                    <th style="width: 1%">:</th>
-                                    <td>{{$leaveApplication->remarks_while_recommended}}</td>
-                                </tr>
-                                <tr>
                                     <th>Remarks <span class="required text-danger">*</span></th>
                                     <th>:</th>
                                     <td colspan="4">
 
                                         <input type="text" id="writeRemarks" oninput="updateInput2()" class="form-control" placeholder="Enter a note for the application, if necessary"></td>
+                                </tr>
+                            </table>
+                            <table class="table">
+                                <tr class="text-center bg-soft-success text-black"><th colspan="9">Recommendation Status</th></tr>
+                                <tr>
+                                    <th>Person</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>{{$leaveApplication->RecommendedPerson->name}}</td>
+
+                                    <th>View Status</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>
+                                        @empty($leaveApplication->recommended_viewed_at)
+                                            <span class="badge badge-danger">PENDING</span>
+                                        @else
+                                            <span class="badge badge-success">Viewed</span>
+                                        @endempty
+                                    </td>
+
+                                    <th>Viewed At</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>
+                                        @empty($leaveApplication->recommended_viewed_at)
+                                            <span class="badge badge-danger">PENDING</span>
+                                        @else
+                                            {{$leaveApplication->recommended_viewed_at}}
+                                        @endempty
+                                    </td>
+                                <tr/>
+                                <tr>
+                                    <th>Recommend Status</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>
+                                        @if($leaveApplication->recommended_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
+                                        @elseif($leaveApplication->recommended_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
+                                        @elseif($leaveApplication->recommended_status == 'RECOMMENDED') <span class="badge badge-success">RECOMMENDED</span>
+                                        @endif
+                                    </td>
+
+                                    <th>Recommended At</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>@empty($leaveApplication->recommended_at)
+                                            <span class="badge badge-danger">PENDING</span>
+                                        @else {{$leaveApplication->recommended_at}} @endempty</td>
+
+
+                                    <th>Remarks</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>@empty($leaveApplication->remarks_while_recommended) N/A @else {{$leaveApplication->remarks_while_recommended}} @endempty</td>
+                                </tr>
+                            </table>
+
+                            <table class="table">
+                                <tr class="text-center bg-soft-success text-black"><th colspan="9">Approval Status</th></tr>
+                                <tr>
+                                    <th>Person</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>{{$leaveApplication->ApprovedPerson->name}}</td>
+                                    <th>View Status</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>
+                                        @empty($leaveApplication->approved_viewed_at)
+                                            <span class="badge badge-danger">PENDING</span>
+                                        @else
+                                            <span class="badge badge-success">Viewed</span>
+                                        @endempty
+                                    </td>
+                                    <th>Viewed At</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>
+                                        @empty($leaveApplication->approved_viewed_at)
+                                            <span class="badge badge-danger">PENDING</span><br>
+                                        @else
+                                            {{$leaveApplication->approved_viewed_at}}
+                                        @endempty
+                                    </td>
+                                <tr/>
+                                <tr>
+                                    <th>Approve Status</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>
+                                        @if($leaveApplication->approved_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
+                                        @elseif($leaveApplication->approved_status == 'APPROVED') <span class="badge badge-success">APPROVED</span>
+                                        @elseif($leaveApplication->approved_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
+                                        @endif
+                                    </td>
+                                    <th>Approved At</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>@empty($leaveApplication->approved_at)
+                                            <span class="badge badge-danger">PENDING</span>
+                                        @else {{$leaveApplication->approved_at}}
+                                        @endempty
+                                    </td>
+                                    <th>Remarks</th>
+                                    <th style="width: 1%">:</th>
+                                    <td>@empty($leaveApplication->remarks_while_approved) N/A @else {{$leaveApplication->remarks_while_approved}} @endempty</td>
                                 </tr>
                             </table>
 
@@ -122,22 +209,21 @@
                                     <div class="col-md-6 text-right">
                                         <a href="{{route('ea.recommendation.leave')}}" type="submit" class="btn btn-primary mt-4 pr-4 pl-4 text-white">Go Back</a>
                                     </div>
-                                    @if($leaveApplication->status=='RECOMMENDED')
+                                    @if($leaveApplication->status=='APPROVED')
                                         <div class="col-md-6 text-left">
-                                            <form action="{{route('ea.approval.leave.approve', ['id'=>$leaveApplication->id])}}" method="post">
+                                            <form action="{{route('hrm.attendance.leave.approve', ['id'=>$leaveApplication->id])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                                                 <input type="hidden" name="status" value="PENDING">
-                                                <input type="hidden" name="remarks_while_approved" id="remarks_while_approval">
+                                                <input type="hidden" name="remarks_while_granted" id="remarks_while_granted">
 
-                                                <button type="submit" class="btn btn-success mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm?');">Approve & Forward <i class="fa fa-arrow-alt-circle-right"></i></button>
+                                                <button type="submit" class="btn btn-success mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm?');">Granted the application <i class="fa fa-arrow-alt-circle-right"></i></button>
                                             </form>
-                                            <form action="{{route('ea.approval.leave.reject', ['id'=>$leaveApplication->id])}}" method="post">
+                                            <form action="{{route('hrm.attendance.leave.reject', ['id'=>$leaveApplication->id])}}" method="post">
                                                 @csrf
-                                                <input type="hidden" name="remarks_while_approved" id="remarks_while_approval_reject">
+                                                <input type="hidden" name="remarks_while_granted" id="remarks_while_granted_reject">
                                                 <button type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm to delete?');"><i class="fa fa-arrow-alt-circle-left"></i> Reject & Send Back</button>
                                             </form>
-
                                         </div>
                                     @endif
                                 </div>
@@ -155,8 +241,8 @@
     <script>
         function updateInput2() {
             var input1Value = document.getElementById('writeRemarks').value;
-            document.getElementById('remarks_while_approval').value = input1Value;
-            document.getElementById('remarks_while_approval_reject').value = input1Value;
+            document.getElementById('remarks_while_granted').value = input1Value;
+            document.getElementById('remarks_while_granted_reject').value = input1Value;
         }
     </script>
 @endsection

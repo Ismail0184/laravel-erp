@@ -18,8 +18,6 @@ class EaRecommendationLeaveController extends Controller
 
     public function show($id)
     {
-
-
         $leaveTypes = HrmLeaveType::with('LeaveGranted')->with('LeaveApplied')->where('status','active')->get();
         $leave_taken = [];
         foreach ($leaveTypes as $type) {

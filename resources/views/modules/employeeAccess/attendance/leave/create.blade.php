@@ -119,7 +119,7 @@
                                     <div class="col-sm-9">
                                         <div>
                                             <a class="btn btn-danger" href="{{route('ea.attendance.leaveApplication')}}">Cancel</a>
-                                            @if(request('id')>0) @if($leaveApplication->status=='DRAFTED')
+                                            @if(request('id')>0) @if($leaveApplication->status=='DRAFTED' || $leaveApplication->status=='REJECTED')
                                             <button type="submit" class="btn btn-primary w-md">Update</button>
                                             @endif
                                             @else

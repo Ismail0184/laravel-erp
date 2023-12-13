@@ -30,6 +30,7 @@ use App\Http\Controllers\home\HomeController;
 use App\Http\Controllers\HRM\setup\DepartmentController;
 use App\Http\Controllers\HRM\setup\DesignationController;
 use App\Http\Controllers\HRM\setup\JobLocationController;
+use App\Http\Controllers\HRM\attendance\HrmAttendanceLeaveController;
 use App\Http\Controllers\Procurement\Vendor\VendorCategoryController;
 use App\Http\Controllers\Procurement\Vendor\VendorInfoController;
 use App\Http\Controllers\Procurement\Vendor\VendorTypeController;
@@ -72,6 +73,7 @@ use App\Http\Controllers\employeeAccess\attendance\EALateAttendanceApplicationCo
 use App\Http\Controllers\employeeAccess\attendance\EaOutDoorDutyController;
 use App\Http\Controllers\employeeAccess\attendance\EaEarlyLeaveApplicationController;
 use App\Http\Controllers\employeeAccess\recommendation\EaRecommendationLeaveController;
+use App\Http\Controllers\employeeAccess\approval\EaApprovalLeaveController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -752,8 +754,15 @@ Route::get('/', [HomeController::class,'index']);
 
 
 
+    // HRM/ Attendance / Leave Application
+    Route::get('/hrm/attendance/leave-application/',[HrmAttendanceLeaveController::class,'index'])->name('hrm.attendance.leave');
+    Route::get('/hrm/attendance/leave-application/show/{id}',[HrmAttendanceLeaveController::class,'show'])->name('hrm.attendance.leave.show');
+    Route::post('/hrm/attendance/leave-application/granted/{id}',[HrmAttendanceLeaveController::class,'approve'])->name('hrm.attendance.leave.approve');
+    Route::post('/hrm/attendance/leave-application/reject/{id}',[HrmAttendanceLeaveController::class,'reject'])->name('hrm.attendance.leave.reject');
 
-    // Employee Access/ Attendance / Leave Application
+
+
+        // Employee Access/ Attendance / Leave Application
     Route::get('/employee-access/attendance/leave-application/',[EALeaveApplicationController::class,'index'])->name('ea.attendance.leaveApplication');
     Route::get('/employee-access/attendance/leave-application/create/',[EALeaveApplicationController::class,'create'])->name('ea.attendance.leaveApplication.create');
     Route::get('/get-type-balance/{category}',[EALeaveApplicationController::class,'getTypeBalance']);
@@ -805,10 +814,10 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/employee-access/recommendation/leave/reject/{id}',[EaRecommendationLeaveController::class,'reject'])->name('ea.recommendation.leave.reject');
 
     // Employee Access/ Approval / Leave Application
-    Route::get('/employee-access/approval/leave/',[EaRecommendationLeaveController::class,'index'])->name('ea.approval.leave');
-    Route::get('/employee-access/approval/leave/show/{id}',[EaRecommendationLeaveController::class,'show'])->name('ea.attendance.approval.leave.show');
-    Route::post('/employee-access/approval/leave/recommend/{id}',[EaRecommendationLeaveController::class,'recommend'])->name('ea.approval.leave.recommend');
-    Route::post('/employee-access/approval/leave/reject/{id}',[EaRecommendationLeaveController::class,'reject'])->name('ea.approval.leave.reject');
+    Route::get('/employee-access/approval/leave/',[EaApprovalLeaveController::class,'index'])->name('ea.approval.leave');
+    Route::get('/employee-access/approval/leave/show/{id}',[EaApprovalLeaveController::class,'show'])->name('ea.attendance.approval.leave.show');
+    Route::post('/employee-access/approval/leave/approve/{id}',[EaApprovalLeaveController::class,'approve'])->name('ea.approval.leave.approve');
+    Route::post('/employee-access/approval/leave/reject/{id}',[EaApprovalLeaveController::class,'reject'])->name('ea.approval.leave.reject');
 
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');

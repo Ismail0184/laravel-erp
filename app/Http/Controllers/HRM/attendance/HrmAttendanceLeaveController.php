@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\employeeAccess\approval;
+namespace App\Http\Controllers\HRM\attendance;
 
 use App\Http\Controllers\Controller;
 use App\Models\employeeAccess\attendance\EaLeaveApplication;
 use App\Models\HRM\setup\HrmLeaveType;
 use Illuminate\Http\Request;
-use Auth;
 
-class EaApprovalLeaveController extends Controller
+class HrmAttendanceLeaveController extends Controller
 {
     public function index()
     {
-        $leaveApplications = EaLeaveApplication::where('year',date('Y'))->where('status','RECOMMENDED')->where('recommended_by',Auth::user()->id)->get();
-        return view('modules.employeeAccess.approval.leave.index',compact('leaveApplications'));
+        $leaveApplications = EaLeaveApplication::where('year',date('Y'))->whereNotIn('status',['DRAFTED','REJECTED'])->get();
+        return view('modules.hrm.attendance.leave.index',compact('leaveApplications'));
     }
 
     public function show($id)
@@ -32,22 +31,22 @@ class EaApprovalLeaveController extends Controller
             ];
         }
         $leaveApplication = EaLeaveApplication::findOrfail($id);
-        if (empty($leaveApplication->approved_viewed_at))
+        if (empty($leaveApplication->granted_viewed_at))
         {
-            EaLeaveApplication::approvePersonView($id);
+            EaLeaveApplication::grantedPersonView($id);
         }
-        return view('modules.employeeAccess.approval.leave.show',compact(['leaveApplication','leave_taken']));
+        return view('modules.hrm.attendance.leave.show',compact(['leaveApplication','leave_taken']));
     }
 
     public function approve(Request $request, $id)
     {
-        EaLeaveApplication::approveLeaveApplication($request, $id);
-        return redirect('/employee-access/approval/leave/')->with('approved_message','This leave application (Application ID # '.$id.') has been recommended!!');
+        EaLeaveApplication::grantedLeaveApplication($request, $id);
+        return redirect('/employee-access/approval/leave/')->with('granted_message','This leave application (Application ID # '.$id.') has been granted!!');
     }
 
     public function reject(Request $request, $id)
     {
-        EaLeaveApplication::rejectALeaveApplication($request, $id);
+        EaLeaveApplication::rejectGLeaveApplication($request, $id);
         return redirect('/employee-access/approval/leave/')->with('rejected_message','This leave application (Application ID # '.$id.') has been rejected!!');
     }
 }

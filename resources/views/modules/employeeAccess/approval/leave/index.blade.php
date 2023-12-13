@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Pending Leave Applications') {{$title}}
+    @php($title = 'Pending for Approval') {{$title}}
 @endsection
 
 @section('body')
@@ -49,7 +49,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        <a href="{{route('ea.attendance.recommendation.leave.show',['id' => $leaveApplication->id])}}" title="show" class="btn btn-primary btn-sm">
+                                        <a href="{{route('ea.attendance.approval.leave.show',['id' => $leaveApplication->id])}}" title="show" class="btn btn-primary btn-sm">
                                             <i class="fa fa-book-reader"></i>
                                         </a>
                                     </td>
