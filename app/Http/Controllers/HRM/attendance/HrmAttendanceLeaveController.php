@@ -35,7 +35,8 @@ class HrmAttendanceLeaveController extends Controller
         {
             EaLeaveApplication::grantedPersonView($id);
         }
-        return view('modules.hrm.attendance.leave.show',compact(['leaveApplication','leave_taken']));
+        $leaveHistories = EaLeaveApplication::where('employee_id',$leaveApplication->employee_id)->whereNotIn('id',[$id])->orderBy('id','desc')->limit('5')->get();
+        return view('modules.hrm.attendance.leave.show',compact(['leaveApplication','leave_taken','leaveHistories']));
     }
 
     public function approve(Request $request, $id)

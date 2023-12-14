@@ -2,6 +2,7 @@
 
 namespace App\Models\HRM\setup;
 
+use App\Models\HRM\employee\HrmEmployeeJobInfo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

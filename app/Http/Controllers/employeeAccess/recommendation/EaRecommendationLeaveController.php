@@ -19,6 +19,7 @@ class EaRecommendationLeaveController extends Controller
     public function show($id)
     {
         $leaveTypes = HrmLeaveType::with('LeaveGranted')->with('LeaveApplied')->where('status','active')->get();
+
         $leave_taken = [];
         foreach ($leaveTypes as $type) {
             $categoryStock = $type->LeaveGranted->sum('total_days');
@@ -36,7 +37,8 @@ class EaRecommendationLeaveController extends Controller
         {
             EaLeaveApplication::recommendPersonView($id);
         }
-        return view('modules.employeeAccess.recommendation.leave.show',compact(['leaveApplication','leave_taken']));
+        $leaveHistories = EaLeaveApplication::where('employee_id',$leaveApplication->employee_id)->whereNotIn('id',[$id])->orderBy('id','desc')->limit('5')->get();
+        return view('modules.employeeAccess.recommendation.leave.show',compact(['leaveApplication','leave_taken','leaveHistories']));
     }
 
     public function recommend(Request $request, $id)

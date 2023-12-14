@@ -23,12 +23,16 @@ return new class extends Migration
             $table->double('balance_days');
             $table->string('reason',255)->nullable();
 
-            $table->timestamp('responsible_person_viewed_at')->nullable(true);
-            $table->integer('responsible_person')->nullable();
             $table->string('leave_address',150)->nullable();
             $table->string('leave_mobile_number')->nullable();
             $table->string('image')->nullable();
             $table->enum('status',['DRAFTED','PENDING','RECOMMENDED','APPROVED','REJECTED','GRANTED','DELETED'])->default('DRAFTED');
+
+            $table->timestamp('responsible_person_viewed_at')->nullable(true);
+            $table->enum('responsible_person_acceptance_status',['PENDING','ACCEPTED','REJECTED'])->default('PENDING');
+            $table->integer('responsible_person')->nullable();
+            $table->string('remarks_for_responsible_person')->nullable();
+            $table->timestamp('responsible_person_acceptance_at')->nullable(true);
 
             $table->timestamp('recommended_viewed_at')->nullable(true);
             $table->enum('recommended_status',['PENDING','RECOMMENDED','REJECTED'])->default('PENDING');

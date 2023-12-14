@@ -120,6 +120,36 @@ class EaLeaveApplication extends Model
         EALeaveApplication::where('id',$id)->update(['status'=>'DELETED']);
     }
 
+
+    public static function responsiblePersonView($id)
+    {
+        EaLeaveApplication::where('id',$id)->update(
+            [
+                'responsible_person_viewed_at'=>now()
+            ]);
+    }
+    public static function acceptLeaveApplication($request, $id)
+    {
+        EALeaveApplication::where('id',$id)->update(
+            [
+                'responsible_person_acceptance_status'=>'ACCEPTED',
+                'remarks_for_responsible_person'=>$request->remarks_for_responsible_person,
+                'responsible_person_acceptance_at'=>now()
+            ]);
+    }
+
+    public static function rejectResLeaveApplication($request, $id)
+    {
+        EALeaveApplication::where('id',$id)->update(
+            [
+                'status'=>'REJECTED',
+                'recommended_status'=>'REJECTED',
+                'remarks_while_recommended'=>$request->remarks_while_recommended,
+                'recommended_at'=>now()
+            ]);
+    }
+
+
     public static function recommendPersonView($id)
     {
         EaLeaveApplication::where('id',$id)->update(

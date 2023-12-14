@@ -36,7 +36,8 @@ class EaApprovalLeaveController extends Controller
         {
             EaLeaveApplication::approvePersonView($id);
         }
-        return view('modules.employeeAccess.approval.leave.show',compact(['leaveApplication','leave_taken']));
+        $leaveHistories = EaLeaveApplication::where('employee_id',$leaveApplication->employee_id)->whereNotIn('id',[$id])->orderBy('id','desc')->limit('5')->get();
+        return view('modules.employeeAccess.approval.leave.show',compact(['leaveApplication','leave_taken','leaveHistories']));
     }
 
     public function approve(Request $request, $id)

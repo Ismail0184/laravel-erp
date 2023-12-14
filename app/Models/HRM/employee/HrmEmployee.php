@@ -3,6 +3,7 @@
 namespace App\Models\HRM\employee;
 
 use App\Models\HRM\setup\HrmBlood;
+use App\Models\HRM\setup\HrmDesignation;
 use App\Models\HRM\setup\HrmGender;
 use App\Models\HRM\setup\HrmGrade;
 use App\Models\HRM\setup\HrmNationality;
@@ -115,5 +116,10 @@ class HrmEmployee extends Model
     public function getNationality()
     {
         return $this->belongsTo(HrmNationality::class,'nationality','num_code');
+    }
+
+    public function jobInfoTable()
+    {
+        return $this->belongsTo(HrmEmployeeJobInfo::class,'id','employee_id');
     }
 }

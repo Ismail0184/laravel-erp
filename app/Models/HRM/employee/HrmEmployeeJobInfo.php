@@ -91,5 +91,4 @@ class HrmEmployeeJobInfo extends Model
         return $this->belongsTo(HrmJobLocation::class,'job_location','id');
     }
 
-
 }

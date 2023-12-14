@@ -74,6 +74,8 @@ use App\Http\Controllers\employeeAccess\attendance\EaOutDoorDutyController;
 use App\Http\Controllers\employeeAccess\attendance\EaEarlyLeaveApplicationController;
 use App\Http\Controllers\employeeAccess\recommendation\EaRecommendationLeaveController;
 use App\Http\Controllers\employeeAccess\approval\EaApprovalLeaveController;
+use App\Http\Controllers\employeeAccess\responsible\EaResponsibleForLeaveController;
+use App\Http\Controllers\MIS\User\MISCreateUserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -819,7 +821,23 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/employee-access/approval/leave/approve/{id}',[EaApprovalLeaveController::class,'approve'])->name('ea.approval.leave.approve');
     Route::post('/employee-access/approval/leave/reject/{id}',[EaApprovalLeaveController::class,'reject'])->name('ea.approval.leave.reject');
 
+    // Employee Access/ Responsible for / Leave
+    Route::get('/employee-access/responsible-for/leave/',[EaResponsibleForLeaveController::class,'index'])->name('ea.responsibleFor.leave');
+    Route::get('/employee-access/responsible-for/leave/show/{id}',[EaResponsibleForLeaveController::class,'show'])->name('ea.responsibleFor.leave.show');
+    Route::post('/employee-access/responsible-for/leave/accept/{id}',[EaResponsibleForLeaveController::class,'accept'])->name('ea.responsibleFor.leave.accept');
+    Route::post('/employee-access/responsible-for/leave/reject/{id}',[EaResponsibleForLeaveController::class,'reject'])->name('ea.responsibleFor.leave.reject');
 
-    Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
+
+    // MIS/ User / Create User
+    Route::get('/mis/user/create-user/',[MISCreateUserController::class,'index'])->name('mis.user.createUser');
+    Route::get('/mis/user/create-user/create/{id}',[MISCreateUserController::class,'create'])->name('mis.user.createUser.create');
+    Route::post('/mis/user/create-user/store',[MISCreateUserController::class,'store'])->name('mis.user.createUser.store');
+    Route::get('/mis/user/create-user/edit/{id}',[MISCreateUserController::class,'edit'])->name('mis.user.createUser.edit');
+    Route::get('/mis/user/create-user/show/{id}',[MISCreateUserController::class,'show'])->name('mis.user.createUser.show');
+    Route::post('/mis/user/create-user/update/{id}',[MISCreateUserController::class,'update'])->name('mis.user.createUser.update');
+    Route::post('/mis/user/create-user/destroy/{id}',[MISCreateUserController::class,'destroy'])->name('mis.user.createUser.destroy');
+
+
+        Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
 });

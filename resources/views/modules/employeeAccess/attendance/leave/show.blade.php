@@ -49,7 +49,56 @@
                                 </tr>
                         </table>
                         <table class="table">
-                            <tr class="text-center bg-soft-success text-black"><th colspan="9">Recommendation Status</th></tr>
+                            <tr class="text-center @if($leaveApplication->responsible_person_acceptance_status!=='ACCEPTED')bg-soft-danger @else bg-soft-success @endif text-black"><th colspan="9">Responsible Person Acceptance Status</th></tr>
+                            <tr>
+                                <th>Person</th>
+                                <th style="width: 1%">:</th>
+                                <td>{{$leaveApplication->RecommendedPerson->name}}</td>
+
+                                <th>View Status</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @empty($leaveApplication->responsible_person_viewed_at)
+                                        <span class="badge badge-danger">PENDING</span>
+                                    @else
+                                        <span class="badge badge-success">Viewed</span>
+                                    @endempty
+                                </td>
+
+                                <th>Viewed At</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @empty($leaveApplication->responsible_person_viewed_at)
+                                        <span class="badge badge-danger">PENDING</span>
+                                    @else
+                                        {{$leaveApplication->responsible_person_viewed_at}}
+                                    @endempty
+                                </td>
+                            <tr/>
+                            <tr>
+                                <th>Acceptance Status</th>
+                                <th style="width: 1%">:</th>
+                                <td>
+                                    @if($leaveApplication->responsible_person_acceptance_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
+                                    @elseif($leaveApplication->responsible_person_acceptance_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
+                                    @elseif($leaveApplication->responsible_person_acceptance_status == 'ACCEPTED') <span class="badge badge-success">ACCEPTED</span>
+                                    @endif
+                                </td>
+
+                                <th>Acceptance At</th>
+                                <th style="width: 1%">:</th>
+                                <td>@empty($leaveApplication->responsible_person_acceptance_at)
+                                        <span class="badge badge-danger">PENDING</span>
+                                    @else {{$leaveApplication->responsible_person_acceptance_at}} @endempty</td>
+
+
+                                <th>Remarks</th>
+                                <th style="width: 1%">:</th>
+                                <td style="width: 25%">@empty($leaveApplication->remarks_for_responsible_person) N/A @else {{$leaveApplication->remarks_for_responsible_person}} @endempty</td>
+                            </tr>
+                        </table>
+                        <table class="table">
+                            <tr class="text-center @if($leaveApplication->recommended_status!=='RECOMMENDED')bg-soft-danger @else bg-soft-success @endif text-black"><th colspan="9">Recommendation Status</th></tr>
                             <tr>
                                 <th>Person</th>
                                 <th style="width: 1%">:</th>
@@ -94,12 +143,12 @@
 
                                 <th>Remarks</th>
                                 <th style="width: 1%">:</th>
-                                <td>@empty($leaveApplication->remarks_while_recommended) N/A @else {{$leaveApplication->remarks_while_recommended}} @endempty</td>
+                                <td style="width: 25%">@empty($leaveApplication->remarks_while_recommended) N/A @else {{$leaveApplication->remarks_while_recommended}} @endempty</td>
                             </tr>
                         </table>
 
                         <table class="table">
-                            <tr class="text-center bg-soft-success text-black"><th colspan="9">Approval Status</th></tr>
+                            <tr class="text-center @if($leaveApplication->approved_status!=='APPROVED')bg-soft-danger @else bg-soft-success @endif text-black"><th colspan="9">Approval Status</th></tr>
                             <tr>
                                 <th>Person</th>
                                 <th style="width: 1%">:</th>
@@ -141,12 +190,12 @@
                                 </td>
                                 <th>Remarks</th>
                                 <th style="width: 1%">:</th>
-                                <td>@empty($leaveApplication->remarks_while_approved) N/A @else {{$leaveApplication->remarks_while_approved}} @endempty</td>
+                                <td style="width: 25%">@empty($leaveApplication->remarks_while_approved) N/A @else {{$leaveApplication->remarks_while_approved}} @endempty</td>
                             </tr>
                         </table>
 
                         <table class="table">
-                            <tr class="text-center bg-soft-success text-black"><th colspan="9">Granted Status (by HR department)</th></tr>
+                            <tr class="text-center @if($leaveApplication->granted_status!=='GRANTED')bg-soft-danger @else bg-soft-success @endif text-black"><th colspan="9">Granted Status (by HR department)</th></tr>
                             <tr>
                                 <th>Person</th>
                                 <th style="width: 1%">:</th>
@@ -193,31 +242,35 @@
                                 </td>
                                 <th>Remarks</th>
                                 <th style="width: 1%">:</th>
-                                <td>@empty($leaveApplication->remarks_while_granted) N/A @else {{$leaveApplication->remarks_while_granted}} @endempty</td>
+                                <td style="width: 25%">@empty($leaveApplication->remarks_while_granted) N/A @else {{$leaveApplication->remarks_while_granted}} @endempty</td>
                             </tr>
                         </table>
 
 
 
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-6 text-right">
-                                        <a href="{{route('ea.attendance.leaveApplication')}}" type="submit" class="btn btn-primary mt-4 pr-4 pl-4 text-white">Go Back</a>
-                                    </div>
-                                    @if($leaveApplication->status=='DRAFTED')
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-7 text-right">
+                                    <a href="{{route('ea.attendance.leaveApplication')}}" type="submit" class="btn btn-primary mt-4 pr-4 pl-4 text-white"><i class="fa fa-arrow-alt-circle-left"></i> Go Back</a>
+                                    @if($leaveApplication->status=='GRANTED')
+                                        <a href="{{route('ea.attendance.leaveApplication.download', ['id'=>$leaveApplication->id])}}" type="submit" class="btn btn-info mt-4 pr-4 pl-4 text-white"><i class="fa fa-download"></i> Download</a>
+                                    @endif
+                                </div>
+                                @if($leaveApplication->status=='DRAFTED')
                                     <div class="col-md-6 text-left">
                                         <form action="{{route('ea.attendance.leaveApplication.destroy', ['id'=>$leaveApplication->id])}}" method="post">
                                             @csrf
-                                            <button type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm to delete?');">Delete</button>
+                                            <button type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm to delete?');">Delete <i class="fa fa-eraser"></i></button>
                                         </form>
                                         <form action="{{route('ea.attendance.leaveApplication.send', ['id'=>$leaveApplication->id])}}" method="post">
                                             @csrf
                                             <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                                             <input type="hidden" name="status" value="PENDING">
-                                        <button type="submit" class="btn btn-success mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm?');">Send</button>
+                                        <button type="submit" class="btn btn-success mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm?');">Send <i class="fa fa-arrow-alt-circle-right"></i></button>
                                         </form>
                                     </div>
-                                    @endif
+                                @endif
+
                                 </div>
                             </div>
                     </div>
