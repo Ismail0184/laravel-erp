@@ -257,7 +257,7 @@
                                     @endif
                                 </div>
                                 @if($leaveApplication->status=='DRAFTED')
-                                    <div class="col-md-6 text-left">
+                                    <div class="col-md-7 text-right">
                                         <form action="{{route('ea.attendance.leaveApplication.destroy', ['id'=>$leaveApplication->id])}}" method="post">
                                             @csrf
                                             <button type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm to delete?');">Delete <i class="fa fa-eraser"></i></button>

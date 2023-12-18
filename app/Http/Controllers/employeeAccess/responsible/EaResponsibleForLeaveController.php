@@ -17,7 +17,7 @@ class EaResponsibleForLeaveController extends Controller
      */
     public function index()
     {
-        $leaveApplications = EaLeaveApplication::where('year',date('Y'))->whereNotIn('status',['DRAFTED','REJECTED','DELETED'])->where('responsible_person',Auth::user()->id)->get();
+        $leaveApplications = EaLeaveApplication::where('year',date('Y'))->whereNotIn('status',['DRAFTED','REJECTED','DELETED'])->where('responsible_person_acceptance_status','PENDING')->where('responsible_person',Auth::user()->id)->get();
         return view('modules.employeeAccess.responsible.leave.index',compact('leaveApplications'));
     }
 

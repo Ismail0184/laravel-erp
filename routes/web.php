@@ -830,7 +830,9 @@ Route::get('/', [HomeController::class,'index']);
 
     // MIS/ User / Create User
     Route::get('/mis/user/create-user/',[MISCreateUserController::class,'index'])->name('mis.user.createUser');
-    Route::get('/mis/user/create-user/create/{id}',[MISCreateUserController::class,'create'])->name('mis.user.createUser.create');
+    Route::get('/mis/user/create-user/create/',[MISCreateUserController::class,'create'])->name('mis.user.createUser.create');
+    Route::get('/mis/user/create-user/data-extracted-from-employee-info/{id}',[MISCreateUserController::class,'createWithData'])->name('mis.user.createUser.createWithData');
+    Route::post('/mis/user/create-user/store',[MISCreateUserController::class,'storeWithData'])->name('mis.user.createUser.storeWithData');
     Route::post('/mis/user/create-user/store',[MISCreateUserController::class,'store'])->name('mis.user.createUser.store');
     Route::get('/mis/user/create-user/edit/{id}',[MISCreateUserController::class,'edit'])->name('mis.user.createUser.edit');
     Route::get('/mis/user/create-user/show/{id}',[MISCreateUserController::class,'show'])->name('mis.user.createUser.show');

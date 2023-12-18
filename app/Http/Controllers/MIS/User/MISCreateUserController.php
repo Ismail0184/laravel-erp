@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HRM\employee\HrmEmployee;
 use App\Models\HRM\employee\HrmEmployeeJobInfo;
 use App\Models\HRM\setup\HrmDesignation;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MISCreateUserController extends Controller
@@ -18,7 +19,11 @@ class MISCreateUserController extends Controller
     public function index()
     {
         $employees = HrmEmployee::where('job_status','In Service')->orderBy('id','asc')->get();
-        return view('modules.mis.user.index',compact('employees'));
+        foreach ($employees as $employee)
+        {
+            $employee->getUser = User::find($employee->id);
+        }
+        return view('modules.mis.user.index',compact(['employees']));
     }
 
     /**
@@ -26,10 +31,15 @@ class MISCreateUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create()
+    {
+        return view('modules.mis.user.create');
+    }
+
+    public function createWithData($id)
     {
         $employee = HrmEmployee::findOrfail($id);
-        return view('modules.mis.user.create',compact('employee'));
+        return view('modules.mis.user.createWithData',compact(['employee']));
     }
 
     /**
@@ -38,9 +48,16 @@ class MISCreateUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function storeWithData(Request $request)
+    {
+        User::storeUserWithData($request);
+        return redirect('/mis/user/create-user/')->with('store_message','This employee has been added as ERP user!!');
+    }
+
     public function store(Request $request)
     {
-        //
+        User::storeUserWithData($request);
+        return redirect('/mis/user/create-user/')->with('store_message','This employee has been added as ERP user!!');
     }
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -17,6 +18,8 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+
+    private static $user;
 
     /**
      * The attributes that are mass assignable.
@@ -58,4 +61,31 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    public static function storeUserWithData($request)
+    {
+        self::$user = new User();
+        self::$user->id = $request->id;
+        self::$user->email = $request->email;
+        self::$user->name = $request->name;
+        self::$user->type = 'employee';
+        self::$user->profile_photo_path = $request->profile_photo_path;
+        self::$user->password = Hash::make($request->password);
+        self::$user->status = 'active';
+        self::$user->save();
+    }
+
+    public static function storeUser($request)
+    {
+        self::$user = new User();
+        self::$user->id = $request->id;
+        self::$user->email = $request->email;
+        self::$user->name = $request->name;
+        self::$user->type = 'user';
+        self::$user->profile_photo_path = $request->profile_photo_path;
+        self::$user->password = Hash::make($request->password);
+        self::$user->status = 'active';
+        self::$user->save();
+    }
 }

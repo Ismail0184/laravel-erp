@@ -178,22 +178,73 @@
                             <i class="bx bx-home-circle"></i><span>Dashboards</span>
                         </a>
                     </li>
+                    @if(session('module_id')=='11')
                         @foreach($mainmenus as $mainmenu)
                     <li>
-                        <a href="@if($mainmenu->main_menu_id=='10009'){{route(''.$mainmenu->url.'')}}@else
-                        {{$mainmenu->url}}@endif" @if(count($mainmenu->subMenu) > 0) class="has-arrow waves-effect" @endif>
+                        <a href="{{$mainmenu->url}}" @if(count($mainmenu->subMenu) > 0) class="has-arrow waves-effect" @endif>
                             <i class="{{$mainmenu->faicon}}"></i>
                             <span>{{$mainmenu->main_menu_name}}</span>
+
+                            @if($mainmenu->main_menu_id=='10076')
+                                @if($totalResponsibleCount>0)
+                                <span class="badge badge-pill badge-danger float-right">{{$totalResponsibleCount}}</span>
+                                @endif
+                            @elseif($mainmenu->main_menu_id=='10073')
+                                <span class="badge badge-pill badge-primary float-right"></span>
+                            @elseif($mainmenu->main_menu_id=='10074')
+                                @if($totalRecommendationCount>0)
+                                <span class="badge badge-pill badge-info float-right">{{$totalRecommendationCount}}</span>
+                                @endif
+                            @elseif($mainmenu->main_menu_id=='10075')
+                                @if($totalApprovalCount>0)
+                                <span class="badge badge-pill badge-success float-right">{{$totalApprovalCount}}</span>
+                                @endif
+                            @endif
+
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
                             @foreach($mainmenu->subMenu as $submenu)
-                            <li><a href="{{route(''.$submenu->sub_url.'')}}">{{$submenu->sub_menu_name}}</a></li>
+                            <li>
+                                <a href="{{route(''.$submenu->sub_url.'')}}">{{$submenu->sub_menu_name}}
+                                    @if($submenu->sub_menu_id=='20266')
+                                        @if($responsibleForLeaveCount>0)
+                                            <span class="badge badge-pill badge-danger float-right">{{$responsibleForLeaveCount}}</span>
+                                        @endif
+
+                                    @elseif($submenu->sub_menu_id=='20264')
+                                        @if($recommendationForLeaveCount>0)
+                                            <span class="badge badge-pill badge-info float-right">{{$recommendationForLeaveCount}}</span>
+                                        @endif
+
+                                    @elseif($submenu->sub_menu_id=='20265')
+                                        @if($approvalForLeaveCount>0)
+                                            <span class="badge badge-pill badge-success float-right">{{$approvalForLeaveCount}}</span>
+                                        @endif
+                                    @endif
+
+                                </a>
+                            </li>
                             @endforeach
                         </ul>
-
                     </li>
                         @endforeach
 
+                    @else
+                        @foreach($mainmenus as $mainmenu)
+                            <li>
+                                <a href="@if($mainmenu->main_menu_id=='10009'){{route(''.$mainmenu->url.'')}}@else
+                        {{$mainmenu->url}}@endif" @if(count($mainmenu->subMenu) > 0) class="has-arrow waves-effect" @endif>
+                                    <i class="{{$mainmenu->faicon}}"></i>
+                                    <span>{{$mainmenu->main_menu_name}}</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    @foreach($mainmenu->subMenu as $submenu)
+                                        <li><a href="{{route(''.$submenu->sub_url.'')}}">{{$submenu->sub_menu_name}}</a></li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
             </div>
             <!-- Sidebar -->
@@ -219,47 +270,7 @@
         </footer>
     </div>
 </div>
-<!-- Right Sidebar -->
-<div class="right-bar">
-    <div data-simplebar class="h-100">
-        <div class="rightbar-title px-3 py-4">
-            <a href="javascript:void(0);" class="right-bar-toggle float-right">
-                <i class="mdi mdi-close noti-icon"></i>
-            </a>
-            <h5 class="m-0">Settings</h5>
-        </div>
-        <!-- Settings -->
-        <hr class="mt-0" />
-        <h6 class="text-center mb-0">Choose Layouts</h6>
 
-        <div class="p-4">
-            <div class="mb-2">
-                <img src="{{asset('/')}}assets/images/layouts/layout-1.jpg" class="img-fluid img-thumbnail" alt="">
-            </div>
-            <div class="custom-control custom-switch mb-3">
-                <input type="checkbox" class="custom-control-input theme-choice" id="light-mode-switch" checked />
-                <label class="custom-control-label" for="light-mode-switch">Light Mode</label>
-            </div>
-
-            <div class="mb-2">
-                <img src="{{asset('/')}}assets/images/layouts/layout-2.jpg" class="img-fluid img-thumbnail" alt="">
-            </div>
-            <div class="custom-control custom-switch mb-3">
-                <input type="checkbox" class="custom-control-input theme-choice" id="dark-mode-switch" data-bsStyle="{{asset('/')}}assets/css/bootstrap-dark.min.css" data-appStyle="{{asset('/')}}assets/css/app-dark.min.css" />
-                <label class="custom-control-label" for="dark-mode-switch">Dark Mode</label>
-            </div>
-
-            <div class="mb-2">
-                <img src="{{asset('/')}}assets/images/layouts/layout-3.jpg" class="img-fluid img-thumbnail" alt="">
-            </div>
-            <div class="custom-control custom-switch mb-5">
-                <input type="checkbox" class="custom-control-input theme-choice" id="rtl-mode-switch" data-appStyle="{{asset('/')}}assets/css/app-rtl.min.css" />
-                <label class="custom-control-label" for="rtl-mode-switch">RTL Mode</label>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="rightbar-overlay"></div>
 
 <!-- JAVASCRIPT -->
 <script src="{{asset('/')}}assets/libs/jquery/jquery.min.js"></script>

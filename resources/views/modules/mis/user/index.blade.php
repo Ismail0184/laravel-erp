@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}}</h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('mis.user.createUser.create')}}" class="btn btn-success" style="margin-left: 81.6%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -46,10 +46,13 @@
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                            <a href="{{route('mis.user.createUser.create',['id' => $employee->id])}}" title="Update" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-plus"></i>
-                                            </a>
-                                        </form>
+                                        @if($employee->getUser) <span class="text-success font-size-11">Added</span>
+                                        @else
+                                            {{$employee->getUser}}
+                                        <a href="{{route('mis.user.createUser.createWithData',['id' => $employee->id])}}" title="Update" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

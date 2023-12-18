@@ -12,7 +12,7 @@ class EaRecommendationLeaveController extends Controller
 {
     public function index()
     {
-        $leaveApplications = EaLeaveApplication::where('year',date('Y'))->where('status','PENDING')->where('recommended_by',Auth::user()->id)->get();
+        $leaveApplications = EaLeaveApplication::where('year',date('Y'))->where('status','PENDING')->where('recommended_status','PENDING')->where('recommended_by',Auth::user()->id)->get();
         return view('modules.employeeAccess.recommendation.leave.index',compact('leaveApplications'));
     }
 
