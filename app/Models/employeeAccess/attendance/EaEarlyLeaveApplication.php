@@ -19,6 +19,7 @@ class EaEarlyLeaveApplication extends Model
         self::$earlyLeaveApplication->date = $request->date;
         self::$earlyLeaveApplication->departure_time = $request->departure_time;
         self::$earlyLeaveApplication->reason = $request->reason;
+
         self::$earlyLeaveApplication->responsible_person = $request->responsible_person;
         self::$earlyLeaveApplication->recommended_by = $request->recommended_by;
         self::$earlyLeaveApplication->approved_by = $request->approved_by;
@@ -73,6 +74,10 @@ class EaEarlyLeaveApplication extends Model
 
     public static function destroyEarlyLeaveApplication($id)
     {
-        EaEarlyLeaveApplication::where('id',$id)->update(['status'=>'DELETED']);
+        EaEarlyLeaveApplication::where('id',$id)->update(
+            [
+                'status'=>'DELETED',
+                'sent_at' => now()
+            ]);
     }
 }

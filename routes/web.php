@@ -75,6 +75,7 @@ use App\Http\Controllers\employeeAccess\attendance\EaEarlyLeaveApplicationContro
 use App\Http\Controllers\employeeAccess\recommendation\EaRecommendationLeaveController;
 use App\Http\Controllers\employeeAccess\approval\EaApprovalLeaveController;
 use App\Http\Controllers\employeeAccess\responsible\EaResponsibleForLeaveController;
+use App\Http\Controllers\employeeAccess\responsible\EaResponsibleForEarlyLeaveController;
 use App\Http\Controllers\MIS\User\MISCreateUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -826,6 +827,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/employee-access/responsible-for/leave/show/{id}',[EaResponsibleForLeaveController::class,'show'])->name('ea.responsibleFor.leave.show');
     Route::post('/employee-access/responsible-for/leave/accept/{id}',[EaResponsibleForLeaveController::class,'accept'])->name('ea.responsibleFor.leave.accept');
     Route::post('/employee-access/responsible-for/leave/reject/{id}',[EaResponsibleForLeaveController::class,'reject'])->name('ea.responsibleFor.leave.reject');
+
+    // Employee Access/ Responsible for / Early Leave
+    Route::get('/employee-access/responsible-for/early-leave/',[EaResponsibleForEarlyLeaveController::class,'index'])->name('ea.responsibleFor.earlyLeave');
+    Route::get('/employee-access/responsible-for/early-leave/show/{id}',[EaResponsibleForEarlyLeaveController::class,'show'])->name('ea.responsibleFor.earlyLeave.show');
+    Route::post('/employee-access/responsible-for/early-leave/accept/{id}',[EaResponsibleForEarlyLeaveController::class,'accept'])->name('ea.responsibleFor.earlyLeave.accept');
+    Route::post('/employee-access/responsible-for/early-leave/reject/{id}',[EaResponsibleForEarlyLeaveController::class,'reject'])->name('ea.responsibleFor.earlyLeave.reject');
 
 
     // MIS/ User / Create User

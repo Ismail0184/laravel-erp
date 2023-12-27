@@ -178,6 +178,7 @@
                             <i class="bx bx-home-circle"></i><span>Dashboards</span>
                         </a>
                     </li>
+
                     @if(session('module_id')=='11')
                         @foreach($mainmenus as $mainmenu)
                     <li>
@@ -211,6 +212,11 @@
                                             <span class="badge badge-pill badge-danger float-right">{{$responsibleForLeaveCount}}</span>
                                         @endif
 
+                                    @elseif($submenu->sub_menu_id=='20267')
+                                        @if($responsibleForEarlyLeaveCount>0)
+                                            <span class="badge badge-pill badge-danger float-right">{{$responsibleForEarlyLeaveCount}}</span>
+                                        @endif
+
                                     @elseif($submenu->sub_menu_id=='20264')
                                         @if($recommendationForLeaveCount>0)
                                             <span class="badge badge-pill badge-info float-right">{{$recommendationForLeaveCount}}</span>
@@ -228,7 +234,46 @@
                         </ul>
                     </li>
                         @endforeach
+                    @elseif(session('module_id')=='10')
+                        @foreach($mainmenus as $mainmenu)
+                            <li>
+                                <a href="{{$mainmenu->url}}" @if(count($mainmenu->subMenu) > 0) class="has-arrow waves-effect" @endif>
+                                    <i class="{{$mainmenu->faicon}}"></i>
+                                    <span>{{$mainmenu->main_menu_name}}</span>
 
+                                    @if($mainmenu->main_menu_id=='10027')
+                                        @if($totalAttendanceRequest>0)
+                                            <span class="badge badge-pill badge-danger float-right">{{$totalAttendanceRequest}}</span>
+                                        @endif
+                                    @endif
+
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    @foreach($mainmenu->subMenu as $submenu)
+                                        <li>
+                                            <a href="{{route(''.$submenu->sub_url.'')}}">{{$submenu->sub_menu_name}}
+                                                @if($submenu->sub_menu_id=='20095')
+                                                    @if($grantedForLeaveCount>0)
+                                                        <span class="badge badge-pill badge-danger float-right">{{$grantedForLeaveCount}}</span>
+                                                    @endif
+
+                                                @elseif($submenu->sub_menu_id=='20264')
+                                                    @if($recommendationForLeaveCount>0)
+                                                        <span class="badge badge-pill badge-info float-right">{{$recommendationForLeaveCount}}</span>
+                                                    @endif
+
+                                                @elseif($submenu->sub_menu_id=='20265')
+                                                    @if($approvalForLeaveCount>0)
+                                                        <span class="badge badge-pill badge-success float-right">{{$approvalForLeaveCount}}</span>
+                                                    @endif
+                                                @endif
+
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endforeach
                     @else
                         @foreach($mainmenus as $mainmenu)
                             <li>

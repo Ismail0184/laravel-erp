@@ -157,6 +157,17 @@
                             {{$leaveApplication->created_at}}<br>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <strong>Application By :</strong>
+                            {{request('id')}}<br />
+                        </td>
+
+                        <td>
+                            <strong>Designation:</strong>
+                            {{$leaveApplication->created_at}}<br>
+                        </td>
+                    </tr>
                 </table>
             </td>
         </tr>

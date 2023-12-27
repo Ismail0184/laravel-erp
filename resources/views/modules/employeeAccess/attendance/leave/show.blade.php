@@ -250,18 +250,25 @@
 
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-7 text-right">
-                                    <a href="{{route('ea.attendance.leaveApplication')}}" type="submit" class="btn btn-primary mt-4 pr-4 pl-4 text-white"><i class="fa fa-arrow-alt-circle-left"></i> Go Back</a>
-                                    @if($leaveApplication->status=='GRANTED')
-                                        <a href="{{route('ea.attendance.leaveApplication.download', ['id'=>$leaveApplication->id])}}" type="submit" class="btn btn-info mt-4 pr-4 pl-4 text-white"><i class="fa fa-download"></i> Download</a>
-                                    @endif
+                                @if($leaveApplication->status=='GRANTED')
+                                <div class="col-lg-12 text-center">
+                                    <a href="{{route('ea.attendance.leaveApplication')}}" type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white"><i class="fa fa-arrow-alt-circle-left"></i> Go Back</a>
+                                    <a href="{{route('ea.attendance.leaveApplication.download', ['id'=>$leaveApplication->id])}}" type="submit" class="btn btn-info mt-4 pr-4 pl-4 text-white"><i class="fa fa-download"></i> Download</a>
                                 </div>
+                                @endif
+
                                 @if($leaveApplication->status=='DRAFTED')
-                                    <div class="col-md-7 text-right">
+                                    <div class="col-lg-5 text-right">
+                                        <a href="{{route('ea.attendance.leaveApplication')}}" type="submit" class="btn btn-primary mt-4 pr-4 pl-4 text-white"><i class="fa fa-arrow-alt-circle-left"></i> Go Back</a>
+                                    </div>
+
+                                    <div class="col-lg-2 text-center">
                                         <form action="{{route('ea.attendance.leaveApplication.destroy', ['id'=>$leaveApplication->id])}}" method="post">
                                             @csrf
                                             <button type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm to delete?');">Delete <i class="fa fa-eraser"></i></button>
                                         </form>
+                                    </div>
+                                    <div class="col-lg-5 text-left">
                                         <form action="{{route('ea.attendance.leaveApplication.send', ['id'=>$leaveApplication->id])}}" method="post">
                                             @csrf
                                             <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">

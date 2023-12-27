@@ -11,7 +11,7 @@ class HrmAttendanceLeaveController extends Controller
 {
     public function index()
     {
-        $leaveApplications = EaLeaveApplication::where('year',date('Y'))->whereNotIn('status',['DRAFTED','REJECTED'])->get();
+        $leaveApplications = EaLeaveApplication::where('year',date('Y'))->whereNotIn('status',['DRAFTED','REJECTED'])->where('granted_status','PENDING')->get();
         return view('modules.hrm.attendance.leave.index',compact('leaveApplications'));
     }
 
@@ -42,12 +42,12 @@ class HrmAttendanceLeaveController extends Controller
     public function approve(Request $request, $id)
     {
         EaLeaveApplication::grantedLeaveApplication($request, $id);
-        return redirect('/employee-access/approval/leave/')->with('granted_message','This leave application (Application ID # '.$id.') has been granted!!');
+        return redirect('/hrm/attendance/leave-application/')->with('granted_message','This leave application (Application ID # '.$id.') has been granted!!');
     }
 
     public function reject(Request $request, $id)
     {
         EaLeaveApplication::rejectGLeaveApplication($request, $id);
-        return redirect('/employee-access/approval/leave/')->with('rejected_message','This leave application (Application ID # '.$id.') has been rejected!!');
+        return redirect('/hrm/attendance/leave-application/')->with('rejected_message','This leave application (Application ID # '.$id.') has been rejected!!');
     }
 }

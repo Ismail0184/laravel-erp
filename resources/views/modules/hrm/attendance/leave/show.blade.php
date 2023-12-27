@@ -277,12 +277,27 @@
                             </table>
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-md-6 text-right">
-                                        <a href="{{route('hrm.attendance.leave')}}" type="submit" class="btn btn-primary mt-4 pr-4 pl-4 text-white">Go Back</a>
-                                    </div>
+                                    @if($leaveApplication->status=='GRANTED')
+                                        <div class="col-lg-12 text-center">
+                                            <a href="{{route('hrm.attendance.leave')}}" type="submit" class="btn btn-primary mt-4 pr-4 pl-4 text-white">Go Back</a>
+                                            <a href="{{route('ea.attendance.leaveApplication.download', ['id'=>$leaveApplication->id])}}" type="submit" class="btn btn-info mt-4 pr-4 pl-4 text-white"><i class="fa fa-download"></i> Download</a>
+                                        </div>
+                                    @endif
                                     @if($leaveApplication->status=='APPROVED')
-                                        <div class="col-md-6 text-left">
-                                            <form action="{{route('hrm.attendance.leave.approve', ['id'=>$leaveApplication->id])}}" method="post">
+                                            <div class="col-lg-4 text-right">
+                                                <a href="{{route('ea.attendance.leaveApplication')}}" type="submit" class="btn btn-primary mt-4 pr-4 pl-4 text-white"><i class="fa fa-arrow-alt-circle-left"></i> Go Back</a>
+                                            </div>
+
+                                            <div class="col-lg-3 text-center">
+                                                <form action="{{route('hrm.attendance.leave.reject', ['id'=>$leaveApplication->id])}}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="remarks_while_granted" id="remarks_while_granted_reject">
+                                                    <button type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm to delete?');"><i class="fa fa-arrow-alt-circle-left"></i> Reject & Send Back</button>
+                                                </form>
+                                            </div>
+
+                                            <div class="col-lg-5 text-left">
+                                                <form action="{{route('hrm.attendance.leave.approve', ['id'=>$leaveApplication->id])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                                                 <input type="hidden" name="status" value="PENDING">
@@ -290,12 +305,7 @@
 
                                                 <button type="submit" class="btn btn-success mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm?');">Granted the application <i class="fa fa-arrow-alt-circle-right"></i></button>
                                             </form>
-                                            <form action="{{route('hrm.attendance.leave.reject', ['id'=>$leaveApplication->id])}}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="remarks_while_granted" id="remarks_while_granted_reject">
-                                                <button type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm to delete?');"><i class="fa fa-arrow-alt-circle-left"></i> Reject & Send Back</button>
-                                            </form>
-                                        </div>
+                                            </div></div>
                                     @endif
                                 </div>
                             </div>

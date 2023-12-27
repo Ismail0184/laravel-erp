@@ -20,17 +20,16 @@
 
                     <input type="hidden" name="employee_id" value="{{ Auth::user()->id }}">
                     <div class="form-group row mb-2">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Date <span class="required text-danger">*</span></label>
-                        <div class="col-sm-9">
+
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Departure Date & Time <span class="required text-danger">*</span></label>
+                        <div class="col-lg-4">
                             <input type="date" name="date" @if(request('id')>0) value="{{$earlyLeaveApplication->date}}" @endif id="start_date" onchange="cal1()" class="form-control" required="required">
                         </div>
-                    </div>
-                    <div class="form-group row mb-2">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Departure Time <span class="required text-danger">*</span></label>
-                        <div class="col-sm-9">
+                        <div class="col-lg-5">
                             <input type="time" name="departure_time" @if(request('id')>0) value="{{$earlyLeaveApplication->departure_time}}" @endif id="end_date" onchange="cal()" required="required" class="form-control">
                         </div>
                     </div>
+
                     <div class="form-group row mb-2">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Early Leave Reason <span class="required text-danger">*</span></label>
                         <div class="col-sm-9">

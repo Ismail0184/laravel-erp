@@ -68,7 +68,7 @@
                                         <a href="{{route('ea.recommendation.leave')}}" type="submit" class="btn btn-primary mt-4 pr-4 pl-4 text-white">Go Back</a>
                                     </div>
                                     @if($leaveApplication->responsible_person_acceptance_status=='PENDING')
-                                        <div class="col-md-6 text-left">
+                                        <div class="col-lg-6 text-center">
                                             <form action="{{route('ea.responsibleFor.leave.accept', ['id'=>$leaveApplication->id])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
@@ -77,6 +77,8 @@
 
                                                 <button type="submit" class="btn btn-success mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm?');">Accept <i class="fa fa-arrow-alt-circle-right"></i></button>
                                             </form>
+                                        </div>
+                                        <div class="col-lg-6 text-center">
                                             <form action="{{route('ea.responsibleFor.leave.reject', ['id'=>$leaveApplication->id])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="remarks_for_responsible_person" id="remarks_for_responsible_person_reject">
