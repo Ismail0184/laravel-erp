@@ -76,6 +76,7 @@ use App\Http\Controllers\employeeAccess\recommendation\EaRecommendationLeaveCont
 use App\Http\Controllers\employeeAccess\approval\EaApprovalLeaveController;
 use App\Http\Controllers\employeeAccess\responsible\EaResponsibleForLeaveController;
 use App\Http\Controllers\employeeAccess\responsible\EaResponsibleForEarlyLeaveController;
+use App\Http\Controllers\employeeAccess\recommendation\EaRecommendationEarlyLeaveController;
 use App\Http\Controllers\MIS\User\MISCreateUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -763,9 +764,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/hrm/attendance/leave-application/granted/{id}',[HrmAttendanceLeaveController::class,'approve'])->name('hrm.attendance.leave.approve');
     Route::post('/hrm/attendance/leave-application/reject/{id}',[HrmAttendanceLeaveController::class,'reject'])->name('hrm.attendance.leave.reject');
 
-
-
-        // Employee Access/ Attendance / Leave Application
+    // Employee Access/ Attendance / Leave Application
     Route::get('/employee-access/attendance/leave-application/',[EALeaveApplicationController::class,'index'])->name('ea.attendance.leaveApplication');
     Route::get('/employee-access/attendance/leave-application/create/',[EALeaveApplicationController::class,'create'])->name('ea.attendance.leaveApplication.create');
     Route::get('/get-type-balance/{category}',[EALeaveApplicationController::class,'getTypeBalance']);
@@ -815,6 +814,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/employee-access/recommendation/leave/show/{id}',[EaRecommendationLeaveController::class,'show'])->name('ea.attendance.recommendation.leave.show');
     Route::post('/employee-access/recommendation/leave/recommend/{id}',[EaRecommendationLeaveController::class,'recommend'])->name('ea.recommendation.leave.recommend');
     Route::post('/employee-access/recommendation/leave/reject/{id}',[EaRecommendationLeaveController::class,'reject'])->name('ea.recommendation.leave.reject');
+
+    // Employee Access/ Recommend / Early Leave Application
+    Route::get('/employee-access/recommendation/early-leave/',[EaRecommendationEarlyLeaveController::class,'index'])->name('ea.recommendation.earlyLeave');
+    Route::get('/employee-access/recommendation/early-leave/show/{id}',[EaRecommendationEarlyLeaveController::class,'show'])->name('ea.recommendation.earlyLeave.show');
+    Route::post('/employee-access/recommendation/early-leave/recommend/{id}',[EaRecommendationEarlyLeaveController::class,'recommend'])->name('ea.recommendation.earlyLeave.recommend');
+    Route::post('/employee-access/recommendation/early-leave/reject/{id}',[EaRecommendationEarlyLeaveController::class,'reject'])->name('ea.recommendation.earlyLeave.reject');
 
     // Employee Access/ Approval / Leave Application
     Route::get('/employee-access/approval/leave/',[EaApprovalLeaveController::class,'index'])->name('ea.approval.leave');

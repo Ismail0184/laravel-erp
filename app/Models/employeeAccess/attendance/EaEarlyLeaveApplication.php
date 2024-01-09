@@ -72,6 +72,23 @@ class EaEarlyLeaveApplication extends Model
         EaEarlyLeaveApplication::where('id',$id)->update(['status'=>$request->status]);
     }
 
+    public static function responsiblePersonView($id)
+    {
+        EaEarlyLeaveApplication::where('id',$id)->update(
+            [
+                'responsible_person_viewed_at'=>now()
+            ]);
+    }
+    public static function acceptEarlyLeaveApplication($request, $id)
+    {
+        EaEarlyLeaveApplication::where('id',$id)->update(
+            [
+                'responsible_person_acceptance_status'=>'ACCEPTED',
+                'remarks_for_responsible_person'=>$request->remarks_for_responsible_person,
+                'responsible_person_acceptance_at'=>now()
+            ]);
+    }
+
     public static function destroyEarlyLeaveApplication($id)
     {
         EaEarlyLeaveApplication::where('id',$id)->update(
