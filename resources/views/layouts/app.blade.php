@@ -172,7 +172,7 @@
             <div id="sidebar-menu">
                 <!-- Left Menu Start -->
                 <ul class="metismenu list-unstyled" id="side-menu">
-                    <li class="menu-title">Menus</li>
+                    <li class="menu-title">Menus of </li>
                     <li>
                         <a href="{{route('dashboard')}}" class="waves-effect">
                             <i class="bx bx-home-circle"></i><span>Dashboards</span>

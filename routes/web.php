@@ -852,6 +852,6 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/mis/user/create-user/destroy/{id}',[MISCreateUserController::class,'destroy'])->name('mis.user.createUser.destroy');
 
 
-        Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
+    Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
 });
