@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Developer\DevGroup;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -14,7 +15,8 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
+        $groups = DevGroup::all();
+        return view('modules.developer.group.index',compact('groups'));
     }
 
     /**
@@ -24,7 +26,7 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.developer.group.create');
     }
 
     /**
@@ -35,7 +37,8 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DevGroup::storeGroup($request);
+        return redirect('/developer/group/')->with('store_message','A new group has been created successfully!!');
     }
 
     /**
