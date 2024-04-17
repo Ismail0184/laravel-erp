@@ -13,19 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dev_companies', function (Blueprint $table) {
-            $table->id();
-            $table->integer('group_id');
-            $table->string('company_name');
+        Schema::create('dev_groups', function (Blueprint $table) {
+            $table->id('group_id');
+            $table->string('group_name');
             $table->text('address');
             $table->string('website');
-            $table->string('telephone');
-            $table->string('trade_license');
-            $table->string('VAT_registration');
-            $table->string('logo');
-            $table->string('logo_color');
-            $table->string('TIN');
-            $table->string('BIN');
             $table->enum('status',['1', '0']);
             $table->timestamps();
         });
@@ -38,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dev_companies');
+        Schema::dropIfExists('dev_groups');
     }
 };

@@ -26,6 +26,8 @@ use App\Http\Controllers\Accounts\Vouchers\VoucherViewController;
 use App\Http\Controllers\Developer\MainMenuController;
 use App\Http\Controllers\Developer\ModulesController;
 use App\Http\Controllers\Developer\SubMenuController;
+use App\Http\Controllers\Developer\GroupController;
+use App\Http\Controllers\Developer\CompanyController;
 use App\Http\Controllers\home\HomeController;
 use App\Http\Controllers\HRM\setup\DepartmentController;
 use App\Http\Controllers\HRM\setup\DesignationController;
@@ -90,14 +92,23 @@ Route::get('/', [HomeController::class,'index']);
         return redirect('/dashboard');
     });
 
+    //Developer/Group
+    Route::get('/developer/group/',[GroupController::class,'index'])->name('dev.group.view');
+    Route::get('/developer/group/create', [GroupController::class,'create'])->name('dev.group.create');
+    Route::post('/developer/group/store', [GroupController::class,'store'])->name('dev.group.store');
+    Route::get('/developer/group/show/{id}', [GroupController::class,'show'])->name('dev.group.show');
+    Route::get('/developer/group/edit/{id}', [GroupController::class,'edit'])->name('dev.group.edit');
+    Route::post('/developer/group/update/{id}', [GroupController::class,'update'])->name('dev.group.update');
+    Route::post('developer/group/destroy/{id}', [GroupController::class,'destroy'])->name('dev.group.destroy');
+
     //Developer/Company
-    Route::get('/developer/company/',[ClassController::class,'index'])->name('dev.company.view');
-    Route::get('/developer/company/create', [ClassController::class,'create'])->name('dev.company.create');
-    Route::post('/developer/company/store', [ClassController::class,'store'])->name('dev.company.store');
-    Route::get('/developer/company/show/{id}', [ClassController::class,'show'])->name('dev.company.show');
-    Route::get('/developer/company/edit/{id}', [ClassController::class,'edit'])->name('dev.company.edit');
-    Route::post('/developer/company/update/{id}', [ClassController::class,'update'])->name('dev.company.update');
-    Route::post('developer/company/destroy/{id}', [ClassController::class,'destroy'])->name('dev.company.destroy');
+    Route::get('/developer/company/',[CompanyController::class,'index'])->name('dev.company.view');
+    Route::get('/developer/company/create', [CompanyController::class,'create'])->name('dev.company.create');
+    Route::post('/developer/company/store', [CompanyController::class,'store'])->name('dev.company.store');
+    Route::get('/developer/company/show/{id}', [CompanyController::class,'show'])->name('dev.company.show');
+    Route::get('/developer/company/edit/{id}', [CompanyController::class,'edit'])->name('dev.company.edit');
+    Route::post('/developer/company/update/{id}', [CompanyController::class,'update'])->name('dev.company.update');
+    Route::post('developer/company/destroy/{id}', [CompanyController::class,'destroy'])->name('dev.company.destroy');
 
     //Developer/Modules
     Route::get('/developer/modules/',[ModulesController::class,'index'])->name('dev.modules.view');
