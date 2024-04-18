@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('group_name');
             $table->text('address');
             $table->string('website');
-            $table->enum('status',['1', '0']);
+            $table->enum('status',['active','inactive','suspended','deleted'])->default('active');
             $table->timestamps();
         });
     }

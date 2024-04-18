@@ -21,4 +21,18 @@ class DevGroup extends Model
         self::$group->website = $request->website;
         self::$group->save();
     }
+
+    public static function updateGroup($request, $id)
+    {
+        self::$group = DevGroup::findOrfail($id);
+        self::$group->group_name = $request->group_name;
+        self::$group->address = $request->address;
+        self::$group->website = $request->website;
+        self::$group->save();
+    }
+
+    public static function destroyGroup($id)
+    {
+        DevGroup::where('group_id',$id)->update(['status'=>'deleted']);
+    }
 }

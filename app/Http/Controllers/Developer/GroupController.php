@@ -60,7 +60,8 @@ class GroupController extends Controller
      */
     public function edit($id)
     {
-        //
+        $group = DevGroup::findOrfail($id);
+        return view('modules.developer.group.create',compact('group'));
     }
 
     /**
@@ -72,7 +73,8 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DevGroup::updateGroup($request, $id);
+        return redirect('/developer/group/')->with('update_message','This group (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -83,6 +85,7 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DevGroup::destroyGroup($id);
+        return redirect('/developer/group/')->with('destroy_message','This group (uid='.$id.') has been deleted!!');
     }
 }

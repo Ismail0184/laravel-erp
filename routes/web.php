@@ -96,10 +96,10 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/developer/group/',[GroupController::class,'index'])->name('dev.group.view');
     Route::get('/developer/group/create', [GroupController::class,'create'])->name('dev.group.create');
     Route::post('/developer/group/store', [GroupController::class,'store'])->name('dev.group.store');
-    Route::get('/developer/group/show/{id}', [GroupController::class,'show'])->name('dev.group.show');
-    Route::get('/developer/group/edit/{id}', [GroupController::class,'edit'])->name('dev.group.edit');
-    Route::post('/developer/group/update/{id}', [GroupController::class,'update'])->name('dev.group.update');
-    Route::post('developer/group/destroy/{id}', [GroupController::class,'destroy'])->name('dev.group.destroy');
+    Route::get('/developer/group/show/{group_id}', [GroupController::class,'show'])->name('dev.group.show');
+    Route::get('/developer/group/edit/{group_id}', [GroupController::class,'edit'])->name('dev.group.edit');
+    Route::post('/developer/group/update/{group_id}', [GroupController::class,'update'])->name('dev.group.update');
+    Route::post('developer/group/destroy/{group_id}', [GroupController::class,'destroy'])->name('dev.group.destroy');
 
     //Developer/Company
     Route::get('/developer/company/',[CompanyController::class,'index'])->name('dev.company.view');

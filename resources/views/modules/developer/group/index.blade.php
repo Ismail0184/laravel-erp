@@ -24,6 +24,8 @@
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th style="width: 5%; text-align: center">Group Id</th>
                                 <th>Group Name</th>
+                                <th>Address</th>
+                                <th>Website</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 10%">Option</th>
                             </tr>
@@ -34,6 +36,8 @@
                                     <td style="text-align: center">{{$loop->iteration}}</td>
                                     <td style="text-align: center">{{$group->group_id}}</td>
                                     <td>@if($group->status == 'deleted')<del>{{$group->group_name}}</del> @else {{$group->group_name}}@endif</td>
+                                    <td style="text-align: left">{{$group->address}}</td>
+                                    <td style="text-align: left">{{$group->website}}</td>
                                     <td>
                                         @if($group->status == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($group->status == 'inactive') <span class="badge badge-warning">Inactive</span>
@@ -42,9 +46,9 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <form action="{{route('hrm.setup.blood.destroy', ['id' => $group->group_id])}}" method="post">
+                                        <form action="{{route('dev.group.destroy', ['group_id' => $group->group_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('hrm.setup.blood.edit',['id' => $group->group_id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('dev.group.edit',['group_id' => $group->group_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
