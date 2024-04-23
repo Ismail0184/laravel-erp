@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Employee List') {{$title}}
+    @php($title = 'Active Users') {{$title}}
 @endsection
 
 @section('body')
@@ -23,7 +23,6 @@
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th style="width: 5%; text-align: center">UID</th>
-                                <th>Code</th>
                                 <th>Employee Name</th>
                                 <th>Designation</th>
                                 <th>Department</th>
@@ -32,26 +31,25 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($employees as $employee)
+                            @foreach($users as $user)
                                 <tr>
                                     <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
-                                    <td style="text-align: center; vertical-align: middle">{{$employee->id}}</td>
-                                    <td style="text-align: left; vertical-align: middle">{{$employee->code}}</td>
-                                    <td style="vertical-align: middle">@if($employee->status == 'deleted')<del>{{$employee->full_name}}</del> @else {{$employee->full_name}}@endif</td>
-                                    <td style="text-align: left; vertical-align: middle">{{ $employee->jobInfoTable->getDesignation->designation_name ?? '-' }}</td>
-                                    <td style="text-align: left; vertical-align: middle">{{ $employee->jobInfoTable->getDepartment->department_name ?? '-' }}</td>
+                                    <td style="text-align: center; vertical-align: middle">{{$user->id}}</td>
+                                    <td style="vertical-align: middle">@if($user->status == 'deleted')<del>{{$user->name}}</del> @else {{$user->name}}@endif</td>
+                                    <td style="text-align: left; vertical-align: middle">{{ $user->jobInfoTable->getDesignation->designation_name ?? '-' }}</td>
+                                    <td style="text-align: left; vertical-align: middle">{{ $user->jobInfoTable->getDepartment->department_name ?? '-' }}</td>
                                     <td style="vertical-align: middle">
-                                        @if($employee->job_status == 'In Service') <span class="badge badge-success">In Service</span>
-                                        @elseif($employee->job_status == 'Not In Service') <span class="badge badge-danger"><del>Not In Service</del></span>
+                                        @if($user->status == 'active') <span class="badge badge-success">Active</span>
+                                        @elseif($user->status == 'banned') <span class="badge badge-danger"><del>Banned</del></span>
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        @if($employee->getUser) <span class="text-success font-size-11">Added</span>
+                                        @if($user->getUser) <span class="text-success font-size-11">Added</span>
                                         @else
-                                            {{$employee->getUser}}
-                                        <a href="{{route('mis.user.createUser.createWithData',['id' => $employee->id])}}" title="Update" class="btn btn-primary btn-sm">
-                                            <i class="fa fa-plus"></i>
-                                        </a>
+                                            {{$user->getUser}}
+                                            <a href="{{route('mis.user.createUser.createWithData',['id' => $user->id])}}" title="Update" class="btn btn-primary btn-sm">
+                                                <i class="fa fa-plus"></i>
+                                            </a>
                                         @endif
                                     </td>
                                 </tr>

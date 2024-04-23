@@ -28,6 +28,7 @@ class DevGroup extends Model
         self::$group->group_name = $request->group_name;
         self::$group->address = $request->address;
         self::$group->website = $request->website;
+        self::$group->status = $request->status;
         self::$group->save();
     }
 

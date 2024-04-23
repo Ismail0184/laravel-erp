@@ -19,6 +19,8 @@ return new class extends Migration
             $table->text('address');
             $table->string('website');
             $table->enum('status',['active','inactive','suspended','deleted'])->default('active');
+            $table->integer('cid');
+            $table->integer('gid');
             $table->timestamps();
         });
     }

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('logo_color');
             $table->string('TIN');
             $table->string('BIN');
-            $table->enum('status',['1', '0']);
+            $table->enum('status',['active','inactive','suspended','deleted'])->default('active');
             $table->timestamps();
         });
     }

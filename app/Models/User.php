@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Developer\DevCompany;
+use App\Models\HRM\employee\HrmEmployeeJobInfo;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -76,6 +78,12 @@ class User extends Authenticatable
         self::$user->save();
     }
 
+    public static function getGid($cid)
+    {
+        $company = DevCompany::findOrfail($cid);
+        return $company->group_id;
+    }
+
     public static function storeUser($request)
     {
         self::$user = new User();
@@ -86,6 +94,27 @@ class User extends Authenticatable
         self::$user->profile_photo_path = $request->profile_photo_path;
         self::$user->password = Hash::make($request->password);
         self::$user->status = 'active';
+        self::$user->cid = $request->cid;
+        self::$user->gid = self::getGid($request->cid);
         self::$user->save();
+    }
+
+    public static function updateUser($request, $id)
+    {
+        self::$user = User::findOrfail($id);
+        self::$user->email = $request->email;
+        self::$user->name = $request->name;
+        self::$user->type = $request->type;
+        self::$user->profile_photo_path = $request->profile_photo_path;
+        //self::$user->password = Hash::make($request->password);
+        self::$user->status = $request->status;
+        self::$user->cid = $request->cid;
+        self::$user->gid = self::getGid($request->cid);
+        self::$user->save();
+    }
+
+    public function jobInfoTable()
+    {
+        return $this->belongsTo(HrmEmployeeJobInfo::class,'id','employee_id');
     }
 }

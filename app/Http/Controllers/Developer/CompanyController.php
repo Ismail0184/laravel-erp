@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Developer\DevCompany;
+use App\Models\Developer\DevGroup;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -14,7 +16,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        $companies = DevCompany::all();
+        return view('modules.developer.company.index',compact('companies'));
     }
 
     /**
@@ -24,7 +27,8 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        $groups = DevGroup::where('status','active')->get();
+        return view('modules.developer.company.create',compact(['groups']));
     }
 
     /**
@@ -35,7 +39,8 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DevCompany::storeCompany($request);
+        return redirect('/developer/company/')->with('store_message','A new company has been successfully created!!');
     }
 
     /**
@@ -57,7 +62,9 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $groups = DevGroup::where('status','active')->get();
+        $company = DevCompany::findOrfail($id);
+        return view('modules.developer.company.create',compact(['company','groups']));
     }
 
     /**
@@ -69,7 +76,8 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DevCompany::updateCompany($request, $id);
+        return redirect('/developer/company')->with('update_message','This company (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -80,6 +88,7 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DevCompany::destroyCompany($id);
+        return redirect('/developer/company')->with('destroy_message','This company (uid='.$id.') has been deleted!!');
     }
 }

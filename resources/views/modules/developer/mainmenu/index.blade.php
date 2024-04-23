@@ -38,7 +38,7 @@
                                     <td style="text-align: center">{{$mainmenu->main_menu_id}}</td>
                                     <td>{{$mainmenu->main_menu_name}}</td>
                                     <td>{{$mainmenu->url}}</td>
-                                    <td>{{ $mainmenu->moduleGet->modulename}}</td>
+                                    <td>{{ $mainmenu->moduleGet->modulename ?? '-'}}</td>
                                     <td>@if($mainmenu->status == '1') <span class="badge badge-success">Active</span> @elseif($mainmenu->status == '0') <span class="badge badge-danger">Inactive</span> @endif</td>
                                     <td class="text-center">
                                         <form action="{{route('dev.main-menu.destroy', ['main_menu_id' => $mainmenu->main_menu_id])}}" method="post">

@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\MIS\User;
+namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Developer\DevCompany;
 use App\Models\HRM\employee\HrmEmployee;
-use App\Models\HRM\employee\HrmEmployeeJobInfo;
-use App\Models\HRM\setup\HrmDesignation;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class MISCreateUserController extends Controller
+class ERPUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,18 +17,8 @@ class MISCreateUserController extends Controller
      */
     public function index()
     {
-        $employees = HrmEmployee::where('job_status','In Service')->orderBy('id','asc')->get();
-        foreach ($employees as $employee)
-        {
-            $employee->getUser = User::find($employee->id);
-        }
-        return view('modules.mis.user.index',compact(['employees']));
-    }
-
-    public function indexManual()
-    {
-        $users = User::whereNotIn('type',['developer'])->get();
-        return view('modules.mis.user.indexManual',compact(['users']));
+        $users = User::all();
+        return view('modules.developer.user.index',compact(['users']));
     }
 
     /**
@@ -39,13 +28,8 @@ class MISCreateUserController extends Controller
      */
     public function create()
     {
-        return view('modules.mis.user.create');
-    }
-
-    public function createWithData($id)
-    {
-        $employee = HrmEmployee::findOrfail($id);
-        return view('modules.mis.user.createWithData',compact(['employee']));
+        $companies = DevCompany::where('status','active')->get();
+        return view('modules.developer.user.create',compact('companies'));
     }
 
     /**
@@ -54,16 +38,10 @@ class MISCreateUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeWithData(Request $request)
-    {
-        User::storeUserWithData($request);
-        return redirect('/mis/user/create-user/')->with('store_message','This employee has been added as ERP user!!');
-    }
-
     public function store(Request $request)
     {
         User::storeUser($request);
-        return redirect('/mis/user/create-user-manual/')->with('store_message','A new user has been successfully created!!');
+        return redirect('/developer/user/create-user/')->with('store_message','A new user has been successfully created!!');
     }
 
     /**
@@ -85,7 +63,9 @@ class MISCreateUserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrfail($id);
+        $companies = DevCompany::where('status','active')->get();
+        return view('modules.developer.user.create',compact(['user','companies']));
     }
 
     /**
@@ -97,7 +77,8 @@ class MISCreateUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        User::updateUser($request, $id);
+        return redirect('/developer/user/create-user/')->with('update_message','This user has been successfully updated!!');
     }
 
     /**

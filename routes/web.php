@@ -28,6 +28,7 @@ use App\Http\Controllers\Developer\ModulesController;
 use App\Http\Controllers\Developer\SubMenuController;
 use App\Http\Controllers\Developer\GroupController;
 use App\Http\Controllers\Developer\CompanyController;
+Use App\Http\Controllers\Developer\ERPUserController;
 use App\Http\Controllers\home\HomeController;
 use App\Http\Controllers\HRM\setup\DepartmentController;
 use App\Http\Controllers\HRM\setup\DesignationController;
@@ -80,6 +81,7 @@ use App\Http\Controllers\employeeAccess\responsible\EaResponsibleForLeaveControl
 use App\Http\Controllers\employeeAccess\responsible\EaResponsibleForEarlyLeaveController;
 use App\Http\Controllers\employeeAccess\recommendation\EaRecommendationEarlyLeaveController;
 use App\Http\Controllers\MIS\User\MISCreateUserController;
+use App\Http\Controllers\MIS\PermissionMatrix\MISPMCompanyController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -110,7 +112,17 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/developer/company/update/{id}', [CompanyController::class,'update'])->name('dev.company.update');
     Route::post('developer/company/destroy/{id}', [CompanyController::class,'destroy'])->name('dev.company.destroy');
 
-    //Developer/Modules
+    // MIS/ User / Create User
+    Route::get('/developer/user/create-user/',[ERPUserController::class,'index'])->name('dev.user.erpUser.view');
+    Route::get('/developer/user/create-user/create/',[ERPUserController::class,'create'])->name('dev.user.createErpUser.create');
+    Route::post('/developer/user/create-user/store',[ERPUserController::class,'store'])->name('dev.user.createErpUser.store');
+    Route::get('/developer/user/create-user/edit/{id}',[ERPUserController::class,'edit'])->name('dev.user.createUser.edit');
+    Route::get('/developer/user/create-user/show/{id}',[ERPUserController::class,'show'])->name('dev.user.createUser.show');
+    Route::post('/developer/user/create-user/update/{id}',[ERPUserController::class,'update'])->name('dev.user.createUser.update');
+    Route::post('/developer/user/create-user/destroy/{id}',[ERPUserController::class,'destroy'])->name('dev.user.createUser.destroy');
+
+
+        //Developer/Modules
     Route::get('/developer/modules/',[ModulesController::class,'index'])->name('dev.modules.view');
     Route::get('/developer/modules/create', [ModulesController::class,'create'])->name('dev.modules.create');
     Route::post('/developer/modules/store', [ModulesController::class,'store'])->name('dev.modules.store');
@@ -853,15 +865,36 @@ Route::get('/', [HomeController::class,'index']);
 
     // MIS/ User / Create User
     Route::get('/mis/user/create-user/',[MISCreateUserController::class,'index'])->name('mis.user.createUser');
+    Route::get('/mis/user/create-user-manual/',[MISCreateUserController::class,'indexManual'])->name('mis.user.createUserManual');
     Route::get('/mis/user/create-user/create/',[MISCreateUserController::class,'create'])->name('mis.user.createUser.create');
     Route::get('/mis/user/create-user/data-extracted-from-employee-info/{id}',[MISCreateUserController::class,'createWithData'])->name('mis.user.createUser.createWithData');
-    Route::post('/mis/user/create-user/store',[MISCreateUserController::class,'storeWithData'])->name('mis.user.createUser.storeWithData');
+    Route::post('/mis/user/create-user/storeWithData',[MISCreateUserController::class,'storeWithData'])->name('mis.user.createUser.storeWithData');
     Route::post('/mis/user/create-user/store',[MISCreateUserController::class,'store'])->name('mis.user.createUser.store');
     Route::get('/mis/user/create-user/edit/{id}',[MISCreateUserController::class,'edit'])->name('mis.user.createUser.edit');
     Route::get('/mis/user/create-user/show/{id}',[MISCreateUserController::class,'show'])->name('mis.user.createUser.show');
     Route::post('/mis/user/create-user/update/{id}',[MISCreateUserController::class,'update'])->name('mis.user.createUser.update');
     Route::post('/mis/user/create-user/destroy/{id}',[MISCreateUserController::class,'destroy'])->name('mis.user.createUser.destroy');
 
+    // MIS / Permission Matrix / Company
+        Route::get('/mis/permission-matrix/company',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.company');
+        Route::get('/mis/permission-matrix/company/create',[MISPMCompanyController::class,'create'])->name('mis.permissionMatrix.company.create');
+        Route::post('/mis/permission-matrix/company/store',[MISPMCompanyController::class,'store'])->name('mis.permissionMatrix.company.store');
+        Route::get('/mis/permission-matrix/company/edit/{id}',[MISPMCompanyController::class,'edit'])->name('mis.permissionMatrix.company.edit');
+        Route::post('/mis/permission-matrix/company/update/{id}',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.company.update');
+        Route::post('/mis/permission-matrix/company/destroy/{id}',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.company.destroy');
+
+    // MIS / Permission Matrix / Module
+        Route::get('/mis/permission-matrix/module',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.module');
+    // MIS / Permission Matrix / Main Menu
+        Route::get('/mis/permission-matrix/main-menu',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.main-menu');
+    // MIS / Permission Matrix / Sub Menu
+        Route::get('/mis/permission-matrix/sub-menu',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.sub-menu');
+    // MIS / Permission Matrix / others
+        Route::get('/mis/permission-matrix/others-menu',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.others-menu');
+    // MIS / Permission Matrix / Warehouse
+        Route::get('/mis/permission-matrix/warehouse',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.warehouse');
+    // MIS / Permission Matrix / Reports
+        Route::get('/mis/permission-matrix/reports',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.reports');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 
