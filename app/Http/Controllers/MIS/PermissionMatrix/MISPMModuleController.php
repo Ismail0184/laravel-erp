@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\MIS\PermissionMatrix;
 
 use App\Http\Controllers\Controller;
+use App\Models\Developer\DevModule;
+use App\Models\MIS\PermissionMatrix\company\MisUserPermissionMatrixCompany;
+use App\Models\MIS\PermissionMatrix\module\MisUserPermissionMatrixModule;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MISPMModuleController extends Controller
 {
@@ -14,7 +19,8 @@ class MISPMModuleController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::where('status','active')->whereNotIn('type',['developer'])->get();
+        return view('modules.mis.permission-matrix.module.index',compact('users'));
     }
 
     /**
@@ -22,9 +28,21 @@ class MISPMModuleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $userNames = User::findOrfail($id);
+        $userName = $userNames->name;
+        $userDesignation = $userNames->jobInfoTable->getDesignation->designation_name ?? '-';
+        $userDepartment = $userNames->jobInfoTable->getDepartment->department_name ?? '-';
+        $userModulePermissions =MisUserPermissionMatrixModule::where('user_id',$id)->get();
+
+        $modules = DB::table('dev_modules')->where('status','1')
+            ->whereNotIn('module_id', function($query) {
+                $query->select('module_id')
+                    ->from('mis_user_permission_matrix_modules')
+                    ->where('user_id',request('id'));})->get();
+        return view('modules.mis.permission-matrix.module.create',compact(['userModulePermissions','modules','userName','userDesignation','userDepartment']));
+
     }
 
     /**
@@ -35,7 +53,8 @@ class MISPMModuleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        MisUserPermissionMatrixModule::storeUserModulePermission($request);
+        return redirect('/mis/permission-matrix/module/create/'.$request->user_id.'')->with('store_message','A new company has been added to this user!!');
     }
 
     /**
@@ -69,7 +88,8 @@ class MISPMModuleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        MisUserPermissionMatrixModule::updateModulePermission($request, $id);
+        return redirect('/mis/permission-matrix/module/create/'.$request->user_id.'')->with('','');
     }
 
     /**

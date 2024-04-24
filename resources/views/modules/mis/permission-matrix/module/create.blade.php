@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Company')
+    @php($title = 'Module')
     {{$title}}
 @endsection
 
@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">Add {{$title}} <small class="text-danger float-right"> field marked with * are mandatory</small></h4>
-                <form method="POST" action="{{route('mis.permissionMatrix.company.store')}}" enctype="multipart/form-data">
+                <form method="POST" action="{{route('mis.permissionMatrix.module.store')}}" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="permitted_by" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="user_id" value="{{ request('id') }}">
@@ -31,12 +31,12 @@
                     </div>
 
                     <div class="form-group row mb-4">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Company<span class="required text-danger">*</span></label>
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Modules<span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <select class="form-control select2" name="company_id" required="required">
-                                <option value=""> -- Select Company -- </option>
-                                @foreach($companies as $company)
-                                    <option value="{{$company->id}}" >{{$company->id}} : {{$company->company_name}}</option>
+                            <select class="form-control select2" multiple name="module_id[]" required="required">
+                                <option value=""> -- Select Module -- </option>
+                                @foreach($modules as $module)
+                                    <option value="{{$module->module_id}}" >{{$module->module_id}} : {{$module->modulename}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -45,7 +45,7 @@
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-9">
                             <div>
-                                <a class="btn btn-danger" href="{{route('mis.permissionMatrix.company')}}">Cancel</a>
+                                <a class="btn btn-danger" href="{{route('mis.permissionMatrix.module')}}">Cancel</a>
                                 <button type="submit" class="btn btn-primary w-md">Add</button>
                             </div>
                         </div>
@@ -59,46 +59,44 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Permitted Companies</h4>
+                        <h4 class="card-title">Permitted Modules</h4>
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
-                                <th>Company Name</th>
-                                <th>Address</th>
-                                <th>Website</th>
-                                <th>Logo</th>
+                                <th>Module Name</th>
+                                <th>Short Name</th>
+                                <th>Fa Icon</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($userCompanyPermissions as $user)
+                            @foreach($userModulePermissions as $user)
                                 <tr>
                                     <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
-                                    <td style="text-align:left; vertical-align: middle">{{$user->company_id}} : {{$user->getComData->company_name}}</td>
-                                    <td style="text-align: left; vertical-align: middle">{{$user->getComData->address}}</td>
-                                    <td style="text-align: left; vertical-align: middle">{{$user->getComData->website}}</td>
-                                    <td style="text-align: left; vertical-align: middle"><img src="{{asset($user->getComData->logo)}}" style="height: 30px; width: 30px"></td>
+                                    <td style="text-align:left; vertical-align: middle">{{$user->module_id}} : {{$user->getModuleData->modulename}}</td>
+                                    <td style="text-align: left; vertical-align: middle">{{$user->getModuleData->module_short_name}}</td>
+                                    <td style="text-align: left; vertical-align: middle">{{$user->getModuleData->fa_icon}}</td>
                                     <td style="vertical-align: middle">
                                         @if($user->status == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($user->status == 'inactive') <span class="badge badge-danger"><del>Inactive</del></span>
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        <form action="{{route('mis.permissionMatrix.company.update', ['id' => $user->id])}}" method="post">
+                                        <form action="{{route('mis.permissionMatrix.module.update', ['id' => $user->module_id])}}" method="post">
                                             @csrf
                                             <input type="hidden" name="user_id" value="{{ request('id') }}">
                                             @if($user->status == 'active')
-                                            <button type="submit" class="btn btn-danger btn-sm" title="Inactive" onclick="return confirm('Are you confirm to Inactive?');">
-                                                Inactive
-                                            </button>
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Inactive" onclick="return confirm('Are you confirm to Inactive?');">
+                                                    Inactive
+                                                </button>
                                                 <input type="hidden" name="status" value="inactive">
                                             @else
 
-                                            <button type="submit" class="btn btn-success btn-sm" title="Active" onclick="return confirm('Are you confirm to Active?');">
-                                                Re-active
-                                            </button>
+                                                <button type="submit" class="btn btn-success btn-sm" title="Active" onclick="return confirm('Are you confirm to Active?');">
+                                                    Re-active
+                                                </button>
                                                 <input type="hidden" name="status" value="active">
                                             @endif
 

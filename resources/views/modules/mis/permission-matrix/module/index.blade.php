@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Company Permission') {{$title}}
+    @php($title = 'Module Permission') {{$title}}
 @endsection
 
 @section('body')
@@ -44,7 +44,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        <a href="{{route('mis.permissionMatrix.company.create',['id' => $user->id])}}" title="Update" class="btn btn-primary btn-sm">
+                                        <a href="{{route('mis.permissionMatrix.module.create',['id' => $user->id])}}" title="Update" class="btn btn-primary btn-sm">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </td>
@@ -58,6 +58,3 @@
         </div>
     </div>
 @endsection
-
-
-

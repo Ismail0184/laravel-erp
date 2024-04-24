@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\MIS\PermissionMatrix;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MISPMMainMenuController extends Controller
@@ -14,7 +15,8 @@ class MISPMMainMenuController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::where('status','active')->whereNotIn('type',['developer'])->get();
+        return view('modules.mis.permission-matrix.mainMenu.index',compact('users'));
     }
 
     /**

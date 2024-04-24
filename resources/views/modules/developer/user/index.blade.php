@@ -36,7 +36,7 @@
                                 <tr>
                                     <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
                                     <td style="vertical-align: middle">@if($user->status == 'deleted')<del>{{$user->id}} : {{$user->name}}</del> @else {{$user->id}} : {{$user->name}}@endif</td>
-                                    <td style="text-align:; vertical-align: middle">{{$user->email}}</td>
+                                    <td style="text-align:left; vertical-align: middle">{{$user->email}}</td>
                                     <td style="text-align: left; vertical-align: middle">{{ $user->jobInfoTable->getDesignation->designation_name ?? '-' }}</td>
                                     <td style="text-align: left; vertical-align: middle">{{ $user->jobInfoTable->getDepartment->department_name ?? '-' }}</td>
                                     <td style="text-align: left; vertical-align: middle">{{ $user->type}}</td>

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\MIS\PermissionMatrix;
 
 use App\Http\Controllers\Controller;
+use App\Models\Developer\DevCompany;
+use App\Models\MIS\PermissionMatrix\company\MisUserPermissionMatrixCompany;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MISPMCompanyController extends Controller
 {
@@ -24,9 +27,20 @@ class MISPMCompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('modules.mis.permission-matrix.create');
+        $userNames = User::findOrfail($id);
+        $userName = $userNames->name;
+        $userDesignation = $userNames->jobInfoTable->getDesignation->designation_name ?? '-';
+        $userDepartment = $userNames->jobInfoTable->getDepartment->department_name ?? '-';
+        $userCompanyPermissions =MisUserPermissionMatrixCompany::where('user_id',$id)->get();
+
+        $companies = DB::table('dev_companies')->where('status','active')
+            ->whereNotIn('id', function($query) {
+                $query->select('company_id')
+                    ->from('mis_user_permission_matrix_companies')
+                    ->where('user_id',request('id'));})->get();
+        return view('modules.mis.permission-matrix.company.create',compact(['userCompanyPermissions','companies','userName','userDesignation','userDepartment']));
     }
 
     /**
@@ -37,7 +51,8 @@ class MISPMCompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        MisUserPermissionMatrixCompany::storeUserCompanyPermission($request);
+        return redirect('/mis/permission-matrix/company/create/'.$request->user_id.'')->with('store_message','A new company has been added to this user!!');
     }
 
     /**
@@ -71,7 +86,8 @@ class MISPMCompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        MisUserPermissionMatrixCompany::updateCompanyPermission($request, $id);
+        return redirect('/mis/permission-matrix/company/create/'.$request->user_id.'')->with('','');
     }
 
     /**
