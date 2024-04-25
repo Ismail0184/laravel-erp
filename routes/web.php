@@ -85,6 +85,7 @@ use App\Http\Controllers\MIS\PermissionMatrix\MISPMCompanyController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMModuleController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMMainMenuController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMSubMenuController;
+use App\Http\Controllers\MIS\PermissionMatrix\MISPMWarehouseController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -905,7 +906,10 @@ Route::get('/', [HomeController::class,'index']);
     // MIS / Permission Matrix / others
         Route::get('/mis/permission-matrix/others-menu',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.others-menu');
     // MIS / Permission Matrix / Warehouse
-        Route::get('/mis/permission-matrix/warehouse',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.warehouse');
+        Route::get('/mis/permission-matrix/warehouse',[MISPMWarehouseController::class,'index'])->name('mis.permissionMatrix.warehouse');
+        Route::get('/mis/permission-matrix/warehouse/create/{id}',[MISPMWarehouseController::class,'create'])->name('mis.permissionMatrix.warehouse.create');
+        Route::post('/mis/permission-matrix/warehouse/store',[MISPMWarehouseController::class,'store'])->name('mis.permissionMatrix.warehouse.store');
+        Route::post('/mis/permission-matrix/warehouse/update/{id}',[MISPMWarehouseController::class,'update'])->name('mis.permissionMatrix.warehouse.update');
     // MIS / Permission Matrix / Reports
         Route::get('/mis/permission-matrix/reports',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.reports');
 

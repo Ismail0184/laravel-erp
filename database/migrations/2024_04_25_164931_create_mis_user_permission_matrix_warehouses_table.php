@@ -13,8 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mis_permission_matrix_warehouses', function (Blueprint $table) {
+        Schema::create('mis_user_permission_matrix_warehouses', function (Blueprint $table) {
             $table->id();
+            $table->integer('warehouse_id');
+            $table->integer('user_id');
+            $table->integer('permitted_by');
+            $table->integer('company_id');
+            $table->integer('group_id');
+            $table->enum('status',['active','inactive','suspended'])->default('active');
             $table->timestamps();
         });
     }
@@ -26,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mis_permission_matrix_warehouses');
+        Schema::dropIfExists('mis_user_permission_matrix_warehouses');
     }
 };

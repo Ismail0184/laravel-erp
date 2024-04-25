@@ -34,6 +34,7 @@ class MISPMSubMenuController extends Controller
         $userDepartment = $userNames->jobInfoTable->getDepartment->department_name ?? '-';
         $userMainMenuPermissions =MisUserPermissionMatrixSubMenu::where('user_id',$id)->get();
 
+
         $subMenus = DB::table('dev_sub_menus')->where('status','active')
             ->whereNotIn('sub_menu_id', function($query) {
                 $query->select('sub_menu_id')

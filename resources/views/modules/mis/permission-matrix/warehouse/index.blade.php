@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Sub Menu Permission') {{$title}}
+    @php($title = 'Warehouse Permission') {{$title}}
 @endsection
 
 @section('body')
@@ -37,7 +37,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        <a href="{{route('mis.permissionMatrix.subMenu.create',['id' => $user->id])}}" title="Update" class="btn btn-primary btn-sm">
+                                        <a href="{{route('mis.permissionMatrix.warehouse.create',['id' => $user->id])}}" title="Update" class="btn btn-primary btn-sm">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </td>

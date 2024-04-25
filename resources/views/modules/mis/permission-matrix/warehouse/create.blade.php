@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Sub Menu')
+    @php($title = 'Warehouse')
     {{$title}}
 @endsection
 
@@ -17,7 +17,7 @@
                 @elseif( $message = Session::get('update_message'))
                     <p class="text-center text-primary">{{ $message }}</p>
                 @endif
-                <form method="POST" action="{{route('mis.permissionMatrix.subMenu.store')}}" enctype="multipart/form-data">
+                <form method="POST" action="{{route('mis.permissionMatrix.warehouse.store')}}" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="permitted_by" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="user_id" value="{{ request('id') }}">
@@ -37,13 +37,35 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mb-4">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Sub Menu<span class="required text-danger">*</span></label>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Group<span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <select class="form-control select2" multiple name="sub_menu_id[]" required="required">
-                                <option value=""> -- Select Module -- </option>
-                                @foreach($subMenus as $subMenu)
-                                    <option value="{{$subMenu->sub_menu_id}}" >{{$subMenu->sub_menu_id}} : {{$subMenu->sub_menu_name}}</option>
+                            <select class="form-control select2" name="group_id" required="required">
+                                <option value=""> -- Select Group -- </option>
+                                @foreach($groups as $group)
+                                    <option value="{{$group->group_id}}" >{{$group->group_id}} : {{$group->group_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Company<span class="required text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2" name="company_id" required="required">
+                                <option value=""> -- Select Company -- </option>
+                                @foreach($companies as $company)
+                                    <option value="{{$company->id}}" >{{$company->id}} : {{$company->company_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Warehouse<span class="required text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2" multiple name="warehouse_id[]" required="required">
+                                <option value=""> -- Select Warehouse -- </option>
+                                @foreach($warehouses as $warehouse)
+                                    <option value="{{$warehouse->warehouse_id}}" >{{$warehouse->warehouse_id}} : {{$warehouse->warehouse_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -66,7 +88,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Permitted Sub Menus</h4>
+                        <h4 class="card-title">Permitted Warehouses</h4>
                         @if ($message = Session::get('permission_inactive_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('permission_active_message'))
@@ -76,27 +98,27 @@
                             <thead>
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
-                                <th>Sub Menu Name</th>
-                                <th>Master Menu</th>
-                                <th>Module</th>
+                                <th>Warehouse Name</th>
+                                <th>Company</th>
+                                <th>Group</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($userMainMenuPermissions as $user)
+                            @foreach($userWarehousePermissions as $user)
                                 <tr>
                                     <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
-                                    <td style="text-align:left; vertical-align: middle">{{$user->sub_menu_id}} : {{$user->getSubMenuInfo->sub_menu_name}}</td>
-                                    <td style="text-align:left; vertical-align: middle">{{$user->main_menu_id}} : {{$user->getMasterMenuInfo->main_menu_name ?? '-' }}</td>
-                                    <td style="text-align:left; vertical-align: middle">{{$user->module_id}} : {{$user->getMasterMenuInfo->getModuleInfo->modulename ?? '-' }}</td>
+                                    <td style="text-align:left; vertical-align: middle">{{$user->warehouse_id}} : {{$user->getWarehouseInfo->warehouse_name}}</td>
+                                    <td style="text-align:left; vertical-align: middle">{{$user->company_id}} : {{$user->getCompanyInfo->company_name ?? '-' }}</td>
+                                    <td style="text-align:left; vertical-align: middle">{{$user->group_id}} : {{$user->getCompanyInfo->getGroup->group_name ?? '-' }}</td>
                                     <td style="vertical-align: middle">
                                         @if($user->status == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($user->status == 'inactive') <span class="badge badge-danger"><del>Inactive</del></span>
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        <form action="{{route('mis.permissionMatrix.subMenu.update', ['id' => $user->id])}}" method="post">
+                                        <form action="{{route('mis.permissionMatrix.warehouse.update', ['id' => $user->id])}}" method="post">
                                             @csrf
                                             <input type="hidden" name="user_id" value="{{ request('id') }}">
                                             @if($user->status == 'active')
