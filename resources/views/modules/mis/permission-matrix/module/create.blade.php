@@ -10,6 +10,13 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">Add {{$title}} <small class="text-danger float-right"> field marked with * are mandatory</small></h4>
+                @if ($message = Session::get('destroy_message'))
+                    <p class="text-center text-danger">{{ $message }}</p>
+                @elseif( $message = Session::get('store_message'))
+                    <p class="text-center text-success">{{ $message }}</p>
+                @elseif( $message = Session::get('update_message'))
+                    <p class="text-center text-primary">{{ $message }}</p>
+                @endif
                 <form method="POST" action="{{route('mis.permissionMatrix.module.store')}}" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="permitted_by" value="{{ Auth::user()->id }}">
@@ -60,6 +67,11 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Permitted Modules</h4>
+                        @if ($message = Session::get('permission_inactive_message'))
+                            <p class="text-center text-danger">{{ $message }}</p>
+                        @elseif( $message = Session::get('permission_active_message'))
+                            <p class="text-center text-success">{{ $message }}</p>
+                        @endif
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                             <tr>
@@ -84,7 +96,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        <form action="{{route('mis.permissionMatrix.module.update', ['id' => $user->module_id])}}" method="post">
+                                        <form action="{{route('mis.permissionMatrix.module.update', ['id' => $user->id])}}" method="post">
                                             @csrf
                                             <input type="hidden" name="user_id" value="{{ request('id') }}">
                                             @if($user->status == 'active')

@@ -84,6 +84,7 @@ use App\Http\Controllers\MIS\User\MISCreateUserController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMCompanyController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMModuleController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMMainMenuController;
+use App\Http\Controllers\MIS\PermissionMatrix\MISPMSubMenuController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -892,12 +893,16 @@ Route::get('/', [HomeController::class,'index']);
     // MIS / Permission Matrix / Main Menu
         Route::get('/mis/permission-matrix/main-menu',[MISPMMainMenuController::class,'index'])->name('mis.permissionMatrix.mainMenu');
         Route::get('/mis/permission-matrix/main-menu/create/{id}',[MISPMMainMenuController::class,'create'])->name('mis.permissionMatrix.mainMenu.create');
-        Route::get('/mis/permission-matrix/main-menu/store',[MISPMMainMenuController::class,'store'])->name('mis.permissionMatrix.mainMenu.store');
-        Route::get('/mis/permission-matrix/main-menu/update/{id}',[MISPMMainMenuController::class,'update'])->name('mis.permissionMatrix.mainMenu.update');
+        Route::post('/mis/permission-matrix/main-menu/store',[MISPMMainMenuController::class,'store'])->name('mis.permissionMatrix.mainMenu.store');
+        Route::post('/mis/permission-matrix/main-menu/update/{id}',[MISPMMainMenuController::class,'update'])->name('mis.permissionMatrix.mainMenu.update');
 
     // MIS / Permission Matrix / Sub Menu
-        Route::get('/mis/permission-matrix/sub-menu',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.sub-menu');
-    // MIS / Permission Matrix / others
+        Route::get('/mis/permission-matrix/sub-menu',[MISPMSubMenuController::class,'index'])->name('mis.permissionMatrix.sub-menu');
+        Route::get('/mis/permission-matrix/sub-menu/create/{id}',[MISPMSubMenuController::class,'create'])->name('mis.permissionMatrix.mainMenu.create');
+        Route::post('/mis/permission-matrix/sub-menu/store',[MISPMSubMenuController::class,'store'])->name('mis.permissionMatrix.mainMenu.store');
+        Route::post('/mis/permission-matrix/sub-menu/update/{id}',[MISPMSubMenuController::class,'update'])->name('mis.permissionMatrix.mainMenu.update');
+
+        // MIS / Permission Matrix / others
         Route::get('/mis/permission-matrix/others-menu',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.others-menu');
     // MIS / Permission Matrix / Warehouse
         Route::get('/mis/permission-matrix/warehouse',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.warehouse');

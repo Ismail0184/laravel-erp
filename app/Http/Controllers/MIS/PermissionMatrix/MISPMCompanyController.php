@@ -87,7 +87,13 @@ class MISPMCompanyController extends Controller
     public function update(Request $request, $id)
     {
         MisUserPermissionMatrixCompany::updateCompanyPermission($request, $id);
-        return redirect('/mis/permission-matrix/company/create/'.$request->user_id.'')->with('','');
+        if($request->status=='active'){
+            return redirect('/mis/permission-matrix/company/create/'.$request->user_id.'')->with('permission_active_message','This permission has been Re-activated!!');
+        } elseif ($request->status=='inactive') {
+            return redirect('/mis/permission-matrix/company/create/'.$request->user_id.'')->with('permission_inactive_message','This permission has been inactivated!!');
+        } else {
+            return redirect('/mis/permission-matrix/company/create/'.$request->user_id.'')->with('','');
+        }
     }
 
     /**

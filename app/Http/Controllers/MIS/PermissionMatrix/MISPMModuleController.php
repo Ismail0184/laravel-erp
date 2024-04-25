@@ -54,7 +54,7 @@ class MISPMModuleController extends Controller
     public function store(Request $request)
     {
         MisUserPermissionMatrixModule::storeUserModulePermission($request);
-        return redirect('/mis/permission-matrix/module/create/'.$request->user_id.'')->with('store_message','A new company has been added to this user!!');
+        return redirect('/mis/permission-matrix/module/create/'.$request->user_id.'')->with('store_message','This module has been added!!');
     }
 
     /**
@@ -89,7 +89,13 @@ class MISPMModuleController extends Controller
     public function update(Request $request, $id)
     {
         MisUserPermissionMatrixModule::updateModulePermission($request, $id);
-        return redirect('/mis/permission-matrix/module/create/'.$request->user_id.'')->with('','');
+        if($request->status=='active'){
+            return redirect('/mis/permission-matrix/module/create/'.$request->user_id.'')->with('permission_active_message','This permission has been Re-activated!!');
+        } elseif ($request->status=='inactive') {
+            return redirect('/mis/permission-matrix/module/create/'.$request->user_id.'')->with('permission_inactive_message','This permission has been inactivated!!');
+        } else {
+            return redirect('/mis/permission-matrix/module/create/'.$request->user_id.'')->with('','');
+        }
     }
 
     /**
