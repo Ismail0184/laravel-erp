@@ -1,25 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Developer;
+namespace App\Http\Controllers\Developer\Builder;
 
 use App\Http\Controllers\Controller;
-use App\Models\Developer\DevModule;
+use App\Models\Developer\DevGroup;
 use Illuminate\Http\Request;
 
-class ModulesController extends Controller
+class GroupController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    private $modules, $module;
-
     public function index()
     {
-        $this->modules = DevModule::all();
-        return view('modules.developer.module.index', ['modules' => $this->modules]);
+        $groups = DevGroup::all();
+        return view('modules.developer.group.index',compact('groups'));
     }
 
     /**
@@ -29,7 +26,7 @@ class ModulesController extends Controller
      */
     public function create()
     {
-        return view('modules.developer.module.create');
+        return view('modules.developer.group.create');
     }
 
     /**
@@ -40,8 +37,8 @@ class ModulesController extends Controller
      */
     public function store(Request $request)
     {
-        DevModule::storeModule($request);
-        return redirect('/developer/modules/')->with('store_message','New module inserted successfully!!');
+        DevGroup::storeGroup($request);
+        return redirect('/developer/group/')->with('store_message','A new group has been created successfully!!');
     }
 
     /**
@@ -63,9 +60,8 @@ class ModulesController extends Controller
      */
     public function edit($id)
     {
-        $this->module = DevModule::find($id);
-        return view('modules.developer.module.create', ['module' =>$this->module]);
-
+        $group = DevGroup::findOrfail($id);
+        return view('modules.developer.group.create',compact('group'));
     }
 
     /**
@@ -77,8 +73,8 @@ class ModulesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DevModule::updateModule($request, $id);
-        return redirect('/developer/modules/')->with('update_message','This module (uid = '.$id.') has been successfully updated');
+        DevGroup::updateGroup($request, $id);
+        return redirect('/developer/group/')->with('update_message','This group (uid='.$id.') has been updated!!');
     }
 
     /**
@@ -89,8 +85,7 @@ class ModulesController extends Controller
      */
     public function destroy($id)
     {
-        DevModule::destroyModule($id);
-        return redirect('/developer/modules/')->with('destroy_message','This module (uid = '.$id.') has been successfully deleted');
-
+        DevGroup::destroyGroup($id);
+        return redirect('/developer/group/')->with('destroy_message','This group (uid='.$id.') has been deleted!!');
     }
 }

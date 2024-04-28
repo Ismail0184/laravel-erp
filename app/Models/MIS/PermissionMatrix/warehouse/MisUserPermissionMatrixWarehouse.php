@@ -22,7 +22,8 @@ class MisUserPermissionMatrixWarehouse extends Model
             self::$warehouse->user_id = $request->user_id;
             self::$warehouse->permitted_by = $request->permitted_by;
             self::$warehouse->company_id = $request->company_id;
-            self::$warehouse->group_id = $request->group_id;
+            $getGroup = DevCompany::findOrfail($request->company_id);
+            self::$warehouse->group_id = $getGroup->group_id;
             self::$warehouse->save();
         }
     }

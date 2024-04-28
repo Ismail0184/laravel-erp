@@ -38,17 +38,6 @@
                     </div>
 
                     <div class="form-group row mb-2">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Group<span class="required text-danger">*</span></label>
-                        <div class="col-sm-9">
-                            <select class="form-control select2" name="group_id" required="required">
-                                <option value=""> -- Select Group -- </option>
-                                @foreach($groups as $group)
-                                    <option value="{{$group->group_id}}" >{{$group->group_id}} : {{$group->group_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row mb-2">
                         <label for="horizontal-email-input" class="col-sm-3 col-form-label">Company<span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
                             <select class="form-control select2" name="company_id" required="required">

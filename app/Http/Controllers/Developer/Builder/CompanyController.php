@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Developer;
+namespace App\Http\Controllers\Developer\Builder;
 
 use App\Http\Controllers\Controller;
 use App\Models\Developer\DevCompany;

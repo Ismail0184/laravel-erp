@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Developer;
+namespace App\Http\Controllers\Developer\Builder;
 
 use App\Http\Controllers\Controller;
 use App\Models\Developer\DevMainMenu;
-use App\Models\Developer\DevSubMenu;
+use App\Models\Developer\DevModule;
 use Illuminate\Http\Request;
 
-class SubMenuController extends Controller
+class MainMenuController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,12 @@ class SubMenuController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $submenus,$submenu,$mainmenus;
+    private $mainmenus,$mainmenu,$modules;
 
     public function index()
     {
-        $this->submenus = DevSubMenu::query()->orderBy('main_menu_id')->orderBy('sub_menu_id')->get();
-        return view('modules.developer.submenu.index', ['submenus'=>$this->submenus]);
+        $this->mainmenus = DevMainMenu::all();
+        return view('modules.developer.mainmenu.index', ['mainmenus' => $this->mainmenus]);
     }
 
     /**
@@ -30,8 +30,8 @@ class SubMenuController extends Controller
      */
     public function create()
     {
-        $mainmenus = DevMainMenu::where('status', 1)->orderBy('main_menu_id')->get();
-        return view('modules.developer.submenu.create',compact('mainmenus'));
+        $this->modules = DevModule::where('status', 1)->get();
+        return view('modules.developer.mainmenu.create' ,['modules' =>$this->modules]);
     }
 
     /**
@@ -42,8 +42,8 @@ class SubMenuController extends Controller
      */
     public function store(Request $request)
     {
-        DevSubMenu::storeSubMenu($request);
-        return redirect('/developer/sub-menu/')->with('store_message','A sub-menu has been successfully created!!');
+        DevMainMenu::storeMainMenu($request);
+        return redirect('/developer/main-menu/')->with('store_message','New main menu inserted successfully!!');
     }
 
     /**
@@ -65,9 +65,9 @@ class SubMenuController extends Controller
      */
     public function edit($id)
     {
-        $mainmenus = DevMainMenu::where('status', 1)->orderBy('main_menu_id')->get();
-        $submenu=DevSubMenu::find($id);
-        return view('modules.developer.submenu.create',compact(['mainmenus','submenu']));
+        $this->mainmenu = DevMainMenu::find($id);
+        $this->modules = DevModule::all();
+        return view('modules.developer.mainmenu.create', ['mainmenu' => $this->mainmenu],['modules'=> $this->modules]);
     }
 
     /**
@@ -79,8 +79,10 @@ class SubMenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DevSubMenu::updateSubMenu($request,$id);
-        return redirect('/developer/sub-menu/')->with('update_message','This sub-menu (uid='.$id.') has been successfully updated');
+        DevMainMenu::updateMainMenu($request, $id);
+        return redirect('/developer/main-menu/')->with('update_message','This main menu (uid = '.$id.') has been successfully updated');
+
+
     }
 
     /**
@@ -91,7 +93,6 @@ class SubMenuController extends Controller
      */
     public function destroy($id)
     {
-        DevSubMenu::destroySubMenu($id);
-        return redirect('/developer/sub-menu/')->with('destroy_message','This sub-menu (uid='.$id.') has been deleted!!');
+        //
     }
 }

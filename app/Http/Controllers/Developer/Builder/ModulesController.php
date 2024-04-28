@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Developer;
+namespace App\Http\Controllers\Developer\Builder;
 
 use App\Http\Controllers\Controller;
-use App\Models\Developer\DevMainMenu;
 use App\Models\Developer\DevModule;
 use Illuminate\Http\Request;
 
-class MainMenuController extends Controller
+class ModulesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +14,12 @@ class MainMenuController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $mainmenus,$mainmenu,$modules;
+    private $modules, $module;
 
     public function index()
     {
-        $this->mainmenus = DevMainMenu::all();
-        return view('modules.developer.mainmenu.index', ['mainmenus' => $this->mainmenus]);
+        $this->modules = DevModule::all();
+        return view('modules.developer.module.index', ['modules' => $this->modules]);
     }
 
     /**
@@ -30,8 +29,7 @@ class MainMenuController extends Controller
      */
     public function create()
     {
-        $this->modules = DevModule::where('status', 1)->get();
-        return view('modules.developer.mainmenu.create' ,['modules' =>$this->modules]);
+        return view('modules.developer.module.create');
     }
 
     /**
@@ -42,8 +40,8 @@ class MainMenuController extends Controller
      */
     public function store(Request $request)
     {
-        DevMainMenu::storeMainMenu($request);
-        return redirect('/developer/main-menu/')->with('store_message','New main menu inserted successfully!!');
+        DevModule::storeModule($request);
+        return redirect('/developer/modules/')->with('store_message','New module inserted successfully!!');
     }
 
     /**
@@ -65,9 +63,9 @@ class MainMenuController extends Controller
      */
     public function edit($id)
     {
-        $this->mainmenu = DevMainMenu::find($id);
-        $this->modules = DevModule::all();
-        return view('modules.developer.mainmenu.create', ['mainmenu' => $this->mainmenu],['modules'=> $this->modules]);
+        $this->module = DevModule::find($id);
+        return view('modules.developer.module.create', ['module' =>$this->module]);
+
     }
 
     /**
@@ -79,10 +77,8 @@ class MainMenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DevMainMenu::updateMainMenu($request, $id);
-        return redirect('/developer/main-menu/')->with('update_message','This main menu (uid = '.$id.') has been successfully updated');
-
-
+        DevModule::updateModule($request, $id);
+        return redirect('/developer/modules/')->with('update_message','This module (uid = '.$id.') has been successfully updated');
     }
 
     /**
@@ -93,6 +89,8 @@ class MainMenuController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DevModule::destroyModule($id);
+        return redirect('/developer/modules/')->with('destroy_message','This module (uid = '.$id.') has been successfully deleted');
+
     }
 }

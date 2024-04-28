@@ -1,22 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Developer;
+namespace App\Http\Controllers\Developer\Builder;
 
 use App\Http\Controllers\Controller;
-use App\Models\Developer\DevGroup;
+use App\Models\Developer\DevMainMenu;
+use App\Models\Developer\DevSubMenu;
 use Illuminate\Http\Request;
 
-class GroupController extends Controller
+class SubMenuController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $submenus,$submenu,$mainmenus;
+
     public function index()
     {
-        $groups = DevGroup::all();
-        return view('modules.developer.group.index',compact('groups'));
+        $this->submenus = DevSubMenu::query()->orderBy('main_menu_id')->orderBy('sub_menu_id')->get();
+        return view('modules.developer.submenu.index', ['submenus'=>$this->submenus]);
     }
 
     /**
@@ -26,7 +30,8 @@ class GroupController extends Controller
      */
     public function create()
     {
-        return view('modules.developer.group.create');
+        $mainmenus = DevMainMenu::where('status', 1)->orderBy('main_menu_id')->get();
+        return view('modules.developer.submenu.create',compact('mainmenus'));
     }
 
     /**
@@ -37,8 +42,8 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        DevGroup::storeGroup($request);
-        return redirect('/developer/group/')->with('store_message','A new group has been created successfully!!');
+        DevSubMenu::storeSubMenu($request);
+        return redirect('/developer/sub-menu/')->with('store_message','A sub-menu has been successfully created!!');
     }
 
     /**
@@ -60,8 +65,9 @@ class GroupController extends Controller
      */
     public function edit($id)
     {
-        $group = DevGroup::findOrfail($id);
-        return view('modules.developer.group.create',compact('group'));
+        $mainmenus = DevMainMenu::where('status', 1)->orderBy('main_menu_id')->get();
+        $submenu=DevSubMenu::find($id);
+        return view('modules.developer.submenu.create',compact(['mainmenus','submenu']));
     }
 
     /**
@@ -73,8 +79,8 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DevGroup::updateGroup($request, $id);
-        return redirect('/developer/group/')->with('update_message','This group (uid='.$id.') has been updated!!');
+        DevSubMenu::updateSubMenu($request,$id);
+        return redirect('/developer/sub-menu/')->with('update_message','This sub-menu (uid='.$id.') has been successfully updated');
     }
 
     /**
@@ -85,7 +91,7 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        DevGroup::destroyGroup($id);
-        return redirect('/developer/group/')->with('destroy_message','This group (uid='.$id.') has been deleted!!');
+        DevSubMenu::destroySubMenu($id);
+        return redirect('/developer/sub-menu/')->with('destroy_message','This sub-menu (uid='.$id.') has been deleted!!');
     }
 }
