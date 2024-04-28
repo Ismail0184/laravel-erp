@@ -86,6 +86,7 @@ use App\Http\Controllers\MIS\PermissionMatrix\MISPMModuleController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMMainMenuController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMSubMenuController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMWarehouseController;
+use App\Http\Controllers\MIS\PermissionMatrix\MISPMReportController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -911,7 +912,10 @@ Route::get('/', [HomeController::class,'index']);
         Route::post('/mis/permission-matrix/warehouse/store',[MISPMWarehouseController::class,'store'])->name('mis.permissionMatrix.warehouse.store');
         Route::post('/mis/permission-matrix/warehouse/update/{id}',[MISPMWarehouseController::class,'update'])->name('mis.permissionMatrix.warehouse.update');
     // MIS / Permission Matrix / Reports
-        Route::get('/mis/permission-matrix/reports',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.reports');
+        Route::get('/mis/permission-matrix/reports',[MISPMReportController::class,'index'])->name('mis.permissionMatrix.reports');
+        Route::get('/mis/permission-matrix/reports/create/{id}',[MISPMReportController::class,'create'])->name('mis.permissionMatrix.reports.create');
+        Route::post('/mis/permission-matrix/reports/store/',[MISPMReportController::class,'store'])->name('mis.permissionMatrix.reports.store');
+        Route::post('/mis/permission-matrix/reports/update/{id}',[MISPMReportController::class,'update'])->name('mis.permissionMatrix.reports.update');
 
     Route::get('/underconstraction/',function () {return 'This page is under construction';})->name('under.construction');
 

@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class DevReport extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'report_id';
 }
