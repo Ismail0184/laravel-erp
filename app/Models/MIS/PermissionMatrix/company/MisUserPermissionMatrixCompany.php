@@ -2,7 +2,7 @@
 
 namespace App\Models\MIS\PermissionMatrix\company;
 
-use App\Models\Developer\DevCompany;
+use App\Models\Developer\Builder\DevCompany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

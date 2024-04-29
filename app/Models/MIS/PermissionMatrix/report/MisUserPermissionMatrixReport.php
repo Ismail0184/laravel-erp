@@ -2,8 +2,8 @@
 
 namespace App\Models\MIS\PermissionMatrix\report;
 
-use App\Models\Developer\DevCompany;
-use App\Models\Developer\DevModule;
+use App\Models\Developer\Builder\DevCompany;
+use App\Models\Developer\Builder\DevModule;
 use App\Models\Developer\Reports\DevRepoptGroupLabel;
 use App\Models\Developer\Reports\DevReport;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

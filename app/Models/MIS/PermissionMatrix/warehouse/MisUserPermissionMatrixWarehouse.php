@@ -2,7 +2,7 @@
 
 namespace App\Models\MIS\PermissionMatrix\warehouse;
 
-use App\Models\Developer\DevCompany;
+use App\Models\Developer\Builder\DevCompany;
 use App\Models\Warehouse\warehouse\WhWarehouse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

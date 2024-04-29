@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\home;
 
 use App\Http\Controllers\Controller;
-use App\Models\Developer\DevMainMenu;
-use Illuminate\Http\Request;
 use Session;
 
 class HomeController extends Controller

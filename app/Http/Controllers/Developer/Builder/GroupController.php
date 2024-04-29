@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Developer\Builder;
 
 use App\Http\Controllers\Controller;
-use App\Models\Developer\DevGroup;
+use App\Models\Developer\Builder\DevGroup;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller

@@ -63,7 +63,7 @@
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-9">
                             <div>
-                                <a class="btn btn-danger" href="{{route('mis.permissionMatrix.subMenu')}}">Cancel</a>
+                                <a class="btn btn-danger" href="{{route('mis.permissionMatrix.warehouse')}}">Cancel</a>
                                 <button type="submit" class="btn btn-primary w-md">Add</button>
                             </div>
                         </div>

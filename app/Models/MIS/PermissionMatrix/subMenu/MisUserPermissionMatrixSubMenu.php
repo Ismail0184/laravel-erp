@@ -2,8 +2,8 @@
 
 namespace App\Models\MIS\PermissionMatrix\subMenu;
 
-use App\Models\Developer\DevMainMenu;
-use App\Models\Developer\DevSubMenu;
+use App\Models\Developer\Builder\DevMainMenu;
+use App\Models\Developer\Builder\DevSubMenu;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\MIS\PermissionMatrix;
 
 use App\Http\Controllers\Controller;
-use App\Models\Developer\DevCompany;
 use App\Models\MIS\PermissionMatrix\company\MisUserPermissionMatrixCompany;
 use App\Models\User;
 use Illuminate\Http\Request;

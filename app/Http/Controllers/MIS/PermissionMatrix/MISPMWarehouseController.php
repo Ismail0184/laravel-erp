@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\MIS\PermissionMatrix;
 
 use App\Http\Controllers\Controller;
-use App\Models\Developer\DevCompany;
-use App\Models\Developer\DevGroup;
+use App\Models\Developer\Builder\DevCompany;
+use App\Models\Developer\Builder\DevGroup;
 use App\Models\MIS\PermissionMatrix\warehouse\MisUserPermissionMatrixWarehouse;
 use App\Models\User;
 use Illuminate\Http\Request;

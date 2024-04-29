@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Developer;
+namespace App\Http\Controllers\Developer\Builder;
 
 use App\Http\Controllers\Controller;
-use App\Models\Developer\DevCompany;
-use App\Models\HRM\employee\HrmEmployee;
+use App\Models\Developer\Builder\DevCompany;
 use App\Models\User;
 use Illuminate\Http\Request;
 
