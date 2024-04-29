@@ -29,6 +29,7 @@ use App\Http\Controllers\Developer\Builder\GroupController;
 use App\Http\Controllers\Developer\Builder\MainMenuController;
 use App\Http\Controllers\Developer\Builder\ModulesController;
 use App\Http\Controllers\Developer\Builder\SubMenuController;
+use App\Http\Controllers\Developer\Builder\DevReportGroupController;
 use App\Http\Controllers\employeeAccess\approval\EaApprovalLeaveController;
 use App\Http\Controllers\employeeAccess\attendance\EaEarlyLeaveApplicationController;
 use App\Http\Controllers\employeeAccess\attendance\EALateAttendanceApplicationController;
@@ -155,13 +156,13 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('developer/sub-menu/destroy/{sub_menu_id}', [SubMenuController::class,'destroy'])->name('dev.sub-menu.destroy');
 
     //Developer/Report Group Level
-    Route::get('/developer/builder/report-group-labels/',[SubMenuController::class,'index'])->name('dev.repoptGroupLabels.view');
-    Route::get('/developer/builder/report-group-labels/create', [SubMenuController::class,'create'])->name('dev.repoptGroupLabels.create');
-    Route::post('/developer/builder/report-group-labels/store', [SubMenuController::class,'store'])->name('dev.repoptGroupLabels.store');
-    Route::get('/developer/builder/report-group-labels/show/{sub_menu_id}', [SubMenuController::class,'show'])->name('dev.repoptGroupLabels.show');
-    Route::get('/developer/builder/report-group-labels/edit/{sub_menu_id}', [SubMenuController::class,'edit'])->name('dev.repoptGroupLabels.edit');
-    Route::post('/developer/builder/report-group-labels/update/{sub_menu_id}', [SubMenuController::class,'update'])->name('dev.repoptGroupLabels.update');
-    Route::post('developer/builder/report-group-labels/destroy/{sub_menu_id}', [SubMenuController::class,'destroy'])->name('dev.repoptGroupLabels.destroy');
+    Route::get('/developer/builder/report-group-labels/',[DevReportGroupController::class,'index'])->name('dev.reportGroupLabels.view');
+    Route::get('/developer/builder/report-group-labels/create', [DevReportGroupController::class,'create'])->name('dev.reportGroupLabels.create');
+    Route::post('/developer/builder/report-group-labels/store', [DevReportGroupController::class,'store'])->name('dev.reportGroupLabels.store');
+    Route::get('/developer/builder/report-group-labels/show/{id}', [DevReportGroupController::class,'show'])->name('dev.reportGroupLabels.show');
+    Route::get('/developer/builder/report-group-labels/edit/{id}', [DevReportGroupController::class,'edit'])->name('dev.reportGroupLabels.edit');
+    Route::post('/developer/builder/report-group-labels/update/{id}', [DevReportGroupController::class,'update'])->name('dev.reportGroupLabels.update');
+    Route::post('developer/builder/report-group-labels/destroy/{id}', [DevReportGroupController::class,'destroy'])->name('dev.reportGroupLabels.destroy');
 
     //Developer/Reports
     Route::get('/developer/builder/report/',[SubMenuController::class,'index'])->name('dev.builder.report.view');

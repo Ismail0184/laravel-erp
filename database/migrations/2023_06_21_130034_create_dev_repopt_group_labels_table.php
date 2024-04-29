@@ -18,10 +18,10 @@ return new class extends Migration
             $table->integer('serial');
             $table->integer('optgroup_label_id')->unique();
             $table->string('optgroup_label_name');
+            $table->enum('status',['active','inactive','deleted']);
             $table->integer('module_id');
-            $table->enum('status',['active','inactive']);
-            $table->integer('sconid');
-            $table->integer('pcomid');
+            $table->integer('company_id');
+            $table->integer('group_id');
             $table->timestamps();
         });
     }

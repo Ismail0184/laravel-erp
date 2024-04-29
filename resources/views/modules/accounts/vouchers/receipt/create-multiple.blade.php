@@ -58,9 +58,11 @@
                         <div class="col-sm-7">
                             <div>
                                 @if(Session::get('receipt_no'))
-                                    <a href="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'receipt','vouchertype'=>'multiple'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');">Cancel</a>
+                                    <a href="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'receipt','vouchertype'=>'multiple'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');"> <i class="fa fa-window-close"></i> Cancel</a>
+                                @else
+                                    <a href="{{route('acc.voucher.receipt.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
-                                <button type="submit" class="btn btn-success w-md">@if(Session::get('receipt_no')) Update @else Initiate & Proceed @endif</button>
+                                <button type="submit" class="btn btn-success w-md">@if(Session::get('receipt_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>
@@ -94,7 +96,7 @@
                     <th style="text-align: center; width: 20%">Narration <span class="required text-danger">*</span></th>
                     <th style="text-align: center;width:5%;">Attachment</th>
                     <th style="width:15%; text-align:center">Amount <span class="required text-danger">*</span></th>
-                    <th style="text-align:center;width: 5%">Action</th>
+                    <th style="text-align:center;width: 10%">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -116,12 +118,12 @@
 
                         <input type="number" style="margin-top: 5px;text-align: center" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" placeholder="credit"  />
                     </td>
-                    <td style="vertical-align: middle">
+                    <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
                             <button type="submit" class="btn btn-primary">Update</button>
                             <a href="{{route('acc.voucher.receipt.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px">Cancel</a>
                         @else
-                            <button type="submit" class="btn btn-success">Add</button>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
                         @endif
                     </td>
                 </tr>
@@ -188,12 +190,12 @@
                                     @csrf
                                     <input type="hidden" name="journal_type" value="receipt">
                                     <input type="hidden" name="vouchertype" value="multiple">
-                                    <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');">Cancel & Delete All</button>
+                                    <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');"><i class="fa fa-trash"></i> Cancel & Delete All</button>
                                 </form>
                                 @if(number_format($totalDebit,2) === number_format($totalCredit,2))
                                     <form action="{{route('acc.voucher.receipt.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                                         @csrf
-                                        <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Confirm & Finish Voucher</button>
+                                        <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
                                     </form>
                                 @else
                                     <div class="alert alert-danger float-right col-sm-5" role="alert" style="font-size: 11px">

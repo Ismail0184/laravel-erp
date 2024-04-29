@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Developer\Builder;
 
 use App\Http\Controllers\Controller;
+use App\Models\Developer\Builder\DevModule;
+use App\Models\Developer\Reports\DevRepoptGroupLabel;
 use Illuminate\Http\Request;
 
 class DevReportGroupController extends Controller
@@ -14,7 +16,8 @@ class DevReportGroupController extends Controller
      */
     public function index()
     {
-        //
+        $reportGroups = DevRepoptGroupLabel::orderBy('id','asc')->get();
+        return view('modules.developer.report.reportGroup.index',compact('reportGroups'));
     }
 
     /**
@@ -24,7 +27,8 @@ class DevReportGroupController extends Controller
      */
     public function create()
     {
-        //
+        $modules = DevModule::where('status','1')->get();
+        return view('modules.developer.report.reportGroup.create',compact('modules'));
     }
 
     /**
@@ -35,7 +39,8 @@ class DevReportGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DevRepoptGroupLabel::storeReportLabel($request);
+        return redirect('/developer/builder/report-group-labels/')->with('store_message','Report group has been created successfully!!');
     }
 
     /**
@@ -57,7 +62,9 @@ class DevReportGroupController extends Controller
      */
     public function edit($id)
     {
-        //
+        $modules = DevModule::where('status','1')->get();
+        $reportGroup = DevRepoptGroupLabel::findOrfail($id);
+        return view('modules.developer.report.reportGroup.create',compact(['modules','reportGroup']));
     }
 
     /**
@@ -69,7 +76,9 @@ class DevReportGroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DevRepoptGroupLabel::updateReportLabel($request, $id);
+        return redirect('/developer/builder/report-group-labels/')->with('update_message','This report group (uid='.$id.') has been updated!!');
+
     }
 
     /**
@@ -80,6 +89,8 @@ class DevReportGroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DevRepoptGroupLabel::destroyReportLabel($id);
+        return redirect('/developer/builder/report-group-labels/')->with('destroy_message','This report group (uid='.$id.') has been deleted!!');
+
     }
 }
