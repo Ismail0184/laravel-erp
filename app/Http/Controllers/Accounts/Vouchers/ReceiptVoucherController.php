@@ -7,10 +7,12 @@ use App\Models\Accounts\AccLedger;
 use App\Models\Accounts\AccTransactions;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccReceipt;
+use App\Models\Developer\UsageControl\DevUsageControlMeta;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
 use PDF;
+use App\Traits\SharedFunctionsTrait;
 
 class ReceiptVoucherController extends Controller
 {
@@ -20,6 +22,7 @@ class ReceiptVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    use SharedFunctionsTrait;
     private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue,$COUNT_receipts_data,$receiptdatas,$receipt,$vouchermaster,$next_transaction_id;
 
     public function index()
@@ -35,6 +38,7 @@ class ReceiptVoucherController extends Controller
      */
     public function create()
     {
+        $minDatePermission = $this->sharedFunction();
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
@@ -50,12 +54,14 @@ class ReceiptVoucherController extends Controller
             'ledgerss' => $this->ledgers,
             'masterData' => $this->masterData,
             'receipts' => $this->receipts,
-            'COUNT_receipts_data' => $this->COUNT_receipts_data
+            'COUNT_receipts_data' => $this->COUNT_receipts_data,
+            'minDatePermission' => $minDatePermission
             ] );
     }
 
     public function createMultiple()
     {
+        $minDatePermission = $this->sharedFunction();
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
@@ -72,7 +78,8 @@ class ReceiptVoucherController extends Controller
                 'ledgerss' => $this->ledgers,
                 'masterData' => $this->masterData,
                 'receipts' => $this->receipts,
-                'COUNT_receipts_data' => $this->COUNT_receipts_data
+                'COUNT_receipts_data' => $this->COUNT_receipts_data,
+                'minDatePermission' => $minDatePermission
             ]);
     }
 
@@ -175,7 +182,8 @@ class ReceiptVoucherController extends Controller
             'masterData' => $this->masterData,
             'receipts' => $this->receipts,
             'editValue' => $this->editValue,
-            'COUNT_receipts_data' => $this->COUNT_receipts_data
+            'COUNT_receipts_data' => $this->COUNT_receipts_data,
+            'minDatePermission' => $this->sharedFunction()
 
         ] );
     }

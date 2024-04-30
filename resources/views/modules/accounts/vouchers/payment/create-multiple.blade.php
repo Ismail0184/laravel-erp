@@ -28,7 +28,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="voucher_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('payment_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('payment_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person from</label>
                         <div class="col-sm-3">
@@ -55,14 +55,14 @@
                     @if($COUNT_payments_data > 0)
                     @else
                     <div class="form-group row justify-content-end">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <div>
                                 @if(Session::get('payment_no'))
-                                    <a href="{{route('acc.voucher.payment.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'payment','vouchertype'=>'multiple'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');">Cancel</a>
+                                    <a href="{{route('acc.voucher.payment.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'payment','vouchertype'=>'multiple'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');"> <i class="fa fa-window-close"></i> Cancel</a>
                                 @else
                                     <a href="{{route('acc.voucher.payment.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
-                                <button type="submit" class="btn btn-success w-md">@if(Session::get('payment_no')) Update @else Initiate & Proceed @endif</button>
+                                <button type="submit" class="btn btn-success w-md">@if(Session::get('payment_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                     <th style="text-align: center; width: 20%">Narration <span class="required text-danger">*</span></th>
                     <th style="text-align: center;width:15%;">Attachment</th>
                     <th style="width:15%; text-align:center">Amount <span class="required text-danger">*</span></th>
-                    <th style="text-align:center;width: 5%">Action</th>
+                    <th style="text-align:center;width: 10%">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -126,12 +126,12 @@
 
                         <input type="number" style="margin-top: 5px;text-align: center" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" placeholder="credit"  />
                     </td>
-                    <td style="vertical-align: middle">
+                    <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="{{route('acc.voucher.payment.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px">Cancel</a>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
+                            <a href="{{route('acc.voucher.payment.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
-                            <button type="submit" class="btn btn-success">Add</button>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
                         @endif
                     </td>
                 </tr>

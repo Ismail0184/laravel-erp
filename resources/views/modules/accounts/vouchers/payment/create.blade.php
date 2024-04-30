@@ -9,9 +9,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-4">Create {{$title}} <small><a href="{{route('acc.voucher.payment.multiple.create')}}">Multiple Entry</a></small><small class="text-danger float-right">(field marked with * are mandatory)
-                    </small>
-                </h4>
+                <h4 class="card-title mb-4">Create {{$title}} <small><a href="{{route('acc.voucher.payment.multiple.create')}}">Multiple Entry</a></small><small class="text-danger float-right">(field marked with * are mandatory)</small></h4>
                 <form style="font-size: 11px" method="POST" action="@if(Session::get('payment_no')>0) {{route('acc.voucher.payment.mupdate', ['voucher_no'=>$masterData->voucher_no])}} @else {{route('acc.voucher.payment.initiate')}} @endif">
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
@@ -27,7 +25,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="voucher_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('payment_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('payment_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person from</label>
                         <div class="col-sm-3">
@@ -67,7 +65,7 @@
                     @if($COUNT_payments_data > 0)
                     @else
                     <div class="form-group row justify-content-end">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <div>
                                 @if(Session::get('payment_no'))
                                     <a href="{{route('acc.voucher.payment.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'payment','vouchertype'=>'single'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');"> <i class="fa fa-window-close"></i> Cancel</a>

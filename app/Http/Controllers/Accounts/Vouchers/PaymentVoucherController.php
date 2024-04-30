@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Session;
 use Pdf;
+use App\Traits\SharedFunctionsTrait;
 
 
 class PaymentVoucherController extends Controller
@@ -21,7 +22,7 @@ class PaymentVoucherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    use SharedFunctionsTrait;
     private $paymentVoucher,$ledgers,$vouchertype,$masterData,$payments,$editValue,$COUNT_payments_data,$paymntdatas,$payment,$vouchermaster,$costcenters,$next_transaction_id;
 
 
@@ -56,7 +57,8 @@ class PaymentVoucherController extends Controller
             'masterData' => $this->masterData,
             'payments' => $this->payments,
             'COUNT_payments_data' => $this->COUNT_payments_data,
-            'costcenters' =>$this->costcenters
+            'costcenters' =>$this->costcenters,
+            'minDatePermission' => $this->sharedFunction()
         ] );
     }
 
@@ -81,7 +83,8 @@ class PaymentVoucherController extends Controller
             'masterData' => $this->masterData,
             'payments' => $this->payments,
             'COUNT_payments_data' => $this->COUNT_payments_data,
-            'costcenters' =>$this->costcenters
+            'costcenters' =>$this->costcenters,
+            'minDatePermission' => $this->sharedFunction()
         ] );
     }
 
@@ -160,6 +163,35 @@ class PaymentVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
+    {
+        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $this->costcenters = AccCostCenter::where('status','active')->get();
+        $this->vouchertype ='2';
+        $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        if(Session::get('payment_no')>0)
+        {
+            $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
+            $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
+            $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
+        }
+        if(\request('id')>0)
+        {
+            $this->editValue = AccPayment::find($id);
+        }
+
+        return view('modules.accounts.vouchers.payment.create', [
+            'paymentVoucher' =>$this->paymentVoucher,
+            'ledgers' => $this->ledgers,
+            'ledgerss' => $this->ledgers,
+            'masterData' => $this->masterData,
+            'payments' => $this->payments,
+            'editValue' => $this->editValue,
+            'COUNT_payments_data' => $this->COUNT_payments_data,
+            'costcenters' =>$this->costcenters
+        ] );
+    }
+
+    public function editMultiple($id)
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();

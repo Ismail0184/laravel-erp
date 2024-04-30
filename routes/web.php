@@ -30,6 +30,7 @@ use App\Http\Controllers\Developer\Builder\MainMenuController;
 use App\Http\Controllers\Developer\Builder\ModulesController;
 use App\Http\Controllers\Developer\Builder\SubMenuController;
 use App\Http\Controllers\Developer\Builder\DevReportGroupController;
+use App\Http\Controllers\Developer\UsageControl\ERPUCController;
 use App\Http\Controllers\employeeAccess\approval\EaApprovalLeaveController;
 use App\Http\Controllers\employeeAccess\attendance\EaEarlyLeaveApplicationController;
 use App\Http\Controllers\employeeAccess\attendance\EALateAttendanceApplicationController;
@@ -172,6 +173,15 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/developer/builder/report/edit/{sub_menu_id}', [SubMenuController::class,'edit'])->name('dev.builder.report.edit');
     Route::post('/developer/builder/report/update/{sub_menu_id}', [SubMenuController::class,'update'])->name('dev.builder.report.update');
     Route::post('developer/builder/report/destroy/{sub_menu_id}', [SubMenuController::class,'destroy'])->name('dev.builder.report.destroy');
+
+    //Developer/Reports
+    Route::get('/developer/usage-control/meta/',[ERPUCController::class,'index'])->name('dev.usageControl.meta.view');
+    Route::get('/developer/usage-control/meta/create', [ERPUCController::class,'create'])->name('dev.usageControl.meta.create');
+    Route::post('/developer/usage-control/meta/store', [ERPUCController::class,'store'])->name('dev.usageControl.meta.store');
+    Route::get('/developer/usage-control/meta/show/{id}', [ERPUCController::class,'show'])->name('dev.usageControl.meta.show');
+    Route::get('/developer/usage-control/meta/edit/{id}', [ERPUCController::class,'edit'])->name('dev.usageControl.meta.edit');
+    Route::post('/developer/usage-control/meta/update/{id}', [ERPUCController::class,'update'])->name('dev.usageControl.meta.update');
+    Route::post('developer/usage-control/meta/destroy/{id}', [ERPUCController::class,'destroy'])->name('dev.usageControl.meta.destroy');
 
     //Accounts/coa/class
     Route::get('/accounts/coa/class/',[ClassController::class,'index'])->name('acc.class.view');

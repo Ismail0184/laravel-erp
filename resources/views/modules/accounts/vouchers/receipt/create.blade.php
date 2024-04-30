@@ -27,7 +27,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="voucher_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('receipt_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('receipt_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person from</label>
                         <div class="col-sm-3">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Ledger <span class="required text-danger">*</span></label>
+                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Rcv. From <span class="required text-danger">*</span></label>
                         <div class="col-sm-7">
                             <select class="form-control select2" name="cash_bank_ledger" required="required">
                                 <option value=""> -- receive from ledger -- </option>
@@ -103,7 +103,7 @@
                     <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px">
                         <thead class="table-success">
                         <tr>
-                            <th style="text-align: center">Cash , Bank & Others Ledger <span class="required text-danger">*</span></th>
+                            <th style="text-align: center">Cash , Bank or Other Ledgers <span class="required text-danger">*</span></th>
                             <th style="text-align: center; width: 25%">Narration <span class="required text-danger">*</span></th>
                             <th style="text-align: center;width:5%;">Attachment</th>
                             <th style="width:15%; text-align:center">Debit Amount <span class="required text-danger">*</span></th>
@@ -121,11 +121,15 @@
                             </select>
                             </td>
                             <td style="vertical-align: middle">
-                            <textarea  name="narration" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('receipt_narration')}} @endif</textarea>
+                            <textarea required="required"  name="narration" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('receipt_narration')}} @endif</textarea>
                             </td>
                             <td style="vertical-align: middle"><input type="file" /></td>
                             <td style="vertical-align: middle">
-                            <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
+                                @if(request('id')>0)
+                                    <span>Dr - </span><input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
+                                @else
+                                    <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
+                                @endif
                             </td>
                             <td style="vertical-align: middle; text-align:center">
                                 @if(request('id')>0)

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->decimal('amount',20,2);
             $table->enum('journal_type',['receipt','payment','journal','contra','bank-payment']);
             $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);
-            $table->enum('vouchertype',['single','multiple']);
+            $table->enum('voucher_type',['single','multiple']);
             $table->integer('entry_by');
             $table->timestamp('entry_at')->nullable(true)->useCurrent();
             $table->integer('checked_by');
@@ -35,13 +35,13 @@ return new class extends Migration
             $table->timestamp('approved_at')->nullable(true)->useCurrent();
             $table->integer('audited_by');
             $table->timestamp('audited_at')->nullable(true)->useCurrent();
-            $table->string('deleted_resone','255');
+            $table->string('deleted_reason','255');
             $table->integer('deleted_by');
             $table->timestamp('deleted_at')->nullable(true)->useCurrent();
-            $table->string('ip',55);
-            $table->string('mac',55);
-            $table->integer('sconid');
-            $table->integer('pcomid');
+            $table->string('ip',55)->nullable();
+            $table->string('mac',55)->nullable();
+            $table->integer('company_id');
+            $table->integer('group_id');
             $table->timestamps();
         });
     }

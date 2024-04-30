@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('receipt_no');
             $table->date('receipt_date');
-            $table->text('narration');
+            $table->text('narration')->nullable()->default('N/A');
             $table->bigInteger('ledger_id');
             $table->bigInteger('relevant_cash_head');
             $table->decimal('dr_amt',20,2);
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->enum('type',['Debit','Credit']);
             $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);
             $table->integer('entry_by');
-            $table->integer('sconid');
-            $table->integer('pcomid');
+            $table->integer('company_id');
+            $table->integer('group_id');
             $table->timestamps();
         });
     }

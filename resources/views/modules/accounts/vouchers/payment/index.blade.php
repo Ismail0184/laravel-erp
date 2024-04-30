@@ -12,7 +12,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">{{$title}}
-                            <a type="button" href="{{route('acc.voucher.payment.create')}}" class="btn btn-success" style="margin-left: 76%"><i class="mdi mdi-plus mr-1"></i> Create New</a></h4>
+                            <a type="button" href="{{route('acc.voucher.payment.create')}}" class="btn btn-success" style="margin-left: 76.4%"><i class="mdi mdi-plus mr-1"></i> Create New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))

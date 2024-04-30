@@ -28,7 +28,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="voucher_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('receipt_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('receipt_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person from</label>
                         <div class="col-sm-3">
