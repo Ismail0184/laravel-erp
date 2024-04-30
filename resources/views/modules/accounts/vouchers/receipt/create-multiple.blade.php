@@ -36,7 +36,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mb-2">
+                    <div class="form-group row mb-3">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">of Bank</label>
                         <div class="col-sm-3">
                             <input type="text" name="cheque_of_bank" @if(Session::get('receipt_no')>0) value="{{$masterData->cheque_of_bank}}" @endif class="form-control" />

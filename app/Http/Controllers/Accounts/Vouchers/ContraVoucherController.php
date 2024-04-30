@@ -68,7 +68,7 @@ class ContraVoucherController extends Controller
     public function store(Request $request)
     {
         AccContra::addContraData($request);
-        return redirect('/accounts/voucher/contra/create')->with('store_message', 'A journal data successfully added!!');
+        return redirect('/accounts/voucher/contra/create')->with('store_message', 'A contra data added successfully!!');
     }
 
     /**

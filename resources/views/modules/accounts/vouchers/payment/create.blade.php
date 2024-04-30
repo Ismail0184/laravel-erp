@@ -49,13 +49,13 @@
                             <input type="date" name="cheque_date" @if(Session::get('payment_no')>0) value="{{$masterData->cheque_date}}" @endif class="form-control" />
                         </div>
                     </div>
-                    <div class="form-group row mb-2">
+                    <div class="form-group row mb-3">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Ledger <span class="required text-danger">*</span></label>
                         <div class="col-sm-7">
                             <select class="form-control select2" name="cash_bank_ledger" required="required">
                                 <option value=""> -- Cash or Bank Account -- </option>
-                                @foreach($ledgers as $ledgers)
-                                    <option value="{{$ledgers->ledger_id}}" @if(Session::get('payment_no')>0) @if($ledgers->ledger_id==$masterData->cash_bank_ledger) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
+                                @foreach($ledgers as $ledger)
+                                    <option value="{{$ledger->ledger_id}}" @if(Session::get('payment_no')>0) @if($ledger->ledger_id==$masterData->cash_bank_ledger) selected @endif @endif>{{$ledger->ledger_id}} : {{$ledger->ledger_name}}</option>
                                 @endforeach
                             </select>
                         </div>

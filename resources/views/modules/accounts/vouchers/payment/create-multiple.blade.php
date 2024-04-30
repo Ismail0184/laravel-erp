@@ -36,7 +36,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mb-2">
+                    <div class="form-group row mb-3">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">of Bank</label>
                         <div class="col-sm-3">
                             <input type="text" name="cheque_of_bank" @if(Session::get('payment_no')>0) value="{{$masterData->cheque_of_bank}}" @endif class="form-control" />
@@ -55,10 +55,12 @@
                     @if($COUNT_payments_data > 0)
                     @else
                     <div class="form-group row justify-content-end">
-                        <div class="col-sm-7">
+                        <div class="col-sm-8">
                             <div>
                                 @if(Session::get('payment_no'))
                                     <a href="{{route('acc.voucher.payment.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'payment','vouchertype'=>'multiple'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');">Cancel</a>
+                                @else
+                                    <a href="{{route('acc.voucher.payment.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
                                 <button type="submit" class="btn btn-success w-md">@if(Session::get('payment_no')) Update @else Initiate & Proceed @endif</button>
                             </div>
