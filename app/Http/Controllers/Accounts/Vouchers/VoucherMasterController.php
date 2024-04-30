@@ -47,13 +47,13 @@ class VoucherMasterController extends Controller
     {
         $this->initiate = AccVoucherMaster::initiateVoucher($request);
         if ($request->journal_type=='receipt') {
-            if ($request->vouchertype == 'multiple') {
+            if ($request->voucher_type == 'multiple') {
                 return redirect('/accounts/voucher/receipt/create-multiple');
             } else {
                 return redirect('/accounts/voucher/receipt/create');
             }
         } elseif ($request->journal_type=='payment'){
-            if ($request->vouchertype == 'multiple') {
+            if ($request->voucher_type == 'multiple') {
                 return redirect('/accounts/voucher/payment/create-multiple');
             } else {
                 return redirect('/accounts/voucher/payment/create');
@@ -102,13 +102,13 @@ class VoucherMasterController extends Controller
     {
         AccVoucherMaster::updateVoucher($request, $id);
         if ($request->journal_type=='receipt') {
-            if ($request->vouchertype == 'multiple') {
+            if ($request->voucher_type == 'multiple') {
                 return redirect('/accounts/voucher/receipt/create-multiple');
             } else {
                 return redirect('/accounts/voucher/receipt/create');
             }
         } elseif ($request->journal_type=='payment'){
-            if ($request->vouchertype == 'multiple') {
+            if ($request->voucher_type == 'multiple') {
                 return redirect('/accounts/voucher/payment/create-multiple');
             } else {
                 return redirect('/accounts/voucher/payment/create');
@@ -137,7 +137,7 @@ class VoucherMasterController extends Controller
             AccVoucherMaster::destroyVoucher($id);
             Session::forget('receipt_no');
             Session::forget('receipt_narration');
-            if ($request->vouchertype == 'multiple') {
+            if ($request->voucher_type == 'multiple') {
                 return redirect('/accounts/voucher/receipt/create-multiple');
             } else {
                 return redirect('/accounts/voucher/receipt/create');
@@ -147,7 +147,7 @@ class VoucherMasterController extends Controller
             AccVoucherMaster::destroyVoucher($id);
             Session::forget('payment_no');
             Session::forget('payment_narration');
-            if ($request->vouchertype == 'multiple') {
+            if ($request->voucher_type == 'multiple') {
                 return redirect('/accounts/voucher/payment/create-multiple');
             } else {
                 return redirect('/accounts/voucher/payment/create');

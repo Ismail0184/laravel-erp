@@ -18,7 +18,7 @@
                     <input type="hidden" name="entry_at" value="{{date('Y-m-d H:i:s')}}">
                     <input type="hidden" name="maturity_date" value="2000-01-01">
                     <input type="hidden" name="journal_type" value="receipt">
-                    <input type="hidden" name="vouchertype" value="multiple">
+                    <input type="hidden" name="voucher_type" value="multiple">
                     <input type="hidden" name="status" value="MANUAL">
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Receipt No <span class="required text-danger">*</span></label>
@@ -58,7 +58,7 @@
                         <div class="col-sm-7">
                             <div>
                                 @if(Session::get('receipt_no'))
-                                    <a href="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'receipt','vouchertype'=>'multiple'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');"> <i class="fa fa-window-close"></i> Cancel</a>
+                                    <a href="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'receipt','voucher_type'=>'multiple'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');"> <i class="fa fa-window-close"></i> Cancel</a>
                                 @else
                                     <a href="{{route('acc.voucher.receipt.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
@@ -88,7 +88,7 @@
             <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
             <input type="hidden" name="receipt_date" value="{{$masterData->voucher_date}}">
             <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
-            <input type="hidden" name="vouchertype" value="multiple">
+            <input type="hidden" name="voucher_type" value="multiple">
             <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px">
                 <thead class="table-success">
                 <tr>
@@ -164,7 +164,7 @@
                                         <td class="text-center" style="vertical-align: middle">
                                             <form action="{{route('acc.voucher.receipt.destroy', ['id' => $receipt->id])}}" method="post">
                                                 @csrf
-                                                <input type="hidden" name="vouchertype" value="multiple">
+                                                <input type="hidden" name="voucher_type" value="multiple">
                                                 <a href="{{route('acc.voucher.receipt.editMultiple',['id' => $receipt->id])}}" title="Update" class="btn btn-success btn-sm">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
@@ -189,7 +189,7 @@
                                 <form action="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                                     @csrf
                                     <input type="hidden" name="journal_type" value="receipt">
-                                    <input type="hidden" name="vouchertype" value="multiple">
+                                    <input type="hidden" name="voucher_type" value="multiple">
                                     <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');"><i class="fa fa-trash"></i> Cancel & Delete All</button>
                                 </form>
                                 @if(number_format($totalDebit,2) === number_format($totalCredit,2))

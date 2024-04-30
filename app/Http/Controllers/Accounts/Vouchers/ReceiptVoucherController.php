@@ -38,7 +38,6 @@ class ReceiptVoucherController extends Controller
      */
     public function create()
     {
-        $minDatePermission = $this->sharedFunction();
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
@@ -55,13 +54,12 @@ class ReceiptVoucherController extends Controller
             'masterData' => $this->masterData,
             'receipts' => $this->receipts,
             'COUNT_receipts_data' => $this->COUNT_receipts_data,
-            'minDatePermission' => $minDatePermission
+            'minDatePermission' => $this->sharedFunction()
             ] );
     }
 
     public function createMultiple()
     {
-        $minDatePermission = $this->sharedFunction();
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
@@ -79,7 +77,7 @@ class ReceiptVoucherController extends Controller
                 'masterData' => $this->masterData,
                 'receipts' => $this->receipts,
                 'COUNT_receipts_data' => $this->COUNT_receipts_data,
-                'minDatePermission' => $minDatePermission
+                'minDatePermission' => $this->sharedFunction()
             ]);
     }
 
@@ -92,7 +90,7 @@ class ReceiptVoucherController extends Controller
     public function store(Request $request)
     {
         AccReceipt::addReceiptData($request);
-        if ($request->vouchertype=='multiple') {
+        if ($request->voucher_type=='multiple') {
 
         } else {
         $this->masterData = AccVoucherMaster::find(Session::get('receipt_no'));
@@ -107,7 +105,7 @@ class ReceiptVoucherController extends Controller
         {
             AccReceipt::addReceiptDataCr($request);
         }}
-        if ($request->vouchertype=='multiple') {
+        if ($request->voucher_type=='multiple') {
             return redirect('/accounts/voucher/receipt/create-multiple')->with('store_message', 'A receipt data successfully added!!');
         } else {
             return redirect('/accounts/voucher/receipt/create')->with('store_message', 'A receipt data successfully added!!');
@@ -211,7 +209,8 @@ class ReceiptVoucherController extends Controller
             'masterData' => $this->masterData,
             'receipts' => $this->receipts,
             'editValue' => $this->editValue,
-            'COUNT_receipts_data' => $this->COUNT_receipts_data
+            'COUNT_receipts_data' => $this->COUNT_receipts_data,
+            'minDatePermission' => $this->sharedFunction()
 
         ] );
     }
@@ -226,7 +225,7 @@ class ReceiptVoucherController extends Controller
     public function update(Request $request, $id)
     {
         AccReceipt::updateReceiptData($request, $id);
-        if ($request->vouchertype=='multiple') {
+        if ($request->voucher_type=='multiple') {
             return redirect('/accounts/voucher/receipt/create-multiple')->with('update_message', 'This data (uid=' . $id . ') has been successfully updated!!');
         } else {
             return redirect('/accounts/voucher/receipt/create')->with('update_message', 'This data (uid=' . $id . ') has been successfully updated!!');
@@ -242,7 +241,7 @@ class ReceiptVoucherController extends Controller
     public function destroy(Request $request, $id)
     {
         AccReceipt::destroyRceiptData($id);
-        if ($request->vouchertype=='multiple') {
+        if ($request->voucher_type=='multiple') {
             return redirect('/accounts/voucher/receipt/create-multiple')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
         } else {
             return redirect('/accounts/voucher/receipt/create')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
