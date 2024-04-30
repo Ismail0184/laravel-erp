@@ -27,7 +27,7 @@ class AccVoucherMaster extends Model
         self::$voucherno->cash_bank_ledger  = $request->cash_bank_ledger;
         self::$voucherno->amount            = $request->amount;
         self::$voucherno->journal_type      = $request->journal_type;
-        self::$voucherno->voucher_type      = $request->vouchertype;
+        self::$voucherno->voucher_type      = $request->voucher_type;
         self::$voucherno->status            = 'MANUAL';
         self::$voucherno->entry_by          = $request->entry_by;
         self::$voucherno->entry_at          = $request->entry_at;

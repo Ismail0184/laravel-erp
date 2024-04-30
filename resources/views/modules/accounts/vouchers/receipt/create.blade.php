@@ -19,7 +19,7 @@
                     <input type="hidden" name="maturity_date" value="2000-01-01">
                     <input type="hidden" name="journal_type" value="receipt">
                     <input type="hidden" name="status" value="MANUAL">
-                    <input type="hidden" name="vouchertype" value="single">
+                    <input type="hidden" name="voucher_type" value="single">
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Receipt No <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
@@ -70,7 +70,7 @@
                         <div class="col-sm-7">
                             <div>
                                 @if(Session::get('receipt_no'))
-                                    <a href="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'receipt','vouchertype'=>'single'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');"> <i class="fa fa-window-close"></i> Cancel</a>
+                                    <a href="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'receipt','voucher_type'=>'single'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');"> <i class="fa fa-window-close"></i> Cancel</a>
                                 @else
                                     <a href="{{route('acc.voucher.receipt.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
@@ -106,7 +106,12 @@
                             <th style="text-align: center">Cash , Bank or Other Ledgers <span class="required text-danger">*</span></th>
                             <th style="text-align: center; width: 25%">Narration <span class="required text-danger">*</span></th>
                             <th style="text-align: center;width:5%;">Attachment</th>
-                            <th style="width:15%; text-align:center">Debit Amount <span class="required text-danger">*</span></th>
+                            @if(request('id')>0)
+                                <th style="width:10%; text-align:center">Dr Amount</th>
+                                <th style="width:10%; text-align:center">Cr Amount</th>
+                            @else
+                                <th style="width:15%; text-align:center">Debit Amount <span class="required text-danger">*</span></th>
+                            @endif
                             <th style="text-align:center;width: 10%">Action</th>
                         </tr>
                         </thead>
@@ -124,13 +129,18 @@
                             <textarea required="required"  name="narration" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('receipt_narration')}} @endif</textarea>
                             </td>
                             <td style="vertical-align: middle"><input type="file" /></td>
-                            <td style="vertical-align: middle">
-                                @if(request('id')>0)
-                                    <span>Dr - </span><input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
-                                @else
+                            @if(request('id')>0)
+                                <td style="vertical-align: middle">
+                                    <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any"  />
+                                </td>
+                                <td style="vertical-align: middle">
+                                    <input type="number" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" />
+                                </td>
+                            @else
+                                <td style="vertical-align: middle">
                                     <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
-                                @endif
-                            </td>
+                                </td>
+                            @endif
                             <td style="vertical-align: middle; text-align:center">
                                 @if(request('id')>0)
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
@@ -201,7 +211,7 @@
                        <form action="{{route('acc.voucher.receipt.cancelall', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                            @csrf
                            <input type="hidden" name="journal_type" value="receipt">
-                           <input type="hidden" name="vouchertype" value="single">
+                           <input type="hidden" name="voucher_type" value="single">
                        <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');"><i class="fa fa-trash"></i> Cancel & Delete All</button>
                        </form>
                        @if(number_format($totalDebit,2) === number_format($totalCredit,2))

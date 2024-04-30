@@ -74,15 +74,21 @@ class AccReceipt extends Model
         } elseif (($request->voucher_type=='multiple') && ($request->cr_amt>0) &&  ($request->dr_amt>0)) {
             self::$receipt->dr_amt = 0;
             self::$receipt->cr_amt = 0;
-        } elseif ($request->voucher_type!=='multiple') {
+        } elseif (($request->cr_amt>0) &&  ($request->dr_amt>0)) {
+            self::$receipt->dr_amt = 0;
+            self::$receipt->cr_amt = 0;
+        } elseif (($request->voucher_type!=='multiple') && ($request->dr_amt>0) && ($request->cr_amt==0)) {
             self::$receipt->dr_amt = $request->dr_amt;
             self::$receipt->cr_amt = 0;
             self::$receipt->type = 'Debit';
+        } elseif (($request->voucher_type!=='multiple') && ($request->cr_amt>0) && ($request->dr_amt==0)) {
+            self::$receipt->dr_amt = 0;
+            self::$receipt->cr_amt = $request->cr_amt;;
+            self::$receipt->type = 'Credit';
         } else {
             self::$receipt->dr_amt = 0;
             self::$receipt->cr_amt = 0;
         }
-        self::$receipt->type = 'Debit';
         self::$receipt->status = 'MANUAL';
         self::$receipt->entry_by = $request->entry_by;
         self::$receipt->company_id = 1;
