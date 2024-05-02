@@ -74,6 +74,7 @@ use App\Http\Controllers\MIS\PermissionMatrix\MISPMModuleController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMReportController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMSubMenuController;
 use App\Http\Controllers\MIS\PermissionMatrix\MISPMWarehouseController;
+use App\Http\Controllers\MIS\PermissionMatrix\MISPMOtherOptionsController;
 use App\Http\Controllers\MIS\User\MISCreateUserController;
 use App\Http\Controllers\Procurement\Vendor\VendorCategoryController;
 use App\Http\Controllers\Procurement\Vendor\VendorInfoController;
@@ -944,7 +945,10 @@ Route::get('/', [HomeController::class,'index']);
         Route::post('/mis/permission-matrix/sub-menu/update/{id}',[MISPMSubMenuController::class,'update'])->name('mis.permissionMatrix.subMenu.update');
 
     // MIS / Permission Matrix / others
-        Route::get('/mis/permission-matrix/others-menu',[MISPMCompanyController::class,'index'])->name('mis.permissionMatrix.others-menu');
+        Route::get('/mis/permission-matrix/other-options',[MISPMOtherOptionsController::class,'index'])->name('mis.permissionMatrix.otherOptions');
+        Route::get('/mis/permission-matrix/other-options/create/{id}',[MISPMOtherOptionsController::class,'create'])->name('mis.permissionMatrix.otherOptions.create');
+        Route::post('/mis/permission-matrix/other-options/store',[MISPMOtherOptionsController::class,'store'])->name('mis.permissionMatrix.otherOptions.store');
+        Route::post('/mis/permission-matrix/other-options/update/{id}',[MISPMOtherOptionsController::class,'update'])->name('mis.permissionMatrix.otherOptions.update');
     // MIS / Permission Matrix / Warehouse
         Route::get('/mis/permission-matrix/warehouse',[MISPMWarehouseController::class,'index'])->name('mis.permissionMatrix.warehouse');
         Route::get('/mis/permission-matrix/warehouse/create/{id}',[MISPMWarehouseController::class,'create'])->name('mis.permissionMatrix.warehouse.create');

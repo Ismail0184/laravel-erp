@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Company')
+    @php($title = 'Other Options')
     {{$title}}
 @endsection
 
@@ -17,7 +17,7 @@
                 @elseif( $message = Session::get('update_message'))
                     <p class="text-center text-primary">{{ $message }}</p>
                 @endif
-                <form method="POST" action="{{route('mis.permissionMatrix.company.store')}}" enctype="multipart/form-data">
+                <form method="POST" action="{{route('mis.permissionMatrix.otherOptions.store')}}" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="permitted_by" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="user_id" value="{{ request('id') }}">
@@ -38,12 +38,11 @@
                     </div>
 
                     <div class="form-group row mb-4">
-                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Company<span class="required text-danger">*</span></label>
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Other Options<span class="required text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <select class="form-control select2" name="company_id" required="required">
-                                <option value=""> -- Select Company -- </option>
-                                @foreach($companies as $company)
-                                    <option value="{{$company->id}}" >{{$company->id}} : {{$company->company_name}}</option>
+                            <select class="form-control select2" multiple name="other_option_id[]" required="required">
+                                @foreach($otherOptions as $otherOption)
+                                    <option value="{{$otherOption->id}}" >{{$otherOption->id}} : {{$otherOption->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -52,7 +51,7 @@
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-9">
                             <div>
-                                <a class="btn btn-danger" href="{{route('mis.permissionMatrix.company')}}">Cancel</a>
+                                <a class="btn btn-danger" href="{{route('mis.permissionMatrix.otherOptions')}}">Cancel</a>
                                 <button type="submit" class="btn btn-primary w-md">Add</button>
                             </div>
                         </div>
@@ -66,7 +65,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Permitted Companies</h4>
+                        <h4 class="card-title">Permitted Options</h4>
                         @if ($message = Session::get('permission_inactive_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('permission_active_message'))
@@ -76,10 +75,9 @@
                             <thead>
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
-                                <th>Company Name</th>
-                                <th>Address</th>
-                                <th>Website</th>
-                                <th>Logo</th>
+                                <th>Options Name</th>
+                                <th>Key</th>
+                                <th>Route</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 10%">Option</th>
                             </tr>
@@ -88,17 +86,16 @@
                             @foreach($userCompanyPermissions as $user)
                                 <tr>
                                     <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
-                                    <td style="text-align:left; vertical-align: middle">{{$user->company_id}} : {{$user->getComData->company_name}}</td>
-                                    <td style="text-align: left; vertical-align: middle">{{$user->getComData->address}}</td>
-                                    <td style="text-align: left; vertical-align: middle">{{$user->getComData->website}}</td>
-                                    <td style="text-align: left; vertical-align: middle"><img src="{{asset($user->getComData->logo)}}" style="height: 30px; width: 30px"></td>
+                                    <td style="text-align:left; vertical-align: middle">{{$user->other_option_id}} : {{$user->getOtherOptionData->name}}</td>
+                                    <td style="text-align: left; vertical-align: middle">{{$user->getOtherOptionData->key}}</td>
+                                    <td style="text-align: left; vertical-align: middle">{{$user->getOtherOptionData->route}}</td>
                                     <td style="vertical-align: middle">
                                         @if($user->status == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($user->status == 'inactive') <span class="badge badge-danger"><del>Inactive</del></span>
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        <form action="{{route('mis.permissionMatrix.company.update', ['id' => $user->id])}}" method="post">
+                                        <form action="{{route('mis.permissionMatrix.otherOptions.update', ['id' => $user->id])}}" method="post">
                                             @csrf
                                             <input type="hidden" name="user_id" value="{{ request('id') }}">
                                             @if($user->status == 'active')
