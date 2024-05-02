@@ -40,6 +40,7 @@ return new class extends Migration
             $table->timestamp('deleted_at')->nullable(true)->useCurrent();
             $table->string('ip',55)->nullable();
             $table->string('mac',55)->nullable();
+            $table->integer('visible_status')->default('1');
             $table->integer('company_id');
             $table->integer('group_id');
             $table->timestamps();

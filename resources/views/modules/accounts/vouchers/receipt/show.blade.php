@@ -97,6 +97,7 @@
                                     <th style="width: 70px;">#</th>
                                     <th>A/C Ledger Head</th>
                                     <th>Particulars</th>
+                                    <th>Attachment</th>
                                     <th class="text-right">Debit</th>
                                     <th class="text-right">Credit</th>
                                 </tr>
@@ -109,6 +110,11 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$receipt->ledgerforvoucher->ledger_name}}</td>
                                         <td>{{$receipt->narration}}</td>
+                                        <td>
+                                            @if(!empty($receipt->receipt_attachment))
+                                            <a href="{{asset($receipt->receipt_attachment)}}" target="_blank">View</a>
+                                            @endif
+                                        </td>
                                         <td class="text-right">{{number_format($receipt->dr_amt,2)}}</td>
                                         <td class="text-right">{{number_format($receipt->cr_amt,2)}}</td>
                                     </tr>
@@ -116,7 +122,7 @@
                                     @php($cr_total = $cr_total +$receipt->cr_amt )
                                 @endforeach
                                 <tr>
-                                    <td colspan="3" class="border-0 text-right">
+                                    <td colspan="4" class="border-0 text-right">
                                         <h4 class="m-0">Total</h4></td>
                                     <td class="border-0 text-right"><h4 class="m-0">{{number_format($dr_total,2)}}</h4></td>
                                     <td class="border-0 text-right"><h4 class="m-0">{{number_format($cr_total,2)}}</h4></td>

@@ -23,8 +23,10 @@ return new class extends Migration
             $table->decimal('dr_amt',20,2);
             $table->decimal('cr_amt',20,2);
             $table->enum('type',['Debit','Credit']);
+            $table->text('receipt_attachment')->nullable();
             $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);
             $table->integer('entry_by');
+            $table->integer('visible_status')->default('1');
             $table->integer('company_id');
             $table->integer('group_id');
             $table->timestamps();

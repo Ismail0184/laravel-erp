@@ -15,7 +15,7 @@ class DevCompany extends Model
     {
         self::$image        = $request->file('image');
         self::$imageName    = self::$image->getClientOriginalName();
-        self::$directory    = 'assets/companies/logo/';
+        self::$directory    = 'assets/images/companies/logo/';
         self::$image->move(self::$directory, self::$imageName);
         return self::$directory.self::$imageName;
     }

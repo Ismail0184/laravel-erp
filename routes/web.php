@@ -341,6 +341,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/receipt/print/{voucher_no}', [ReceiptVoucherController::class,'voucherPrint'])->name('acc.voucher.receipt.print');
     Route::get('/accounts/voucher/receipt/download/{voucher_no}', [ReceiptVoucherController::class,'downalodvoucher'])->name('acc.voucher.receipt.download');
     Route::get('/accounts/voucher/receipt/edit/{id}', [ReceiptVoucherController::class,'edit'])->name('acc.voucher.receipt.edit');
+    Route::get('/accounts/voucher/receipt/delete_attachment_while_edit/{id}', [ReceiptVoucherController::class,'deleteAttachmentReceiptVoucher'])->name('acc.voucher.receipt.deleteAttachmentReceiptVoucher');
     Route::get('/accounts/voucher/receipt/edit-multiple/{id}', [ReceiptVoucherController::class,'editMultiple'])->name('acc.voucher.receipt.editMultiple');
     Route::post('/accounts/voucher/receipt/destroy/{id}', [ReceiptVoucherController::class,'destroy'])->name('acc.voucher.receipt.destroy');
     Route::get('/accounts/voucher/receipt/voucher/edit/{voucher_no}', function (Request $request){ session(['receipt_no'=>request('voucher_no')]);

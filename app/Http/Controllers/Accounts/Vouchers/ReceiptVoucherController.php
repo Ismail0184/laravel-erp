@@ -23,12 +23,16 @@ class ReceiptVoucherController extends Controller
      */
 
     use SharedFunctionsTrait;
+
     private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue,$COUNT_receipts_data,$receiptdatas,$receipt,$vouchermaster,$next_transaction_id;
 
     public function index()
     {
         $this->receiptdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','receipt')->orderBy('voucher_no','DESC')->get();
-        return view('modules.accounts.vouchers.receipt.index', ['receiptdatas' =>$this->receiptdatas]);
+        return view('modules.accounts.vouchers.receipt.index', [
+            'receiptdatas' =>$this->receiptdatas,
+            'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson()
+        ]);
     }
 
     /**
@@ -184,6 +188,12 @@ class ReceiptVoucherController extends Controller
             'minDatePermission' => $this->sharedFunction()
 
         ] );
+    }
+
+    public function deleteAttachmentReceiptVoucher($id)
+    {
+        AccReceipt::deleteAttachmentWhileEdit($id);
+        return redirect('/accounts/voucher/receipt/edit/'.$id);
     }
 
     public function editMultiple($id)

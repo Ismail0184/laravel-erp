@@ -29,8 +29,8 @@ class AccTransactions extends Model
         self::$transaction->vr_id = $request->id;
         self::$transaction->status = 'UNCHECKED';
         self::$transaction->entry_by = $request->entry_by;
-        self::$transaction->sconid = $request->sconid;
-        self::$transaction->pcomid = $request->pcomid;
+        self::$transaction->company_id = 2;
+        self::$transaction->group_id = 1;
         self::$transaction->save();
     }
 
@@ -51,8 +51,8 @@ class AccTransactions extends Model
         self::$transaction->vr_id = $request->id;
         self::$transaction->status = 'UNCHECKED';
         self::$transaction->entry_by = $request->entry_by;
-        self::$transaction->sconid = $request->sconid;
-        self::$transaction->pcomid = $request->pcomid;
+        self::$transaction->company_id = 2;
+        self::$transaction->group_id = 1;
         self::$transaction->save();
     }
 
@@ -73,8 +73,8 @@ class AccTransactions extends Model
         self::$transaction->vr_id = $request->id;
         self::$transaction->status = 'UNCHECKED';
         self::$transaction->entry_by = $request->entry_by;
-        self::$transaction->sconid = $request->sconid;
-        self::$transaction->pcomid = $request->pcomid;
+        self::$transaction->company_id = 2;
+        self::$transaction->group_id = 1;
         self::$transaction->save();
     }
 
@@ -95,8 +95,8 @@ class AccTransactions extends Model
         self::$transaction->vr_id = $request->id;
         self::$transaction->status = 'UNCHECKED';
         self::$transaction->entry_by = $request->entry_by;
-        self::$transaction->sconid = $request->sconid;
-        self::$transaction->pcomid = $request->pcomid;
+        self::$transaction->company_id = 2;
+        self::$transaction->group_id = 1;
         self::$transaction->save();
     }
 

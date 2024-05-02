@@ -12,4 +12,11 @@ trait SharedFunctionsTrait
         $minDatePermission = $checkBackDateEntryPermission->meta_value ?? 0;
         return $minDatePermission;
     }
+
+    public function checkVoucherEditAccessByCreatedPerson()
+    {
+        $checkForAccess = DevUsageControlMeta::where('meta_key','voucher_edit_access_by_created_person')->where('status','active')->first();
+        $accessDays = $checkForAccess->meta_value ?? 0;
+        return $accessDays;
+    }
 }

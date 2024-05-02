@@ -29,8 +29,9 @@ return new class extends Migration
             $table->integer('vr_id');
             $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);
             $table->integer('entry_by');
-            $table->integer('sconid');
-            $table->integer('pcomid');
+            $table->integer('visible_status')->default('1');
+            $table->integer('company_id');
+            $table->integer('group_id');
             $table->timestamps();
         });
     }
