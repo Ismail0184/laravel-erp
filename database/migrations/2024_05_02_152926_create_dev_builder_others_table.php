@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dev_usage_control_metas', function (Blueprint $table) {
+        Schema::create('dev_builder_others', function (Blueprint $table) {
             $table->id();
-            $table->string('meta_name')->nullable();
-            $table->string('meta_key')->unique();
-            $table->longText('meta_value')->nullable();
-            $table->enum('status',['active','postpone'])->default('active');
-            $table->integer('company_id');
-            $table->integer('group_id');
+            $table->string('name','100');
+            $table->string('key','100')->nullable();
+            $table->string('route')->nullable();
+            $table->enum('status',['active','inactive','suspended','deleted'])->default('active');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dev_usage_control_metas');
+        Schema::dropIfExists('dev_builder_others');
     }
 };

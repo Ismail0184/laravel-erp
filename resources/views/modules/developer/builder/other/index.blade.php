@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Meta Data') {{$title}}
+    @php($title = 'Other Options') {{$title}}
 @endsection
 
 @section('body')
@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{$title}} <a href="{{route('dev.usageControl.meta.create')}}" class="btn btn-success" style="margin-left: 83.7%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
+                        <h4 class="card-title">{{$title}} <a href="{{route('dev.builder.other.create')}}" class="btn btn-success" style="margin-left: 81.4%"><i class="mdi mdi-plus mr-1"></i> Add New</a></h4>
                         @if ($message = Session::get('destroy_message'))
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
@@ -22,30 +22,31 @@
                             <thead>
                             <tr>
                                 <th style="width: 5%; text-align: center">#</th>
-                                <th style="text-align: center">Meta Name</th>
-                                <th style="text-align: center">Meta Id</th>
-                                <th>Meta Value</th>
+                                <th>Option Name</th>
+                                <th>key</th>
+                                <th>Route</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($usageControlData as $data)
+                            @foreach($others as $other)
                                 <tr>
                                     <td style="text-align: center">{{$loop->iteration}}</td>
-                                    <td style="text-align: left">{{$data->meta_name}}</td>
-                                    <td style="text-align: left">{{$data->meta_key}}</td>
-                                    <td>@if($data->status == 'postpone')<del>{{$data->meta_value}}</del> @else {{$data->meta_value}}@endif</td>
-
+                                    <td>@if($other->status == 'deleted')<del>{{$other->name}}</del> @else {{$other->name}}@endif</td>
+                                    <td style="text-align: left">{{$other->key}}</td>
+                                    <td style="text-align: left">{{$other->route}}</td>
                                     <td>
-                                        @if($data->status == 'active') <span class="badge badge-success">Active</span>
-                                        @elseif($data->status == 'postpone') <span class="badge badge-danger"><del>Postpone</del></span>
+                                        @if($other->status == 'active') <span class="badge badge-success">Active</span>
+                                        @elseif($other->status == 'inactive') <span class="badge badge-warning">Inactive</span>
+                                        @elseif($other->status == 'suspended') <span class="badge badge-danger">Suspended</span>
+                                        @elseif($other->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <form action="{{route('dev.usageControl.meta.destroy', ['id' => $data->id])}}" method="post">
+                                        <form action="{{route('dev.builder.other.destroy', ['id' => $other->id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('dev.usageControl.meta.edit',['id' => $data->id])}}" title="Update" class="btn btn-success btn-sm">
+                                            <a href="{{route('dev.builder.other.edit',['id' => $other->id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
@@ -63,3 +64,6 @@
         </div>
     </div>
 @endsection
+
+
+

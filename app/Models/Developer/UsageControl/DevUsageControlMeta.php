@@ -14,6 +14,7 @@ class DevUsageControlMeta extends Model
     public static function storeMetaData($request)
     {
         self::$meta = new DevUsageControlMeta();
+        self::$meta->meta_name = $request->meta_name;
         self::$meta->meta_key = $request->meta_key;
         self::$meta->meta_value = $request->meta_value;
         self::$meta->company_id = 2;
@@ -24,6 +25,7 @@ class DevUsageControlMeta extends Model
     public static function updateMetaData($request,$id)
     {
         self::$meta = DevUsageControlMeta::findOrfail($id);
+        self::$meta->meta_name = $request->meta_name;
         self::$meta->meta_key = $request->meta_key;
         self::$meta->meta_value = $request->meta_value;
         self::$meta->status = $request->status;

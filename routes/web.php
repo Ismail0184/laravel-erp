@@ -31,6 +31,7 @@ use App\Http\Controllers\Developer\Builder\ModulesController;
 use App\Http\Controllers\Developer\Builder\SubMenuController;
 use App\Http\Controllers\Developer\Builder\DevReportGroupController;
 use App\Http\Controllers\Developer\UsageControl\ERPUCController;
+use App\Http\Controllers\Developer\Builder\DevBuildOtherController;
 use App\Http\Controllers\employeeAccess\approval\EaApprovalLeaveController;
 use App\Http\Controllers\employeeAccess\attendance\EaEarlyLeaveApplicationController;
 use App\Http\Controllers\employeeAccess\attendance\EALateAttendanceApplicationController;
@@ -155,6 +156,14 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/developer/sub-menu/edit/{sub_menu_id}', [SubMenuController::class,'edit'])->name('dev.sub-menu.edit');
     Route::post('/developer/sub-menu/update/{sub_menu_id}', [SubMenuController::class,'update'])->name('dev.sub-menu.update');
     Route::post('developer/sub-menu/destroy/{sub_menu_id}', [SubMenuController::class,'destroy'])->name('dev.sub-menu.destroy');
+
+    //Developer/Builder / Other
+    Route::get('/developer/builder/other',[DevBuildOtherController::class,'index'])->name('dev.builder.other');
+    Route::get('/developer/builder/other/create', [DevBuildOtherController::class,'create'])->name('dev.builder.other.create');
+    Route::post('/developer/builder/other/store', [DevBuildOtherController::class,'store'])->name('dev.builder.other.store');
+    Route::get('/developer/builder/other/edit/{id}', [DevBuildOtherController::class,'edit'])->name('dev.builder.other.edit');
+    Route::post('/developer/builder/other/update/{id}', [DevBuildOtherController::class,'update'])->name('dev.builder.other.update');
+    Route::post('developer/builder/other/destroy/{id}', [DevBuildOtherController::class,'destroy'])->name('dev.builder.other.destroy');
 
     //Developer/Report Group Level
     Route::get('/developer/builder/report-group-labels/',[DevReportGroupController::class,'index'])->name('dev.reportGroupLabels.view');
