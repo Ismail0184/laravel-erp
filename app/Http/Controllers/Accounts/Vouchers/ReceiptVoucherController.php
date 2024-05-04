@@ -200,7 +200,12 @@ class ReceiptVoucherController extends Controller
     public function deleteAttachmentReceiptVoucher($id)
     {
         AccReceipt::deleteAttachmentWhileEdit($id);
-        return redirect('/accounts/voucher/receipt/edit/'.$id);
+        if(\request('voucher_type')=='multiple')
+        {
+            return redirect('/accounts/voucher/receipt/edit-multiple/'.$id);
+        } else {
+            return redirect('/accounts/voucher/receipt/edit/'.$id);
+        }
     }
 
     public function editMultiple($id)

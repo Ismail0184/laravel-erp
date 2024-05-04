@@ -24,20 +24,35 @@ return new class extends Migration
             $table->string('cheque_of_bank','33')->nullable();
             $table->bigInteger('cash_bank_ledger');
             $table->decimal('amount',20,2);
-            $table->enum('journal_type',['receipt','payment','journal','contra','bank-payment']);
+            $table->enum('journal_type',['receipt','payment','journal','contra','cheque','sales','purchase','supporting','credit','debit']);
+            $table->string('journal_type_definition')->nullable();
             $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);
             $table->enum('voucher_type',['single','multiple']);
             $table->integer('entry_by');
             $table->timestamp('entry_at')->nullable(true)->useCurrent();
+
+            $table->timestamp('checker_person_viewed_at')->nullable(true);
+            $table->enum('checked_status',['PENDING','CHECKED','REJECTED'])->default('PENDING');
+            $table->string('remarks_while_checked')->nullable();
             $table->integer('checked_by');
             $table->timestamp('checked_at')->nullable(true)->useCurrent();
+
+            $table->timestamp('approving_person_viewed_at')->nullable(true);
+            $table->enum('approved_status',['PENDING','APPROVED','REJECTED'])->default('PENDING');
+            $table->string('remarks_while_approved')->nullable();
             $table->integer('approved_by');
             $table->timestamp('approved_at')->nullable(true)->useCurrent();
+
+            $table->timestamp('auditing_person_viewed_at')->nullable(true);
+            $table->enum('audited_status',['PENDING','AUDITED','REJECTED'])->default('PENDING');
+            $table->string('remarks_while_audited')->nullable();
             $table->integer('audited_by');
             $table->timestamp('audited_at')->nullable(true)->useCurrent();
+
             $table->string('deleted_reason','255');
             $table->integer('deleted_by');
             $table->timestamp('deleted_at')->nullable(true)->useCurrent();
+
             $table->string('ip',55)->nullable();
             $table->string('mac',55)->nullable();
             $table->integer('visible_status')->default('1');

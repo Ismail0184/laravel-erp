@@ -146,7 +146,7 @@
                                 </td>
                             @else
                                 <td style="vertical-align: middle">
-                                    <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
+                                    <input type="number" name="dr_amt"  class="form-control" value="{{$masterData->amount}}" autocomplete="off" step="any" min="1" required />
                                 </td>
                             @endif
                             <td style="vertical-align: middle; text-align:center">

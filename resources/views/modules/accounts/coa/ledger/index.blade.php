@@ -25,8 +25,9 @@
                                 <th>Ledger Name</th>
                                 <th>Ledger Group</th>
                                 <th>Type</th>
+                                <th>Show on entry</th>
                                 <th>Status</th>
-                                <th class="text-center" style="width: 15%">Option</th>
+                                <th class="text-center" style="width: 10%">Option</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -36,12 +37,16 @@
                                     <td>@if($ledger->status == 'deleted')<del> {{$ledger->ledger_id}} : {{$ledger->ledger_name}} @else {{$ledger->ledger_id}} : {{$ledger->ledger_name}}@endif</td>
                                     <td>{{$ledger->accLedgerGroup->group_id}} : {{$ledger->accLedgerGroup->group_name}}</td>
                                     <td>{{$ledger->type}}</td>
+                                    <td>@if($ledger->show_in_transaction == '1') <span class="badge badge-soft-success">Show</span>
+                                        @elseif($ledger->show_in_transaction == '0') <span class="badge badge-soft-danger"><del>Hidden</del></span>
+                                        @endif
+                                    </td>
                                     <td>@if($ledger->status == 'active') <span class="badge badge-success">Active</span>
                                         @elseif($ledger->status == 'inactive') <span class="badge badge-warning">Inactive</span>
                                         @elseif($ledger->status == 'suspended') <span class="badge badge-danger">Suspended</span>
                                         @elseif($ledger->status == 'deleted') <span class="badge badge-danger"><del>Deleted</del></span>
-
-                                        @endif</td>
+                                        @endif
+                                    </td>
                                     <td class="text-center">
                                         <form action="{{route('acc.ledger.destroy', ['ledger_id' => $ledger->ledger_id])}}" method="post">
                                             @csrf

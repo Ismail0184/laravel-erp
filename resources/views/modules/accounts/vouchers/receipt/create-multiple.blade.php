@@ -73,7 +73,7 @@
     </div>
 
     @if(Session::get('receipt_no')>0)
-        <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.receipt.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.receipt.store')}} @endif">
+        <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.receipt.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.receipt.store')}} @endif" enctype="multipart/form-data">
             @csrf
             @if ($message = Session::get('destroy_message'))
                 <p class="text-center text-danger">{{ $message }}</p>
@@ -93,7 +93,7 @@
                 <thead class="table-success">
                 <tr>
                     <th style="text-align: center">Cash , Bank & Others Ledger <span class="required text-danger">*</span></th>
-                    <th style="text-align: center; width: 20%">Narration <span class="required text-danger">*</span></th>
+                    <th style="text-align: center; width: 25%">Narration <span class="required text-danger">*</span></th>
                     <th style="text-align: center;width:5%;">Attachment</th>
                     <th style="width:15%; text-align:center">Amount <span class="required text-danger">*</span></th>
                     <th style="text-align:center;width: 10%">Action</th>
@@ -112,7 +112,15 @@
                     <td style="vertical-align: middle">
                         <textarea  name="narration" class="form-control" style="height: 70px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('receipt_narration')}} @endif</textarea>
                     </td>
-                    <td style="vertical-align: middle"><input type="file" /></td>
+                    <td style="vertical-align: middle; text-align: right"><input type="file" style="width: 160px"  name="image" />
+                        @if(request('id')>0)
+                            @if(!empty($editValue->receipt_attachment))
+                                <br>
+                                <a href="{{asset($editValue->receipt_attachment)}}" style="text-align: center;" class="btn btn-primary btn-sm" title="delete attachment" target="_blank"><i class="fa fa-book-open"></i></a>
+                                <a href="{{route('acc.voucher.receipt.deleteAttachmentReceiptVoucher', ['id'=>request('id'),'voucher_type'=>'multiple'])}}" style="text-align: center" class="btn btn-danger btn-sm" title="delete attachment"><i class="fa fa-trash"></i></a>
+                            @endif
+                        @endif
+                    </td>
                     <td style="vertical-align: middle">
                         <input type="number" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" placeholder="debit"   />
 
@@ -120,8 +128,8 @@
                     </td>
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="{{route('acc.voucher.receipt.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px">Cancel</a>
+                            <button type="submit" class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i> Update</button>
+                            <a href="{{route('acc.voucher.receipt.multiple.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
                             <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
                         @endif
@@ -144,6 +152,7 @@
                                     <th>Account Head</th>
                                     <th>Narration</th>
                                     <th class="text-center">Type</th>
+                                    <th class="text-center">Attachment</th>
                                     <th>Debit Amount</th>
                                     <th>Credit Amount</th>
                                     <th class="text-center" style="width: 10%">Option</th>
@@ -159,8 +168,27 @@
                                         <td style="vertical-align: middle">{{$receipt->ledger_id}} : {{$receipt->ledger->ledger_name}}</td>
                                         <td style="vertical-align: middle">{{$receipt->narration}}</td>
                                         <td style="vertical-align: middle" class="text-center">{{$receipt->type}}</td>
-                                        <td style="text-align: right; vertical-align: middle">{{number_format($receipt->dr_amt,2)}}</td>
-                                        <td style="text-align: right;vertical-align: middle">{{number_format($receipt->cr_amt,2)}}</td>
+                                        <td style="vertical-align: middle" class="text-center">
+                                            @if(!empty($receipt->receipt_attachment))
+                                                <a href="{{asset($receipt->receipt_attachment)}}" target="_blank">View</a>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td style="text-align: right; vertical-align: middle">
+                                            @if($receipt->dr_amt>0)
+                                                {{number_format($receipt->dr_amt,2)}}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td style="text-align: right;vertical-align: middle">
+                                            @if($receipt->cr_amt>0)
+                                                {{number_format($receipt->cr_amt,2)}}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
                                         <td class="text-center" style="vertical-align: middle">
                                             <form action="{{route('acc.voucher.receipt.destroy', ['id' => $receipt->id])}}" method="post">
                                                 @csrf
@@ -178,7 +206,7 @@
                                     @php($totalCredit = $totalCredit +$receipt->cr_amt)
                                 @endforeach
                                 <tr>
-                                    <th colspan="5" style="text-align: right">Total = </th>
+                                    <th colspan="6" style="text-align: right">Total = </th>
                                     <th style="text-align: right">{{number_format($totalDebit,2)}}</th>
                                     <th style="text-align: right">{{number_format($totalCredit,2)}}</th>
                                     <th></th>
