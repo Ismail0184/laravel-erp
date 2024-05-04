@@ -9,9 +9,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-4">Create {{$title}} <small><a href="{{route('acc.voucher.receipt.create')}}">Single Entry</a></small><small class="text-danger float-right">(field marked with * are mandatorys)
-                    </small>
-                </h4>
+                <h4 class="card-title mb-4">Create {{$title}} <small><a href="{{route('acc.voucher.receipt.create')}}">Single Entry</a></small><small class="text-danger float-right">(field marked with * are mandatorys)</small></h4>
                 <form style="font-size: 11px" method="POST" action="@if(Session::get('receipt_no')>0) {{route('acc.voucher.receipt.mupdate', ['voucher_no'=>$masterData->voucher_no])}} @else {{route('acc.voucher.receipt.initiate')}} @endif">
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
@@ -82,6 +80,7 @@
             @elseif( $message = Session::get('update_message'))
                 <p class="text-center text-primary">{{ $message }}</p>
             @endif
+            <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
             <input type="hidden" name="receipt_no" value="{{$masterData->voucher_no}}">
             <input type="hidden" name="receipt_date" value="{{$masterData->voucher_date}}">
             <input type="hidden" name="amount" value="{{$masterData->amount}}">
@@ -102,7 +101,7 @@
                 <tbody>
                 <tr style="background-color: white">
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" name="ledger_id" required="required">
+                        <select class="form-control select2" style="width: 100%" name="ledger_id" required="required">
                             <option value=""></option>
                             @foreach($ledgerss as $ledgers)
                                 <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
@@ -223,6 +222,8 @@
                                 @if(number_format($totalDebit,2) === number_format($totalCredit,2))
                                     <form action="{{route('acc.voucher.receipt.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                                         @csrf
+                                        <input type="hidden" name="amount_equality" value="BALANCED">
+                                        <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
                                         <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
                                     </form>
                                 @else

@@ -16,7 +16,6 @@
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="entry_at" value="{{date('Y-m-d H:i:s')}}">
-                    <input type="hidden" name="maturity_date" value="2000-01-01">
                     <input type="hidden" name="journal_type" value="receipt">
                     <input type="hidden" name="status" value="MANUAL">
                     <input type="hidden" name="voucher_type" value="single">
@@ -34,7 +33,6 @@
                             <input type="text" name="person" @if(Session::get('receipt_no')>0) value="{{$masterData->person}}" @endif class="form-control" />
                         </div>
                     </div>
-
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">of Bank</label>
                         <div class="col-sm-3">
@@ -49,10 +47,11 @@
                             <input type="date" name="cheque_date" @if(Session::get('receipt_no')>0) value="{{$masterData->cheque_date}}" @endif class="form-control" />
                         </div>
                     </div>
+
                     <div class="form-group row mb-3">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Rcv. From <span class="required text-danger">*</span></label>
                         <div class="col-sm-7">
-                            <select class="form-control select2" name="cash_bank_ledger" required="required">
+                            <select class="form-control select2" style="width: 100%" name="cash_bank_ledger" required="required">
                                 <option value=""> -- receive from ledger -- </option>
                                 @foreach($ledgers as $ledger)
                                     <option value="{{$ledger->ledger_id}}" @if(Session::get('receipt_no')>0) @if($ledger->ledger_id==$masterData->cash_bank_ledger) selected @endif @endif>{{$ledger->ledger_id}} : {{$ledger->ledger_name}}</option>
@@ -94,13 +93,15 @@
                     @elseif( $message = Session::get('update_message'))
                         <p class="text-center text-primary">{{ $message }}</p>
                     @endif
+                    <input type="hidden" name="amount_equality" value="BALANCED">
+                    <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
                     <input type="hidden" name="receipt_no" value="{{$masterData->voucher_no}}">
                     <input type="hidden" name="receipt_date" value="{{$masterData->voucher_date}}">
                     <input type="hidden" name="amount" value="{{$masterData->amount}}">
                     <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
                     <input type="hidden" name="receipt_date" value="{{$masterData->voucher_date}}">
                     <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
-                    <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px">
+                    <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px;display: @if(!request('id')>0) @if($masterData->amount_equality=='BALANCED') none @endif @endif">
                         <thead class="table-success">
                         <tr>
                             <th style="text-align: center">Cash , Bank or Other Ledgers <span class="required text-danger">*</span></th>
@@ -118,7 +119,7 @@
                         <tbody>
                         <tr style="background-color: white">
                             <td style="vertical-align: middle">
-                            <select class="form-control select2" name="ledger_id" required="required">
+                            <select class="form-control select2" style="width: 100%" name="ledger_id" required="required">
                                 <option value=""></option>
                                 @foreach($ledgerss as $ledgers)
                                     <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
@@ -161,8 +162,7 @@
                         </tbody>
                     </table>
                 </form>
-
-                @if($COUNT_receipts_data > 0)
+        @if($COUNT_receipts_data > 0)
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
@@ -213,6 +213,8 @@
                                <td class="text-center" style="vertical-align: middle">
                                    <form action="{{route('acc.voucher.receipt.destroy', ['id' => $receipt->id])}}" method="post">
                                        @csrf
+                                       <input type="hidden" name="amount_equality" value="IMBALANCED">
+                                       <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
                                        <a href="{{route('acc.voucher.receipt.edit',['id' => $receipt->id])}}" title="Update" class="btn btn-success btn-sm">
                                            <i class="fa fa-edit"></i>
                                        </a>
@@ -243,6 +245,8 @@
                        @if(number_format($totalDebit,2) === number_format($totalCredit,2))
                        <form action="{{route('acc.voucher.receipt.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                            @csrf
+                           <input type="hidden" name="amount_equality" value="BALANCED">
+                           <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
                        <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"><i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
                        </form>
                        @else

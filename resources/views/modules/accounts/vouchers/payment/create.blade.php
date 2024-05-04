@@ -14,9 +14,8 @@
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="entry_at" value="{{date('Y-m-d H:i:s')}}">
-                    <input type="hidden" name="maturity_date" value="2000-01-01">
                     <input type="hidden" name="journal_type" value="payment">
-                    <input type="hidden" name="vouchertype" value="single">
+                    <input type="hidden" name="voucher_type" value="single">
                     <input type="hidden" name="status" value="MANUAL">
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Paymt. No <span class="required text-danger">*</span></label>
@@ -48,9 +47,9 @@
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Ledger <span class="required text-danger">*</span></label>
+                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Paid from <span class="required text-danger">*</span></label>
                         <div class="col-sm-7">
-                            <select class="form-control select2" name="cash_bank_ledger" required="required">
+                            <select class="form-control select2" style="width: 100%" name="cash_bank_ledger" required="required">
                                 <option value=""> -- Cash or Bank Account -- </option>
                                 @foreach($ledgers as $ledger)
                                     <option value="{{$ledger->ledger_id}}" @if(Session::get('payment_no')>0) @if($ledger->ledger_id==$masterData->cash_bank_ledger) selected @endif @endif>{{$ledger->ledger_id}} : {{$ledger->ledger_name}}</option>
@@ -68,7 +67,7 @@
                         <div class="col-sm-7">
                             <div>
                                 @if(Session::get('payment_no'))
-                                    <a href="{{route('acc.voucher.payment.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'payment','vouchertype'=>'single'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');"> <i class="fa fa-window-close"></i> Cancel</a>
+                                    <a href="{{route('acc.voucher.payment.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'payment','voucher_type'=>'single'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');"> <i class="fa fa-window-close"></i> Cancel</a>
                                 @else
                                     <a href="{{route('acc.voucher.payment.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
@@ -83,7 +82,7 @@
     </div>
 
     @if(Session::get('payment_no')>0)
-        <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.payment.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.payment.store')}} @endif">
+        <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.payment.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.payment.store')}} @endif" enctype="multipart/form-data">
             @csrf
             @if ($message = Session::get('destroy_message'))
                 <p class="text-center text-danger">{{ $message }}</p>
@@ -92,13 +91,15 @@
             @elseif( $message = Session::get('update_message'))
                 <p class="text-center text-primary">{{ $message }}</p>
             @endif
+            <input type="hidden" name="amount_equality" value="BALANCED">
+            <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
             <input type="hidden" name="payment_no" value="{{$masterData->voucher_no}}">
             <input type="hidden" name="payment_date" value="{{$masterData->voucher_date}}">
             <input type="hidden" name="amount" value="{{$masterData->amount}}">
             <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
             <input type="hidden" name="receipt_date" value="{{$masterData->voucher_date}}">
             <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
-            <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px">
+            <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px;display: @if(!request('id')>0) @if($masterData->amount_equality=='BALANCED') none @endif @endif">
                 <thead class="table-success">
                 <tr>
                     <th style="text-align: center">Vendor, Payment & Expenses Ledger <span class="required text-danger">*</span></th>
@@ -112,7 +113,7 @@
                 <tbody>
                 <tr style="background-color: white">
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" name="ledger_id" required="required">
+                        <select class="form-control select2" style="width: 100%" name="ledger_id" required="required">
                             <option value=""></option>
                             @foreach($ledgerss as $ledgers)
                                 <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
@@ -120,7 +121,7 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" name="cc_code" required="required">
+                        <select class="form-control select2" style="width: 100%" name="cc_code" required="required">
                             <option value=""></option>
                             @foreach($costcenters as $costCenter)
                                 <option value="{{$costCenter->cc_code}}" @if(request('id')>0) @if($costCenter->cc_code==$editValue->cc_code) selected @endif @endif>{{$costCenter->cc_code}} : {{$costCenter->center_name}}</option>
@@ -128,9 +129,18 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <textarea  name="narration" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('payment_narration')}} @endif</textarea>
+                        <textarea  name="narration" class="form-control" style="height: 70px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('payment_narration')}} @endif</textarea>
                     </td>
-                    <td style="vertical-align: middle"><input type="file" class="form-control" /></td>
+                    <td style="vertical-align: middle; text-align: right">
+                        <input type="file" style="width: 160px"  name="image" />
+                        @if(request('id')>0)
+                            @if(!empty($editValue->payment_attachment))
+                                <br>
+                                <a href="{{asset($editValue->payment_attachment)}}" style="text-align: center;" class="btn btn-primary btn-sm" title="delete attachment" target="_blank"><i class="fa fa-book-open"></i></a>
+                                <a href="{{route('acc.voucher.payment.deleteAttachmentPaymentVoucher', ['id'=>request('id')])}}" style="text-align: center" class="btn btn-danger btn-sm" title="delete attachment"><i class="fa fa-trash"></i></a>
+                            @endif
+                        @endif
+                    </td>
                     <td style="vertical-align: middle">
                         <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
                     </td>
@@ -160,6 +170,7 @@
                                     <th>Account Head</th>
                                     <th>Narration</th>
                                     <th class="text-center">Type</th>
+                                    <th class="text-center">Attachment</th>
                                     <th>Debit Amount</th>
                                     <th>Credit Amount</th>
                                     <th class="text-center" style="width: 10%">Option</th>
@@ -175,11 +186,20 @@
                                         <td style="vertical-align: middle">{{$payment->ledger_id}} : {{$payment->ledger->ledger_name}}</td>
                                         <td style="vertical-align: middle">{{$payment->narration}}</td>
                                         <td style="vertical-align: middle" class="text-center">{{$payment->type}}</td>
+                                        <td style="vertical-align: middle" class="text-center">
+                                            @if(!empty($payment->payment_attachment))
+                                                <a href="{{asset($payment->payment_attachment)}}" target="_blank">View</a>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
                                         <td style="text-align: right; vertical-align: middle">{{number_format($payment->dr_amt,2)}}</td>
                                         <td style="text-align: right;vertical-align: middle">{{number_format($payment->cr_amt,2)}}</td>
                                         <td class="text-center" style="vertical-align: middle">
                                             <form action="{{route('acc.voucher.payment.destroy', ['id' => $payment->id])}}" method="post">
                                                 @csrf
+                                                <input type="hidden" name="amount_equality" value="IMBALANCED">
+                                                <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
                                                 <a href="{{route('acc.voucher.payment.edit',['id' => $payment->id])}}" title="Update" class="btn btn-success btn-sm">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
@@ -193,7 +213,7 @@
                                     @php($totalCredit = $totalCredit +$payment->cr_amt)
                                 @endforeach
                                 <tr>
-                                    <th colspan="5" style="text-align: right">Total = </th>
+                                    <th colspan="6" style="text-align: right">Total = </th>
                                     <th style="text-align: right">{{number_format($totalDebit,2)}}</th>
                                     <th style="text-align: right">{{number_format($totalCredit,2)}}</th>
                                     <th></th>
@@ -204,12 +224,14 @@
                                 <form action="{{route('acc.voucher.payment.cancelall', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                                     @csrf
                                     <input type="hidden" name="journal_type" value="payment">
-                                    <input type="hidden" name="vouchertype" value="single">
+                                    <input type="hidden" name="voucher_type" value="single">
                                     <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');"><i class="fa fa-trash"></i> Cancel & Delete All</button>
                                 </form>
                                 @if(number_format($totalDebit,2) === number_format($totalCredit,2))
                                     <form action="{{route('acc.voucher.payment.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                                         @csrf
+                                        <input type="hidden" name="amount_equality" value="BALANCED">
+                                        <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
                                         <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
                                     </form>
                                 @else

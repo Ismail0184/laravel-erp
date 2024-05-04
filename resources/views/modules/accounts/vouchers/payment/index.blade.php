@@ -29,6 +29,7 @@
                                 <th>Received From</th>
                                 <th>Amount</th>
                                 <th>Entry By</th>
+                                <th>Type</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 15%">Option</th>
                             </tr>
@@ -42,7 +43,13 @@
                                     <td style="vertical-align: middle">@if($paymntdata->cash_bank_ledger) {{$paymntdata->accledger->ledger_name}} @else N/A @endif</td>
                                     <td class="text-right" style="vertical-align: middle">{{number_format($paymntdata->amount,2)}}</td>
                                     <td style="vertical-align: middle">{{$paymntdata->entryBy->name}}<br>
-                                        At: {{$paymntdata->entry_at}}</td>
+                                        At: {{$paymntdata->entry_at}}
+                                    </td>
+                                    <td style="vertical-align: middle">
+                                        @if($paymntdata->voucher_type == 'single') <span class="badge badge-soft-primary">Single</span>
+                                        @elseif($paymntdata->voucher_type == 'multiple') <span class="badge badge-soft-danger">Multiple</span>
+                                        @endif
+                                    </td>
                                     <td style="vertical-align: middle">
                                         @if($paymntdata->status == 'UNCHECKED') <span class="badge badge-soft-dark">UNCHECKED</span>
                                         @elseif($paymntdata->status == 'MANUAL') <span class="badge badge-soft-dark">MANUAL</span>
@@ -56,7 +63,7 @@
                                         @php($getVoucherDate=now()->diffInDays($paymntdata->created_at))
                                         <form action="{{route('acc.voucher.payment.voucher.destroy', ['voucher_no' => $paymntdata->voucher_no])}}" method="post">
                                             <input type="hidden" name="journal_type" value="{{$paymntdata->journal_type}}">
-                                            <input type="hidden" name="vouchertype" value="{{$paymntdata->vouchertype}}">
+                                            <input type="hidden" name="voucher_type" value="{{$paymntdata->voucher_type}}">
                                             @csrf
                                             <a href="{{route('acc.voucher.payment.show',['voucher_no' => $paymntdata->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
@@ -69,8 +76,8 @@
                                                     <i class="fa fa-print"></i>
                                                 </a>
                                                 @if($paymntdata->status=='UNCHECKED' || $paymntdata->status=='MANUAL')
-                                                    @if($getVoucherDate<2)
-                                                        <a href="@if($paymntdata->vouchertype=='single'){{route('acc.voucher.payment.voucher.edit',['voucher_no' => $paymntdata->voucher_no])}} @elseif($paymntdata->vouchertype=='multiple') {{route('acc.voucher.payment.voucher.editMultiple',['voucher_no' => $paymntdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
+                                                    @if($getVoucherDate <= $checkVoucherEditAccessByCreatedPerson)
+                                                        <a href="@if($paymntdata->voucher_type=='single'){{route('acc.voucher.payment.voucher.edit',['voucher_no' => $paymntdata->voucher_no])}} @elseif($paymntdata->voucher_type=='multiple') {{route('acc.voucher.payment.voucher.editMultiple',['voucher_no' => $paymntdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->text('narration')->nullable()->default('N/A');
             $table->bigInteger('ledger_id');
             $table->bigInteger('relevant_cash_head');
-            $table->decimal('dr_amt',20,2);
-            $table->decimal('cr_amt',20,2);
+            $table->double('dr_amt');
+            $table->double('cr_amt');
             $table->enum('type',['Debit','Credit']);
             $table->text('receipt_attachment')->nullable();
             $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);

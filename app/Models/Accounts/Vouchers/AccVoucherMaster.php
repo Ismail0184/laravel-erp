@@ -141,15 +141,26 @@ class AccVoucherMaster extends Model
         self::$voucherno = AccVoucherMaster::find($id) ;
         self::$voucherno->status = $request->status;
         if($request->status=='CHECKED') {
+            self::$voucherno->checked_status = 'CHECKED';
+            self::$voucherno->remarks_while_checked = $request->remarks_while_checked;
             self::$voucherno->checked_by = $request->checked_by;
             self::$voucherno->checked_at = now();
         } elseif ($request->status=='APPROVED'){
+            self::$voucherno->approved_status = 'APPROVED';
+            self::$voucherno->remarks_while_approved = $request->remarks_while_approved;
             self::$voucherno->approved_by = $request->approved_by;
             self::$voucherno->approved_at = now();
         } elseif ($request->status=='AUDITED') {
+            self::$voucherno->audited_status = 'APPROVED';
+            self::$voucherno->remarks_while_audited = $request->remarks_while_audited;
             self::$voucherno->audited_by = $request->audited_by;
             self::$voucherno->audited_at = now();
         }
         self::$voucherno->save();
+    }
+
+    public static function amountEquality($request)
+    {
+        AccVoucherMaster::where('voucher_no',$request->voucher_no)->update(['amount_equality'=>$request->amount_equality]);
     }
 }

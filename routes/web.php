@@ -376,6 +376,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/payment/print/{voucher_no}', [PaymentVoucherController::class,'voucherPrint'])->name('acc.voucher.payment.print');
     Route::get('/accounts/voucher/payment/download/{voucher_no}', [PaymentVoucherController::class,'downalodvoucher'])->name('acc.voucher.payment.download');
     Route::get('/accounts/voucher/payment/edit/{id}', [PaymentVoucherController::class,'edit'])->name('acc.voucher.payment.edit');
+    Route::get('/accounts/voucher/payment/delete_attachment_while_edit/{id}', [PaymentVoucherController::class,'deleteAttachmentPaymentVoucher'])->name('acc.voucher.payment.deleteAttachmentPaymentVoucher');
     Route::get('/accounts/voucher/payment/edit-multiple/{id}', [PaymentVoucherController::class,'editMultiple'])->name('acc.voucher.payment.editMultiple');
     Route::post('/accounts/voucher/payment/destroy/{id}', [PaymentVoucherController::class,'destroy'])->name('acc.voucher.payment.destroy');
     Route::get('/accounts/voucher/payment/voucher/edit/{voucher_no}', function (Request $request){ session(['payment_no'=>request('voucher_no')]);

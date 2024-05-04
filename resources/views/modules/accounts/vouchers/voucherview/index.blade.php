@@ -97,7 +97,8 @@
                                 <th>Date</th>
                                 <th>Received From</th>
                                 <th>Amount</th>
-                                <th>Type</th>
+                                <th>V.Type</th>
+                                <th>J.Type</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 15%">Option</th>
                             </tr>
@@ -110,6 +111,11 @@
                                     <td style="vertical-align: middle">{{$voucherView->voucher_date}}</td>
                                     <td style="vertical-align: middle">@if($voucherView->cash_bank_ledger) {{$voucherView->accledger->ledger_name}} @else N/A @endif</td>
                                     <td class="text-right" style="vertical-align: middle">{{number_format($voucherView->amount,2)}}</td>
+                                    <td style="vertical-align: middle">
+                                        @if($voucherView->voucher_type == 'single') <span class="badge badge-soft-primary">Single</span>
+                                        @elseif($voucherView->voucher_type == 'multiple') <span class="badge badge-soft-danger">Multiple</span>
+                                        @endif
+                                    </td>
                                     <td style="vertical-align: middle">
                                         @if($voucherView->journal_type == 'receipt') <span class="badge badge-success">Receipt</span>
                                         @elseif($voucherView->journal_type == 'payment') <span class="badge badge-danger">Payment</span>

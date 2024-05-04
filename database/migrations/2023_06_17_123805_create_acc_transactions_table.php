@@ -19,10 +19,10 @@ return new class extends Migration
             $table->date('transaction_date');
             $table->bigInteger('ledger_id');
             $table->bigInteger('relevant_cash_head');
-            $table->text('narration');
+            $table->text('narration')->nullable();
             $table->double('dr_amt');
             $table->double('cr_amt');
-            $table->integer('cc_code');
+            $table->integer('cc_code')->nullable();
             $table->enum('type',['Debit','Credit']);
             $table->string('vr_from');
             $table->bigInteger('vr_no');

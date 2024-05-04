@@ -34,7 +34,7 @@ class AccReceipt extends Model
         self::$receipt->narration = $request->narration;
         self::$receipt->ledger_id = $request->ledger_id;
         self::$receipt->relevant_cash_head = $request->relevant_cash_head;
-        self::$receipt->receipt_attachment = self::getImageUrl($request);;
+        self::$receipt->receipt_attachment = self::getImageUrl($request);
 
         if (($request->voucher_type=='multiple') && ($request->dr_amt>0) && ($request->cr_amt==0) ) {
             self::$receipt->dr_amt = $request->dr_amt;

@@ -97,6 +97,7 @@
                                     <th style="width: 70px;">#</th>
                                     <th>A/C Ledger Head</th>
                                     <th>Particulars</th>
+                                    <th>Attachment</th>
                                     <th class="text-right">Debit</th>
                                     <th class="text-right">Credit</th>
                                 </tr>
@@ -109,6 +110,11 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$payment->ledgerforvoucher->ledger_name}}</td>
                                         <td>{{$payment->narration}}</td>
+                                        <td>
+                                            @if(!empty($payment->payment_attachment))
+                                                <a href="{{asset($payment->payment_attachment)}}" target="_blank">View</a>
+                                            @endif
+                                        </td>
                                         <td class="text-right">{{number_format($payment->dr_amt,2)}}</td>
                                         <td class="text-right">{{number_format($payment->cr_amt,2)}}</td>
                                     </tr>
@@ -116,7 +122,7 @@
                                     @php($cr_total = $cr_total +$payment->cr_amt )
                                 @endforeach
                                 <tr>
-                                    <td colspan="3" class="border-0 text-right">
+                                    <td colspan="4" class="border-0 text-right">
                                         <h4 class="m-0">Total</h4></td>
                                     <td class="border-0 text-right"><h4 class="m-0">{{number_format($dr_total,2)}}</h4></td>
                                     <td class="border-0 text-right"><h4 class="m-0">{{number_format($cr_total,2)}}</h4></td>
@@ -166,15 +172,17 @@
                             </div>
                             <form action="{{route('acc.voucher.payment.status.update', ['voucher_no'=>$vouchermaster->voucher_no])}}" method="post">
                                 @csrf
-                                @if($vouchermaster->status=='UNCHECKED')
+                                @if($vouchermaster->status=='UNCHECKED' && $voucherCheckingPermission)
                                     <input type="hidden" value="CHECKED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="checked_by">
+                                    <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you confirm?');">Check the Voucher</button>
+                                    <input type="text">
                                     <button type="submit" class="btn btn-info float-right" onclick="return window.confirm('Are you confirm?');">Check the Voucher</button>
-                                @elseif($vouchermaster->status=='CHECKED')
+                                @elseif($vouchermaster->status=='CHECKED' && $voucherApprovingPermission)
                                     <input type="hidden" value="APPROVED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="approved_by">
                                     <button type="submit" class="btn btn-primary float-right" onclick="return window.confirm('Are you confirm?');">Approve the Voucher</button>
-                                @elseif($vouchermaster->status=='APPROVED')
+                                @elseif($vouchermaster->status=='APPROVED' && $voucherAuditingPermission)
                                     <input type="hidden" value="AUDITED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="audited_by">
                                     <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Audit the Voucher</button>

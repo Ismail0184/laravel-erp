@@ -99,6 +99,7 @@ class ReceiptVoucherController extends Controller
         if ($request->voucher_type=='multiple') {
 
         } else {
+
         $this->masterData = AccVoucherMaster::find(Session::get('receipt_no'));
         $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
         $totalDebit = 0;
@@ -110,12 +111,12 @@ class ReceiptVoucherController extends Controller
         if(number_format($totalDebit,2) === number_format($this->masterData->amount,2) && number_format($totalDebit,2) !== number_format($totalCredit,2))
         {
             AccReceipt::addReceiptDataCr($request);
+            AccVoucherMaster::amountEquality($request);
         }}
         if ($request->voucher_type=='multiple') {
             return redirect('/accounts/voucher/receipt/create-multiple')->with('store_message', 'A receipt data successfully added!!');
         } else {
             return redirect('/accounts/voucher/receipt/create')->with('store_message', 'A receipt data successfully added!!');
-
         }
     }
 
@@ -129,7 +130,6 @@ class ReceiptVoucherController extends Controller
     {
         $this->receipt = AccReceipt::where('receipt_no',$id)->get();
         $this->vouchermaster = AccVoucherMaster::find($id);
-        $userId = Auth::user()->id;
         return view('modules.accounts.vouchers.receipt.show', [
             'receipts' =>$this->receipt,
             'vouchermaster' =>$this->vouchermaster,
@@ -263,6 +263,7 @@ class ReceiptVoucherController extends Controller
     public function destroy(Request $request, $id)
     {
         AccReceipt::destroyRceiptData($id);
+        AccVoucherMaster::amountEquality($request);
         if ($request->voucher_type=='multiple') {
             return redirect('/accounts/voucher/receipt/create-multiple')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
         } else {
@@ -288,6 +289,7 @@ class ReceiptVoucherController extends Controller
             AccTransactions::addReceiptVoucher($receiptData, $this->next_transaction_id);
         }
         AccReceipt::confirmReceiptVoucher($request, $id);
+        AccVoucherMaster::amountEquality($request);
         AccVoucherMaster::ConfirmVoucher($request, $id);
         Session::forget('receipt_no');
         Session::forget('receipt_narration');

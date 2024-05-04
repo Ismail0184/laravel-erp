@@ -8,6 +8,7 @@ use App\Models\Accounts\AccLedger;
 use App\Models\Accounts\AccTransactions;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccPayment;
+use App\Traits\SharedOtherOptionFunctionsTrait;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -23,13 +24,17 @@ class PaymentVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
     use SharedFunctionsTrait;
+    use SharedOtherOptionFunctionsTrait;
     private $paymentVoucher,$ledgers,$vouchertype,$masterData,$payments,$editValue,$COUNT_payments_data,$paymntdatas,$payment,$vouchermaster,$costcenters,$next_transaction_id;
 
 
     public function index()
     {
         $this->paymntdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','payment')->orderBy('voucher_no','DESC')->get();
-        return view('modules.accounts.vouchers.payment.index', ['paymntdatas' =>$this->paymntdatas]);
+        return view('modules.accounts.vouchers.payment.index', [
+            'paymntdatas' =>$this->paymntdatas,
+            'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson()
+        ]);
     }
 
     /**
@@ -110,6 +115,7 @@ class PaymentVoucherController extends Controller
             if(number_format($totalDebit,2) === number_format($this->masterData->amount,2) && number_format($totalDebit,2) !== number_format($totalCredit,2))
             {
                 AccPayment::addPaymentDataCr($request);
+                AccVoucherMaster::amountEquality($request);
             }}
         if ($request->vouchertype=='multiple') {
             return redirect('/accounts/voucher/payment/create-multiple')->with('store_message', 'A payment data successfully added!!');
@@ -132,6 +138,9 @@ class PaymentVoucherController extends Controller
         return view('modules.accounts.vouchers.payment.show', [
             'payments' =>$this->payment,
             'vouchermaster' =>$this->vouchermaster,
+            'voucherCheckingPermission' => $this->findVoucherCheckOptionAccess(),
+            'voucherApprovingPermission' => $this->findVoucherApproveOptionAccess(),
+            'voucherAuditingPermission' => $this->findVoucherAuditOptionAccess()
         ]);
     }
 
@@ -187,8 +196,20 @@ class PaymentVoucherController extends Controller
             'payments' => $this->payments,
             'editValue' => $this->editValue,
             'COUNT_payments_data' => $this->COUNT_payments_data,
-            'costcenters' =>$this->costcenters
+            'costcenters' =>$this->costcenters,
+            'minDatePermission' => $this->sharedFunction()
         ] );
+    }
+
+    public function deleteAttachmentPaymentVoucher($id)
+    {
+        AccPayment::deleteAttachmentWhileEdit($id);
+        if(\request('voucher_type')=='multiple')
+        {
+            return redirect('/accounts/voucher/payment/edit-multiple/'.$id);
+        } else {
+            return redirect('/accounts/voucher/payment/edit/'.$id);
+        }
     }
 
     public function editMultiple($id)
@@ -246,6 +267,7 @@ class PaymentVoucherController extends Controller
     public function destroy(Request $request, $id)
     {
         AccPayment::destroyPaymentData($id);
+        AccVoucherMaster::amountEquality($request);
         if ($request->vouchertype=='multiple') {
             return redirect('/accounts/voucher/payment/create-multiple')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
         } else {

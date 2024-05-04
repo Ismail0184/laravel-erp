@@ -175,7 +175,10 @@
                                 @if($vouchermaster->status=='UNCHECKED' && $voucherCheckingPermission)
                                     <input type="hidden" value="CHECKED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="checked_by">
-                                    <button type="submit" class="btn btn-info float-right" onclick="return window.confirm('Are you confirm?');">Check the Voucher</button>
+                                    <button type="submit" class="btn btn-info float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Check & Forward</button>
+                                    <button type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
+                                    <input type="text" id="writeRemarks" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
+
                                 @elseif($vouchermaster->status=='CHECKED' && $voucherApprovingPermission)
                                     <input type="hidden" value="APPROVED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="approved_by">
