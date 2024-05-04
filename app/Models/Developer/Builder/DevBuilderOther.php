@@ -26,6 +26,7 @@ class DevBuilderOther extends Model
         self::$other->name = $request->name;
         self::$other->key = $request->key;
         self::$other->route = $request->route;
+        self::$other->status = $request->status;
         self::$other->save();
     }
 

@@ -172,19 +172,18 @@
                             </div>
                             <form action="{{route('acc.voucher.receipt.status.update', ['voucher_no'=>$vouchermaster->voucher_no])}}" method="post">
                                 @csrf
-                                @if($vouchermaster->status=='UNCHECKED')
+                                @if($vouchermaster->status=='UNCHECKED' && $voucherCheckingPermission)
                                     <input type="hidden" value="CHECKED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="checked_by">
                                     <button type="submit" class="btn btn-info float-right" onclick="return window.confirm('Are you confirm?');">Check the Voucher</button>
-                            @elseif($vouchermaster->status=='CHECKED')
+                                @elseif($vouchermaster->status=='CHECKED' && $voucherApprovingPermission)
                                     <input type="hidden" value="APPROVED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="approved_by">
                                     <button type="submit" class="btn btn-primary float-right" onclick="return window.confirm('Are you confirm?');">Approve the Voucher</button>
-                            @elseif($vouchermaster->status=='APPROVED')
+                                @elseif($vouchermaster->status=='APPROVED' && $voucherAuditingPermission)
                                     <input type="hidden" value="AUDITED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="audited_by">
                                     <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Audit the Voucher</button>
-
                                 @endif
                             </form>
                         </div>

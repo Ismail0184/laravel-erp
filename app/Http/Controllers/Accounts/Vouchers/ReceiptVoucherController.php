@@ -13,6 +13,7 @@ use Auth;
 use Session;
 use PDF;
 use App\Traits\SharedFunctionsTrait;
+use App\Traits\SharedOtherOptionFunctionsTrait;
 
 class ReceiptVoucherController extends Controller
 {
@@ -23,6 +24,7 @@ class ReceiptVoucherController extends Controller
      */
 
     use SharedFunctionsTrait;
+    use SharedOtherOptionFunctionsTrait;
 
     private $receiptVoucher,$ledgers,$vouchertype,$masterData,$receipts,$editValue,$COUNT_receipts_data,$receiptdatas,$receipt,$vouchermaster,$next_transaction_id;
 
@@ -127,9 +129,14 @@ class ReceiptVoucherController extends Controller
     {
         $this->receipt = AccReceipt::where('receipt_no',$id)->get();
         $this->vouchermaster = AccVoucherMaster::find($id);
+        $userId = Auth::user()->id;
         return view('modules.accounts.vouchers.receipt.show', [
             'receipts' =>$this->receipt,
-            'vouchermaster' =>$this->vouchermaster
+            'vouchermaster' =>$this->vouchermaster,
+            'voucherCheckingPermission' => $this->findVoucherCheckOptionAccess(),
+            'voucherApprovingPermission' => $this->findVoucherApproveOptionAccess(),
+            'voucherAuditingPermission' => $this->findVoucherAuditOptionAccess()
+
          ]);
     }
 
