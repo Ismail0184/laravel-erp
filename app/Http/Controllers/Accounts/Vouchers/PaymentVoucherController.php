@@ -135,12 +135,41 @@ class PaymentVoucherController extends Controller
     {
         $this->payment = AccPayment::where('payment_no',$id)->get();
         $this->vouchermaster = AccVoucherMaster::find($id);
+
+        if ($this->vouchermaster->status=='UNCHECKED' && empty($this->vouchermaster->checker_person_viewed_at) && $this->findVoucherCheckOptionAccess()>0)
+        {
+            AccVoucherMaster::checkPersonView($id);
+        }
+
+        if ($this->vouchermaster->status=='CHECKED' && empty($this->vouchermaster->approving_person_viewed_at) && $this->findVoucherApproveOptionAccess()>0)
+        {
+            AccVoucherMaster::approvePersonView($id);
+        }
+
+        if ($this->vouchermaster->status=='APPROVED' && empty($this->vouchermaster->auditing_person_viewed_at) && $this->findVoucherAuditOptionAccess()>0)
+        {
+            AccVoucherMaster::auditorPersonView($id);
+        }
+
         return view('modules.accounts.vouchers.payment.show', [
             'payments' =>$this->payment,
             'vouchermaster' =>$this->vouchermaster,
             'voucherCheckingPermission' => $this->findVoucherCheckOptionAccess(),
             'voucherApprovingPermission' => $this->findVoucherApproveOptionAccess(),
             'voucherAuditingPermission' => $this->findVoucherAuditOptionAccess()
+        ]);
+    }
+
+    public function status($id)
+    {
+        $this->receipt = AccPayment::where('payment_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::findOrfail($id);
+        return view('modules.accounts.vouchers.payment.status', [
+            'voucherMaster' =>$this->vouchermaster,
+            'voucherCheckingPermission' => $this->findVoucherCheckOptionAccess(),
+            'voucherApprovingPermission' => $this->findVoucherApproveOptionAccess(),
+            'voucherAuditingPermission' => $this->findVoucherAuditOptionAccess()
+
         ]);
     }
 

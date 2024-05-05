@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    @if($vouchermaster->entry_by == Auth::user()->id)
+                    @if($voucherMaster->entry_by == Auth::user()->id)
                         <br>
                         <div class="card-title text-center"><h4 style="text-decoration: underline">Voucher Status</h4></div>
                         <div class="card-body">
@@ -17,29 +17,29 @@
                                 <tr>
                                     <th style="width: 20%">Voucher No</th>
                                     <th style="width: 1%">:</th>
-                                    <td>{{$vouchermaster->voucher_no}}</td>
+                                    <td>{{$voucherMaster->voucher_no}}</td>
                                     <th style="width: 20%">Voucher Date</th>
                                     <th style="width: 1%">:</th>
-                                    <td>{{$vouchermaster->voucher_date}}</td>
+                                    <td>{{$voucherMaster->voucher_date}}</td>
                                 </tr>
                                 <tr>
-                                    <th>Received From</th>
+                                    <th>Paid From</th>
                                     <th>:</th>
-                                    <td>{{$vouchermaster->person}}</td>
+                                    <td>{{$voucherMaster->person}}</td>
                                     <th>Time</th>
                                     <th>:</th>
-                                    <td>{{$vouchermaster->departure_time}}</td>
+                                    <td>{{$voucherMaster->departure_time}}</td>
                                 </tr>
                             </table>
 
                             <table class="table" style="width: 100%">
-                                <tr class="text-center @if($vouchermaster->checked_status=='CHECKED') bg-soft-success @elseif($vouchermaster->checked_status=='REJECTED') bg-danger @else  bg-soft-danger @endif text-black"><th colspan="9">Checked Status</th></tr>
+                                <tr class="text-center @if($voucherMaster->checked_status=='CHECKED') bg-soft-success @elseif($voucherMaster->checked_status=='REJECTED') bg-danger @else  bg-soft-danger @endif text-black"><th colspan="9">Checked Status</th></tr>
                                 <tr>
                                     <th style="width: 15%">Person</th>
                                     <th style="width: 1%">:</th>
                                     <td style="width: 15%">
-                                        @if($vouchermaster->checked_by>0)
-                                            {{$vouchermaster->checkedBy->name}}
+                                        @if($voucherMaster->checked_by>0)
+                                            {{$voucherMaster->checkedBy->name}}
                                         @else
                                             Don't know yet.
                                         @endif
@@ -48,7 +48,7 @@
                                     <th style="width: 10%">View Status</th>
                                     <th style="width: 1%">:</th>
                                     <td style="width: 15%">
-                                        @empty($vouchermaster->checker_person_viewed_at)
+                                        @empty($voucherMaster->checker_person_viewed_at)
                                             <span class="badge badge-danger">PENDING</span>
                                         @else
                                             <span class="badge badge-success">Viewed</span>
@@ -58,10 +58,10 @@
                                     <th style="width: 10%">Viewed At</th>
                                     <th style="width: 1%">:</th>
                                     <td>
-                                        @empty($vouchermaster->checker_person_viewed_at)
+                                        @empty($voucherMaster->checker_person_viewed_at)
                                             <span class="badge badge-danger">PENDING</span>
                                         @else
-                                            {{$vouchermaster->checker_person_viewed_at}}
+                                            {{$voucherMaster->checker_person_viewed_at}}
                                         @endempty
                                     </td>
                                 <tr/>
@@ -69,33 +69,33 @@
                                     <th>Checked Status</th>
                                     <th style="width: 1%">:</th>
                                     <td>
-                                        @if($vouchermaster->checked_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
-                                        @elseif($vouchermaster->checked_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
-                                        @elseif($vouchermaster->checked_status == 'CHECKED') <span class="badge badge-success">CHECKED</span>
+                                        @if($voucherMaster->checked_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
+                                        @elseif($voucherMaster->checked_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
+                                        @elseif($voucherMaster->checked_status == 'CHECKED') <span class="badge badge-success">CHECKED</span>
                                         @endif
                                     </td>
 
                                     <th>Checked At</th>
                                     <th style="width: 1%">:</th>
-                                    <td>@empty($vouchermaster->checked_at)
+                                    <td>@empty($voucherMaster->checked_at)
                                             <span class="badge badge-danger">PENDING</span>
-                                        @else {{$vouchermaster->checked_at}} @endempty</td>
+                                        @else {{$voucherMaster->checked_at}} @endempty</td>
 
 
                                     <th>Remarks</th>
                                     <th style="width: 1%">:</th>
-                                    <td style="width: 25%">@empty($vouchermaster->remarks_while_checked) - @else {{$vouchermaster->remarks_while_checked}} @endempty</td>
+                                    <td style="width: 25%">@empty($voucherMaster->remarks_while_checked) - @else {{$voucherMaster->remarks_while_checked}} @endempty</td>
                                 </tr>
                             </table>
 
                             <table class="table" style="width: 100%">
-                                <tr class="text-center @if($vouchermaster->approved_status=='APPROVED') bg-soft-success @elseif($vouchermaster->approved_status=='REJECTED') bg-danger @else  bg-soft-danger @endif text-black"><th colspan="9">Approved Status</th></tr>
+                                <tr class="text-center @if($voucherMaster->approved_status=='APPROVED') bg-soft-success @elseif($voucherMaster->approved_status=='REJECTED') bg-danger @else  bg-soft-danger @endif text-black"><th colspan="9">Approved Status</th></tr>
                                 <tr>
                                     <th style="width: 15%">Person</th>
                                     <th style="width: 1%">:</th>
                                     <td style="width: 15%">
-                                        @if($vouchermaster->approved_by>0)
-                                            {{$vouchermaster->approvedBy->name}}
+                                        @if($voucherMaster->approved_by>0)
+                                            {{$voucherMaster->approvedBy->name}}
                                         @else
                                             Don't know yet.
                                         @endif
@@ -103,7 +103,7 @@
                                     <th style="width: 10%">View Status</th>
                                     <th style="width: 1%">:</th>
                                     <td style="width: 15%">
-                                        @empty($vouchermaster->approving_person_viewed_at)
+                                        @empty($voucherMaster->approving_person_viewed_at)
                                             <span class="badge badge-danger">PENDING</span>
                                         @else
                                             <span class="badge badge-success">Viewed</span>
@@ -112,10 +112,10 @@
                                     <th style="width: 10%">Viewed At</th>
                                     <th style="width: 1%">:</th>
                                     <td>
-                                        @empty($vouchermaster->approving_person_viewed_at)
+                                        @empty($voucherMaster->approving_person_viewed_at)
                                             <span class="badge badge-danger">PENDING</span><br>
                                         @else
-                                            {{$vouchermaster->approving_person_viewed_at}}
+                                            {{$voucherMaster->approving_person_viewed_at}}
                                         @endempty
                                     </td>
                                 <tr/>
@@ -123,31 +123,31 @@
                                     <th>Approved Status</th>
                                     <th style="width: 1%">:</th>
                                     <td>
-                                        @if($vouchermaster->approved_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
-                                        @elseif($vouchermaster->approved_status == 'APPROVED') <span class="badge badge-success">APPROVED</span>
-                                        @elseif($vouchermaster->approved_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
+                                        @if($voucherMaster->approved_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
+                                        @elseif($voucherMaster->approved_status == 'APPROVED') <span class="badge badge-success">APPROVED</span>
+                                        @elseif($voucherMaster->approved_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
                                         @endif
                                     </td>
                                     <th>Approved At</th>
                                     <th style="width: 1%">:</th>
-                                    <td>@empty($vouchermaster->approved_at)
+                                    <td>@empty($voucherMaster->approved_at)
                                             <span class="badge badge-danger">PENDING</span>
-                                        @else {{$vouchermaster->approved_at}}
+                                        @else {{$voucherMaster->approved_at}}
                                         @endempty
                                     </td>
                                     <th>Remarks</th>
                                     <th style="width: 1%">:</th>
-                                    <td style="width: 25%">@empty($vouchermaster->remarks_while_approved) - @else {{$vouchermaster->remarks_while_approved}} @endempty</td>
+                                    <td style="width: 25%">@empty($voucherMaster->remarks_while_approved) - @else {{$voucherMaster->remarks_while_approved}} @endempty</td>
                                 </tr>
                             </table>
 
                             <table class="table" style="width: 100%">
-                                <tr class="text-center @if($vouchermaster->audited_status=='AUDITED') bg-soft-success @elseif($vouchermaster->audited_status=='REJECTED') bg-danger @else  bg-soft-danger @endif text-black"><th colspan="9">Audited Status</th></tr>
+                                <tr class="text-center @if($voucherMaster->audited_status=='AUDITED') bg-soft-success @elseif($voucherMaster->audited_status=='REJECTED') bg-danger @else  bg-soft-danger @endif text-black"><th colspan="9">Audited Status</th></tr>
                                 <tr>
                                     <th style="width: 15%">Person</th>
                                     <th style="width: 1%">:</th>
-                                    <td style="width: 15%">@if($vouchermaster->audited_by>0)
-                                            {{$vouchermaster->auditedBy->name}}
+                                    <td style="width: 15%">@if($voucherMaster->audited_by>0)
+                                            {{$voucherMaster->auditedBy->name}}
                                         @else
                                             Don't know yet.
                                         @endif
@@ -155,7 +155,7 @@
                                     <th style="width: 10%">View Status</th>
                                     <th style="width: 1%">:</th>
                                     <td style="width: 15%">
-                                        @empty($vouchermaster->auditing_person_viewed_at)
+                                        @empty($voucherMaster->auditing_person_viewed_at)
                                             <span class="badge badge-danger">PENDING</span>
                                         @else
                                             <span class="badge badge-success">Viewed</span>
@@ -164,10 +164,10 @@
                                     <th style="width: 10%">Viewed At</th>
                                     <th style="width: 1%">:</th>
                                     <td>
-                                        @empty($vouchermaster->auditing_person_viewed_at)
+                                        @empty($voucherMaster->auditing_person_viewed_at)
                                             <span class="badge badge-danger">PENDING</span><br>
                                         @else
-                                            {{$vouchermaster->auditing_person_viewed_at}}
+                                            {{$voucherMaster->auditing_person_viewed_at}}
                                         @endempty
                                     </td>
                                 <tr/>
@@ -175,21 +175,21 @@
                                     <th>Audited Status</th>
                                     <th style="width: 1%">:</th>
                                     <td>
-                                        @if($vouchermaster->audited_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
-                                        @elseif($vouchermaster->audited_status == 'AUDITED') <span class="badge badge-success">AUDITED</span>
-                                        @elseif($vouchermaster->audited_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
+                                        @if($voucherMaster->audited_status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
+                                        @elseif($voucherMaster->audited_status == 'AUDITED') <span class="badge badge-success">AUDITED</span>
+                                        @elseif($voucherMaster->audited_status == 'PENDING') <span class="badge badge-danger">PENDING</span>
                                         @endif
                                     </td>
                                     <th>Audited At</th>
                                     <th style="width: 1%">:</th>
-                                    <td>@empty($vouchermaster->audited_at)
+                                    <td>@empty($voucherMaster->audited_at)
                                             <span class="badge badge-danger">PENDING</span>
-                                        @else {{$vouchermaster->audited_at}}
+                                        @else {{$voucherMaster->audited_at}}
                                         @endempty
                                     </td>
                                     <th>Remarks</th>
                                     <th style="width: 1%">:</th>
-                                    <td style="width: 25%">@empty($vouchermaster->remarks_while_audited) - @else {{$vouchermaster->remarks_while_audited}} @endempty</td>
+                                    <td style="width: 25%">@empty($voucherMaster->remarks_while_audited) - @else {{$voucherMaster->remarks_while_audited}} @endempty</td>
                                 </tr>
                             </table>
 
@@ -197,26 +197,26 @@
 
                             <div class="container">
                                 <div class="row">
-                                    @if($vouchermaster->status=='GRANTED')
+                                    @if($voucherMaster->status=='GRANTED')
                                         <div class="col-lg-12 text-center">
                                             <a href="{{route('ea.attendance.earlyLeaveApplication')}}" type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white"><i class="fa fa-arrow-alt-circle-left"></i> Go Back</a>
-                                            <a href="{{route('ea.attendance.earlyLeaveApplication.download', ['id'=>$vouchermaster->id])}}" type="submit" class="btn btn-info mt-4 pr-4 pl-4 text-white"><i class="fa fa-download"></i> Download</a>
+                                            <a href="{{route('ea.attendance.earlyLeaveApplication.download', ['id'=>$voucherMaster->id])}}" type="submit" class="btn btn-info mt-4 pr-4 pl-4 text-white"><i class="fa fa-download"></i> Download</a>
                                         </div>
                                     @endif
 
-                                    @if($vouchermaster->status=='DRAFTED')
+                                    @if($voucherMaster->status=='DRAFTED')
                                         <div class="col-lg-5 text-right">
                                             <a href="{{route('ea.attendance.earlyLeaveApplication')}}" type="submit" class="btn btn-primary mt-4 pr-4 pl-4 text-white"><i class="fa fa-arrow-alt-circle-left"></i> Go Back</a>
                                         </div>
 
                                         <div class="col-lg-2 text-center">
-                                            <form action="{{route('ea.attendance.earlyLeaveApplication.destroy', ['id'=>$vouchermaster->id])}}" method="post">
+                                            <form action="{{route('ea.attendance.earlyLeaveApplication.destroy', ['id'=>$voucherMaster->id])}}" method="post">
                                                 @csrf
                                                 <button type="submit" class="btn btn-danger mt-4 pr-4 pl-4 text-white" onclick="return window.confirm('Confirm to delete?');">Delete <i class="fa fa-eraser"></i></button>
                                             </form>
                                         </div>
                                         <div class="col-lg-5 text-left">
-                                            <form action="{{route('ea.attendance.earlyLeaveApplication.send', ['id'=>$vouchermaster->id])}}" method="post">
+                                            <form action="{{route('ea.attendance.earlyLeaveApplication.send', ['id'=>$voucherMaster->id])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                                                 <input type="hidden" name="status" value="PENDING">

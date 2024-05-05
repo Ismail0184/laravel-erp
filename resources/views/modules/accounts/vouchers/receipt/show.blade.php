@@ -131,7 +131,7 @@
                             </table>
                         </div>
                         <div class="col-lg-12">
-                            <strong>Amount in words :</strong> @numberToWord(890)
+                            <strong>Amount in words :</strong>
                         </div>
                         <div class="row">
                             <div class="col-xl-3 col-md-3 col-sm-6">
@@ -192,7 +192,6 @@
                                     <button type="submit" class="btn btn-success float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Audit & Lock</button>
                                     <button name="reject_while_audited" type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
                                     <input type="text" name="remarks_while_audited" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
-
                                 @endif
                             </form>
                         </div>

@@ -136,9 +136,14 @@ class ReceiptVoucherController extends Controller
             AccVoucherMaster::checkPersonView($id);
         }
 
-        if ($this->vouchermaster->status=='CHECKED' && empty($this->vouchermaster->checker_person_viewed_at) && $this->findVoucherApproveOptionAccess()>0)
+        if ($this->vouchermaster->status=='CHECKED' && empty($this->vouchermaster->approving_person_viewed_at) && $this->findVoucherApproveOptionAccess()>0)
         {
-            AccVoucherMaster::checkPersonView($id);
+            AccVoucherMaster::approvePersonView($id);
+        }
+
+        if ($this->vouchermaster->status=='APPROVED' && empty($this->vouchermaster->auditing_person_viewed_at) && $this->findVoucherAuditOptionAccess()>0)
+        {
+            AccVoucherMaster::auditorPersonView($id);
         }
 
         return view('modules.accounts.vouchers.receipt.show', [

@@ -26,7 +26,7 @@
                                 <th style="width: 5%; text-align: center">#</th>
                                 <th style="width: 5%; text-align: center">Voucher No</th>
                                 <th>Date</th>
-                                <th>Received From</th>
+                                <th>Paid From</th>
                                 <th>Amount</th>
                                 <th>Entry By</th>
                                 <th>Type</th>
@@ -65,6 +65,9 @@
                                             <input type="hidden" name="journal_type" value="{{$paymntdata->journal_type}}">
                                             <input type="hidden" name="voucher_type" value="{{$paymntdata->voucher_type}}">
                                             @csrf
+                                            <a href="{{route('acc.voucher.payment.status',['voucher_no' => $paymntdata->voucher_no])}}" title="Voucher Status" class="btn btn-info btn-sm" target="_blank">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
                                             <a href="{{route('acc.voucher.payment.show',['voucher_no' => $paymntdata->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>

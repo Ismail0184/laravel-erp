@@ -173,12 +173,14 @@ class AccVoucherMaster extends Model
             self::$voucherno->checked_at = now();
 
         } elseif ($request->status=='APPROVED'){
+            self::$voucherno->status = 'APPROVED';
             self::$voucherno->approved_status = 'APPROVED';
             self::$voucherno->remarks_while_approved = $request->remarks_while_approved;
             self::$voucherno->approved_by = $request->approved_by;
             self::$voucherno->approved_at = now();
         } elseif ($request->status=='AUDITED') {
-            self::$voucherno->audited_status = 'APPROVED';
+            self::$voucherno->status = 'AUDITED';
+            self::$voucherno->audited_status = 'AUDITED';
             self::$voucherno->remarks_while_audited = $request->remarks_while_audited;
             self::$voucherno->audited_by = $request->audited_by;
             self::$voucherno->audited_at = now();
@@ -196,6 +198,24 @@ class AccVoucherMaster extends Model
         AccVoucherMaster::where('voucher_no',$id)->update(
             [
                 'checker_person_viewed_at'=>now()
+            ]
+        );
+    }
+
+    public static function approvePersonView($id)
+    {
+        AccVoucherMaster::where('voucher_no',$id)->update(
+            [
+                'approving_person_viewed_at'=>now()
+            ]
+        );
+    }
+
+    public static function auditorPersonView($id)
+    {
+        AccVoucherMaster::where('voucher_no',$id)->update(
+            [
+                'auditing_person_viewed_at'=>now()
             ]
         );
     }

@@ -374,6 +374,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/payment/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.payment.cancelall');
     Route::post('/accounts/voucher/payment/store', [PaymentVoucherController::class,'store'])->name('acc.voucher.payment.store');
     Route::get('/accounts/voucher/payment/show/{voucher_no}', [PaymentVoucherController::class,'show'])->name('acc.voucher.payment.show');
+    Route::get('/accounts/voucher/payment/status/{voucher_no}', [PaymentVoucherController::class,'status'])->name('acc.voucher.payment.status');
     Route::get('/accounts/voucher/payment/print/{voucher_no}', [PaymentVoucherController::class,'voucherPrint'])->name('acc.voucher.payment.print');
     Route::get('/accounts/voucher/payment/download/{voucher_no}', [PaymentVoucherController::class,'downalodvoucher'])->name('acc.voucher.payment.download');
     Route::get('/accounts/voucher/payment/edit/{id}', [PaymentVoucherController::class,'edit'])->name('acc.voucher.payment.edit');

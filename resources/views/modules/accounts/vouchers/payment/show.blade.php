@@ -175,18 +175,23 @@
                                 @if($vouchermaster->status=='UNCHECKED' && $voucherCheckingPermission)
                                     <input type="hidden" value="CHECKED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="checked_by">
-                                    <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you confirm?');">Check the Voucher</button>
-                                    <input type="text">
-                                    <button type="submit" class="btn btn-info float-right" onclick="return window.confirm('Are you confirm?');">Check the Voucher</button>
+                                    <button type="submit" class="btn btn-info float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Check & Forward</button>
+                                    <button name="reject_while_checked" type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
+                                    <input type="text" name="remarks_while_checked" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
+
                                 @elseif($vouchermaster->status=='CHECKED' && $voucherApprovingPermission)
                                     <input type="hidden" value="APPROVED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="approved_by">
-                                    <button type="submit" class="btn btn-primary float-right" onclick="return window.confirm('Are you confirm?');">Approve the Voucher</button>
+                                    <button type="submit" class="btn btn-primary float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Approve & Forward</button>
+                                    <button name="reject_while_approved" type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
+                                    <input type="text" name="remarks_while_approved" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
+
                                 @elseif($vouchermaster->status=='APPROVED' && $voucherAuditingPermission)
                                     <input type="hidden" value="AUDITED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="audited_by">
-                                    <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Audit the Voucher</button>
-
+                                    <button type="submit" class="btn btn-success float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Audit & Lock</button>
+                                    <button name="reject_while_audited" type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
+                                    <input type="text" name="remarks_while_audited" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
                                 @endif
                             </form>
                         </div>
