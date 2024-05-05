@@ -138,13 +138,40 @@ class AccVoucherMaster extends Model
 
     public static function VoucherStatusUpdate($request, $id)
     {
-        self::$voucherno = AccVoucherMaster::find($id) ;
-        self::$voucherno->status = $request->status;
-        if($request->status=='CHECKED') {
+        self::$voucherno = AccVoucherMaster::find($id);
+
+        if ($request->has('reject_while_checked'))
+        {
+            self::$voucherno->status = 'REJECTED';
+            self::$voucherno->checked_status = 'REJECTED';
+            self::$voucherno->remarks_while_checked = $request->remarks_while_checked;
+            self::$voucherno->checked_by = $request->checked_by;
+            self::$voucherno->checked_at = now();
+
+        } elseif ($request->has('reject_while_approved')) {
+
+            self::$voucherno->status = 'REJECTED';
+            self::$voucherno->approved_status = 'REJECTED';
+            self::$voucherno->remarks_while_approved = $request->remarks_while_approved;
+            self::$voucherno->approved_by = $request->approved_by;
+            self::$voucherno->approved_at = now();
+
+        } elseif ($request->has('reject_while_audited')) {
+
+            self::$voucherno->status = 'REJECTED';
+            self::$voucherno->audited_status = 'REJECTED';
+            self::$voucherno->remarks_while_audited = $request->remarks_while_audited;
+            self::$voucherno->audited_by = $request->audited_by;
+            self::$voucherno->audited_at = now();
+
+        } elseif($request->status=='CHECKED') {
+
+            self::$voucherno->status = 'CHECKED';
             self::$voucherno->checked_status = 'CHECKED';
             self::$voucherno->remarks_while_checked = $request->remarks_while_checked;
             self::$voucherno->checked_by = $request->checked_by;
             self::$voucherno->checked_at = now();
+
         } elseif ($request->status=='APPROVED'){
             self::$voucherno->approved_status = 'APPROVED';
             self::$voucherno->remarks_while_approved = $request->remarks_while_approved;
@@ -162,5 +189,14 @@ class AccVoucherMaster extends Model
     public static function amountEquality($request)
     {
         AccVoucherMaster::where('voucher_no',$request->voucher_no)->update(['amount_equality'=>$request->amount_equality]);
+    }
+
+    public static function checkPersonView($id)
+    {
+        AccVoucherMaster::where('voucher_no',$id)->update(
+            [
+                'checker_person_viewed_at'=>now()
+            ]
+        );
     }
 }

@@ -56,6 +56,7 @@
                                         @elseif($receiptdata->status == 'APPROVED') <span class="badge badge-warning">APPROVED</span>
                                         @elseif($receiptdata->status == 'AUDITED') <span class="badge badge-success">AUDITED</span>
                                         @elseif($receiptdata->status == 'DELETED') <span class="badge badge-danger"><del>DELETED</del></span>
+                                        @elseif($receiptdata->status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
@@ -64,6 +65,9 @@
                                             @csrf
                                             <input type="hidden" name="journal_type" value="{{$receiptdata->journal_type}}">
                                             <input type="hidden" name="voucher_type" value="{{$receiptdata->voucher_type}}">
+                                            <a href="{{route('acc.voucher.receipt.status',['voucher_no' => $receiptdata->voucher_no])}}" title="Voucher Status" class="btn btn-info btn-sm" target="_blank">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
                                             <a href="{{route('acc.voucher.receipt.show',['voucher_no' => $receiptdata->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
@@ -71,7 +75,7 @@
                                             <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $receiptdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                 <i class="fa fa-download"></i>
                                             </a>
-                                            <a href="{{route('acc.voucher.receipt.print',['voucher_no' => $receiptdata->voucher_no])}}" title="Print" class="btn btn-info btn-sm">
+                                            <a href="{{route('acc.voucher.receipt.print',['voucher_no' => $receiptdata->voucher_no])}}" title="Print" class="btn btn-pink btn-sm">
                                                 <i class="fa fa-print"></i>
                                             </a>
 

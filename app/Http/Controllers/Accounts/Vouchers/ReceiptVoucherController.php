@@ -129,7 +129,18 @@ class ReceiptVoucherController extends Controller
     public function show($id)
     {
         $this->receipt = AccReceipt::where('receipt_no',$id)->get();
-        $this->vouchermaster = AccVoucherMaster::find($id);
+        $this->vouchermaster = AccVoucherMaster::findOrfail($id);
+
+        if ($this->vouchermaster->status=='UNCHECKED' && empty($this->vouchermaster->checker_person_viewed_at) && $this->findVoucherCheckOptionAccess()>0)
+        {
+            AccVoucherMaster::checkPersonView($id);
+        }
+
+        if ($this->vouchermaster->status=='CHECKED' && empty($this->vouchermaster->checker_person_viewed_at) && $this->findVoucherApproveOptionAccess()>0)
+        {
+            AccVoucherMaster::checkPersonView($id);
+        }
+
         return view('modules.accounts.vouchers.receipt.show', [
             'receipts' =>$this->receipt,
             'vouchermaster' =>$this->vouchermaster,
@@ -140,10 +151,24 @@ class ReceiptVoucherController extends Controller
          ]);
     }
 
+    public function status($id)
+    {
+        $this->receipt = AccReceipt::where('receipt_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::findOrfail($id);
+        return view('modules.accounts.vouchers.receipt.status', [
+            'receipts' =>$this->receipt,
+            'vouchermaster' =>$this->vouchermaster,
+            'voucherCheckingPermission' => $this->findVoucherCheckOptionAccess(),
+            'voucherApprovingPermission' => $this->findVoucherApproveOptionAccess(),
+            'voucherAuditingPermission' => $this->findVoucherAuditOptionAccess()
+
+        ]);
+    }
+
     public function voucherPrint($id)
     {
         $this->receipt = AccReceipt::where('receipt_no',$id)->get();
-        $this->vouchermaster = AccVoucherMaster::find($id);
+        $this->vouchermaster = AccVoucherMaster::findOrfail($id);
         $pdf = PDF::loadView('modules.accounts.vouchers.receipt.download', [
             'receipts' =>$this->receipt,
             'vouchermaster' =>$this->vouchermaster,
@@ -154,7 +179,7 @@ class ReceiptVoucherController extends Controller
     public function downalodvoucher($id)
     {
         $this->receipt = AccReceipt::where('receipt_no',$id)->get();
-        $this->vouchermaster = AccVoucherMaster::find($id);
+        $this->vouchermaster = AccVoucherMaster::findOrfail($id);
         $pdf = PDF::loadView('modules.accounts.vouchers.receipt.download', [
             'receipts' =>$this->receipt,
             'vouchermaster' =>$this->vouchermaster,
@@ -300,6 +325,6 @@ class ReceiptVoucherController extends Controller
     {
         AccReceipt::statusupdate($request, $id);
         AccVoucherMaster::VoucherStatusUpdate($request, $id);
-        return redirect('/accounts/voucher/receipt')->with('store_message','This voucher has been succesfully '.$request->status.' !!');
+        return redirect('/accounts/voucher/receipt')->with('store_message','This voucher has been successfully '.$request->status.' !!');
     }
 }

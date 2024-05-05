@@ -167,7 +167,7 @@
                             <div class="float-left">
                                 @if($vouchermaster->status!=='DELETED')
                                 <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light mr-1"><i class="fa fa-print"></i></a>
-                                <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $vouchermaster->voucher_no])}}" class="btn btn-primary waves-effect waves-light mr-1"><i class="fa fa-download"></i></a>
+                                <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $vouchermaster->voucher_no])}}" class="btn btn-primary waves-effect waves-light mr-1" title="Download this voucher"><i class="fa fa-download"></i></a>
                                 @endif
                             </div>
                             <form action="{{route('acc.voucher.receipt.status.update', ['voucher_no'=>$vouchermaster->voucher_no])}}" method="post">
@@ -176,17 +176,23 @@
                                     <input type="hidden" value="CHECKED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="checked_by">
                                     <button type="submit" class="btn btn-info float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Check & Forward</button>
-                                    <button type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
-                                    <input type="text" id="writeRemarks" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
+                                    <button name="reject_while_checked" type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
+                                    <input type="text" name="remarks_while_checked" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
 
                                 @elseif($vouchermaster->status=='CHECKED' && $voucherApprovingPermission)
                                     <input type="hidden" value="APPROVED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="approved_by">
-                                    <button type="submit" class="btn btn-primary float-right" onclick="return window.confirm('Are you confirm?');">Approve the Voucher</button>
+                                    <button type="submit" class="btn btn-primary float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Approve & Forward</button>
+                                    <button name="reject_while_approved" type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
+                                    <input type="text" name="remarks_while_approved" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
+
                                 @elseif($vouchermaster->status=='APPROVED' && $voucherAuditingPermission)
                                     <input type="hidden" value="AUDITED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="audited_by">
-                                    <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Audit the Voucher</button>
+                                    <button type="submit" class="btn btn-success float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Audit & Lock</button>
+                                    <button name="reject_while_audited" type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
+                                    <input type="text" name="remarks_while_audited" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
+
                                 @endif
                             </form>
                         </div>

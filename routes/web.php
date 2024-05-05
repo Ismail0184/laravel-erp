@@ -348,6 +348,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/receipt/cancelall/{voucher_no}', [VoucherMasterController::class,'destroy'])->name('acc.voucher.receipt.cancelall');
     Route::post('/accounts/voucher/receipt/store', [ReceiptVoucherController::class,'store'])->name('acc.voucher.receipt.store');
     Route::get('/accounts/voucher/receipt/show/{voucher_no}', [ReceiptVoucherController::class,'show'])->name('acc.voucher.receipt.show');
+    Route::get('/accounts/voucher/receipt/status/{voucher_no}', [ReceiptVoucherController::class,'status'])->name('acc.voucher.receipt.status');
     Route::get('/accounts/voucher/receipt/print/{voucher_no}', [ReceiptVoucherController::class,'voucherPrint'])->name('acc.voucher.receipt.print');
     Route::get('/accounts/voucher/receipt/download/{voucher_no}', [ReceiptVoucherController::class,'downalodvoucher'])->name('acc.voucher.receipt.download');
     Route::get('/accounts/voucher/receipt/edit/{id}', [ReceiptVoucherController::class,'edit'])->name('acc.voucher.receipt.edit');

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->decimal('amount',20,2);
             $table->enum('journal_type',['receipt','payment','journal','contra','cheque','sales','purchase','supporting','credit','debit']);
             $table->string('journal_type_definition')->nullable();
-            $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);
+            $table->enum('status',['MANUAL','UNCHECKED','REJECTED','CHECKED','APPROVED','AUDITED','DELETED']);
             $table->enum('voucher_type',['single','multiple']);
             $table->integer('entry_by');
             $table->timestamp('entry_at')->nullable(true)->useCurrent();
