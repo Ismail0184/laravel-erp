@@ -25,7 +25,7 @@ class PaymentVoucherController extends Controller
      */
     use SharedFunctionsTrait;
     use SharedOtherOptionFunctionsTrait;
-    private $paymentVoucher,$ledgers,$vouchertype,$masterData,$payments,$editValue,$COUNT_payments_data,$paymntdatas,$payment,$vouchermaster,$costcenters,$next_transaction_id;
+    private $paymentVoucher,$ledgers,$voucher_type,$masterData,$payments,$editValue,$COUNT_payments_data,$paymntdatas,$payment,$vouchermaster,$costcenters,$next_transaction_id;
 
 
     public function index()
@@ -46,8 +46,8 @@ class PaymentVoucherController extends Controller
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
-        $this->vouchertype ='2';
-        $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->voucher_type ='2';
+        $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
         if(Session::get('payment_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
@@ -72,8 +72,8 @@ class PaymentVoucherController extends Controller
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
-        $this->vouchertype ='2';
-        $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->voucher_type ='2';
+        $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
         if(Session::get('payment_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
@@ -102,7 +102,7 @@ class PaymentVoucherController extends Controller
     public function store(Request $request)
     {
         AccPayment::addPaymentData($request);
-        if ($request->vouchertype=='multiple') {
+        if ($request->voucher_type=='multiple') {
         } else {
             $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
             $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
@@ -117,7 +117,7 @@ class PaymentVoucherController extends Controller
                 AccPayment::addPaymentDataCr($request);
                 AccVoucherMaster::amountEquality($request);
             }}
-        if ($request->vouchertype=='multiple') {
+        if ($request->voucher_type=='multiple') {
             return redirect('/accounts/voucher/payment/create-multiple')->with('store_message', 'A payment data successfully added!!');
         } else {
             return redirect('/accounts/voucher/payment/create')->with('store_message', 'A payment data successfully added!!');
@@ -204,8 +204,8 @@ class PaymentVoucherController extends Controller
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
-        $this->vouchertype ='2';
-        $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->voucher_type ='2';
+        $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
         if(Session::get('payment_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
@@ -245,8 +245,8 @@ class PaymentVoucherController extends Controller
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
-        $this->vouchertype ='2';
-        $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->voucher_type ='2';
+        $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
         if(Session::get('payment_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
@@ -258,7 +258,7 @@ class PaymentVoucherController extends Controller
             $this->editValue = AccPayment::find($id);
         }
 
-        return view('modules.accounts.vouchers.payment.create', [
+        return view('modules.accounts.vouchers.payment.create-multiple', [
             'paymentVoucher' =>$this->paymentVoucher,
             'ledgers' => $this->ledgers,
             'ledgerss' => $this->ledgers,
@@ -266,7 +266,8 @@ class PaymentVoucherController extends Controller
             'payments' => $this->payments,
             'editValue' => $this->editValue,
             'COUNT_payments_data' => $this->COUNT_payments_data,
-            'costcenters' =>$this->costcenters
+            'costcenters' =>$this->costcenters,
+            'minDatePermission' => $this->sharedFunction()
         ] );
     }
 
@@ -280,7 +281,7 @@ class PaymentVoucherController extends Controller
     public function update(Request $request, $id)
     {
         AccPayment::updatePaymentData($request, $id);
-        if ($request->vouchertype=='multiple') {
+        if ($request->voucher_type=='multiple') {
             return redirect('/accounts/voucher/payment/create-multiple')->with('update_message', 'This data (uid=' . $id . ') has been successfully updated!!');
         } else {
             return redirect('/accounts/voucher/payment/create')->with('update_message', 'This data (uid=' . $id . ') has been successfully updated!!');
@@ -297,7 +298,7 @@ class PaymentVoucherController extends Controller
     {
         AccPayment::destroyPaymentData($id);
         AccVoucherMaster::amountEquality($request);
-        if ($request->vouchertype=='multiple') {
+        if ($request->voucher_type=='multiple') {
             return redirect('/accounts/voucher/payment/create-multiple')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
         } else {
             return redirect('/accounts/voucher/payment/create')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');

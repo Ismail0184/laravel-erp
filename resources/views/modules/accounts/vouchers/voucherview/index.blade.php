@@ -140,7 +140,7 @@
                                         <form action="{{route('acc.voucher.receipt.voucher.destroy', ['voucher_no' => $voucherView->voucher_no])}}" method="post">
                                             @csrf
                                             <input type="hidden" name="journal_type" value="{{$voucherView->journal_type}}">
-                                            <input type="hidden" name="vouchertype" value="{{$voucherView->vouchertype}}">
+                                            <input type="hidden" name="voucher_type" value="{{$voucherView->voucher_type}}">
                                             <a target="_blank" href="@if($voucherView->journal_type == 'receipt'){{route('acc.voucher.receipt.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'payment'){{route('acc.voucher.payment.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'journal'){{route('acc.voucher.journal.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'contra'){{route('acc.voucher.contra.show',['voucher_no' => $voucherView->voucher_no])}}@elseif($voucherView->journal_type == 'bank-payment'){{route('acc.voucher.chequepayment.show',['voucher_no' => $voucherView->voucher_no])}}@endif" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
@@ -150,9 +150,9 @@
                                                 </a>
                                                 @if($voucherView->status=='UNCHECKED' || $voucherView->status=='MANUAL')
                                                     @if($getVoucherDate<2)
-                                                        <a target="_blank" href="@if($voucherView->journal_type == 'receipt')@if($voucherView->vouchertype=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $voucherView->voucher_no])}} @elseif($voucherView->vouchertype=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $voucherView->voucher_no])}} @endif
+                                                        <a target="_blank" href="@if($voucherView->journal_type == 'receipt')@if($voucherView->voucher_type=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $voucherView->voucher_no])}} @elseif($voucherView->voucher_type=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $voucherView->voucher_no])}} @endif
                                                         @elseif($voucherView->journal_type == 'payment')
-                                                        @if($voucherView->vouchertype=='single'){{route('acc.voucher.payment.voucher.edit',['voucher_no' => $voucherView->voucher_no])}} @elseif($voucherView->vouchertype=='multiple') {{route('acc.voucher.payment.voucher.editMultiple',['voucher_no' => $voucherView->voucher_no])}} @endif
+                                                        @if($voucherView->voucher_type=='single'){{route('acc.voucher.payment.voucher.edit',['voucher_no' => $voucherView->voucher_no])}} @elseif($voucherView->voucher_type=='multiple') {{route('acc.voucher.payment.voucher.editMultiple',['voucher_no' => $voucherView->voucher_no])}} @endif
                                                         @elseif($voucherView->journal_type == 'journal')
                                                         {{route('acc.voucher.journal.voucher.edit',['voucher_no' => $voucherView->voucher_no])}}
                                                         @elseif($voucherView->journal_type == 'contra')

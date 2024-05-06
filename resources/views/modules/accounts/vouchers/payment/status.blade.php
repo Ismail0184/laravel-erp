@@ -13,7 +13,7 @@
                         <br>
                         <div class="card-title text-center"><h4 style="text-decoration: underline">Voucher Status</h4></div>
                         <div class="card-body">
-                            <table class="table">
+                            <table class="table ">
                                 <tr>
                                     <th style="width: 20%">Voucher No</th>
                                     <th style="width: 1%">:</th>
