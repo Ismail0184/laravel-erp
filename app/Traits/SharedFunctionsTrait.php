@@ -19,4 +19,11 @@ trait SharedFunctionsTrait
         $accessDays = $checkForAccess->meta_value ?? 0;
         return $accessDays;
     }
+
+    public function checkLedgerBalanceBeforeMakingPayment()
+    {
+        $checkForAccess = DevUsageControlMeta::where('meta_key','check_ledger_balance_before_making_payment')->where('status','active')->first();
+        $accessDays = $checkForAccess->meta_value ?? 0;
+        return $accessDays;
+    }
 }

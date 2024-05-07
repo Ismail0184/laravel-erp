@@ -28,7 +28,6 @@
                                 <th>Date</th>
                                 <th>Received From</th>
                                 <th>Amount</th>
-                                <th>Entry By</th>
                                 <th>Type</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 15%">Option</th>
@@ -42,8 +41,6 @@
                                     <td style="vertical-align: middle">{{$receiptdata->voucher_date}}</td>
                                     <td style="vertical-align: middle">@if($receiptdata->cash_bank_ledger) {{$receiptdata->accledger->ledger_name}} @else N/A @endif</td>
                                     <td class="text-right" style="vertical-align: middle">{{number_format($receiptdata->amount,2)}}</td>
-                                    <td style="vertical-align: middle">{{$receiptdata->entryBy->name}}<br>
-                                    At: {{$receiptdata->entry_at}}</td>
                                     <td style="vertical-align: middle">
                                         @if($receiptdata->voucher_type == 'single') <span class="badge badge-soft-primary">Single</span>
                                         @elseif($receiptdata->voucher_type == 'multiple') <span class="badge badge-soft-danger">Multiple</span>

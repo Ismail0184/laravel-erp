@@ -28,7 +28,6 @@
                                 <th>Date</th>
                                 <th>Paid From</th>
                                 <th>Amount</th>
-                                <th>Entry By</th>
                                 <th>Type</th>
                                 <th>Status</th>
                                 <th class="text-center" style="width: 15%">Option</th>
@@ -42,12 +41,9 @@
                                     <td style="vertical-align: middle">{{$paymntdata->voucher_date}}</td>
                                     <td style="vertical-align: middle">@if($paymntdata->cash_bank_ledger) {{$paymntdata->accledger->ledger_name}} @else N/A @endif</td>
                                     <td class="text-right" style="vertical-align: middle">{{number_format($paymntdata->amount,2)}}</td>
-                                    <td style="vertical-align: middle">{{$paymntdata->entryBy->name}}<br>
-                                        At: {{$paymntdata->entry_at}}
-                                    </td>
                                     <td style="vertical-align: middle">
                                         @if($paymntdata->voucher_type == 'single') <span class="badge badge-soft-primary">Single</span>
-                                        @elseif($paymntdata->voucher_type == 'multiple') <span class="badge badge-soft-danger">Multiple</span>
+                                        @elseif($paymntdata->voucher_type == 'multiple') <span class="badge badge-soft-info">Multiple</span>
                                         @endif
                                     </td>
                                     <td style="vertical-align: middle">
@@ -57,6 +53,7 @@
                                         @elseif($paymntdata->status == 'APPROVED') <span class="badge badge-warning">APPROVED</span>
                                         @elseif($paymntdata->status == 'AUDITED') <span class="badge badge-success">AUDITED</span>
                                         @elseif($paymntdata->status == 'DELETED') <span class="badge badge-danger"><del>DELETED</del></span>
+                                        @elseif($paymntdata->status == 'REJECTED') <span class="badge badge-soft-danger">REJECTED</span>
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">

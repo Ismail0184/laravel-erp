@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Accounts\Vouchers;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
+use App\Models\Accounts\AccSubLedger;
 use App\Models\Accounts\AccTransactions;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccPayment;
 use App\Traits\SharedOtherOptionFunctionsTrait;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 use Session;
 use Pdf;
 use App\Traits\SharedFunctionsTrait;
@@ -30,7 +32,7 @@ class PaymentVoucherController extends Controller
 
     public function index()
     {
-        $this->paymntdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','payment')->orderBy('voucher_no','DESC')->get();
+        $this->paymntdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','payment')->where('entry_by',Auth::user()->id)->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.payment.index', [
             'paymntdatas' =>$this->paymntdatas,
             'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson()
@@ -63,7 +65,8 @@ class PaymentVoucherController extends Controller
             'payments' => $this->payments,
             'COUNT_payments_data' => $this->COUNT_payments_data,
             'costcenters' =>$this->costcenters,
-            'minDatePermission' => $this->sharedFunction()
+            'minDatePermission' => $this->sharedFunction(),
+            'checkLedgerBalanceBeforeMakingPayment' => $this->checkLedgerBalanceBeforeMakingPayment()
         ] );
     }
 
@@ -334,5 +337,12 @@ class PaymentVoucherController extends Controller
         AccPayment::statusupdate($request, $id);
         AccVoucherMaster::VoucherStatusUpdate($request, $id);
         return redirect('/accounts/voucher/payment')->with('store_message','This voucher has been successfully '.$request->status.' !!');
+    }
+
+
+    public function findLedgerBalance($id)
+    {
+        $queryForLedgerBalance = AccTransactions::where('ledger_id',$id)->sum(DB::raw('dr_amt - cr_amt'));
+        return response()->json(['balance' => $queryForLedgerBalance]);
     }
 }

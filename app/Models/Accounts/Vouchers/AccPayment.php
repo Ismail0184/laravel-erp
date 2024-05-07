@@ -2,6 +2,7 @@
 
 namespace App\Models\Accounts\Vouchers;
 
+use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use http\Env\Request;
@@ -198,5 +199,10 @@ class AccPayment extends Model
     public static function statusupdate($request, $id)
     {
         AccPayment::where('payment_no',$id)->update(['status'=>$request->status]);
+    }
+
+    public function getCostCenterData()
+    {
+        return $this->belongsTo(AccCostCenter::class,'cc_code','cc_code');
     }
 }

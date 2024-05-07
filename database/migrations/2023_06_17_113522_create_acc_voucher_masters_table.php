@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('maturity_date')->nullable();
             $table->string('cheque_of_bank','33')->nullable();
             $table->bigInteger('cash_bank_ledger');
+            $table->double('ledger_balance')->nullable();
             $table->decimal('amount',20,2);
             $table->enum('journal_type',['receipt','payment','journal','contra','cheque','sales','purchase','supporting','credit','debit']);
             $table->string('journal_type_definition')->nullable();

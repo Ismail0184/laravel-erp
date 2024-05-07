@@ -119,7 +119,7 @@
                     <td style="vertical-align: middle">
                         <textarea  name="narration" class="form-control" style="height: 70px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('payment_narration')}} @endif</textarea>
                     </td>
-                    <td style="vertical-align: middle"><input type="file" name="image" style="width: 160px" />
+                    <td style="vertical-align: middle; text-align: right"><input type="file" name="image" style="width: 160px" />
                         @if(request('id')>0)
                             @if(!empty($editValue->payment_attachment))
                                 <br>
@@ -129,9 +129,9 @@
                         @endif
                     </td>
                     <td style="vertical-align: middle">
-                        <input type="number" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" placeholder="debit"   />
+                        <input type="number" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" placeholder="debit amt."   />
 
-                        <input type="number" style="margin-top: 5px;text-align: center" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" placeholder="credit"  />
+                        <input type="number" style="margin-top: 5px;text-align: center" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" placeholder="credit amt."  />
                     </td>
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
@@ -158,7 +158,7 @@
                                     <th style="width: 5%; text-align: center">Uid</th>
                                     <th>Account Head</th>
                                     <th>Narration</th>
-                                    <th class="text-center">Type</th>
+                                    <th class="text-center">Cost Center</th>
                                     <th class="text-center">Attachment</th>
                                     <th>Debit Amount</th>
                                     <th>Credit Amount</th>
@@ -174,7 +174,7 @@
                                         <td style="text-align: center; vertical-align: middle">{{$payment->id}}</td>
                                         <td style="vertical-align: middle">{{$payment->ledger_id}} : {{$payment->ledger->ledger_name}}</td>
                                         <td style="vertical-align: middle">{{$payment->narration}}</td>
-                                        <td style="vertical-align: middle" class="text-center">{{$payment->type}}
+                                        <td style="vertical-align: middle" class="text-center">{{$payment->getCostCenterData->center_name}}
                                         <td style="vertical-align: middle" class="text-center">
                                             @if(!empty($payment->payment_attachment))
                                                 <a href="{{asset($payment->payment_attachment)}}" target="_blank">View</a>
