@@ -94,8 +94,8 @@
                     <th style="text-align: center">Cash , Bank & Others Ledger <span class="required text-danger">*</span></th>
                     <th style="text-align: center; width: 25%">Narration <span class="required text-danger">*</span></th>
                     <th style="text-align: center;width:5%;">Attachment</th>
-                    <th style="width:15%; text-align:center">Amount <span class="required text-danger">*</span></th>
-                    <th style="text-align:center;width: 10%">Action</th>
+                    <th style="width:15%; text-align:center">Amount (Dr or Cr)<span class="required text-danger">*</span></th>
+                    <th style="text-align:center;width: 10%">Action <span class="required text-danger">*</span></th>
                 </tr>
                 </thead>
                 <tbody>

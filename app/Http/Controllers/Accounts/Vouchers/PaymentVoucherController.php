@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Accounts\Vouchers;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
-use App\Models\Accounts\AccSubLedger;
 use App\Models\Accounts\AccTransactions;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccPayment;
@@ -46,7 +45,8 @@ class PaymentVoucherController extends Controller
      */
     public function create()
     {
-        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $paymentFrom = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id',['1002'])->get();
+        $paymentOn = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
         $this->voucher_type ='2';
         $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
@@ -59,8 +59,8 @@ class PaymentVoucherController extends Controller
 
         return view('modules.accounts.vouchers.payment.create', [
             'paymentVoucher' =>$this->paymentVoucher,
-            'ledgers' => $this->ledgers,
-            'ledgerss' => $this->ledgers,
+            'ledgers' => $paymentFrom,
+            'ledgerss' => $paymentOn,
             'masterData' => $this->masterData,
             'payments' => $this->payments,
             'COUNT_payments_data' => $this->COUNT_payments_data,
@@ -229,7 +229,8 @@ class PaymentVoucherController extends Controller
             'editValue' => $this->editValue,
             'COUNT_payments_data' => $this->COUNT_payments_data,
             'costcenters' =>$this->costcenters,
-            'minDatePermission' => $this->sharedFunction()
+            'minDatePermission' => $this->sharedFunction(),
+            'checkLedgerBalanceBeforeMakingPayment' => $this->checkLedgerBalanceBeforeMakingPayment()
         ] );
     }
 
