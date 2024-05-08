@@ -91,7 +91,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.payment.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.payment.store')}} @endif" enctype="multipart/form-data">
+
+                <form style="font-size: 11px;" method="POST" action="@if(request('id')>0) {{route('acc.voucher.payment.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.payment.store')}} @endif" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="payment_no" value="{{$masterData->voucher_no}}">
                     <input type="hidden" name="payment_date" value="{{$masterData->voucher_date}}">
@@ -99,7 +100,7 @@
                     <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
                     <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
                     <input type="hidden" name="voucher_type" value="multiple">
-                <tr style="background-color: white">
+                <tr style="background-color: white; @if(request('id')>0) @if($editValue->type=='Debit') display:''; @else  display:none; @endif @endif">
                     <td style="vertical-align: middle">
                         <select class="form-control select2" style="width: 100%" name="ledger_id" required="required">
                             <option value=""></option>
@@ -145,11 +146,12 @@
                     @csrf
                     <input type="hidden" name="payment_no" value="{{$masterData->voucher_no}}">
                     <input type="hidden" name="payment_date" value="{{$masterData->voucher_date}}">
+                    <input type="hidden" name="cc_code" value="0">
                     <input type="hidden" name="amount" value="{{$masterData->amount}}">
                     <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
                     <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
                     <input type="hidden" name="voucher_type" value="multiple">
-                <tr style="background-color: white">
+                <tr style="background-color: white; @if(request('id')>0) @if($editValue->type=='Credit') display:''; @else  display:none; @endif @endif">
                     <td style="vertical-align: middle">
                         <select class="form-control select2" style="width: 100%" name="ledger_id" id="selectedLedgerId" onchange="getLedgerBalance()" required="required">
                             <option value=""></option>
@@ -182,7 +184,7 @@
                     </td>
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
+                            <button type="submit" id="updateButton" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
                             <a href="{{route('acc.voucher.payment.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
                             <button type="submit" id="inputButton" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</button>

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->bigInteger('relevant_cash_head');
             $table->double('dr_amt');
             $table->double('cr_amt');
+            $table->double('balance')->nullable();
             $table->integer('cc_code');
             $table->enum('type',['Debit','Credit']);
             $table->text('payment_attachment')->nullable();

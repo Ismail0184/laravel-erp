@@ -80,7 +80,7 @@
                                     @else
                                         <a href="{{route('acc.voucher.payment.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                     @endif
-                                    <button type="submit" class="btn btn-success w-md">@if(Session::get('payment_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
+                                    <button type="submit"  id="initiateButton" class="btn btn-success w-md">@if(Session::get('payment_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
                                 </div>
                             </div>
                         </div>
@@ -311,6 +311,13 @@
                 method: 'GET',
                 success: function(response) {
                     document.getElementById("totalBalances").value = response.balance;
+                    var getBalance =  response.balance;
+
+                    if (getBalance === 0) {
+                        document.getElementById('initiateButton').disabled = true;
+                    } else {
+                        document.getElementById('initiateButton').disabled = false;
+                    }
                     document.getElementById('inputField').value = '';
                 },
                 error: function(error) {

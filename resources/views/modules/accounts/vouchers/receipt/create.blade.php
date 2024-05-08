@@ -26,7 +26,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('receipt_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" id="inputDate" oninput="enableInitiateButton()" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('receipt_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person from</label>
                         <div class="col-sm-3">
@@ -51,7 +51,7 @@
                     <div class="form-group row mb-3">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Rcv. From <span class="required text-danger">*</span></label>
                         <div class="col-sm-7">
-                            <select class="form-control select2" style="width: 100%" name="cash_bank_ledger" required="required">
+                            <select class="form-control select2" id="inputSelect" style="width: 100%" oninput="enableInitiateButton()" name="cash_bank_ledger" required="required">
                                 <option value=""> -- receive from ledger -- </option>
                                 @foreach($ledgers as $ledger)
                                     <option value="{{$ledger->ledger_id}}" @if(Session::get('receipt_no')>0) @if($ledger->ledger_id==$masterData->cash_bank_ledger) selected @endif @endif>{{$ledger->ledger_id}} : {{$ledger->ledger_name}}</option>
@@ -60,7 +60,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Amt. (Cr) <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="number" name="amount" @if(Session::get('receipt_no')>0) value="{{$masterData->amount}}" @endif class="form-control" required step="any" placeholder="received amount" min="1"/>
+                            <input type="number" id="inputField" oninput="enableInitiateButton()" name="amount" @if(Session::get('receipt_no')>0) value="{{$masterData->amount}}" @endif class="form-control" required step="any" placeholder="received amount" min="1"/>
                         </div>
                     </div>
                     @if($COUNT_receipts_data > 0)
@@ -73,7 +73,7 @@
                                 @else
                                     <a href="{{route('acc.voucher.receipt.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
-                                <button type="submit" class="btn btn-success w-md">@if(Session::get('receipt_no')) <i class="fa fa-edit"></i>  Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
+                                <button type="submit" id="initiateButton" class="btn btn-success w-md" @if(Session::get('receipt_no')) @else disabled @endif>@if(Session::get('receipt_no')) <i class="fa fa-edit"></i>  Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>
@@ -105,13 +105,13 @@
                         <thead class="table-success">
                         <tr>
                             <th style="text-align: center">Cash , Bank or Other Ledgers <span class="required text-danger">*</span></th>
-                            <th style="text-align: center; width: 25%">Narration <span class="required text-danger">*</span></th>
+                            <th style="text-align: center; width: 30%">Narration <span class="required text-danger">*</span></th>
                             <th style="text-align: center;width:5%;">Attachment</th>
                             @if(request('id')>0)
                                 <th style="width:10%; text-align:center">Dr Amount</th>
                                 <th style="width:10%; text-align:center">Cr Amount</th>
                             @else
-                                <th style="width:15%; text-align:center">Debit Amount <span class="required text-danger">*</span></th>
+                                <th style="width:15%; text-align:center; display: none">Debit Amount <span class="required text-danger">*</span></th>
                             @endif
                             <th style="text-align:center;width: 10%">Action</th>
                         </tr>
@@ -119,7 +119,7 @@
                         <tbody>
                         <tr style="background-color: white">
                             <td style="vertical-align: middle">
-                            <select class="form-control select2" style="width: 100%" name="ledger_id" required="required">
+                            <select class="form-control select2" id="inputSelectedLedger" style="width: 100%" oninput="enableAddButton()" name="ledger_id" required="required">
                                 <option value=""></option>
                                 @foreach($ledgerss as $ledgers)
                                     <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
@@ -140,22 +140,22 @@
                             </td>
                             @if(request('id')>0)
                                 <td style="vertical-align: middle">
-                                    <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any"  />
+                                    <input type="number" id="inputDrAmount" name="dr_amt" oninput="enableAddButton()"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any"  />
                                 </td>
                                 <td style="vertical-align: middle">
-                                    <input type="number" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" />
+                                    <input type="number" id="inputCrAmount" name="cr_amt" oninput="enableAddButton()"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" />
                                 </td>
                             @else
-                                <td style="vertical-align: middle">
+                                <td style="vertical-align: middle;display: none">
                                     <input type="number" name="dr_amt"  class="form-control" value="{{$masterData->amount}}" autocomplete="off" step="any" min="1" required />
                                 </td>
                             @endif
                             <td style="vertical-align: middle; text-align:center">
                                 @if(request('id')>0)
-                                    <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Update</button>
+                                    <button type="submit" id="addButton" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Update</button>
                                     <a href="{{route('acc.voucher.receipt.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"><i class="fa fa-window-close"></i> Cancel</a>
                                 @else
-                                    <button type="submit" class="btn btn-success"> <i class="fa fa-plus"></i> Add</button>
+                                    <button type="submit" id="addButton" class="btn btn-success" disabled> <i class="fa fa-plus"></i> Add</button>
                                 @endif
                             </td>
                         </tr>
@@ -171,7 +171,6 @@
                        <thead class="table-success">
                        <tr>
                            <th style="width: 5%; text-align: center">#</th>
-                           <th style="width: 5%; text-align: center">Uid</th>
                            <th>Account Head</th>
                            <th>Narration</th>
                            <th class="text-center">Attachment</th>
@@ -185,7 +184,6 @@
                        @php($totalCredit = 0)
                        @foreach($receipts as $receipt)
                            <tr>
-                               <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
                                <td style="text-align: center; vertical-align: middle">{{$receipt->id}}</td>
                                <td style="vertical-align: middle">{{$receipt->ledger_id}} : {{$receipt->ledger->ledger_name}}</td>
                                <td style="vertical-align: middle">{{$receipt->narration}}</td>
@@ -215,9 +213,12 @@
                                        @csrf
                                        <input type="hidden" name="amount_equality" value="IMBALANCED">
                                        <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
+                                       @if(request('id')==$receipt->id)
+                                       @else
                                        <a href="{{route('acc.voucher.receipt.edit',['id' => $receipt->id])}}" title="Update" class="btn btn-success btn-sm">
                                            <i class="fa fa-edit"></i>
                                        </a>
+                                       @endif
                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
                                            <i class="fa fa-trash"></i>
                                        </button>
@@ -228,7 +229,7 @@
                            @php($totalCredit = $totalCredit +$receipt->cr_amt)
                        @endforeach
                        <tr>
-                           <th colspan="5" style="text-align: right">Total = </th>
+                           <th colspan="4" style="text-align: right">Total = </th>
                            <th style="text-align: right">{{number_format($totalDebit,2)}}</th>
                            <th style="text-align: right">{{number_format($totalCredit,2)}}</th>
                            <th></th>
@@ -247,7 +248,7 @@
                            @csrf
                            <input type="hidden" name="amount_equality" value="BALANCED">
                            <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
-                       <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"><i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
+                       <button type="submit" class="btn btn-success float-right" @if(request('id')>0) disabled @endif onclick="return window.confirm('Are you confirm?');"><i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
                        </form>
                        @else
                            <div class="alert alert-danger float-right col-sm-5" role="alert" style="font-size: 11px">
@@ -255,10 +256,58 @@
                            </div>
                        @endif
                    </div>
-                   </form>
                </div>
             </div>
         </div>
     </div>
     @endif @endif
+
+    <script>
+        function enableInitiateButton() {
+            var inputDate = document.getElementById("inputDate").value;
+            var inputSelect = document.getElementById("inputSelect").value;
+            var inputText = document.getElementById("inputField").value;
+            var submitButton = document.getElementById("initiateButton");
+
+            if ((inputText.trim() && inputSelect.trim() && inputDate.trim() ) !== "") {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+    </script>
+
+    <script>
+        function enableAddButton() {
+            var inputSelectedLedger = document.getElementById("inputSelectedLedger").value;
+            var submitButton = document.getElementById("addButton");
+            @if(request('id')>0)
+            var inputDrAmount = document.getElementById("inputDrAmount").value;
+            var inputCrAmount = document.getElementById("inputCrAmount").value;
+            @endif
+
+            if ((inputSelectedLedger.trim()) !== "") {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+            @if(request('id')>0)
+            if (parseFloat(inputDrAmount) > 0  &&  parseFloat(inputCrAmount) > 0) {
+                alert("You cannot input debit and credit amount at the same time. Please try again!!");
+                document.getElementById('inputDrAmount').value = '';
+                document.getElementById('inputCrAmount').value = '';
+                document.getElementById('addButton').disabled = true;
+            }
+            if (parseFloat(inputDrAmount) == 0  &&  parseFloat(inputCrAmount) == 0)  {
+                document.getElementById('addButton').disabled = true;
+            } else if (parseFloat(inputDrAmount) == 0  &&  parseFloat(inputCrAmount) =="")  {
+                document.getElementById('addButton').disabled = true;
+            }
+            else if (parseFloat(inputDrAmount) == ""  &&  parseFloat(inputCrAmount) ==0)  {
+                document.getElementById('addButton').disabled = true;
+            }
+
+            @endif
+        }
+    </script>
 @endsection

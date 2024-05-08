@@ -79,7 +79,7 @@
                                 @else
                                     <a href="{{route('acc.voucher.chequepayment.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
-                                <button type="submit" class="btn btn-success w-md">@if(Session::get('cpayment_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
+                                <button type="submit" id="initiateButton" class="btn btn-success w-md">@if(Session::get('cpayment_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>
@@ -111,8 +111,10 @@
                     <th style="text-align: center; width: 15%">Cost Center <span class="required text-danger">*</span></th>
                     <th style="text-align: center; width: 20%">Narration <span class="required text-danger">*</span></th>
                     <th style="text-align: center;width:15%;">Attachment</th>
-                    <th style="width:12%; text-align:center">Debit Amount <span class="required text-danger">*</span></th>
-                    <th style="text-align:center;width: 5%">Action</th>
+                    @if(request('id')>0)
+                        <th style="width:15%; text-align:center">Amount (Dr & Cr)</th>
+                    @endif
+                    <th style="text-align:center;width: 10%">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -146,15 +148,23 @@
                             @endif
                         @endif
                     </td>
-                    <td style="vertical-align: middle">
-                        <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
-                    </td>
-                    <td style="vertical-align: middle">
+                    @if(request('id')>0)
+                        <td style="vertical-align: middle">
+                            <input type="hidden" name="totalPaymentAmount" id="totalPaymentAmount"  class="form-control text-center" value="{{$masterData->amount}}" autocomplete="off" step="any"  />
+                            <input type="number" name="dr_amt" id="editDrAmt"  class="form-control text-center" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif @if($editValue->cr_amt) readonly @endif autocomplete="off" step="any"  />
+                            <input type="number" name="cr_amt" id="editCrAmt"  class="form-control mt-1 text-center" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif @if($editValue->dr_amt) readonly @endif  autocomplete="off" step="any" />
+                        </td>
+                    @else
+                        <td style="vertical-align: middle; display: none">
+                            <input type="number" name="dr_amt"  class="form-control" value="{{$masterData->amount}}" autocomplete="off" step="any" min="1" required />
+                        </td>
+                    @endif
+                    <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="{{route('acc.voucher.chequepayment.create')}}" class="btn btn-danger" style="margin-top: 5px">Cancel</a>
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Update</button>
+                            <a href="{{route('acc.voucher.chequepayment.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
-                            <button type="submit" class="btn btn-success">Add</button>
+                            <button type="submit" class="btn btn-success"> <i class="fa fa-plus"></i> Add</button>
                         @endif
                     </td>
                 </tr>
@@ -171,7 +181,6 @@
                                 <thead class="table-success">
                                 <tr>
                                     <th style="width: 5%; text-align: center">#</th>
-                                    <th style="width: 5%; text-align: center">Uid</th>
                                     <th>Account Head</th>
                                     <th>Narration</th>
                                     <th class="text-center">Type</th>
@@ -185,7 +194,6 @@
                                 @php($totalCredit = 0)
                                 @foreach($cpayments as $cpayment)
                                     <tr>
-                                        <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
                                         <td style="text-align: center; vertical-align: middle">{{$cpayment->id}}</td>
                                         <td style="vertical-align: middle">{{$cpayment->ledger_id}} : {{$cpayment->ledger->ledger_name}}</td>
                                         <td style="vertical-align: middle">{{$cpayment->narration}}</td>
@@ -208,7 +216,7 @@
                                     @php($totalCredit = $totalCredit +$cpayment->cr_amt)
                                 @endforeach
                                 <tr>
-                                    <th colspan="5" style="text-align: right">Total = </th>
+                                    <th colspan="4" style="text-align: right">Total = </th>
                                     <th style="text-align: right">{{number_format($totalDebit,2)}}</th>
                                     <th style="text-align: right">{{number_format($totalCredit,2)}}</th>
                                     <th></th>
@@ -220,12 +228,12 @@
                                     @csrf
                                     <input type="hidden" name="journal_type" value="cheque">
                                     <input type="hidden" name="voucher_type" value="single">
-                                    <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');">Cancel & Delete All</button>
+                                    <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');"><i class="fa fa-trash"></i> Cancel & Delete All</button>
                                 </form>
                                 @if(number_format($totalDebit,2) === number_format($totalCredit,2))
                                     <form action="{{route('acc.voucher.chequepayment.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                                         @csrf
-                                        <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Confirm & Finish Voucher</button>
+                                        <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"><i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
                                     </form>
                                 @else
                                     <div class="alert alert-danger float-right col-sm-5" role="alert" style="font-size: 11px">
@@ -265,6 +273,12 @@
                 method: 'GET',
                 success: function(response) {
                     document.getElementById("totalBalances").value = response.balance;
+                    var getBalance =  response.balance;
+                    if (getBalance === 0) {
+                        document.getElementById('initiateButton').disabled = true;
+                    } else {
+                        document.getElementById('initiateButton').disabled = false;
+                    }
                     document.getElementById('inputField').value = '';
                 },
                 error: function(error) {

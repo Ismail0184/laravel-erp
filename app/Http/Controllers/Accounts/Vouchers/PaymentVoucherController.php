@@ -57,7 +57,7 @@ class PaymentVoucherController extends Controller
             $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
         }
 
-        return view('modules.accounts.vouchers.payment.create', [
+        return view('modules.accounts.vouchers.payment.test', [
             'paymentVoucher' =>$this->paymentVoucher,
             'ledgers' => $paymentFrom,
             'ledgerss' => $paymentOn,
@@ -210,7 +210,8 @@ class PaymentVoucherController extends Controller
      */
     public function edit($id)
     {
-        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $paymentFrom = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id',['1002'])->get();
+        $paymentOn = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
         $this->voucher_type ='2';
         $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
@@ -227,8 +228,8 @@ class PaymentVoucherController extends Controller
 
         return view('modules.accounts.vouchers.payment.create', [
             'paymentVoucher' =>$this->paymentVoucher,
-            'ledgers' => $this->ledgers,
-            'ledgerss' => $this->ledgers,
+            'ledgers' => $paymentFrom,
+            'ledgerss' => $paymentOn,
             'masterData' => $this->masterData,
             'payments' => $this->payments,
             'editValue' => $this->editValue,
@@ -252,7 +253,8 @@ class PaymentVoucherController extends Controller
 
     public function editMultiple($id)
     {
-        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $paymentFrom = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id',['1002'])->get();
+        $paymentOn = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
         $this->voucher_type ='2';
         $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
@@ -269,14 +271,15 @@ class PaymentVoucherController extends Controller
 
         return view('modules.accounts.vouchers.payment.create-multiple', [
             'paymentVoucher' =>$this->paymentVoucher,
-            'ledgers' => $this->ledgers,
-            'ledgerss' => $this->ledgers,
+            'expensesLedgers' => $paymentOn,
+            'paymentFromLedgers' => $paymentFrom,
             'masterData' => $this->masterData,
             'payments' => $this->payments,
             'editValue' => $this->editValue,
             'COUNT_payments_data' => $this->COUNT_payments_data,
             'costcenters' =>$this->costcenters,
-            'minDatePermission' => $this->sharedFunction()
+            'minDatePermission' => $this->sharedFunction(),
+            'checkLedgerBalanceBeforeMakingPayment' => $this->checkLedgerBalanceBeforeMakingPayment()
         ] );
     }
 
@@ -348,7 +351,7 @@ class PaymentVoucherController extends Controller
 
     public function findLedgerBalance($id)
     {
-        $queryForLedgerBalance = AccTransactions::where('ledger_id',$id)->sum(DB::raw('dr_amt - cr_amt'));
+        $queryForLedgerBalance = AccTransactions::where('ledger_id',$id)->whereNotIn('status',['MANUAL','DELETED'])->sum(DB::raw('dr_amt - cr_amt'));
         return response()->json(['balance' => $queryForLedgerBalance]);
     }
 }

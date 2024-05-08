@@ -148,7 +148,9 @@ class ChequePaymentVoucherController extends Controller
             'cpayments' => $this->cpayments,
             'editValue' => $this->editValue,
             'COUNT_cpayments_data' => $this->COUNT_cpayments_data,
-            'costcenters' =>$this->costcenters
+            'costcenters' =>$this->costcenters,
+            'minDatePermission' => $this->sharedFunction(),
+            'checkBankBalanceBeforeIssuingAnyCheque' => $this->checkBankBalanceBeforeIssuingAnyCheque()
         ] );
     }
 

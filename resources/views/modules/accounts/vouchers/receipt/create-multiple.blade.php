@@ -26,7 +26,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('receipt_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" id="inputDate" oninput="enableInitiateButton()" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('receipt_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person from</label>
                         <div class="col-sm-3">
@@ -60,7 +60,7 @@
                                 @else
                                     <a href="{{route('acc.voucher.receipt.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
-                                <button type="submit" class="btn btn-success w-md">@if(Session::get('receipt_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
+                                <button type="submit" id="initiateButton" @if(Session::get('receipt_no')) @else disabled @endif class="btn btn-success w-md">@if(Session::get('receipt_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                 <tbody>
                 <tr style="background-color: white">
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" style="width: 100%" name="ledger_id" required="required">
+                        <select id="inputSelectedLedger" oninput="enableAddButton()" class="form-control select2" style="width: 100%" name="ledger_id" required="required">
                             <option value=""></option>
                             @foreach($ledgerss as $ledgers)
                                 <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
@@ -121,16 +121,16 @@
                         @endif
                     </td>
                     <td style="vertical-align: middle">
-                        <input type="number" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" placeholder="debit"   />
+                        <input type="number" id="inputDrAmount" oninput="enableAddButton()" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" placeholder="debit"   />
 
-                        <input type="number" style="margin-top: 5px;text-align: center" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" placeholder="credit"  />
+                        <input type="number" id="inputCrAmount" oninput="enableAddButton()" style="margin-top: 5px;text-align: center" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" placeholder="credit"  />
                     </td>
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i> Update</button>
+                            <button type="submit" id="addButton" class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i> Update</button>
                             <a href="{{route('acc.voucher.receipt.multiple.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
-                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
+                            <button type="submit" id="addButton" class="btn btn-success" disabled><i class="fa fa-plus"></i> Add</button>
                         @endif
                     </td>
                 </tr>
@@ -238,4 +238,36 @@
                 </div>
             </div>
         @endif @endif
+
+    <script>
+        function enableInitiateButton() {
+            var inputDate = document.getElementById("inputDate").value;
+            var submitButton = document.getElementById("initiateButton");
+            if ((inputDate.trim() ) !== "") {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+    </script>
+    <script>
+        function enableAddButton() {
+            var inputDrAmount = document.getElementById("inputDrAmount").value;
+            var inputCrAmount = document.getElementById("inputCrAmount").value;
+            var inputSelectedLedger = document.getElementById("inputSelectedLedger").value;
+            var submitButton = document.getElementById("addButton");
+
+            if ((inputSelectedLedger.trim() && (inputDrAmount.trim() || inputCrAmount.trim())) !== "") {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+            if (parseFloat(inputDrAmount) > 0  &&  parseFloat(inputCrAmount) > 0) {
+                alert("You cannot input debit and credit amount at the same time. Please try again!!");
+                document.getElementById('inputDrAmount').value = '';
+                document.getElementById('inputCrAmount').value = '';
+                document.getElementById('addButton').disabled = true;
+            }
+        }
+    </script>
 @endsection
