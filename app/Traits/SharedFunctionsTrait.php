@@ -26,4 +26,11 @@ trait SharedFunctionsTrait
         $accessDays = $checkForAccess->meta_value ?? 0;
         return $accessDays;
     }
+
+    public function checkBankBalanceBeforeIssuingAnyCheque()
+    {
+        $checkForAccess = DevUsageControlMeta::where('meta_key','check_bank_balance_before_issuing_any_cheque')->where('status','active')->first();
+        $accessDays = $checkForAccess->meta_value ?? 0;
+        return $accessDays;
+    }
 }

@@ -65,7 +65,7 @@
                         @endif
 
 
-                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Amt. (Cr) <span class="required text-danger">*</span></label>
+                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Amount <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
                             <input type="number" id="inputField" name="amount" @if(Session::get('payment_no')>0) value="{{$masterData->amount}}" @endif required class="form-control" step="any" placeholder="Paid Amount" min="1"/>
                         </div>
@@ -108,6 +108,7 @@
             <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
             <input type="hidden" name="receipt_date" value="{{$masterData->voucher_date}}">
             <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
+            <input type="hidden" name="voucher_type" value="single">
             <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px;display: @if(!request('id')>0) @if($masterData->amount_equality=='BALANCED') none @endif @endif">
                 <thead class="table-success">
                 <tr>
@@ -115,7 +116,9 @@
                     <th style="text-align: center; width: 15%">Cost Center <span class="required text-danger">*</span></th>
                     <th style="text-align: center; width: 20%">Narration <span class="required text-danger">*</span></th>
                     <th style="text-align: center;width:15%;">Attachment</th>
-                    <th style="width:12%; text-align:center">Debit Amount <span class="required text-danger">*</span></th>
+                    @if(request('id')>0)
+                        <th style="width:15%; text-align:center">Amount (Dr & Cr)</th>
+                    @endif
                     <th style="text-align:center;width: 10%">Action</th>
                 </tr>
                 </thead>
@@ -150,13 +153,21 @@
                             @endif
                         @endif
                     </td>
-                    <td style="vertical-align: middle">
-                        <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
-                    </td>
+                    @if(request('id')>0)
+                        <td style="vertical-align: middle">
+                            <input type="hidden" name="totalPaymentAmount" id="totalPaymentAmount"  class="form-control text-center" value="{{$masterData->amount}}" autocomplete="off" step="any"  />
+                            <input type="number" name="dr_amt" id="editDrAmt"  class="form-control text-center" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif @if($editValue->cr_amt) readonly @endif autocomplete="off" step="any"  />
+                            <input type="number" name="cr_amt" id="editCrAmt"  class="form-control mt-1 text-center" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif @if($editValue->dr_amt) readonly @endif  autocomplete="off" step="any" />
+                        </td>
+                    @else
+                        <td style="vertical-align: middle; display: none">
+                            <input type="number" name="dr_amt"  class="form-control" value="{{$masterData->amount}}" autocomplete="off" step="any" min="1" required />
+                        </td>
+                    @endif
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" class="btn btn-primary"> <i class="fa fa-edit"></i> Update</button>
-                            <a href="{{route('acc.voucher.payment.create')}}" class="btn btn-danger" style="margin-top: 5px"><i class="fa fa-window-close"></i> Cancel</a>
+                            <button type="submit" class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i> Update</button>
+                            <a href="{{route('acc.voucher.payment.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"><i class="fa fa-window-close"></i> Cancel</a>
                         @else
                             <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
                         @endif
@@ -175,13 +186,11 @@
                                 <thead class="table-success">
                                 <tr>
                                     <th style="width: 5%; text-align: center">#</th>
-                                    <th style="width: 5%; text-align: center">Uid</th>
                                     <th>Account Head</th>
                                     <th>Narration</th>
-                                    <th class="text-center">Type</th>
                                     <th class="text-center">Attachment</th>
-                                    <th>Debit Amount</th>
-                                    <th>Credit Amount</th>
+                                    <th class="text-center">Dr Amt.</th>
+                                    <th class="text-center">Cr Amt.</th>
                                     <th class="text-center" style="width: 10%">Option</th>
                                 </tr>
                                 </thead>
@@ -190,11 +199,9 @@
                                     @php($totalCredit = 0)
                                         @foreach($payments as $payment)
                                             <tr>
-                                                <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
                                                 <td style="text-align: center; vertical-align: middle">{{$payment->id}}</td>
                                                 <td style="vertical-align: middle">{{$payment->ledger_id}} : {{$payment->ledger->ledger_name}}</td>
                                                 <td style="vertical-align: middle">{{$payment->narration}}</td>
-                                                <td style="vertical-align: middle" class="text-center">{{$payment->type}}</td>
                                                 <td style="vertical-align: middle" class="text-center">
                                                     @if(!empty($payment->payment_attachment))
                                                         <a href="{{asset($payment->payment_attachment)}}" target="_blank">View</a>
@@ -202,8 +209,8 @@
                                                         -
                                                     @endif
                                                 </td>
-                                                <td style="text-align: right; vertical-align: middle">{{number_format($payment->dr_amt,2)}}</td>
-                                                <td style="text-align: right;vertical-align: middle">{{number_format($payment->cr_amt,2)}}</td>
+                                                <td style="text-align: right; vertical-align: middle">@if($payment->dr_amt > 0) {{number_format($payment->dr_amt,2)}} @else - @endif</td>
+                                                <td style="text-align: right;vertical-align: middle">@if($payment->cr_amt > 0) {{number_format($payment->cr_amt,2)}} @else - @endif</td>
                                                 <td class="text-center" style="vertical-align: middle">
                                                     <form action="{{route('acc.voucher.payment.destroy', ['id' => $payment->id])}}" method="post">
                                                         @csrf
@@ -222,7 +229,7 @@
                                             @php($totalCredit = $totalCredit +$payment->cr_amt)
                                         @endforeach
                                         <tr>
-                                            <th colspan="6" style="text-align: right">Total = </th>
+                                            <th colspan="4" style="text-align: right">Total = </th>
                                             <th style="text-align: right">{{number_format($totalDebit,2)}}</th>
                                             <th style="text-align: right">{{number_format($totalCredit,2)}}</th>
                                             <th></th>
@@ -258,18 +265,40 @@
     @endif
 
     <script>
-        // Get references to the input fields
         const field1 = document.getElementById('inputField');
         const field2 = document.getElementById('totalBalances');
-        // Add event listener to field1
         field1.addEventListener('input', function() {
-            // Convert field values to numbers
             const value1 = parseFloat(field1.value);
             const value2 = parseFloat(field2.value);
-            // Check if field1 value exceeds field2 value
             if (value1 > value2) {
                 alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
                 document.getElementById('inputField').value = '';
+            }
+        });
+    </script>
+
+    <script>
+        const field3 = document.getElementById('editDrAmt');
+        const field4 = document.getElementById('totalPaymentAmount');
+        field3.addEventListener('input', function() {
+            const value1 = parseFloat(field3.value);
+            const value2 = parseFloat(field4.value);
+            if (value1 > value2) {
+                alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
+                document.getElementById('editDrAmt').value = '';
+            }
+        });
+    </script>
+
+    <script>
+        const field5 = document.getElementById('editCrAmt');
+        const field6 = document.getElementById('totalPaymentAmount');
+        field5.addEventListener('input', function() {
+            const value1 = parseFloat(field5.value);
+            const value2 = parseFloat(field6.value);
+            if (value1 > value2) {
+                alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
+                document.getElementById('editCrAmt').value = '';
             }
         });
     </script>

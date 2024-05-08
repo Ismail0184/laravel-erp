@@ -16,8 +16,8 @@
                     @csrf
                     <input type="hidden" name="entry_by" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="entry_at" value="{{date('Y-m-d H:i:s')}}">
-                    <input type="hidden" name="journal_type" value="bank-payment">
-                    <input type="hidden" name="vouchertype" value="single">
+                    <input type="hidden" name="journal_type" value="cheque">
+                    <input type="hidden" name="voucher_type" value="single">
                     <input type="hidden" name="status" value="MANUAL">
                     <div class="form-group row mb-2">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Paymt. No <span class="required text-danger">*</span></label>
@@ -26,7 +26,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="voucher_date" min="" max="{{date('Y-m-d')}}" @if(Session::get('cpayment_no')>0) value="{{$masterData->voucher_date}}" @else value="{{date('Y-m-d')}}"  @endif class="form-control" required />
+                            <input type="date" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('cpayment_no')>0) value="{{$masterData->voucher_date}}" @else value="{{date('Y-m-d')}}"  @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person to</label>
                         <div class="col-sm-3">
@@ -49,28 +49,37 @@
                             <input type="date" name="maturity_date" @if(Session::get('cpayment_no')>0) value="{{$masterData->maturity_date}}" @endif class="form-control" />
                         </div>
                     </div>
-                    <div class="form-group row mb-2">
+                    <div class="form-group row mb-3">
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Bank <span class="required text-danger">*</span></label>
-                        <div class="col-sm-7">
-                            <select class="form-control select2" name="cash_bank_ledger" required="required">
-                                <option value=""> -- Cash or Bank Account -- </option>
+                        <div @if($checkBankBalanceBeforeIssuingAnyCheque) class="col-sm-4" @else class="col-sm-7" @endif>
+                            <select class="form-control select2" style="width: 100%" name="cash_bank_ledger" id="selectedLedgerId" onchange="getLedgerBalance()" required="required">
+                                <option value=""> -- select bank account -- </option>
                                 @foreach($ledgers as $ledgers)
                                     <option value="{{$ledgers->ledger_id}}" @if(Session::get('cpayment_no')>0) @if($ledgers->ledger_id==$masterData->cash_bank_ledger) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Amt. (Cr) <span class="required text-danger">*</span></label>
+
+                        @if($checkBankBalanceBeforeIssuingAnyCheque)
+                            <div class="col-sm-3">
+                                <input type="number" id="totalBalances" name="ledger_balance" @if(Session::get('cpayment_no')>0) value="{{$masterData->ledger_balance}}" @endif class="form-control" readonly placeholder="Bank Balance" min="1"/>
+                            </div>
+                        @endif
+
+                        <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Amount<span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="number" name="amount" @if(Session::get('cpayment_no')>0) value="{{$masterData->amount}}" @endif required class="form-control" step="any" placeholder="paid amount" min="1"/>
+                            <input type="number" id="inputField" name="amount" @if(Session::get('cpayment_no')>0) value="{{$masterData->amount}}" @endif required class="form-control" step="any" placeholder="Cheque Amount" min="1"/>
                         </div>
                     </div>
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-7">
                             <div>
                                 @if(Session::get('cpayment_no'))
-                                    <a href="{{route('acc.voucher.payment.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'bank-payment'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');">Cancel</a>
+                                    <a href="{{route('acc.voucher.chequepayment.cancelall', ['voucher_no' => $masterData->voucher_no, 'journal_type'=>'cheque'])}}" class="btn btn-danger w-md" onclick="return window.confirm('Confirm to cancel?');"> <i class="fa fa-window-close"></i> Cancel</a>
+                                @else
+                                    <a href="{{route('acc.voucher.chequepayment.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
-                                <button type="submit" class="btn btn-success w-md">@if(Session::get('cpayment_no')) Update @else Initiate & Proceed @endif</button>
+                                <button type="submit" class="btn btn-success w-md">@if(Session::get('cpayment_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>
@@ -109,7 +118,7 @@
                 <tbody>
                 <tr style="background-color: white">
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" name="ledger_id" required="required">
+                        <select style="width: 100%" class="form-control select2" name="ledger_id" required="required">
                             <option value=""></option>
                             @foreach($ledgerss as $ledgers)
                                 <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
@@ -117,7 +126,7 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" name="cc_code" required="required">
+                        <select style="width: 100%" class="form-control select2" name="cc_code" required="required">
                             <option value=""></option>
                             @foreach($costcenters as $costCenter)
                                 <option value="{{$costCenter->cc_code}}" @if(request('id')>0) @if($costCenter->cc_code==$editValue->cc_code) selected @endif @endif>{{$costCenter->cc_code}} : {{$costCenter->center_name}}</option>
@@ -125,9 +134,18 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <textarea  name="narration" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('payment_narration')}} @endif</textarea>
+                        <textarea  name="narration" style="height: 70px" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('cpayment_narration')}} @endif</textarea>
                     </td>
-                    <td style="vertical-align: middle"><input type="file" class="form-control" /></td>
+                    <td style="vertical-align: middle; text-align: right">
+                        <input type="file" style="width: 160px"  name="image" />
+                        @if(request('id')>0)
+                            @if(!empty($editValue->payment_attachment))
+                                <br>
+                                <a href="{{asset($editValue->payment_attachment)}}" style="text-align: center;" class="btn btn-primary btn-sm" title="delete attachment" target="_blank"><i class="fa fa-book-open"></i></a>
+                                <a href="{{route('acc.voucher.payment.deleteAttachmentPaymentVoucher', ['id'=>request('id')])}}" style="text-align: center" class="btn btn-danger btn-sm" title="delete attachment"><i class="fa fa-trash"></i></a>
+                            @endif
+                        @endif
+                    </td>
                     <td style="vertical-align: middle">
                         <input type="number" name="dr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" min="1" required />
                     </td>
@@ -200,8 +218,8 @@
                             <div>
                                 <form action="{{route('acc.voucher.chequepayment.cancelall', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                                     @csrf
-                                    <input type="hidden" name="journal_type" value="bank-payment">
-                                    <input type="hidden" name="vouchertype" value="single">
+                                    <input type="hidden" name="journal_type" value="cheque">
+                                    <input type="hidden" name="voucher_type" value="single">
                                     <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');">Cancel & Delete All</button>
                                 </form>
                                 @if(number_format($totalDebit,2) === number_format($totalCredit,2))
@@ -221,4 +239,39 @@
                 </div>
             </div>
         @endif @endif
+
+    <script>
+        // Get references to the input fields
+        const field1 = document.getElementById('inputField');
+        const field2 = document.getElementById('totalBalances');
+        // Add event listener to field1
+        field1.addEventListener('input', function() {
+            // Convert field values to numbers
+            const value1 = parseFloat(field1.value);
+            const value2 = parseFloat(field2.value);
+            // Check if field1 value exceeds field2 value
+            if (value1 > value2) {
+                alert('Oops! Input amount exceeds bank balance. Please reduce the amount and try again. Thank you');
+                document.getElementById('inputField').value = '';
+            }
+        });
+    </script>
+
+    <script>
+        function getLedgerBalance() {
+            const selectedLedgerId = document.getElementById("selectedLedgerId").value;
+            $.ajax({
+                url: `/accounts/voucher/payment/find-ledger-balance/${selectedLedgerId}`,
+                method: 'GET',
+                success: function(response) {
+                    document.getElementById("totalBalances").value = response.balance;
+                    document.getElementById('inputField').value = '';
+                },
+                error: function(error) {
+                    console.error("Error fetching category balance:", error);
+                }
+            });
+        }
+        getTypeBalance();
+    </script>
 @endsection

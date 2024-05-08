@@ -8,10 +8,13 @@ use App\Models\Accounts\AccLedger;
 use App\Models\Accounts\Vouchers\AccChequePayment;
 use App\Models\Accounts\Vouchers\AccPayment;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
+use App\Traits\SharedFunctionsTrait;
+use App\Traits\SharedOtherOptionFunctionsTrait;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
 use PDF;
+
 
 class ChequePaymentVoucherController extends Controller
 {
@@ -20,6 +23,9 @@ class ChequePaymentVoucherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    use SharedFunctionsTrait;
+    use SharedOtherOptionFunctionsTrait;
 
     private $cpaymentVoucher,$ledgers,$vouchertype,$masterData,$cpayments,$editValue,$COUNT_cpayments_data,$cpaymntdatas,$cpayment,$vouchermaster,$costcenters;
 
@@ -54,7 +60,9 @@ class ChequePaymentVoucherController extends Controller
             'masterData' => $this->masterData,
             'cpayments' => $this->cpayments,
             'COUNT_cpayments_data' => $this->COUNT_cpayments_data,
-            'costcenters' =>$this->costcenters
+            'costcenters' =>$this->costcenters,
+            'minDatePermission' => $this->sharedFunction(),
+            'checkBankBalanceBeforeIssuingAnyCheque' => $this->checkBankBalanceBeforeIssuingAnyCheque()
         ] );
     }
 

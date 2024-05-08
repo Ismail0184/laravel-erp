@@ -64,7 +64,7 @@ class VoucherMasterController extends Controller
         elseif ($request->journal_type=='contra'){
             return redirect('/accounts/voucher/contra/create');
         }
-        elseif ($request->journal_type=='bank-payment'){
+        elseif ($request->journal_type=='cheque'){
             return redirect('/accounts/voucher/chequepayment/create');
         }
     }
@@ -116,7 +116,7 @@ class VoucherMasterController extends Controller
         } elseif ($request->journal_type=='journal'){
             return redirect('/accounts/voucher/journal/create');
 
-        } elseif ($request->journal_type=='bank-payment'){
+        } elseif ($request->journal_type=='cheque'){
             return redirect('/accounts/voucher/chequepayment/create');
 
         } elseif ($request->journal_type=='contra'){
@@ -165,7 +165,7 @@ class VoucherMasterController extends Controller
             Session::forget('contra_no');
             Session::forget('contra_narration');
             return redirect('/accounts/voucher/contra/create');
-        } elseif ($request->journal_type=='bank-payment'){
+        } elseif ($request->journal_type=='cheque'){
             AccChequePayment::destroyCPaymentAllData($id);
             AccVoucherMaster::destroyVoucher($id);
             Session::forget('cpayment_no');

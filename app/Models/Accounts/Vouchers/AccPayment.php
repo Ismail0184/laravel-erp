@@ -46,13 +46,14 @@ class AccPayment extends Model
             self::$payment->dr_amt = 0;
             self::$payment->cr_amt = $request->cr_amt;
             self::$payment->type = 'Credit';
-        } elseif (($request->voucher_type=='multiple') && ($request->cr_amt>0) &&  ($request->dr_amt>0)) {
-            self::$payment->dr_amt = 0;
-            self::$payment->cr_amt = 0;
-        } elseif ($request->voucher_type!=='multiple') {
+        } elseif (($request->voucher_type=='single') && ($request->dr_amt>0) && ($request->cr_amt==0)) {
             self::$payment->dr_amt = $request->dr_amt;
             self::$payment->cr_amt = 0;
             self::$payment->type = 'Debit';
+        } elseif (($request->voucher_type=='single') && ($request->cr_amt>0) && ($request->dr_amt==0)) {
+            self::$payment->dr_amt = 0;
+            self::$payment->cr_amt = $request->cr_amt;;
+            self::$payment->type = 'Credit';
         } else {
             self::$payment->dr_amt = 0;
             self::$payment->cr_amt = 0;
@@ -136,15 +137,18 @@ class AccPayment extends Model
         } elseif (($request->voucher_type=='multiple') && ($request->cr_amt>0) &&  ($request->dr_amt>0)) {
             self::$payment->dr_amt = 0;
             self::$payment->cr_amt = 0;
-        } elseif ($request->voucher_type!=='multiple') {
+        } elseif (($request->voucher_type=='single') && ($request->dr_amt>0) && ($request->cr_amt==0)) {
             self::$payment->dr_amt = $request->dr_amt;
             self::$payment->cr_amt = 0;
             self::$payment->type = 'Debit';
+        } elseif (($request->voucher_type=='single') && ($request->cr_amt>0) && ($request->dr_amt==0)) {
+            self::$payment->dr_amt = 0;
+            self::$payment->cr_amt = $request->cr_amt;;
+            self::$payment->type = 'Credit';
         } else {
             self::$payment->dr_amt = 0;
             self::$payment->cr_amt = 0;
         }
-        self::$payment->type = 'Debit';
         self::$payment->status = 'MANUAL';
         self::$payment->entry_by = $request->entry_by;
         self::$payment->company_id = 1;

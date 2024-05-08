@@ -76,7 +76,7 @@
                                                     <i class="fa fa-print"></i>
                                                 </a>
                                                 @if($paymntdata->status=='UNCHECKED' || $paymntdata->status=='MANUAL' || $paymntdata->status=='REJECTED')
-                                                    @if($getVoucherDate <= $checkVoucherEditAccessByCreatedPerson)
+                                                    @if($getVoucherDate <= $checkVoucherEditAccessByCreatedPerson && $checkVoucherEditAccessByCreatedPerson>0)
                                                         <a href="@if($paymntdata->voucher_type=='single'){{route('acc.voucher.payment.voucher.edit',['voucher_no' => $paymntdata->voucher_no])}} @elseif($paymntdata->voucher_type=='multiple') {{route('acc.voucher.payment.voucher.editMultiple',['voucher_no' => $paymntdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
                                                             <i class="fa fa-edit"></i>
                                                         </a>

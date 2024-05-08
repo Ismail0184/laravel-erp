@@ -72,8 +72,6 @@
     </div>
 
     @if(Session::get('payment_no')>0)
-        <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.payment.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.payment.store')}} @endif" enctype="multipart/form-data">
-            @csrf
             @if ($message = Session::get('destroy_message'))
                 <p class="text-center text-danger">{{ $message }}</p>
             @elseif( $message = Session::get('store_message'))
@@ -81,12 +79,6 @@
             @elseif( $message = Session::get('update_message'))
                 <p class="text-center text-primary">{{ $message }}</p>
             @endif
-            <input type="hidden" name="payment_no" value="{{$masterData->voucher_no}}">
-            <input type="hidden" name="payment_date" value="{{$masterData->voucher_date}}">
-            <input type="hidden" name="amount" value="{{$masterData->amount}}">
-            <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
-            <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
-            <input type="hidden" name="voucher_type" value="multiple">
             <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px">
                 <thead class="table-success">
                 <tr>
@@ -94,16 +86,24 @@
                     <th style="text-align: center; width: 15%">Cost Center <span class="required text-danger">*</span></th>
                     <th style="text-align: center; width: 20%">Narration <span class="required text-danger">*</span></th>
                     <th style="text-align: center;width:15%;">Attachment</th>
-                    <th style="width:15%; text-align:center">Amount <span class="required text-danger">*</span></th>
+                    <th style="width:12%; text-align:center">Amount <span class="required text-danger">*</span></th>
                     <th style="text-align:center;width: 10%">Action</th>
                 </tr>
                 </thead>
                 <tbody>
+                <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.payment.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.payment.store')}} @endif" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="payment_no" value="{{$masterData->voucher_no}}">
+                    <input type="hidden" name="payment_date" value="{{$masterData->voucher_date}}">
+                    <input type="hidden" name="amount" value="{{$masterData->amount}}">
+                    <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
+                    <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
+                    <input type="hidden" name="voucher_type" value="multiple">
                 <tr style="background-color: white">
                     <td style="vertical-align: middle">
                         <select class="form-control select2" style="width: 100%" name="ledger_id" required="required">
                             <option value=""></option>
-                            @foreach($ledgerss as $ledgers)
+                            @foreach($expensesLedgers as $ledgers)
                                 <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
                             @endforeach
                         </select>
@@ -117,7 +117,7 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <textarea  name="narration" class="form-control" style="height: 70px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('payment_narration')}} @endif</textarea>
+                        <textarea  name="narration" class="form-control">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('payment_narration')}} @endif</textarea>
                     </td>
                     <td style="vertical-align: middle; text-align: right"><input type="file" name="image" style="width: 160px" />
                         @if(request('id')>0)
@@ -130,18 +130,66 @@
                     </td>
                     <td style="vertical-align: middle">
                         <input type="number" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" placeholder="debit amt."   />
-
-                        <input type="number" style="margin-top: 5px;text-align: center" name="cr_amt"  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" placeholder="credit amt."  />
                     </td>
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
                             <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
                             <a href="{{route('acc.voucher.payment.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
-                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
+                            <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</button>
                         @endif
                     </td>
                 </tr>
+                </form>
+                <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.payment.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.payment.store')}} @endif" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="payment_no" value="{{$masterData->voucher_no}}">
+                    <input type="hidden" name="payment_date" value="{{$masterData->voucher_date}}">
+                    <input type="hidden" name="amount" value="{{$masterData->amount}}">
+                    <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
+                    <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
+                    <input type="hidden" name="voucher_type" value="multiple">
+                <tr style="background-color: white">
+                    <td style="vertical-align: middle">
+                        <select class="form-control select2" style="width: 100%" name="ledger_id" id="selectedLedgerId" onchange="getLedgerBalance()" required="required">
+                            <option value=""></option>
+                            @foreach($paymentFromLedgers as $ledgers)
+                                <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td class="text-center" style="vertical-align: middle">
+                        @if($checkLedgerBalanceBeforeMakingPayment)
+                            <input type="number" id="totalBalances" name="ledger_balance" @if(Session::get('payment_no')>0) value="{{$masterData->ledger_balance}}" @endif class="form-control" readonly placeholder="Ledger Balance" min="1"/>
+                        @else
+                            N/A
+                        @endif
+                    </td>
+                    <td style="vertical-align: middle">
+                        <textarea  name="narration" id="inputNarration" class="form-control" >@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('payment_narration')}} @endif</textarea>
+                    </td>
+                    <td style="vertical-align: middle; text-align: right"><input type="file" id="inputImage" name="image" style="width: 160px" />
+                        @if(request('id')>0)
+                            @if(!empty($editValue->payment_attachment))
+                                <br>
+                                <a href="{{asset($editValue->payment_attachment)}}" style="text-align: center;" class="btn btn-primary btn-sm" title="delete attachment" target="_blank"><i class="fa fa-book-open"></i></a>
+                                <a href="{{route('acc.voucher.payment.deleteAttachmentPaymentVoucher', ['id'=>request('id')])}}" style="text-align: center" class="btn btn-danger btn-sm" title="delete attachment"><i class="fa fa-trash"></i></a>
+                            @endif
+                        @endif
+                    </td>
+                    <td style="vertical-align: middle">
+                        <input type="number" style="margin-top: 5px;text-align: center" name="cr_amt" id="inputField" required  class="form-control" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif autocomplete="off" step="any" placeholder="credit amt."  />
+                    </td>
+                    <td style="vertical-align: middle; text-align: center">
+                        @if(request('id')>0)
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
+                            <a href="{{route('acc.voucher.payment.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
+                        @else
+                            <button type="submit" id="inputButton" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</button>
+                        @endif
+                    </td>
+                </tr>
+                </form>
                 </tbody>
             </table>
         </form>
@@ -155,13 +203,12 @@
                                 <thead class="table-success">
                                 <tr>
                                     <th style="width: 5%; text-align: center">#</th>
-                                    <th style="width: 5%; text-align: center">Uid</th>
                                     <th>Account Head</th>
                                     <th>Narration</th>
                                     <th class="text-center">Cost Center</th>
                                     <th class="text-center">Attachment</th>
-                                    <th>Debit Amount</th>
-                                    <th>Credit Amount</th>
+                                    <th class="text-center">Dr Amt</th>
+                                    <th class="text-center">Cr Amt</th>
                                     <th class="text-center" style="width: 10%">Option</th>
                                 </tr>
                                 </thead>
@@ -170,7 +217,6 @@
                                 @php($totalCredit = 0)
                                 @foreach($payments as $payment)
                                     <tr>
-                                        <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
                                         <td style="text-align: center; vertical-align: middle">{{$payment->id}}</td>
                                         <td style="vertical-align: middle">{{$payment->ledger_id}} : {{$payment->ledger->ledger_name}}</td>
                                         <td style="vertical-align: middle">{{$payment->narration}}</td>
@@ -201,7 +247,7 @@
                                     @php($totalCredit = $totalCredit +$payment->cr_amt)
                                 @endforeach
                                 <tr>
-                                    <th colspan="6" style="text-align: right">Total = </th>
+                                    <th colspan="5" style="text-align: right">Total = </th>
                                     <th style="text-align: right">{{number_format($totalDebit,2)}}</th>
                                     <th style="text-align: right">{{number_format($totalCredit,2)}}</th>
                                     <th></th>
@@ -232,4 +278,76 @@
                 </div>
             </div>
         @endif @endif
+
+    <script>
+        const field1 = document.getElementById('inputField');
+        const field2 = document.getElementById('totalBalances');
+        field1.addEventListener('input', function() {
+            const value1 = parseFloat(field1.value);
+            const value2 = parseFloat(field2.value);
+            if (value1 > value2) {
+                alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
+                document.getElementById('inputField').value = '';
+            }
+        });
+    </script>
+
+    <script>
+        const field3 = document.getElementById('editDrAmt');
+        const field4 = document.getElementById('totalPaymentAmount');
+        field3.addEventListener('input', function() {
+            const value1 = parseFloat(field3.value);
+            const value2 = parseFloat(field4.value);
+            if (value1 > value2) {
+                alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
+                document.getElementById('editDrAmt').value = '';
+            }
+        });
+    </script>
+
+    <script>
+        const field5 = document.getElementById('editCrAmt');
+        const field6 = document.getElementById('totalPaymentAmount');
+        field5.addEventListener('input', function() {
+            const value1 = parseFloat(field5.value);
+            const value2 = parseFloat(field6.value);
+            if (value1 > value2) {
+                alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
+                document.getElementById('editCrAmt').value = '';
+            }
+        });
+    </script>
+
+    <script>
+        function getLedgerBalance() {
+            const selectedLedgerId = document.getElementById("selectedLedgerId").value;
+            $.ajax({
+                url: `/accounts/voucher/payment/find-ledger-balance/${selectedLedgerId}`,
+                method: 'GET',
+                success: function(response) {
+                    document.getElementById("totalBalances").value = response.balance;
+                    var getBalance =  response.balance;
+
+                    if (getBalance === 0) {
+                        document.getElementById('inputField').style.display = 'none';
+                        document.getElementById('inputButton').style.display = 'none';
+                        document.getElementById('inputImage').style.display = 'none';
+                        document.getElementById('inputNarration').style.display = 'none';
+                    } else {
+                        document.getElementById('inputField').style.display = 'block';
+                        document.getElementById('inputNarration').style.display = 'block';
+                        document.getElementById('inputImage').style.display = 'block';
+                        document.getElementById('inputButton').style.display = 'block';
+                        document.getElementById('inputButton').style.textAlign = 'center';
+                        document.getElementById('inputButton').style.marginLeft = '15px';
+                    }
+                    document.getElementById('inputField').value = '';
+                },
+                error: function(error) {
+                    console.error("Error fetching category balance:", error);
+                }
+            });
+        }
+        getTypeBalance();
+    </script>
 @endsection

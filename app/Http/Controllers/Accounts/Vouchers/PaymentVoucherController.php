@@ -73,8 +73,10 @@ class PaymentVoucherController extends Controller
 
     public function createMultiple()
     {
-        $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
+        $paymentFrom = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id',['1002'])->get();
+        $paymentOn = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
+
         $this->voucher_type ='2';
         $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
         if(Session::get('payment_no')>0)
@@ -86,13 +88,16 @@ class PaymentVoucherController extends Controller
 
         return view('modules.accounts.vouchers.payment.create-multiple', [
             'paymentVoucher' =>$this->paymentVoucher,
-            'ledgers' => $this->ledgers,
+            'expensesLedgers' => $paymentOn,
+            'paymentFromLedgers' => $paymentFrom,
             'ledgerss' => $this->ledgers,
             'masterData' => $this->masterData,
             'payments' => $this->payments,
             'COUNT_payments_data' => $this->COUNT_payments_data,
             'costcenters' =>$this->costcenters,
-            'minDatePermission' => $this->sharedFunction()
+            'minDatePermission' => $this->sharedFunction(),
+            'checkLedgerBalanceBeforeMakingPayment' => $this->checkLedgerBalanceBeforeMakingPayment()
+
         ] );
     }
 
