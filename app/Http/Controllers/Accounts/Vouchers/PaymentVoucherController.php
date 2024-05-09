@@ -57,7 +57,7 @@ class PaymentVoucherController extends Controller
             $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
         }
 
-        return view('modules.accounts.vouchers.payment.test', [
+        return view('modules.accounts.vouchers.payment.create', [
             'paymentVoucher' =>$this->paymentVoucher,
             'ledgers' => $paymentFrom,
             'ledgerss' => $paymentOn,

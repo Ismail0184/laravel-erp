@@ -35,36 +35,20 @@ class AccReceipt extends Model
         self::$receipt->ledger_id = $request->ledger_id;
         self::$receipt->relevant_cash_head = $request->relevant_cash_head;
         self::$receipt->receipt_attachment = self::getImageUrl($request);
-
-        if (($request->voucher_type=='multiple') && ($request->dr_amt>0) && ($request->cr_amt==0) ) {
+        if (($request->dr_amt>0) && ($request->cr_amt==0) ) {
             self::$receipt->dr_amt = $request->dr_amt;
             self::$receipt->cr_amt = 0;
             self::$receipt->type = 'Debit';
-        } elseif (($request->voucher_type=='multiple') && ($request->cr_amt>0) && ($request->dr_amt==0)) {
+        } elseif (($request->cr_amt>0) && ($request->dr_amt==0)) {
             self::$receipt->dr_amt = 0;
             self::$receipt->cr_amt = $request->cr_amt;
             self::$receipt->type = 'Credit';
-        } elseif (($request->voucher_type=='multiple') && ($request->cr_amt>0) &&  ($request->dr_amt>0)) {
-            self::$receipt->dr_amt = 0;
-            self::$receipt->cr_amt = 0;
-        } elseif ($request->voucher_type!=='multiple') {
-            self::$receipt->dr_amt = $request->dr_amt;
-            self::$receipt->cr_amt = 0;
-            self::$receipt->type = 'Debit';
-        } else {
-            self::$receipt->dr_amt = 0;
-            self::$receipt->cr_amt = 0;
         }
         self::$receipt->status = 'MANUAL';
         self::$receipt->entry_by = $request->entry_by;
         self::$receipt->company_id = 1;
         self::$receipt->group_id = 1;
-        if (($request->voucher_type=='multiple') && ($request->cr_amt>0) &&  ($request->dr_amt>0)) {
-
-        } elseif (($request->voucher_type=='multiple') && ($request->cr_amt==0) &&  ($request->dr_amt==0))
-        { } else {
-            self::$receipt->save();
-        }
+        self::$receipt->save();
         Session::put('receipt_narration', $request->narration);
     }
 

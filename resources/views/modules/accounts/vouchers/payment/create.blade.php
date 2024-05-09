@@ -24,7 +24,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('payment_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" id="inputDate" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('payment_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person from</label>
                         <div class="col-sm-3">
@@ -304,27 +304,50 @@
     </script>
 
     <script>
+        // Define a variable to store the previous balance
+        var previousBalance = null;
+
         function getLedgerBalance() {
             const selectedLedgerId = document.getElementById("selectedLedgerId").value;
+            // Store the value of inputField before making the AJAX call
+            var inputFieldValue = document.getElementById('inputField').value;
             $.ajax({
                 url: `/accounts/voucher/payment/find-ledger-balance/${selectedLedgerId}`,
                 method: 'GET',
                 success: function(response) {
                     document.getElementById("totalBalances").value = response.balance;
-                    var getBalance =  response.balance;
+                    var getBalance = response.balance;
+
+                    // Check if the balance has changed
+                    if (previousBalance !== null && getBalance !== previousBalance) {
+                        // If balance changed after the interval, clear inputField
+                        document.getElementById('inputField').value = '';
+                    }
 
                     if (getBalance === 0) {
                         document.getElementById('initiateButton').disabled = true;
+                        document.getElementById('inputField').disabled = true;
                     } else {
                         document.getElementById('initiateButton').disabled = false;
+                        document.getElementById('inputField').disabled = false;
                     }
-                    document.getElementById('inputField').value = '';
+
+                    // Update the previous balance
+                    previousBalance = getBalance;
                 },
                 error: function(error) {
                     console.error("Error fetching category balance:", error);
                 }
             });
         }
-        getTypeBalance();
+
+        // Call getLedgerBalance initially
+        getLedgerBalance();
+
+        // Set interval to call getLedgerBalance every 5 seconds
+        setInterval(getLedgerBalance, 1000);
+
     </script>
+
+
 @endsection

@@ -19,9 +19,9 @@ return new class extends Migration
             $table->date('receipt_date');
             $table->text('narration')->nullable()->default('N/A');
             $table->bigInteger('ledger_id');
-            $table->bigInteger('relevant_cash_head');
-            $table->double('dr_amt');
-            $table->double('cr_amt');
+            $table->bigInteger('relevant_cash_head')->nullable();
+            $table->double('dr_amt')->default(0);
+            $table->double('cr_amt')->default(0);
             $table->enum('type',['Debit','Credit']);
             $table->text('receipt_attachment')->nullable();
             $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);

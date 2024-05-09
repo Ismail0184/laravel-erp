@@ -147,7 +147,6 @@
                                 <thead class="table-success">
                                 <tr>
                                     <th style="width: 5%; text-align: center">#</th>
-                                    <th style="width: 5%; text-align: center">Uid</th>
                                     <th>Account Head</th>
                                     <th>Narration</th>
                                     <th class="text-center">Type</th>
@@ -162,7 +161,6 @@
                                 @php($totalCredit = 0)
                                 @foreach($receipts as $receipt)
                                     <tr>
-                                        <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
                                         <td style="text-align: center; vertical-align: middle">{{$receipt->id}}</td>
                                         <td style="vertical-align: middle">{{$receipt->ledger_id}} : {{$receipt->ledger->ledger_name}}</td>
                                         <td style="vertical-align: middle">{{$receipt->narration}}</td>
@@ -192,9 +190,12 @@
                                             <form action="{{route('acc.voucher.receipt.destroy', ['id' => $receipt->id])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="voucher_type" value="multiple">
+                                                @if(request('id')==$receipt->id)
+                                                @else
                                                 <a href="{{route('acc.voucher.receipt.editMultiple',['id' => $receipt->id])}}" title="Update" class="btn btn-success btn-sm">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
+                                                @endif
                                                 <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
@@ -205,7 +206,7 @@
                                     @php($totalCredit = $totalCredit +$receipt->cr_amt)
                                 @endforeach
                                 <tr>
-                                    <th colspan="6" style="text-align: right">Total = </th>
+                                    <th colspan="5" style="text-align: right">Total = </th>
                                     <th style="text-align: right">{{number_format($totalDebit,2)}}</th>
                                     <th style="text-align: right">{{number_format($totalCredit,2)}}</th>
                                     <th></th>
@@ -224,7 +225,7 @@
                                         @csrf
                                         <input type="hidden" name="amount_equality" value="BALANCED">
                                         <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
-                                        <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
+                                        <button type="submit" class="btn btn-success float-right" @if(request('id')>0) disabled @endif onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
                                     </form>
                                 @else
                                     <div class="alert alert-danger float-right col-sm-5" role="alert" style="font-size: 11px">
@@ -266,6 +267,18 @@
                 alert("You cannot input debit and credit amount at the same time. Please try again!!");
                 document.getElementById('inputDrAmount').value = '';
                 document.getElementById('inputCrAmount').value = '';
+                document.getElementById('addButton').disabled = true;
+            }
+            if (parseFloat(inputDrAmount) == 0  &&  parseFloat(inputCrAmount) == 0)  {
+                document.getElementById('addButton').disabled = true;
+            }
+            if (inputDrAmount === "" && inputCrAmount === "") {
+                document.getElementById('addButton').disabled = true;
+            }
+            if (inputDrAmount === "" && inputCrAmount == 0) {
+                document.getElementById('addButton').disabled = true;
+            }
+            if (inputDrAmount == 0 && inputCrAmount === "") {
                 document.getElementById('addButton').disabled = true;
             }
         }

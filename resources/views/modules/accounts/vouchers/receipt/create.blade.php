@@ -269,7 +269,7 @@
             var inputText = document.getElementById("inputField").value;
             var submitButton = document.getElementById("initiateButton");
 
-            if ((inputText.trim() && inputSelect.trim() && inputDate.trim() ) !== "") {
+            if ((inputText.trim() && inputSelect.trim() && inputDate.trim() ) !== "" && inputText.trim() > 0) {
                 submitButton.disabled = false;
             } else {
                 submitButton.disabled = true;
@@ -300,13 +300,16 @@
             }
             if (parseFloat(inputDrAmount) == 0  &&  parseFloat(inputCrAmount) == 0)  {
                 document.getElementById('addButton').disabled = true;
-            } else if (parseFloat(inputDrAmount) == 0  &&  parseFloat(inputCrAmount) =="")  {
+            }
+            if (inputDrAmount === "" && inputCrAmount === "") {
                 document.getElementById('addButton').disabled = true;
             }
-            else if (parseFloat(inputDrAmount) == ""  &&  parseFloat(inputCrAmount) ==0)  {
+            if (inputDrAmount === "" && inputCrAmount == 0) {
                 document.getElementById('addButton').disabled = true;
             }
-
+            if (inputDrAmount == 0 && inputCrAmount === "") {
+                document.getElementById('addButton').disabled = true;
+            }
             @endif
         }
     </script>
