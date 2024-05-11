@@ -184,6 +184,11 @@ class AccReceipt extends Model
         AccReceipt::where('receipt_no',$id)->update(['status'=>'DELETED']);
     }
 
+    public static function recoveryDeletedReceiptVoucher($id)
+    {
+        AccReceipt::where('receipt_no',$id)->update(['status'=>'UNCHECKED']);
+    }
+
     public static function statusupdate($request, $id)
     {
         AccReceipt::where('receipt_no',$id)->update(['status'=>$request->status]);

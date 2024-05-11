@@ -104,6 +104,10 @@ class AccTransactions extends Model
     {
         AccTransactions::where('vr_no',$id)->update(['status'=>'DELETED']);
     }
+    public static function recoveryDeletedTransaction($id)
+    {
+        AccTransactions::where('vr_no',$id)->update(['status'=>'UNCHECKED']);
+    }
 
     public static function previousTransactionDeleteWhileEdit($id)
     {

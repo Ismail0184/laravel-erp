@@ -33,7 +33,8 @@ class ReceiptVoucherController extends Controller
         $this->receiptdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','receipt')->where('entry_by',Auth::user()->id)->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.receipt.index', [
             'receiptdatas' =>$this->receiptdatas,
-            'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson()
+            'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson(),
+            'deletedVoucherRecoveryAccess' => $this->deletedVoucherRecoveryAccess()
         ]);
     }
 
@@ -201,6 +202,7 @@ class ReceiptVoucherController extends Controller
      */
     public function edit($id)
     {
+        AccVoucherMaster::voucherEdit(Session::get('receipt_no'));
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');

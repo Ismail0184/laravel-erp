@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Session;
+use Auth;
 
 class AccVoucherMaster extends Model
 {
@@ -32,17 +33,6 @@ class AccVoucherMaster extends Model
         self::$voucherno->status            = 'MANUAL';
         self::$voucherno->entry_by          = $request->entry_by;
         self::$voucherno->entry_at          = $request->entry_at;
-        self::$voucherno->checked_by        = 0;
-        self::$voucherno->checked_at        = date('Y-m-d H:i:s');
-        self::$voucherno->approved_by       = 0;
-        self::$voucherno->approved_at       = date('Y-m-d H:i:s');
-        self::$voucherno->audited_by        = 0;
-        self::$voucherno->audited_at        = date('Y-m-d H:i:s');
-        self::$voucherno->deleted_reason    = 0;
-        self::$voucherno->deleted_by        = 0;
-        self::$voucherno->deleted_at        = date('Y-m-d H:i:s');
-        self::$voucherno->ip                = 1;
-        self::$voucherno->mac               = 1;
         self::$voucherno->company_id        = 2;
         self::$voucherno->group_id          = 1;
         self::$voucherno->save();
@@ -77,17 +67,6 @@ class AccVoucherMaster extends Model
         self::$voucherno->status            = 'MANUAL';
         self::$voucherno->entry_by          = $request->entry_by;
         self::$voucherno->entry_at          = $request->entry_at;
-        self::$voucherno->checked_by        = 0;
-        self::$voucherno->checked_at        = date('Y-m-d H:i:s');
-        self::$voucherno->approved_by       = 0;
-        self::$voucherno->approved_at       = date('Y-m-d H:i:s');
-        self::$voucherno->audited_by        = 0;
-        self::$voucherno->audited_at        = date('Y-m-d H:i:s');
-        self::$voucherno->deleted_reason    = 0;
-        self::$voucherno->deleted_by        = 0;
-        self::$voucherno->deleted_at        = date('Y-m-d H:i:s');
-        self::$voucherno->ip                = 1;
-        self::$voucherno->mac               = 1;
         self::$voucherno->company_id        = 1;
         self::$voucherno->group_id          = 1;
         self::$voucherno->save();
@@ -134,7 +113,20 @@ class AccVoucherMaster extends Model
     public static function deletedVoucher($id)
     {
         self::$voucherno = AccVoucherMaster::find($id) ;
-        self::$voucherno->status = 'deleted';
+        self::$voucherno->status = 'DELETED';
+        self::$voucherno->entry_status = 'DELETED';
+        self::$voucherno->deleted_by = Auth::user()->id;
+        self::$voucherno->deleted_at = now();
+        self::$voucherno->save();
+    }
+
+    public static function recoveryDeletedVoucher($id)
+    {
+        self::$voucherno = AccVoucherMaster::find($id) ;
+        self::$voucherno->status = 'UNCHECKED';
+        self::$voucherno->entry_status = 'RECOVERED';
+        self::$voucherno->recovered_by = Auth::user()->id;
+        self::$voucherno->recovered_at = now();
         self::$voucherno->save();
     }
 
@@ -218,6 +210,18 @@ class AccVoucherMaster extends Model
         AccVoucherMaster::where('voucher_no',$id)->update(
             [
                 'auditing_person_viewed_at'=>now()
+            ]
+        );
+    }
+
+    public static function voucherEdit($id)
+    {
+        AccVoucherMaster::where('voucher_no',$id)->update(
+            [
+                'status'=>'MANUAL',
+                'entry_status'=>'EDITED',
+                'edited_by'=>Auth::user()->id,
+                'edited_at'=>now()
             ]
         );
     }

@@ -88,7 +88,7 @@ class VoucherMasterController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -176,16 +176,22 @@ class VoucherMasterController extends Controller
 
     public function deleteFullVoucher(Request $request, $id)
     {
-        if ($request->journal_type=='receipt') {
+        if ($request->has('recoveryDeletedReceiptVoucher'))
+        {
+            AccTransactions::recoveryDeletedTransaction($id);
+            AccReceipt::recoveryDeletedReceiptVoucher($id);
+            AccVoucherMaster::recoveryDeletedVoucher($id);
+            return redirect('/accounts/voucher/receipt')->with('recovery_message','This receipt voucher (uid='.$id.') has been successfully recovered!!');
+        } elseif ($request->journal_type=='receipt') {
             AccTransactions::deletedTransaction($id);
             AccReceipt::deletedReceiptVoucher($id);
             AccVoucherMaster::deletedVoucher($id);
-            return redirect('/accounts/voucher/receipt')->with('destroy_message','This (uid='.$id.') receipt voucher has been successfully deleted!!');
+            return redirect('/accounts/voucher/receipt')->with('destroy_message','This receipt voucher (uid='.$id.') has been successfully deleted!!');
         } elseif ($request->journal_type=='payment'){
             AccTransactions::deletedTransaction($id);
             AccPayment::deletedPaymentVoucher($id);
             AccVoucherMaster::deletedVoucher($id);
-            return redirect('/accounts/voucher/payment')->with('destroy_message','This (uid='.$id.') receipt voucher has been successfully deleted!!');
+            return redirect('/accounts/voucher/payment')->with('destroy_message','This receipt voucher (uid='.$id.') has been successfully deleted!!');
         } elseif ($request->journal_type=='journal'){
             AccTransactions::deletedTransaction($id);
             AccJournal::deletedJournalVoucher($id);

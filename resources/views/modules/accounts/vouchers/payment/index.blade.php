@@ -17,6 +17,8 @@
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
                             <p class="text-center text-success">{{ $message }}</p>
+                        @elseif( $message = Session::get('recovery_message'))
+                            <p class="text-center text-success">{{ $message }}</p>
                         @elseif( $message = Session::get('update_message'))
                             <p class="text-center text-primary">{{ $message }}</p>
                         @endif
@@ -84,6 +86,12 @@
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     @endif
+                                                @endif
+                                            @else
+                                                @if($deletedVoucherRecoveryAccess>0)
+                                                    <button type="submit" name="recoveryDeletedReceiptVoucher" class="btn btn-success btn-sm" title="Undo Delete" onclick="return confirm('Are you confirm to recovery the deleted voucher?');">
+                                                        <i class="fa fa-undo"></i>
+                                                    </button>
                                                 @endif
                                             @endif
                                         </form>

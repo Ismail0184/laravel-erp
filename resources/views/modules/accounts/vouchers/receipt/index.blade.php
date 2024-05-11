@@ -17,6 +17,8 @@
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
                             <p class="text-center text-success">{{ $message }}</p>
+                        @elseif( $message = Session::get('recovery_message'))
+                            <p class="text-center text-success">{{ $message }}</p>
                         @elseif( $message = Session::get('update_message'))
                             <p class="text-center text-primary">{{ $message }}</p>
                         @endif
@@ -69,22 +71,27 @@
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
                                             @if($receiptdata->status !== 'DELETED')
-                                            <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $receiptdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
-                                                <i class="fa fa-download"></i>
-                                            </a>
-                                            <a href="{{route('acc.voucher.receipt.print',['voucher_no' => $receiptdata->voucher_no])}}" title="Print" class="btn btn-pink btn-sm">
-                                                <i class="fa fa-print"></i>
-                                            </a>
-
+                                                <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $receiptdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
+                                                    <i class="fa fa-download"></i>
+                                                </a>
+                                                <a href="{{route('acc.voucher.receipt.print',['voucher_no' => $receiptdata->voucher_no])}}" title="Print" class="btn btn-pink btn-sm">
+                                                    <i class="fa fa-print"></i>
+                                                </a>
                                                 @if($receiptdata->status=='UNCHECKED' || $receiptdata->status=='MANUAL' || $receiptdata->status=='REJECTED')
                                                 @if($getVoucherDate <= $checkVoucherEditAccessByCreatedPerson && $checkVoucherEditAccessByCreatedPerson>0)
-                                            <a href="@if($receiptdata->voucher_type=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $receiptdata->voucher_no])}} @elseif($receiptdata->voucher_type=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $receiptdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                                        <a href="@if($receiptdata->voucher_type=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $receiptdata->voucher_no])}} @elseif($receiptdata->voucher_type=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $receiptdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    @endif
                                                 @endif
+                                            @else
+                                                @if($deletedVoucherRecoveryAccess>0)
+                                                <button type="submit" name="recoveryDeletedReceiptVoucher" class="btn btn-success btn-sm" title="Undo Delete" onclick="return confirm('Are you confirm to recovery the deleted voucher?');">
+                                                    <i class="fa fa-undo"></i>
+                                                </button>
                                                 @endif
                                             @endif
                                         </form>
