@@ -27,7 +27,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('payment_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
+                            <input type="date" id="inputDate" oninput="enableInitiateButton()" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('payment_no')>0) value="{{$masterData->voucher_date}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person from</label>
                         <div class="col-sm-3">
@@ -61,7 +61,7 @@
                                 @else
                                     <a href="{{route('acc.voucher.payment.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
-                                <button type="submit" class="btn btn-success w-md">@if(Session::get('payment_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
+                                <button type="submit" id="initiateButton" @if(Session::get('payment_no')) @else disabled @endif class="btn btn-success w-md">@if(Session::get('payment_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>
@@ -82,8 +82,9 @@
             <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px">
                 <thead class="table-success">
                 <tr>
+                    <th style="text-align: center; width: 1%">Type</th>
                     <th style="text-align: center">Accounts Ledger <span class="required text-danger">*</span></th>
-                    <th style="text-align: center; width: 15%">Cost Center <span class="required text-danger">*</span></th>
+                    <th style="text-align: center; width: 15%">Cost Center / Balance <span class="required text-danger">*</span></th>
                     <th style="text-align: center; width: 20%">Narration <span class="required text-danger">*</span></th>
                     <th style="text-align: center;width:15%;">Attachment</th>
                     <th style="width:12%; text-align:center">Amount <span class="required text-danger">*</span></th>
@@ -100,9 +101,10 @@
                     <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
                     <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
                     <input type="hidden" name="voucher_type" value="multiple">
-                <tr style="background-color: white; @if(request('id')>0) @if($editValue->type=='Debit') display:''; @else  display:none; @endif @endif">
+                <tr id="debitInputSection" style="background-color: white; @if(request('id')>0) @if($editValue->type=='Debit') display:''; @else  display:none; @endif @endif">
+                    <th style="vertical-align: middle; text-align: center">Debit</th>
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" style="width: 100%" name="ledger_id" required="required">
+                        <select id="debitInputLedger" oninput="blockCreditInputSection()" class="form-control select2" style="width: 100%" name="ledger_id" required="required">
                             <option value=""></option>
                             @foreach($expensesLedgers as $ledgers)
                                 <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
@@ -110,7 +112,7 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" style="width: 100%" name="cc_code" required="required">
+                        <select id="inputCostCenter" oninput="blockCreditInputSection()" class="form-control select2" style="width: 100%" name="cc_code" required="required">
                             <option value=""></option>
                             @foreach($costcenters as $costCenter)
                                 <option value="{{$costCenter->cc_code}}" @if(request('id')>0) @if($costCenter->cc_code==$editValue->cc_code) selected @endif @endif>{{$costCenter->cc_code}} : {{$costCenter->center_name}}</option>
@@ -118,7 +120,7 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <textarea  name="narration" class="form-control">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('payment_narration')}} @endif</textarea>
+                        <textarea  name="narration" id="inputDebitNarration" oninput="blockCreditInputSection()" class="form-control">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('payment_narration')}} @endif</textarea>
                     </td>
                     <td style="vertical-align: middle; text-align: right"><input type="file" name="image" style="width: 160px" />
                         @if(request('id')>0)
@@ -130,14 +132,14 @@
                         @endif
                     </td>
                     <td style="vertical-align: middle">
-                        <input type="number" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" placeholder="debit amt."   />
+                        <input type="number" id="inputDebitAmount" oninput="blockCreditInputSection()" name="dr_amt" style="text-align: center" class="form-control" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any" placeholder="debit amt."   />
                     </td>
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
+                            <button type="submit" id="debitAddButton" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
                             <a href="{{route('acc.voucher.payment.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
-                            <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</button>
+                            <button type="submit" id="debitAddButton" class="btn btn-success btn-sm" disabled><i class="fa fa-plus"></i> Add</button>
                         @endif
                     </td>
                 </tr>
@@ -151,7 +153,8 @@
                     <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
                     <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
                     <input type="hidden" name="voucher_type" value="multiple">
-                <tr style="background-color: white; @if(request('id')>0) @if($editValue->type=='Credit') display:''; @else  display:none; @endif @endif">
+                <tr id="creditInputSection" style="background-color: white; @if(request('id')>0) @if($editValue->type=='Credit') display:''; @else  display:none; @endif @endif">
+                    <th style="vertical-align: middle; text-align: center">Credit</th>
                     <td style="vertical-align: middle">
                         <select class="form-control select2" style="width: 100%" name="ledger_id" id="selectedLedgerId" onchange="getLedgerBalance()" required="required">
                             <option value=""></option>
@@ -184,10 +187,10 @@
                     </td>
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" id="updateButton" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
+                            <button type="submit" id="creditAddButton" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
                             <a href="{{route('acc.voucher.payment.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
-                            <button type="submit" id="inputButton" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add</button>
+                            <button type="submit" id="creditAddButton" class="btn btn-success btn-sm" disabled><i class="fa fa-plus"></i> Add</button>
                         @endif
                     </td>
                 </tr>
@@ -282,6 +285,37 @@
         @endif @endif
 
     <script>
+        function enableInitiateButton() {
+            var inputDate = document.getElementById("inputDate").value;
+            var submitButton = document.getElementById("initiateButton");
+            if ((inputDate.trim() ) !== "") {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+
+        function blockCreditInputSection()
+        {
+            var debitInputLedger = document.getElementById("debitInputLedger").value;
+            var inputCostCenter = document.getElementById("inputCostCenter").value;
+            var inputDebitNarration = document.getElementById("inputDebitNarration").value;
+            var inputDebitAmount = document.getElementById("inputDebitAmount").value;
+            if ((debitInputLedger.trim() ) !== "") {
+                document.getElementById('creditInputSection').style.display = 'none';
+            } else {
+                document.getElementById('creditInputSection').style.display = 'block';
+            }
+            var submitButton = document.getElementById("debitAddButton");
+            if ((debitInputLedger.trim() &&  inputCostCenter.trim() &&  inputDebitNarration.trim() &&  inputDebitAmount.trim()) !== "") {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+    </script>
+
+    <script>
         const field1 = document.getElementById('inputField');
         const field2 = document.getElementById('totalBalances');
         field1.addEventListener('input', function() {
@@ -321,35 +355,82 @@
     </script>
 
     <script>
+        var previousBalance = null;
+
         function getLedgerBalance() {
             const selectedLedgerId = document.getElementById("selectedLedgerId").value;
+            // Store the value of inputField before making the AJAX call
+            var inputFieldValue = document.getElementById('inputField').value;
             $.ajax({
                 url: `/accounts/voucher/payment/find-ledger-balance/${selectedLedgerId}`,
                 method: 'GET',
                 success: function(response) {
                     document.getElementById("totalBalances").value = response.balance;
-                    var getBalance =  response.balance;
+                    var getBalance = response.balance;
+
+                    // Check if the balance has changed
+                    if (previousBalance !== null && getBalance !== previousBalance) {
+                        // If balance changed after the interval, clear inputField
+                        document.getElementById('inputField').value = '';
+                    }
 
                     if (getBalance === 0) {
-                        document.getElementById('inputField').style.display = 'none';
-                        document.getElementById('inputButton').style.display = 'none';
-                        document.getElementById('inputImage').style.display = 'none';
-                        document.getElementById('inputNarration').style.display = 'none';
+                        @if($COUNT_payments_data > 0)
+                        @else
+                        document.getElementById('initiateButton').disabled = true;
+                        @endif
+                        document.getElementById('inputField').value = '';
+                        document.getElementById('inputField').disabled = true;
+                        document.getElementById('creditAddButton').disabled = true;
+                        @if($COUNT_payments_data > 0)
+                        @foreach($payments as $payment)
+                        document.getElementById('editButton{{$payment->id}}').style.display = 'none';
+                        @endforeach
+                        @endif
+                        document.getElementById('confirmButton').disabled = true;
+                    } else if ((inputField.trim() ) !== "") {
+                        document.getElementById('creditAddButton').disabled = false;
+                        document.getElementById('inputField').disabled = false;
                     } else {
-                        document.getElementById('inputField').style.display = 'block';
-                        document.getElementById('inputNarration').style.display = 'block';
-                        document.getElementById('inputImage').style.display = 'block';
-                        document.getElementById('inputButton').style.display = 'block';
-                        document.getElementById('inputButton').style.textAlign = 'center';
-                        document.getElementById('inputButton').style.marginLeft = '15px';
+                        @if($COUNT_payments_data > 0)
+                        @else
+                        document.getElementById('initiateButton').disabled = false;
+                        @endif
+                        document.getElementById('inputField').disabled = false;
+                        document.getElementById('creditAddButton').disabled = false;
+                        @if($COUNT_payments_data > 0)
+                        @foreach($payments as $payment)
+                        document.getElementById('editButton{{$payment->id}}').style.display = '';
+                        @endforeach
+                        @endif
+                        document.getElementById('confirmButton').disabled = false;
                     }
-                    document.getElementById('inputField').value = '';
+
+                    // Update the previous balance
+                    previousBalance = getBalance;
                 },
                 error: function(error) {
                     console.error("Error fetching category balance:", error);
                 }
             });
+
+            var selectedLedgerIds = document.getElementById("selectedLedgerId").value;
+
+
+
+            if ((selectedLedgerIds.trim() ) !== "") {
+                document.getElementById('debitInputSection').style.display = 'none';
+            } else {
+                document.getElementById('debitInputSection').style.display = '';
+            }
         }
-        getTypeBalance();
+
+        // Call getLedgerBalance initially
+        getLedgerBalance();
+
+        // Set interval to call getLedgerBalance every 1 seconds
+        setInterval(getLedgerBalance, 1000);
+
     </script>
+
 @endsection

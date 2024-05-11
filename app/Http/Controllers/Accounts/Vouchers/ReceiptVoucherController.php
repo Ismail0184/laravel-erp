@@ -202,12 +202,12 @@ class ReceiptVoucherController extends Controller
      */
     public function edit($id)
     {
-        AccVoucherMaster::voucherEdit(Session::get('receipt_no'));
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)
         {
+            AccVoucherMaster::voucherEdit(Session::get('receipt_no'));
             $this->masterData = AccVoucherMaster::find(Session::get('receipt_no'));
             $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
             $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();

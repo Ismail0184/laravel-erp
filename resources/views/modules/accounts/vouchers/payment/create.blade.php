@@ -125,7 +125,7 @@
                 <tbody>
                 <tr style="background-color: white">
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" style="width: 100%" name="ledger_id" required="required">
+                        <select class="form-control select2" id="inputSelectedLedger" style="width: 100%" oninput="enableAddButton()" name="ledger_id" required="required">
                             <option value=""></option>
                             @foreach($ledgerss as $ledgers)
                                 <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
@@ -133,7 +133,7 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <select class="form-control select2" style="width: 100%" name="cc_code" required="required">
+                        <select class="form-control select2" id="inputCCode" style="width: 100%" oninput="enableAddButton()" name="cc_code" required="required">
                             <option value=""></option>
                             @foreach($costcenters as $costCenter)
                                 <option value="{{$costCenter->cc_code}}" @if(request('id')>0) @if($costCenter->cc_code==$editValue->cc_code) selected @endif @endif>{{$costCenter->cc_code}} : {{$costCenter->center_name}}</option>
@@ -156,8 +156,8 @@
                     @if(request('id')>0)
                         <td style="vertical-align: middle">
                             <input type="hidden" name="totalPaymentAmount" id="totalPaymentAmount"  class="form-control text-center" value="{{$masterData->amount}}" autocomplete="off" step="any"  />
-                            <input type="number" name="dr_amt" id="editDrAmt"  class="form-control text-center" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif @if($editValue->cr_amt) readonly @endif autocomplete="off" step="any"  />
-                            <input type="number" name="cr_amt" id="editCrAmt"  class="form-control mt-1 text-center" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif @if($editValue->dr_amt) readonly @endif  autocomplete="off" step="any" />
+                            <input type="number" name="dr_amt" id="inputDrAmount" oninput="enableAddButton()" class="form-control text-center" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif autocomplete="off" step="any"  />
+                            <input type="number" name="cr_amt" id="inputCrAmount" oninput="enableAddButton()" class="form-control mt-1 text-center" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif   autocomplete="off" step="any" />
                         </td>
                     @else
                         <td style="vertical-align: middle; display: none">
@@ -166,10 +166,10 @@
                     @endif
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i> Update</button>
+                            <button type="submit" id="addButton" class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i> Update</button>
                             <a href="{{route('acc.voucher.payment.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"><i class="fa fa-window-close"></i> Cancel</a>
                         @else
-                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
+                            <button type="submit" id="addButton" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
                         @endif
                     </td>
                 </tr>
@@ -216,7 +216,7 @@
                                                         @csrf
                                                         <input type="hidden" name="amount_equality" value="IMBALANCED">
                                                         <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
-                                                        <a href="{{route('acc.voucher.payment.edit',['id' => $payment->id])}}" title="Update" class="btn btn-success btn-sm">
+                                                        <a href="{{route('acc.voucher.payment.edit',['id' => $payment->id])}}" id="editButton{{$payment->id}}" title="Update" class="btn btn-success btn-sm">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
@@ -248,7 +248,7 @@
                                         @csrf
                                         <input type="hidden" name="amount_equality" value="BALANCED">
                                         <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
-                                        <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
+                                        <button type="submit" id="confirmButton" class="btn btn-success float-right" @if(request('id')>0) disabled @endif onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
                                     </form>
                                 @else
                                     <div class="alert alert-danger float-right col-sm-5" role="alert" style="font-size: 11px">
@@ -256,7 +256,6 @@
                                     </div>
                                 @endif
                             </div>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -278,27 +277,27 @@
     </script>
 
     <script>
-        const field3 = document.getElementById('editDrAmt');
+        const field3 = document.getElementById('inputDrAmount');
         const field4 = document.getElementById('totalPaymentAmount');
         field3.addEventListener('input', function() {
             const value1 = parseFloat(field3.value);
             const value2 = parseFloat(field4.value);
             if (value1 > value2) {
                 alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
-                document.getElementById('editDrAmt').value = '';
+                document.getElementById('inputDrAmount').value = '';
             }
         });
     </script>
 
     <script>
-        const field5 = document.getElementById('editCrAmt');
+        const field5 = document.getElementById('inputCrAmount');
         const field6 = document.getElementById('totalPaymentAmount');
         field5.addEventListener('input', function() {
             const value1 = parseFloat(field5.value);
             const value2 = parseFloat(field6.value);
             if (value1 > value2) {
                 alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
-                document.getElementById('editCrAmt').value = '';
+                document.getElementById('inputCrAmount').value = '';
             }
         });
     </script>
@@ -325,11 +324,32 @@
                     }
 
                     if (getBalance === 0) {
+                        @if($COUNT_payments_data > 0)
+                        @else
                         document.getElementById('initiateButton').disabled = true;
+                        @endif
+                        document.getElementById('inputField').value = '';
                         document.getElementById('inputField').disabled = true;
+                        document.getElementById('addButton').disabled = true;
+                        @if($COUNT_payments_data > 0)
+                        @foreach($payments as $payment)
+                        document.getElementById('editButton{{$payment->id}}').style.display = 'none';
+                        @endforeach
+                            @endif
+                        document.getElementById('confirmButton').disabled = true;
                     } else {
+                        @if($COUNT_payments_data > 0)
+                        @else
                         document.getElementById('initiateButton').disabled = false;
+                        @endif
                         document.getElementById('inputField').disabled = false;
+                        document.getElementById('addButton').disabled = false;
+                        @if($COUNT_payments_data > 0)
+                        @foreach($payments as $payment)
+                        document.getElementById('editButton{{$payment->id}}').style.display = '';
+                        @endforeach
+                            @endif
+                        document.getElementById('confirmButton').disabled = false;
                     }
 
                     // Update the previous balance
@@ -344,9 +364,45 @@
         // Call getLedgerBalance initially
         getLedgerBalance();
 
-        // Set interval to call getLedgerBalance every 5 seconds
+        // Set interval to call getLedgerBalance every 1 seconds
         setInterval(getLedgerBalance, 1000);
 
+    </script>
+    <script>
+        function enableAddButton() {
+            var inputSelectedLedger = document.getElementById("inputSelectedLedger").value;
+            var submitButton = document.getElementById("addButton");
+            @if(request('id')>0)
+            var inputDrAmount = document.getElementById("inputDrAmount").value;
+            var inputCrAmount = document.getElementById("inputCrAmount").value;
+            @endif
+
+            if ((inputSelectedLedger.trim()) !== "") {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+            @if(request('id')>0)
+            if (parseFloat(inputDrAmount) > 0  &&  parseFloat(inputCrAmount) > 0) {
+                alert("You cannot input debit and credit amount at the same time. Please try again!!");
+                document.getElementById('inputDrAmount').value = '';
+                document.getElementById('inputCrAmount').value = '';
+                document.getElementById('addButton').disabled = true;
+            }
+            if (parseFloat(inputDrAmount) == 0  &&  parseFloat(inputCrAmount) == 0)  {
+                document.getElementById('addButton').disabled = true;
+            }
+            if (inputDrAmount === "" && inputCrAmount === "") {
+                document.getElementById('addButton').disabled = true;
+            }
+            if (inputDrAmount === "" && inputCrAmount == 0) {
+                document.getElementById('addButton').disabled = true;
+            }
+            if (inputDrAmount == 0 && inputCrAmount === "") {
+                document.getElementById('addButton').disabled = true;
+            }
+            @endif
+        }
     </script>
 
 
