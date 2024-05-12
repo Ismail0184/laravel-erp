@@ -359,6 +359,7 @@
 
         function getLedgerBalance() {
             const selectedLedgerId = document.getElementById("selectedLedgerId").value;
+            var inputField = document.getElementById("inputField").value;
             // Store the value of inputField before making the AJAX call
             var inputFieldValue = document.getElementById('inputField').value;
             $.ajax({
@@ -375,38 +376,19 @@
                     }
 
                     if (getBalance === 0) {
-                        @if($COUNT_payments_data > 0)
-                        @else
-                        document.getElementById('initiateButton').disabled = true;
-                        @endif
+
                         document.getElementById('inputField').value = '';
                         document.getElementById('inputField').disabled = true;
                         document.getElementById('creditAddButton').disabled = true;
-                        @if($COUNT_payments_data > 0)
-                        @foreach($payments as $payment)
-                        document.getElementById('editButton{{$payment->id}}').style.display = 'none';
-                        @endforeach
-                        @endif
                         document.getElementById('confirmButton').disabled = true;
                     } else if ((inputField.trim() ) !== "") {
                         document.getElementById('creditAddButton').disabled = false;
                         document.getElementById('inputField').disabled = false;
-                    } else {
-                        @if($COUNT_payments_data > 0)
-                        @else
-                        document.getElementById('initiateButton').disabled = false;
-                        @endif
-                        document.getElementById('inputField').disabled = false;
-                        document.getElementById('creditAddButton').disabled = false;
-                        @if($COUNT_payments_data > 0)
-                        @foreach($payments as $payment)
-                        document.getElementById('editButton{{$payment->id}}').style.display = '';
-                        @endforeach
-                        @endif
-                        document.getElementById('confirmButton').disabled = false;
                     }
-
-                    // Update the previous balance
+                    else {
+                        document.getElementById('creditAddButton').disabled = true;
+                        document.getElementById('inputField').disabled = false;
+                    }
                     previousBalance = getBalance;
                 },
                 error: function(error) {
