@@ -30,6 +30,7 @@ class AccPayment extends Model
     public static function addPaymentData($request)
     {
         self::$payment = new AccPayment();
+        self::$payment->balance = $request->balance;
         self::$payment->payment_no = $request->payment_no;
         self::$payment->payment_date = $request->payment_date;
         self::$payment->narration = $request->narration;
@@ -37,26 +38,14 @@ class AccPayment extends Model
         self::$payment->relevant_cash_head = $request->relevant_cash_head;
         self::$payment->payment_attachment = self::getImageUrl($request);
 
-
-        if (($request->voucher_type=='multiple') && ($request->dr_amt>0) && ($request->cr_amt==0) ) {
+        if (($request->dr_amt>0) && ($request->cr_amt==0) ) {
             self::$payment->dr_amt = $request->dr_amt;
             self::$payment->cr_amt = 0;
             self::$payment->type = 'Debit';
-        } elseif (($request->voucher_type=='multiple') && ($request->cr_amt>0) && ($request->dr_amt==0)) {
+        } elseif (($request->cr_amt>0) && ($request->dr_amt==0)) {
             self::$payment->dr_amt = 0;
             self::$payment->cr_amt = $request->cr_amt;
             self::$payment->type = 'Credit';
-        } elseif (($request->voucher_type=='single') && ($request->dr_amt>0) && ($request->cr_amt==0)) {
-            self::$payment->dr_amt = $request->dr_amt;
-            self::$payment->cr_amt = 0;
-            self::$payment->type = 'Debit';
-        } elseif (($request->voucher_type=='single') && ($request->cr_amt>0) && ($request->dr_amt==0)) {
-            self::$payment->dr_amt = 0;
-            self::$payment->cr_amt = $request->cr_amt;;
-            self::$payment->type = 'Credit';
-        } else {
-            self::$payment->dr_amt = 0;
-            self::$payment->cr_amt = 0;
         }
         self::$payment->cc_code = $request->cc_code;
         self::$payment->status = 'MANUAL';

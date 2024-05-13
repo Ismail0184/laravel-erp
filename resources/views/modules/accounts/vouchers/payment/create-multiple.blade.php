@@ -165,7 +165,7 @@
                     </td>
                     <td class="text-center" style="vertical-align: middle">
                         @if($checkLedgerBalanceBeforeMakingPayment)
-                            <input type="number" id="totalBalances" name="ledger_balance" @if(Session::get('payment_no')>0) value="{{$masterData->ledger_balance}}" @endif class="form-control" readonly placeholder="Ledger Balance" min="1"/>
+                            <input type="number" id="totalBalances" name="balance" @if(Session::get('payment_no')>0) value="{{$masterData->ledger_balance}}" @endif class="form-control" readonly placeholder="Ledger Balance" min="1"/>
                         @else
                             N/A
                         @endif
@@ -187,8 +187,8 @@
                     </td>
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" id="creditAddButton" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
-                            <a href="{{route('acc.voucher.payment.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
+                            <button type="submit" id="creditAddButton" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Update</button>
+                            <a href="{{route('acc.voucher.payment.multiple.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
                             <button type="submit" id="creditAddButton" class="btn btn-success btn-sm" disabled><i class="fa fa-plus"></i> Add</button>
                         @endif
@@ -212,6 +212,7 @@
                                     <th>Narration</th>
                                     <th class="text-center">Cost Center</th>
                                     <th class="text-center">Attachment</th>
+                                    <th class="text-center" style="width: 10%">Balance</th>
                                     <th class="text-center">Dr Amt</th>
                                     <th class="text-center">Cr Amt</th>
                                     <th class="text-center" style="width: 10%">Option</th>
@@ -229,6 +230,15 @@
                                         <td style="vertical-align: middle" class="text-center">
                                             @if(!empty($payment->payment_attachment))
                                                 <a href="{{asset($payment->payment_attachment)}}" target="_blank">View</a>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td style="text-align: center; vertical-align: middle">
+                                            @if(!empty($payment->type=='Credit'))
+                                            <input type="number" id="ledgerCurrentBalance{{$payment->id}}" class="form-control" readonly style="width: 120px; text-align: center"/>
+                                            <input type="hidden" id="ledgerAddedBalance{{$payment->id}}" value="{{$payment->balance}}"   class="form-control" readonly style="width: 120px; text-align: center"/>
+                                            <input type="hidden" id="ledgerCreditAmount{{$payment->id}}" value="{{$payment->cr_amt}}"  class="form-control" readonly style="width: 120px; text-align: center"/>
                                             @else
                                                 -
                                             @endif
@@ -252,7 +262,7 @@
                                     @php($totalCredit = $totalCredit +$payment->cr_amt)
                                 @endforeach
                                 <tr>
-                                    <th colspan="5" style="text-align: right">Total = </th>
+                                    <th colspan="6" style="text-align: right">Total = </th>
                                     <th style="text-align: right">{{number_format($totalDebit,2)}}</th>
                                     <th style="text-align: right">{{number_format($totalCredit,2)}}</th>
                                     <th></th>
@@ -264,12 +274,12 @@
                                     @csrf
                                     <input type="hidden" name="journal_type" value="payment">
                                     <input type="hidden" name="voucher_type" value="multiple">
-                                    <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');">Cancel & Delete All</button>
+                                    <button type="submit" class="btn btn-danger float-left" onclick="return window.confirm('Are you sure you want to Delete the Voucher?');"> <i class="fa fa-trash"></i> Cancel & Delete All</button>
                                 </form>
                                 @if(number_format($totalDebit,2) === number_format($totalCredit,2))
                                     <form action="{{route('acc.voucher.payment.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                                         @csrf
-                                        <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Confirm & Finish Voucher</button>
+                                        <button type="submit" id="confirmButton" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
                                     </form>
                                 @else
                                     <div class="alert alert-danger float-right col-sm-5" role="alert" style="font-size: 11px">
@@ -283,6 +293,41 @@
                 </div>
             </div>
         @endif @endif
+
+    <script>
+        const myButton = document.getElementById('confirmButton');
+
+        @foreach($payments as $payment)
+        function getLedgerBal{{$payment->id}}() {
+            $.ajax({
+                url: `/accounts/voucher/payment/find-ledger-balance/{{$payment->ledger_id}}`,
+                method: 'GET',
+                success: function(response) {
+                    document.getElementById("ledgerCurrentBalance{{$payment->id}}").value = response.balance;
+
+                    // Calculate newData based on the response.balance or any other relevant data
+                    let newData{{$payment->id}} = response.balance; // Example calculation
+
+                    // Check if newData meets the condition
+                    if (newData{{$payment->id}} < {{$payment->cr_amt}}) {
+                        // If the condition is true, enable the button
+                        myButton.disabled = true;
+                    } else {
+                        // If the condition is false, disable the button
+                        //myButton.disabled = true;
+                    }
+                },
+                error: function(error) {
+                    console.error("Error fetching category balance:", error);
+                }
+            });
+        }
+
+        getLedgerBal{{$payment->id}}();
+        setInterval(getLedgerBal{{$payment->id}}, 1000);
+        @endforeach
+
+    </script>
 
     <script>
         function enableInitiateButton() {
