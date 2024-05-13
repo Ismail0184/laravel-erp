@@ -294,26 +294,21 @@
             </div>
         @endif @endif
 
+    @if($COUNT_payments_data > 0)
     <script>
         const myButton = document.getElementById('confirmButton');
 
         @foreach($payments as $payment)
         function getLedgerBal{{$payment->id}}() {
             $.ajax({
-                url: `/accounts/voucher/payment/find-ledger-balance/{{$payment->ledger_id}}`,
+                url: `/accounts/voucher/payment/find-ledger-balance-without-manual-data/{{$payment->ledger_id}}`,
                 method: 'GET',
                 success: function(response) {
-                    document.getElementById("ledgerCurrentBalance{{$payment->id}}").value = response.balance;
-
-                    // Calculate newData based on the response.balance or any other relevant data
-                    let newData{{$payment->id}} = response.balance; // Example calculation
-
-                    // Check if newData meets the condition
+                    document.getElementById("ledgerCurrentBalance{{$payment->id}}").value = response.balance - document.getElementById("ledgerCreditAmount{{$payment->id}}").value;
+                    let newData{{$payment->id}} = response.balance - document.getElementById("ledgerCreditAmount{{$payment->id}}").value; // Example calculation
                     if (newData{{$payment->id}} < {{$payment->cr_amt}}) {
-                        // If the condition is true, enable the button
                         myButton.disabled = true;
                     } else {
-                        // If the condition is false, disable the button
                         //myButton.disabled = true;
                     }
                 },
@@ -322,12 +317,12 @@
                 }
             });
         }
-
         getLedgerBal{{$payment->id}}();
         setInterval(getLedgerBal{{$payment->id}}, 1000);
         @endforeach
-
     </script>
+
+    @endif
 
     <script>
         function enableInitiateButton() {

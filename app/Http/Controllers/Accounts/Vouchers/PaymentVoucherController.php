@@ -351,7 +351,16 @@ class PaymentVoucherController extends Controller
 
     public function findLedgerBalance($id)
     {
+        $paymentManualData = AccPayment::where('ledger_id',$id)->where('status',['MANUAL'])->sum(DB::raw('cr_amt'));
         $queryForLedgerBalance = AccTransactions::where('ledger_id',$id)->whereNotIn('status',['MANUAL','DELETED'])->sum(DB::raw('dr_amt - cr_amt'));
-        return response()->json(['balance' => $queryForLedgerBalance]);
+        $actualLedgerBalance = $queryForLedgerBalance - $paymentManualData;
+        return response()->json(['balance' => $actualLedgerBalance]);
+    }
+
+    public function findLedgerBalanceWithoutManualData($id)
+    {
+        $queryForLedgerBalance = AccTransactions::where('ledger_id',$id)->whereNotIn('status',['MANUAL','DELETED'])->sum(DB::raw('dr_amt - cr_amt'));
+        $actualLedgerBalance = $queryForLedgerBalance;
+        return response()->json(['balance' => $actualLedgerBalance]);
     }
 }

@@ -365,6 +365,7 @@ Route::get('/', [HomeController::class,'index']);
 
     //Accounts/voucher/Payment Voucher
     Route::get('/accounts/voucher/payment/find-ledger-balance/{id}',[PaymentVoucherController::class,'findLedgerBalance'])->name('findLedgerBalance');
+    Route::get('/accounts/voucher/payment/find-ledger-balance-without-manual-data/{id}',[PaymentVoucherController::class,'findLedgerBalanceWithoutManualData'])->name('findLedgerBalanceWithoutManualData');
     Route::get('/accounts/voucher/payment/',[PaymentVoucherController::class,'index'])->name('acc.voucher.payment.view');
     Route::get('/accounts/voucher/payment/create', [PaymentVoucherController::class,'create'])->name('acc.voucher.payment.create');
     Route::get('/accounts/voucher/payment/create-multiple', [PaymentVoucherController::class,'createMultiple'])->name('acc.voucher.payment.multiple.create');
