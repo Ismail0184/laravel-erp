@@ -192,6 +192,12 @@ class VoucherMasterController extends Controller
             AccPayment::deletedPaymentVoucher($id);
             AccVoucherMaster::deletedVoucher($id);
             return redirect('/accounts/voucher/payment')->with('destroy_message','This receipt voucher (uid='.$id.') has been successfully deleted!!');
+        } elseif ($request->journal_type=='cheque'){
+            AccTransactions::deletedTransaction($id);
+            AccChequePayment::deletedCPaymentVoucher($id);
+            AccVoucherMaster::deletedVoucher($id);
+            return redirect('/accounts/voucher/chequepayment')->with('destroy_message','This cheque payment voucher (uid='.$id.') has been successfully deleted!!');
+
         } elseif ($request->journal_type=='journal'){
             AccTransactions::deletedTransaction($id);
             AccJournal::deletedJournalVoucher($id);

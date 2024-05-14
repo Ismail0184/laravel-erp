@@ -64,19 +64,23 @@
                                             @csrf
                                             <input type="hidden" name="journal_type" value="{{$receiptdata->journal_type}}">
                                             <input type="hidden" name="voucher_type" value="{{$receiptdata->voucher_type}}">
+                                            @if($receiptdata->status !== 'DELETED' && $receiptdata->status !== 'MANUAL')
                                             <a href="{{route('acc.voucher.receipt.status',['voucher_no' => $receiptdata->voucher_no])}}" title="Voucher Status" class="btn btn-info btn-sm" target="_blank">
                                                 <i class="fa fa-eye"></i>
                                             </a>
+                                            @endif
                                             <a href="{{route('acc.voucher.receipt.show',['voucher_no' => $receiptdata->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
                                             @if($receiptdata->status !== 'DELETED')
+                                                @if($receiptdata->status !== 'MANUAL')
                                                 <a href="{{route('acc.voucher.receipt.download',['voucher_no' => $receiptdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 <a href="{{route('acc.voucher.receipt.print',['voucher_no' => $receiptdata->voucher_no])}}" title="Print" class="btn btn-pink btn-sm">
                                                     <i class="fa fa-print"></i>
                                                 </a>
+                                                @endif
                                                 @if($receiptdata->status=='UNCHECKED' || $receiptdata->status=='MANUAL' || $receiptdata->status=='REJECTED')
                                                 @if($getVoucherDate <= $checkVoucherEditAccessByCreatedPerson && $checkVoucherEditAccessByCreatedPerson>0)
                                                         <a href="@if($receiptdata->voucher_type=='single'){{route('acc.voucher.receipt.voucher.edit',['voucher_no' => $receiptdata->voucher_no])}} @elseif($receiptdata->voucher_type=='multiple') {{route('acc.voucher.receipt.voucher.editMultiple',['voucher_no' => $receiptdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
