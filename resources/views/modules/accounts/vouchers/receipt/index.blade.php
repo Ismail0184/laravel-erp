@@ -49,7 +49,7 @@
                                         @endif
                                     </td>
                                     <td style="vertical-align: middle">
-                                        @if($receiptdata->status == 'UNCHECKED') <span class="badge badge-soft-dark">UNCHECKED</span>
+                                        @if($receiptdata->status == 'UNCHECKED') <span class="badge badge-primary">UNCHECKED</span>
                                         @elseif($receiptdata->status == 'MANUAL') <span class="badge badge-soft-dark">MANUAL</span>
                                         @elseif($receiptdata->status == 'CHECKED') <span class="badge badge-info">CHECKED</span>
                                         @elseif($receiptdata->status == 'APPROVED') <span class="badge badge-warning">APPROVED</span>

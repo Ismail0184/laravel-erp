@@ -31,10 +31,11 @@ class PaymentVoucherController extends Controller
 
     public function index()
     {
-        $this->paymntdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','payment')->where('entry_by',Auth::user()->id)->orderBy('voucher_no','DESC')->get();
+        $this->paymntdatas = AccVoucherMaster::where('journal_type','payment')->where('entry_by',Auth::user()->id)->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.payment.index', [
             'paymntdatas' =>$this->paymntdatas,
-            'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson()
+            'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson(),
+            'deletedVoucherRecoveryAccess' => $this->deletedVoucherRecoveryAccess()
         ]);
     }
 
@@ -52,6 +53,7 @@ class PaymentVoucherController extends Controller
         $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
         if(Session::get('payment_no')>0)
         {
+            AccTransactions::previousTransactionDeleteWhileEdit(Session::get('payment_no'));
             $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
             $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
             $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
@@ -81,6 +83,7 @@ class PaymentVoucherController extends Controller
         $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
         if(Session::get('payment_no')>0)
         {
+            AccTransactions::previousTransactionDeleteWhileEdit(Session::get('payment_no'));
             $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
             $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
             $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();

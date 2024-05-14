@@ -26,7 +26,7 @@
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="date" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('cpayment_no')>0) value="{{$masterData->voucher_date}}" @else value="{{date('Y-m-d')}}"  @endif class="form-control" required />
+                            <input type="date" id="inputDate" name="voucher_date" min="{{ \Carbon\Carbon::now()->subDays($minDatePermission)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" @if(Session::get('cpayment_no')>0) value="{{$masterData->voucher_date}}" @else value="{{date('Y-m-d')}}"  @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Person to</label>
                         <div class="col-sm-3">
@@ -68,9 +68,11 @@
 
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Amount<span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="number" id="inputField" name="amount" @if(Session::get('cpayment_no')>0) value="{{$masterData->amount}}" @endif required class="form-control" step="any" placeholder="Cheque Amount" min="1"/>
+                            <input type="number" id="inputField" oninput="getLedgerBalance()" name="amount" @if(Session::get('cpayment_no')>0) value="{{$masterData->amount}}" @endif required class="form-control" step="any" placeholder="Cheque Amount" min="1"/>
                         </div>
                     </div>
+                    @if($COUNT_cpayments_data > 0)
+                    @else
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-7">
                             <div>
@@ -79,10 +81,11 @@
                                 @else
                                     <a href="{{route('acc.voucher.chequepayment.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
-                                <button type="submit" id="initiateButton" class="btn btn-success w-md">@if(Session::get('cpayment_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
+                                <button type="submit" id="initiateButton" @if(Session::get('cpayment_no')) @else disabled @endif class="btn btn-success w-md">@if(Session::get('cpayment_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>
+                    @endif
                 </form>
             </div>
         </div>
@@ -99,12 +102,14 @@
                 <p class="text-center text-primary">{{ $message }}</p>
             @endif
             <input type="hidden" name="cpayment_no" value="{{$masterData->voucher_no}}">
+            <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
             <input type="hidden" name="cpayment_date" value="{{$masterData->voucher_date}}">
             <input type="hidden" name="amount" value="{{$masterData->amount}}">
             <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
             <input type="hidden" name="receipt_date" value="{{$masterData->voucher_date}}">
             <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
-            <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px">
+            <input type="hidden" name="amount_equality" value="BALANCED">
+            <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px;display: @if(!request('id')>0) @if($masterData->amount_equality=='BALANCED') none @endif @endif">
                 <thead class="table-success">
                 <tr>
                     <th style="text-align: center">Vendor, Payment & Expenses Ledger <span class="required text-danger">*</span></th>
@@ -120,7 +125,7 @@
                 <tbody>
                 <tr style="background-color: white">
                     <td style="vertical-align: middle">
-                        <select style="width: 100%" class="form-control select2" name="ledger_id" required="required">
+                        <select style="width: 100%" id="inputSelectedLedger" oninput="enableAddButton()" class="form-control select2" name="ledger_id" required="required">
                             <option value=""></option>
                             @foreach($ledgerss as $ledgers)
                                 <option value="{{$ledgers->ledger_id}}" @if(request('id')>0) @if($ledgers->ledger_id==$editValue->ledger_id) selected @endif @endif>{{$ledgers->ledger_id}} : {{$ledgers->ledger_name}}</option>
@@ -128,7 +133,7 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <select style="width: 100%" class="form-control select2" name="cc_code" required="required">
+                        <select id="inputCC" style="width: 100%" oninput="enableAddButton()" class="form-control select2" name="cc_code" required="required">
                             <option value=""></option>
                             @foreach($costcenters as $costCenter)
                                 <option value="{{$costCenter->cc_code}}" @if(request('id')>0) @if($costCenter->cc_code==$editValue->cc_code) selected @endif @endif>{{$costCenter->cc_code}} : {{$costCenter->center_name}}</option>
@@ -136,10 +141,10 @@
                         </select>
                     </td>
                     <td style="vertical-align: middle">
-                        <textarea  name="narration" style="height: 70px" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('cpayment_narration')}} @endif</textarea>
+                        <textarea id="inputNarration"  name="narration" oninput="enableAddButton()" style="height: 70px" class="form-control" style="height: 38px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('cpayment_narration')}} @endif</textarea>
                     </td>
                     <td style="vertical-align: middle; text-align: right">
-                        <input type="file" style="width: 160px"  name="image" />
+                        <input type="file" style="width: 160px" name="image" />
                         @if(request('id')>0)
                             @if(!empty($editValue->payment_attachment))
                                 <br>
@@ -150,9 +155,8 @@
                     </td>
                     @if(request('id')>0)
                         <td style="vertical-align: middle">
-                            <input type="hidden" name="totalPaymentAmount" id="totalPaymentAmount"  class="form-control text-center" value="{{$masterData->amount}}" autocomplete="off" step="any"  />
-                            <input type="number" name="dr_amt" id="editDrAmt"  class="form-control text-center" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif @if($editValue->cr_amt) readonly @endif autocomplete="off" step="any"  />
-                            <input type="number" name="cr_amt" id="editCrAmt"  class="form-control mt-1 text-center" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif @if($editValue->dr_amt) readonly @endif  autocomplete="off" step="any" />
+                            <input type="number" name="dr_amt" id="inputDrAmount" oninput="enableAddButton()"  class="form-control text-center" @if(request('id')>0) value="{{$editValue->dr_amt}}" @endif @if($editValue->cr_amt) readonly @endif autocomplete="off" step="any"  />
+                            <input type="number" name="cr_amt" id="inputCrAmount" oninput="enableAddButton()"  class="form-control mt-1 text-center" @if(request('id')>0) value="{{$editValue->cr_amt}}" @endif @if($editValue->dr_amt) readonly @endif  autocomplete="off" step="any" />
                         </td>
                     @else
                         <td style="vertical-align: middle; display: none">
@@ -161,10 +165,10 @@
                     @endif
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Update</button>
+                            <button type="submit" id="" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Update</button>
                             <a href="{{route('acc.voucher.chequepayment.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
-                            <button type="submit" class="btn btn-success"> <i class="fa fa-plus"></i> Add</button>
+                            <button type="submit" id="addButton" class="btn btn-success" disabled> <i class="fa fa-plus"></i> Add</button>
                         @endif
                     </td>
                 </tr>
@@ -203,9 +207,14 @@
                                         <td class="text-center" style="vertical-align: middle">
                                             <form action="{{route('acc.voucher.chequepayment.destroy', ['id' => $cpayment->id])}}" method="post">
                                                 @csrf
+                                                <input type="hidden" name="amount_equality" value="IMBALANCED">
+                                                <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
+                                                @if(request('id')==$cpayment->id)
+                                                @else
                                                 <a href="{{route('acc.voucher.chequepayment.edit',['id' => $cpayment->id])}}" title="Update" class="btn btn-success btn-sm">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
+                                                @endif
                                                 <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
@@ -233,6 +242,8 @@
                                 @if(number_format($totalDebit,2) === number_format($totalCredit,2))
                                     <form action="{{route('acc.voucher.chequepayment.confirm', ['voucher_no' => $masterData->voucher_no])}}" method="post">
                                         @csrf
+                                        <input type="hidden" name="amount_equality" value="BALANCED">
+                                        <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
                                         <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"><i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
                                     </form>
                                 @else
@@ -250,6 +261,7 @@
 
     <script>
         // Get references to the input fields
+
         const field1 = document.getElementById('inputField');
         const field2 = document.getElementById('totalBalances');
         // Add event listener to field1
@@ -263,29 +275,67 @@
                 document.getElementById('inputField').value = '';
             }
         });
-    </script>
 
-    <script>
         function getLedgerBalance() {
             const selectedLedgerId = document.getElementById("selectedLedgerId").value;
+            var inputField = document.getElementById("inputField").value;
+            var inputDate = document.getElementById('inputDate').value;
             $.ajax({
                 url: `/accounts/voucher/payment/find-ledger-balance/${selectedLedgerId}`,
                 method: 'GET',
                 success: function(response) {
                     document.getElementById("totalBalances").value = response.balance;
                     var getBalance =  response.balance;
-                    if (getBalance === 0) {
-                        document.getElementById('initiateButton').disabled = true;
-                    } else {
+                    if (getBalance !== 0 && (inputField.trim() !== "") && inputField.trim() > 0) {
                         document.getElementById('initiateButton').disabled = false;
+                    } else {
+                        document.getElementById('initiateButton').disabled = true;
+                        document.getElementById('inputField').value = '';
                     }
-                    document.getElementById('inputField').value = '';
                 },
                 error: function(error) {
                     console.error("Error fetching category balance:", error);
                 }
             });
         }
-        getTypeBalance();
+        getLedgerBalance();
+        setInterval(getLedgerBalance, 1000);
+
+        function enableAddButton() {
+            var inputCC = document.getElementById("inputCC").value;
+            var inputNarration = document.getElementById("inputNarration").value;
+            var inputSelectedLedger = document.getElementById("inputSelectedLedger").value;
+            var submitButton = document.getElementById("addButton");
+            @if(request('id')>0)
+            var inputDrAmount = document.getElementById("inputDrAmount").value;
+            var inputCrAmount = document.getElementById("inputCrAmount").value;
+            @endif
+
+            if ((inputSelectedLedger.trim() && inputCC.trim() && inputNarration.trim()) !== "") {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+            @if(request('id')>0)
+            if (parseFloat(inputDrAmount) > 0  &&  parseFloat(inputCrAmount) > 0) {
+                alert("You cannot input debit and credit amount at the same time. Please try again!!");
+                document.getElementById('inputDrAmount').value = '';
+                document.getElementById('inputCrAmount').value = '';
+                document.getElementById('addButton').disabled = true;
+            }
+            if (parseFloat(inputDrAmount) == 0  &&  parseFloat(inputCrAmount) == 0)  {
+                document.getElementById('addButton').disabled = true;
+            }
+            if (inputDrAmount === "" && inputCrAmount === "") {
+                document.getElementById('addButton').disabled = true;
+            }
+            if (inputDrAmount === "" && inputCrAmount == 0) {
+                document.getElementById('addButton').disabled = true;
+            }
+            if (inputDrAmount == 0 && inputCrAmount === "") {
+                document.getElementById('addButton').disabled = true;
+            }
+            @endif
+        }
     </script>
 @endsection

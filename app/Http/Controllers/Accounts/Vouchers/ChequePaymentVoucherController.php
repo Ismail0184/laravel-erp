@@ -31,7 +31,7 @@ class ChequePaymentVoucherController extends Controller
 
     public function index()
     {
-        $this->cpaymntdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','bank-payment')->orderBy('voucher_no','DESC')->get();
+        $this->cpaymntdatas = AccVoucherMaster::where('entry_by',Auth::user()->id)->where('journal_type','cheque')->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.chequepayment.index', ['cpaymntdatas' =>$this->cpaymntdatas]);
     }
 
@@ -86,6 +86,7 @@ class ChequePaymentVoucherController extends Controller
             if(number_format($totalDebit,2) === number_format($this->masterData->amount,2) && number_format($totalDebit,2) !== number_format($totalCredit,2))
             {
                 AccChequePayment::addCPaymentDataCr($request);
+                AccVoucherMaster::amountEquality($request);
             }
             return redirect('/accounts/voucher/chequepayment/create')->with('store_message', 'A Cheque payment data successfully added!!');
     }
@@ -173,15 +174,17 @@ class ChequePaymentVoucherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         AccChequePayment::destroyCPaymentData($id);
+        AccVoucherMaster::amountEquality($request);
         return redirect('/accounts/voucher/chequepayment/create')->with('destroy_message', 'This data (Uid = ' . $id . ') has been successfully deleted!!');
     }
 
     public function confirm(Request $request, $id)
     {
         AccChequePayment::confirmCPaymentVoucher($request, $id);
+        AccVoucherMaster::amountEquality($request);
         AccVoucherMaster::ConfirmVoucher($request, $id);
         Session::forget('payment_no');
         Session::forget('payment_narration');

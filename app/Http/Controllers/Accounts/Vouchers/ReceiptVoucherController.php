@@ -30,7 +30,7 @@ class ReceiptVoucherController extends Controller
 
     public function index()
     {
-        $this->receiptdatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','receipt')->where('entry_by',Auth::user()->id)->orderBy('voucher_no','DESC')->get();
+        $this->receiptdatas = AccVoucherMaster::where('journal_type','receipt')->where('entry_by',Auth::user()->id)->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.receipt.index', [
             'receiptdatas' =>$this->receiptdatas,
             'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson(),
@@ -51,6 +51,7 @@ class ReceiptVoucherController extends Controller
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)
         {
+            AccTransactions::previousTransactionDeleteWhileEdit(Session::get('receipt_no'));
             $this->masterData = AccVoucherMaster::find(Session::get('receipt_no'));
             $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
             $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();
@@ -73,6 +74,7 @@ class ReceiptVoucherController extends Controller
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)
         {
+            AccTransactions::previousTransactionDeleteWhileEdit(Session::get('receipt_no'));
             $this->masterData = AccVoucherMaster::find(Session::get('receipt_no'));
             $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
             $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();
@@ -248,6 +250,7 @@ class ReceiptVoucherController extends Controller
         $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
         if(Session::get('receipt_no')>0)
         {
+            AccVoucherMaster::voucherEdit(Session::get('receipt_no'));
             $this->masterData = AccVoucherMaster::find(Session::get('receipt_no'));
             $this->receipts = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
             $this->COUNT_receipts_data = AccReceipt::where('receipt_no', Session::get('receipt_no'))->count();

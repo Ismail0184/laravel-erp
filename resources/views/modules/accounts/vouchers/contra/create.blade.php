@@ -62,7 +62,7 @@
                                 @else
                                     <a href="{{route('acc.voucher.contra.view')}}" class="btn btn-danger w-md"> <i class="fa fa-backward"></i> Go back</a>
                                 @endif
-                                <button type="submit" class="btn btn-success w-md">@if(Session::get('contra_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
+                                <button type="submit" id="initiateButton" @if(Session::get('contra_no')) @else disabled @endif class="btn btn-success w-md">@if(Session::get('contra_no')) <i class="fa fa-edit"></i> Update @else <i class="fa fa-save"></i> Initiate & Proceed @endif</button>
                             </div>
                         </div>
                     </div>

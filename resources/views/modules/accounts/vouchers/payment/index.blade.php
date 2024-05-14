@@ -49,7 +49,7 @@
                                         @endif
                                     </td>
                                     <td style="vertical-align: middle">
-                                        @if($paymntdata->status == 'UNCHECKED') <span class="badge badge-soft-dark">UNCHECKED</span>
+                                        @if($paymntdata->status == 'UNCHECKED') <span class="badge badge-primary">UNCHECKED</span>
                                         @elseif($paymntdata->status == 'MANUAL') <span class="badge badge-soft-dark">MANUAL</span>
                                         @elseif($paymntdata->status == 'CHECKED') <span class="badge badge-info">CHECKED</span>
                                         @elseif($paymntdata->status == 'APPROVED') <span class="badge badge-warning">APPROVED</span>
@@ -64,19 +64,23 @@
                                             <input type="hidden" name="journal_type" value="{{$paymntdata->journal_type}}">
                                             <input type="hidden" name="voucher_type" value="{{$paymntdata->voucher_type}}">
                                             @csrf
+                                            @if($paymntdata->status !== 'DELETED' && $paymntdata->status !== 'MANUAL')
                                             <a href="{{route('acc.voucher.payment.status',['voucher_no' => $paymntdata->voucher_no])}}" title="Voucher Status" class="btn btn-info btn-sm" target="_blank">
                                                 <i class="fa fa-eye"></i>
                                             </a>
+                                            @endif
                                             <a href="{{route('acc.voucher.payment.show',['voucher_no' => $paymntdata->voucher_no])}}" title="View Voucher" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-book-reader"></i>
                                             </a>
                                             @if($paymntdata->status !== 'DELETED')
+                                                @if($paymntdata->status !== 'MANUAL')
                                                 <a href="{{route('acc.voucher.payment.download',['voucher_no' => $paymntdata->voucher_no])}}" title="Download Voucher as PDF" class="btn btn-secondary btn-sm">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 <a href="{{route('acc.voucher.payment.print',['voucher_no' => $paymntdata->voucher_no])}}" title="Print" class="btn btn-pink btn-sm">
                                                     <i class="fa fa-print"></i>
                                                 </a>
+                                                @endif
                                                 @if($paymntdata->status=='UNCHECKED' || $paymntdata->status=='MANUAL' || $paymntdata->status=='REJECTED')
                                                     @if($getVoucherDate <= $checkVoucherEditAccessByCreatedPerson && $checkVoucherEditAccessByCreatedPerson>0)
                                                         <a href="@if($paymntdata->voucher_type=='single'){{route('acc.voucher.payment.voucher.edit',['voucher_no' => $paymntdata->voucher_no])}} @elseif($paymntdata->voucher_type=='multiple') {{route('acc.voucher.payment.voucher.editMultiple',['voucher_no' => $paymntdata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
@@ -88,7 +92,7 @@
                                                     @endif
                                                 @endif
                                             @else
-                                                @if($deletedVoucherRecoveryAccess>0)
+                                                @if($deletedVoucherRecoveryAccess>0 && $paymntdata->status !== 'MANUAL')
                                                     <button type="submit" name="recoveryDeletedReceiptVoucher" class="btn btn-success btn-sm" title="Undo Delete" onclick="return confirm('Are you confirm to recovery the deleted voucher?');">
                                                         <i class="fa fa-undo"></i>
                                                     </button>
