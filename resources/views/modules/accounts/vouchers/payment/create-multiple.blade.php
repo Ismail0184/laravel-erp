@@ -84,7 +84,7 @@
                 <tr>
                     <th style="text-align: center; width: 1%">Type</th>
                     <th style="text-align: center">Accounts Ledger <span class="required text-danger">*</span></th>
-                    <th style="text-align: center; width: 15%">Cost Center / Balance <span class="required text-danger">*</span></th>
+                    <th style="text-align: center; width: 15%"><span id="showCC">Cost Center</span><span id="showSlash"> / </span><span id="showBalance">Balance</span><span class="required text-danger">*</span></th>
                     <th style="text-align: center; width: 20%">Narration <span class="required text-danger">*</span></th>
                     <th style="text-align: center;width:15%;">Attachment</th>
                     <th style="width:12%; text-align:center">Amount <span class="required text-danger">*</span></th>
@@ -127,7 +127,7 @@
                             @if(!empty($editValue->payment_attachment))
                                 <br>
                                 <a href="{{asset($editValue->payment_attachment)}}" style="text-align: center;" class="btn btn-primary btn-sm" title="delete attachment" target="_blank"><i class="fa fa-book-open"></i></a>
-                                <a href="{{route('acc.voucher.payment.deleteAttachmentPaymentVoucher', ['id'=>request('id')])}}" style="text-align: center" class="btn btn-danger btn-sm" title="delete attachment"><i class="fa fa-trash"></i></a>
+                                <a href="{{route('acc.voucher.payment.deleteAttachmentPaymentVoucher', ['id'=>request('id'),'voucher_type'=>'multiple'])}}" style="text-align: center" class="btn btn-danger btn-sm" title="delete attachment"><i class="fa fa-trash"></i></a>
                             @endif
                         @endif
                     </td>
@@ -236,9 +236,9 @@
                                         </td>
                                         <td style="text-align: center; vertical-align: middle">
                                             @if(!empty($payment->type=='Credit'))
-                                            <input type="number" id="ledgerCurrentBalance{{$payment->id}}" class="form-control" readonly style="width: 120px; text-align: center"/>
-                                            <input type="hidden" id="ledgerAddedBalance{{$payment->id}}" value="{{$payment->balance}}"   class="form-control" readonly style="width: 120px; text-align: center"/>
-                                            <input type="hidden" id="ledgerCreditAmount{{$payment->id}}" value="{{$payment->cr_amt}}"  class="form-control" readonly style="width: 120px; text-align: center"/>
+                                            <input type="number" id="ledgerCurrentBalance{{$payment->ledger_id}}" class="form-control" readonly style="width: 120px; text-align: center"/>
+                                            <input type="hidden" id="ledgerAddedBalance{{$payment->ledger_id}}" value="{{$payment->balance}}"   class="form-control" readonly style="width: 120px; text-align: center"/>
+                                            <input type="hidden" id="ledgerCreditAmount{{$payment->ledger_id}}" value="{{$payment->cr_amt}}"  class="form-control" readonly style="width: 120px; text-align: center"/>
                                             @else
                                                 -
                                             @endif
@@ -295,33 +295,34 @@
         @endif @endif
 
     @if($COUNT_payments_data > 0)
-    <script>
-        const myButton = document.getElementById('confirmButton');
+        <script>
+            const myButton = document.getElementById('confirmButton');
 
-        @foreach($payments as $payment)
-        function getLedgerBal{{$payment->id}}() {
-            $.ajax({
-                url: `/accounts/voucher/payment/find-ledger-balance-without-manual-data/{{$payment->ledger_id}}`,
-                method: 'GET',
-                success: function(response) {
-                    document.getElementById("ledgerCurrentBalance{{$payment->id}}").value = response.balance - document.getElementById("ledgerCreditAmount{{$payment->id}}").value;
-                    let newData{{$payment->id}} = response.balance - document.getElementById("ledgerCreditAmount{{$payment->id}}").value; // Example calculation
-                    if (newData{{$payment->id}} < {{$payment->cr_amt}}) {
-                        myButton.disabled = true;
-                    } else {
-                        //myButton.disabled = true;
+            @foreach($payments as $payment)
+
+            @php($totalAmount = \App\Models\Accounts\Vouchers\AccPayment::where('ledger_id',$payment->ledger_id)->where('payment_no',$payment->payment_no)->sum('cr_amt'))
+            function getLedgerBal{{$payment->ledger_id}}() {
+                $.ajax({
+                    url: `/accounts/voucher/payment/find-ledger-balance-without-manual-data/{{$payment->ledger_id}}`,
+                    method: 'GET',
+                    success: function(response) {
+                        document.getElementById("ledgerCurrentBalance{{$payment->ledger_id}}").value = response.balance;
+                        let newData{{$payment->ledger_id}} = response.balance - document.getElementById("ledgerCreditAmount{{$payment->ledger_id}}").value; // Example calculation
+                        if (newData{{$payment->ledger_id}} < {{$totalAmount}}) {
+                            myButton.disabled = true;
+                        } else {
+                            myButton.disabled = false;
+                        }
+                    },
+                    error: function(error) {
+                        console.error("Error fetching category balance:", error);
                     }
-                },
-                error: function(error) {
-                    console.error("Error fetching category balance:", error);
-                }
-            });
-        }
-        getLedgerBal{{$payment->id}}();
-        setInterval(getLedgerBal{{$payment->id}}, 1000);
-        @endforeach
-    </script>
-
+                });
+            }
+            getLedgerBal{{$payment->ledger_id}}();
+            setInterval(getLedgerBal{{$payment->ledger_id}}, 1000);
+            @endforeach
+        </script>
     @endif
 
     <script>
@@ -343,8 +344,11 @@
             var inputDebitAmount = document.getElementById("inputDebitAmount").value;
             if ((debitInputLedger.trim() ) !== "") {
                 document.getElementById('creditInputSection').style.display = 'none';
+                document.getElementById('showBalance').style.display = 'none';
+                document.getElementById('showSlash').style.display = 'none';
             } else {
                 document.getElementById('creditInputSection').style.display = 'block';
+
             }
             var submitButton = document.getElementById("debitAddButton");
             if ((debitInputLedger.trim() &&  inputCostCenter.trim() &&  inputDebitNarration.trim() &&  inputDebitAmount.trim()) !== "") {
@@ -442,8 +446,12 @@
 
             if ((selectedLedgerIds.trim() ) !== "") {
                 document.getElementById('debitInputSection').style.display = 'none';
+                document.getElementById('showCC').style.display = 'none';
+                document.getElementById('showSlash').style.display = 'none';
+
             } else {
                 document.getElementById('debitInputSection').style.display = '';
+
             }
         }
 
