@@ -244,7 +244,7 @@
                                         @csrf
                                         <input type="hidden" name="amount_equality" value="BALANCED">
                                         <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
-                                        <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"><i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
+                                        <button type="submit" id="confirmButton" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');"><i class="fa fa-check-double"></i> Confirm & Finish Voucher</button>
                                     </form>
                                 @else
                                     <div class="alert alert-danger float-right col-sm-5" role="alert" style="font-size: 11px">
@@ -288,9 +288,11 @@
                     var getBalance =  response.balance;
                     if (getBalance !== 0 && (inputField.trim() !== "") && inputField.trim() > 0) {
                         document.getElementById('initiateButton').disabled = false;
+                        document.getElementById('confirmButton').disabled = false;
                     } else {
                         document.getElementById('initiateButton').disabled = true;
                         document.getElementById('inputField').value = '';
+                        document.getElementById('confirmButton').disabled = true;
                     }
                 },
                 error: function(error) {

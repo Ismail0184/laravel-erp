@@ -8,6 +8,8 @@ use App\Models\Accounts\AccLedger;
 use App\Models\Accounts\AccTransactions;
 use App\Models\Accounts\Vouchers\AccJournal;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
+use App\Traits\SharedFunctionsTrait;
+use App\Traits\SharedOtherOptionFunctionsTrait;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -21,13 +23,20 @@ class JournalVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    use SharedFunctionsTrait;
+    use SharedOtherOptionFunctionsTrait;
     private $journalVoucher,$ledgers,$vouchertype,$masterData,$journals,$editValue,$COUNT_journals_data,$journaldatas,$journal,$vouchermaster,$costcenters,$next_transaction_id;
 
 
     public function index()
     {
-        $this->journaldatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','journal')->orderBy('voucher_no','DESC')->get();
-        return view('modules.accounts.vouchers.journal.index', ['journaldatas' =>$this->journaldatas]);
+        $this->journaldatas = AccVoucherMaster::where('journal_type','journal')->where('entry_by',Auth::user()->id)->orderBy('voucher_no','DESC')->get();
+        return view('modules.accounts.vouchers.journal.index', [
+            'journaldatas' =>$this->journaldatas,
+            'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson(),
+            'deletedVoucherRecoveryAccess' => $this->deletedVoucherRecoveryAccess()
+
+        ]);
     }
 
     /**
@@ -55,7 +64,9 @@ class JournalVoucherController extends Controller
             'masterData' => $this->masterData,
             'journals' => $this->journals,
             'COUNT_journals_data' => $this->COUNT_journals_data,
-            'costcenters' =>$this->costcenters
+            'costcenters' =>$this->costcenters,
+            'minDatePermission' => $this->sharedFunction(),
+            'checkLedgerBalanceBeforeMakingPayment' => $this->checkLedgerBalanceBeforeMakingPayment()
         ] );
     }
 

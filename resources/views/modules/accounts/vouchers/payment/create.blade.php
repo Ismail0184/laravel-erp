@@ -308,7 +308,6 @@
 
         function getLedgerBalance() {
             const selectedLedgerId = document.getElementById("selectedLedgerId").value;
-            // Store the value of inputField before making the AJAX call
             var inputFieldValue = document.getElementById('inputField').value;
             $.ajax({
                 url: `/accounts/voucher/payment/find-ledger-balance/${selectedLedgerId}`,
@@ -317,12 +316,9 @@
                     document.getElementById("totalBalances").value = response.balance;
                     var getBalance = response.balance;
 
-                    // Check if the balance has changed
                     if (previousBalance !== null && getBalance !== previousBalance) {
-                        // If balance changed after the interval, clear inputField
                         document.getElementById('inputField').value = '';
                     }
-
                     if (getBalance === 0) {
                         @if($COUNT_payments_data > 0)
                         @else
@@ -351,7 +347,6 @@
                             @endif
                         document.getElementById('confirmButton').disabled = false;
                     }
-
                     // Update the previous balance
                     previousBalance = getBalance;
                 },
