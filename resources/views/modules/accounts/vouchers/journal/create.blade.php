@@ -73,8 +73,6 @@
     </div>
 
     @if(Session::get('journal_no')>0)
-        <form style="font-size: 11px" method="POST" action="@if(request('id')>0) {{route('acc.voucher.journal.update', ['id'=>$editValue->id])}} @else {{route('acc.voucher.journal.store')}} @endif">
-            @csrf
             @if ($message = Session::get('destroy_message'))
                 <p class="text-center text-danger">{{ $message }}</p>
             @elseif( $message = Session::get('store_message'))
@@ -82,12 +80,6 @@
             @elseif( $message = Session::get('update_message'))
                 <p class="text-center text-primary">{{ $message }}</p>
             @endif
-            <input type="hidden" name="journal_no" value="{{$masterData->voucher_no}}">
-            <input type="hidden" name="journal_date" value="{{$masterData->voucher_date}}">
-            <input type="hidden" name="amount" value="{{$masterData->amount}}">
-            <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
-            <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
-            <input type="hidden" name="voucher_type" value="multiple">
             <table align="center" class="table table-striped table-bordered" style="width:98%; font-size: 11px">
                 <thead class="table-success">
                 <tr>
@@ -146,7 +138,7 @@
                         <td style="vertical-align: middle; text-align: center">
                             @if(request('id')>0)
                                 <button type="submit" id="debitAddButton" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
-                                <a href="{{route('acc.voucher.journal.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
+                                <a href="{{route('acc.voucher.journal.create')}}" class="btn btn-danger" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                             @else
                                 <button type="submit" id="debitAddButton" class="btn btn-success btn-sm" disabled><i class="fa fa-plus"></i> Add</button>
                             @endif
@@ -197,7 +189,7 @@
                         <td style="vertical-align: middle; text-align: center">
                             @if(request('id')>0)
                                 <button type="submit" id="creditAddButton" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Update</button>
-                                <a href="{{route('acc.voucher.journal.multiple.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
+                                <a href="{{route('acc.voucher.journal.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                             @else
                                 <button type="submit" id="creditAddButton" class="btn btn-success btn-sm" disabled><i class="fa fa-plus"></i> Add</button>
                             @endif
@@ -206,7 +198,6 @@
                 </form>
                 </tbody>
             </table>
-        </form>
 
         @if($COUNT_journals_data > 0)
             <div class="col-lg-12">
@@ -217,10 +208,10 @@
                                 <thead class="table-success">
                                 <tr>
                                     <th style="width: 5%; text-align: center">#</th>
-                                    <th style="width: 5%; text-align: center">Uid</th>
                                     <th>Account Head</th>
                                     <th>Narration</th>
                                     <th class="text-center">Type</th>
+                                    <th style="text-align: center;width:15%;">Attachment</th>
                                     <th>Debit Amount</th>
                                     <th>Credit Amount</th>
                                     <th class="text-center" style="width: 10%">Option</th>
@@ -231,11 +222,17 @@
                                 @php($totalCredit = 0)
                                 @foreach($journals as $journal)
                                     <tr>
-                                        <td style="text-align: center; vertical-align: middle">{{$loop->iteration}}</td>
                                         <td style="text-align: center; vertical-align: middle">{{$journal->id}}</td>
                                         <td style="vertical-align: middle">{{$journal->ledger_id}} : {{$journal->ledger->ledger_name}}</td>
                                         <td style="vertical-align: middle">{{$journal->narration}}</td>
                                         <td style="vertical-align: middle" class="text-center">{{$journal->type}}</td>
+                                        <td style="vertical-align: middle" class="text-center">
+                                            @if(!empty($journal->journal_attachment))
+                                                <a href="{{asset($journal->journal_attachment)}}" target="_blank">View</a>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
                                         <td style="text-align: right; vertical-align: middle">{{number_format($journal->dr_amt,2)}}</td>
                                         <td style="text-align: right;vertical-align: middle">{{number_format($journal->cr_amt,2)}}</td>
                                         <td class="text-center" style="vertical-align: middle">
@@ -255,7 +252,7 @@
                                     @php($totalCredit = $totalCredit +$journal->cr_amt)
                                 @endforeach
                                 <tr>
-                                    <th colspan="5" style="text-align: right">Total = </th>
+                                    <th colspan="4" style="text-align: right">Total = </th>
                                     <th style="text-align: right">{{number_format($totalDebit,2)}}</th>
                                     <th style="text-align: right">{{number_format($totalCredit,2)}}</th>
                                     <th></th>

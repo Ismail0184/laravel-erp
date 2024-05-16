@@ -11,7 +11,18 @@ class AccJournal extends Model
 {
     use HasFactory;
 
-    public static $journal;
+    public static $journal,$image, $imageName, $directory, $imageUrl;
+
+    public static function getImageUrl($request)
+    {
+        if (!empty($request->image)) {
+            self::$image = $request->file('image');
+            self::$imageName = self::$image->getClientOriginalName();
+            self::$directory = 'assets/images/vouchers/journal/'.$request->journal_no.'/';
+            self::$image->move(self::$directory, self::$imageName);
+            return self::$directory . self::$imageName;
+        }
+    }
 
 
     public static function addJournalData($request)
@@ -22,6 +33,7 @@ class AccJournal extends Model
         self::$journal->narration = $request->narration;
         self::$journal->ledger_id = $request->ledger_id;
         self::$journal->relevant_cash_head = $request->relevant_cash_head;
+        self::$journal->journal_attachment = self::getImageUrl($request);
         if($request->dr_amt>0 && $request->cr_amt=='') {
             self::$journal->dr_amt = $request->dr_amt;
             self::$journal->cr_amt = 0;
@@ -32,8 +44,8 @@ class AccJournal extends Model
         self::$journal->cc_code = $request->cc_code;
         self::$journal->status = 'MANUAL';
         self::$journal->entry_by = $request->entry_by;
-        self::$journal->sconid = 1;
-        self::$journal->pcomid = 1;
+        self::$journal->company_id = 2; Session::get('companyId');
+        self::$journal->group_id = 1; Session::get('groupId');
         self::$journal->save();
         Session::put('journal_narration', $request->narration);
     }

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->bigInteger('relevant_cash_head')->nullable();
             $table->double('dr_amt')->default(0);
             $table->double('cr_amt')->default(0);
+            $table->integer('cc_code');
             $table->enum('type',['Debit','Credit']);
             $table->text('receipt_attachment')->nullable();
             $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);

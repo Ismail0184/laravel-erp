@@ -17,17 +17,19 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('journal_no');
             $table->date('journal_date');
-            $table->text('narration');
+            $table->text('narration')->nullable()->default('N/A');
             $table->bigInteger('ledger_id');
-            $table->bigInteger('relevant_cash_head');
+            $table->bigInteger('relevant_cash_head')->nullable();
             $table->double('dr_amt');
             $table->double('cr_amt');
             $table->integer('cc_code');
             $table->enum('type',['Debit','Credit']);
+            $table->text('journal_attachment')->nullable();
             $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);
             $table->integer('entry_by');
-            $table->integer('sconid');
-            $table->integer('pcomid');
+            $table->integer('visible_status')->default('1');
+            $table->integer('company_id');
+            $table->integer('group_id');
             $table->timestamps();
         });
     }

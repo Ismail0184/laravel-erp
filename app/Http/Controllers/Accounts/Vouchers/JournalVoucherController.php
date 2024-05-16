@@ -132,11 +132,11 @@ class JournalVoucherController extends Controller
         $this->costcenters = AccCostCenter::where('status','active')->get();
         $this->vouchertype ='3';
         $this->journalVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
-        if(Session::get('payment_no')>0)
+        if(Session::get('journal_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('journal_no'));
             $this->journals = AccJournal::where('journal_no', Session::get('journal_no'))->get();
-            $this->COUNT_payments_data = AccJournal::where('journal_no', Session::get('journal_no'))->count();
+            $this->COUNT_journals_data = AccJournal::where('journal_no', Session::get('journal_no'))->count();
         }
         if(\request('id')>0)
         {
@@ -151,7 +151,9 @@ class JournalVoucherController extends Controller
             'journals' => $this->journals,
             'editValue' => $this->editValue,
             'COUNT_journals_data' => $this->COUNT_journals_data,
-            'costcenters' =>$this->costcenters
+            'costcenters' =>$this->costcenters,
+            'minDatePermission' => $this->sharedFunction(),
+            'checkLedgerBalanceBeforeMakingPayment' => $this->checkLedgerBalanceBeforeMakingPayment()
         ] );
     }
 

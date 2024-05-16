@@ -404,6 +404,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/journal/print/{voucher_no}', [JournalVoucherController::class,'voucherPrint'])->name('acc.voucher.journal.print');
     Route::get('/accounts/voucher/journal/download/{voucher_no}', [JournalVoucherController::class,'downalodvoucher'])->name('acc.voucher.journal.download');
     Route::get('/accounts/voucher/journal/edit/{id}', [JournalVoucherController::class,'edit'])->name('acc.voucher.journal.edit');
+    Route::get('/accounts/voucher/journal/delete_attachment_while_edit/{id}', [JournalVoucherController::class,'deleteAttachmentJournalVoucher'])->name('acc.voucher.journal.deleteAttachmentJournalVoucher');
     Route::post('/accounts/voucher/journal/destroy/{id}', [JournalVoucherController::class,'destroy'])->name('acc.voucher.journal.destroy');
     Route::get('/accounts/voucher/journal/voucher/edit/{voucher_no}', function (Request $request){ session(['payment_no'=>request('voucher_no')]);
             return redirect('/accounts/voucher/journal/create');})->name('acc.voucher.journal.voucher.edit');
