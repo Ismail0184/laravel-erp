@@ -24,9 +24,12 @@ class MisUserPermissionMatrixCompany extends Model
         self::$company->company_id = $request->company_id;
         self::$company->user_id = $request->user_id;
         self::$company->permitted_by = $request->permitted_by;
+        self::$company->default_company = $request->default_company ?? 0;
         self::$company->group_id = self::getGid($request->company_id);
         self::$company->save();
     }
+
+
 
     public function getComData()
     {

@@ -136,8 +136,8 @@
                     </td>
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
-                            <button type="submit" id="debitAddButton" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
-                            <a href="{{route('acc.voucher.payment.multiple.create')}}" class="btn btn-danger" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
+                            <button type="submit" id="debitAddButton" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Update</button>
+                            <a href="{{route('acc.voucher.payment.multiple.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
                             <button type="submit" id="debitAddButton" class="btn btn-success btn-sm" disabled><i class="fa fa-plus"></i> Add</button>
                         @endif
@@ -294,12 +294,12 @@
             </div>
         @endif @endif
 
+
+
     @if($COUNT_payments_data > 0)
         <script>
             const myButton = document.getElementById('confirmButton');
-
             @foreach($payments as $payment)
-
             @php($totalAmount = \App\Models\Accounts\Vouchers\AccPayment::where('ledger_id',$payment->ledger_id)->where('payment_no',$payment->payment_no)->sum('cr_amt'))
             function getLedgerBal{{$payment->ledger_id}}() {
                 $.ajax({
@@ -348,7 +348,6 @@
                 document.getElementById('showSlash').style.display = 'none';
             } else {
                 document.getElementById('creditInputSection').style.display = 'block';
-
             }
             var submitButton = document.getElementById("debitAddButton");
             if ((debitInputLedger.trim() &&  inputCostCenter.trim() &&  inputDebitNarration.trim() &&  inputDebitAmount.trim()) !== "") {
@@ -400,11 +399,9 @@
 
     <script>
         var previousBalance = null;
-
         function getLedgerBalance() {
             const selectedLedgerId = document.getElementById("selectedLedgerId").value;
             var inputField = document.getElementById("inputField").value;
-            // Store the value of inputField before making the AJAX call
             var inputFieldValue = document.getElementById('inputField').value;
             $.ajax({
                 url: `/accounts/voucher/payment/find-ledger-balance/${selectedLedgerId}`,
@@ -412,15 +409,10 @@
                 success: function(response) {
                     document.getElementById("totalBalances").value = response.balance;
                     var getBalance = response.balance;
-
-                    // Check if the balance has changed
                     if (previousBalance !== null && getBalance !== previousBalance) {
-                        // If balance changed after the interval, clear inputField
                         document.getElementById('inputField').value = '';
                     }
-
                     if (getBalance === 0) {
-
                         document.getElementById('inputField').value = '';
                         document.getElementById('inputField').disabled = true;
                         document.getElementById('creditAddButton').disabled = true;
@@ -428,8 +420,7 @@
                     } else if ((inputField.trim() ) !== "") {
                         document.getElementById('creditAddButton').disabled = false;
                         document.getElementById('inputField').disabled = false;
-                    }
-                    else {
+                    } else {
                         document.getElementById('creditAddButton').disabled = true;
                         document.getElementById('inputField').disabled = false;
                     }
@@ -439,28 +430,17 @@
                     console.error("Error fetching category balance:", error);
                 }
             });
-
             var selectedLedgerIds = document.getElementById("selectedLedgerId").value;
-
-
-
             if ((selectedLedgerIds.trim() ) !== "") {
                 document.getElementById('debitInputSection').style.display = 'none';
                 document.getElementById('showCC').style.display = 'none';
                 document.getElementById('showSlash').style.display = 'none';
-
             } else {
                 document.getElementById('debitInputSection').style.display = '';
-
             }
         }
-
-        // Call getLedgerBalance initially
         getLedgerBalance();
-
-        // Set interval to call getLedgerBalance every 1 seconds
         setInterval(getLedgerBalance, 1000);
-
     </script>
 
 @endsection

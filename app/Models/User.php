@@ -77,9 +77,9 @@ class User extends Authenticatable
         self::$user->save();
     }
 
-    public static function getGid($cid)
+    public static function getGid($company_id)
     {
-        $company = DevCompany::findOrfail($cid);
+        $company = DevCompany::findOrfail($company_id);
         return $company->group_id;
     }
 
@@ -93,8 +93,8 @@ class User extends Authenticatable
         self::$user->profile_photo_path = $request->profile_photo_path;
         self::$user->password = Hash::make($request->password);
         self::$user->status = 'active';
-        self::$user->cid = $request->cid;
-        self::$user->gid = self::getGid($request->cid);
+        self::$user->company_id = $request->company_id;
+        self::$user->group_id = self::getGid($request->company_id);
         self::$user->save();
     }
 
@@ -105,15 +105,23 @@ class User extends Authenticatable
         self::$user->name = $request->name;
         self::$user->type = $request->type;
         self::$user->profile_photo_path = $request->profile_photo_path;
-        //self::$user->password = Hash::make($request->password);
         self::$user->status = $request->status;
-        self::$user->cid = $request->cid;
-        self::$user->gid = self::getGid($request->cid);
+        self::$user->company_id = $request->company_id;
+        self::$user->group_id = self::getGid($request->group_id);
         self::$user->save();
     }
 
     public function jobInfoTable()
     {
         return $this->belongsTo(HrmEmployeeJobInfo::class,'id','employee_id');
+    }
+
+    public static function setDefaultCompany($request)
+    {
+        User::where('id',$request->user_id)->update(
+            [
+                'company_id'=>$request->company_id,
+                'group_id' => self::getGid($request->company_id)
+            ]);
     }
 }

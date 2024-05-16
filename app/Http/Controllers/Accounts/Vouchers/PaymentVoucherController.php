@@ -31,7 +31,7 @@ class PaymentVoucherController extends Controller
 
     public function index()
     {
-        $this->paymntdatas = AccVoucherMaster::where('journal_type','payment')->where('entry_by',Auth::user()->id)->orderBy('voucher_no','DESC')->get();
+        $this->paymntdatas = AccVoucherMaster::where('journal_type','payment')->where('entry_by',Auth::user()->id)->where('company_id',Auth::user()->company_id)->where('group_id',Auth::user()->group_id)->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.payment.index', [
             'paymntdatas' =>$this->paymntdatas,
             'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson(),

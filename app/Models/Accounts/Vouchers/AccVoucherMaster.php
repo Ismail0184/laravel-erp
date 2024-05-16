@@ -33,8 +33,8 @@ class AccVoucherMaster extends Model
         self::$voucherno->status            = 'MANUAL';
         self::$voucherno->entry_by          = $request->entry_by;
         self::$voucherno->entry_at          = $request->entry_at;
-        self::$voucherno->company_id        = 2;
-        self::$voucherno->group_id          = 1;
+        self::$voucherno->company_id        = Auth::user()->company_id ?? 0;
+        self::$voucherno->group_id          = Auth::user()->group_id ?? 0;
         self::$voucherno->save();
 
         if ($request->journal_type=='receipt') {
@@ -67,8 +67,6 @@ class AccVoucherMaster extends Model
         self::$voucherno->status            = 'MANUAL';
         self::$voucherno->entry_by          = $request->entry_by;
         self::$voucherno->entry_at          = $request->entry_at;
-        self::$voucherno->company_id        = 1;
-        self::$voucherno->group_id          = 1;
         self::$voucherno->save();
     }
 

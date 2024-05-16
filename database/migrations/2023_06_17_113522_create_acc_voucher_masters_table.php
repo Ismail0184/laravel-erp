@@ -58,8 +58,8 @@ return new class extends Migration
             $table->string('mac',55)->nullable();
             $table->integer('visible_status')->default('1');
             $table->enum('amount_equality',['IMBALANCED','BALANCED'])->default('IMBALANCED');
-            $table->integer('company_id');
-            $table->integer('group_id');
+            $table->integer('company_id')->default(0);
+            $table->integer('group_id')->default(0);
             $table->timestamps();
         });
     }

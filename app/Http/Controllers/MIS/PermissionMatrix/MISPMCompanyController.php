@@ -51,6 +51,10 @@ class MISPMCompanyController extends Controller
     public function store(Request $request)
     {
         MisUserPermissionMatrixCompany::storeUserCompanyPermission($request);
+        if ($request->default_company==1)
+        {
+            User::setDefaultCompany($request);
+        }
         return redirect('/mis/permission-matrix/company/create/'.$request->user_id.'')->with('store_message','A new company has been added to this user!!');
     }
 

@@ -49,6 +49,14 @@
                         </div>
                     </div>
 
+                    <div class="form-group row mb-4">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Company<span class="required text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="checkbox" name="default_company"  value="1">
+                            <label for="example_checkbox">Make the company as the default company</label>
+                        </div>
+                    </div>
+
                     <div class="form-group row justify-content-end">
                         <div class="col-sm-9">
                             <div>

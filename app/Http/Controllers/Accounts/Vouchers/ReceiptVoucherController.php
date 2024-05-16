@@ -7,7 +7,6 @@ use App\Models\Accounts\AccLedger;
 use App\Models\Accounts\AccTransactions;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccReceipt;
-use App\Models\Developer\UsageControl\DevUsageControlMeta;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -30,7 +29,7 @@ class ReceiptVoucherController extends Controller
 
     public function index()
     {
-        $this->receiptdatas = AccVoucherMaster::where('journal_type','receipt')->where('entry_by',Auth::user()->id)->orderBy('voucher_no','DESC')->get();
+        $this->receiptdatas = AccVoucherMaster::where('journal_type','receipt')->where('entry_by',Auth::user()->id)->where('company_id',Auth::user()->company_id)->where('group_id',Auth::user()->group_id)->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.receipt.index', [
             'receiptdatas' =>$this->receiptdatas,
             'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson(),

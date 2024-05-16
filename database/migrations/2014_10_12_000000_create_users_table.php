@@ -22,8 +22,8 @@ return new class extends Migration
             $table->enum('type',['employee','user','developer'])->default('developer');
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
-            $table->integer('cid')->default('2');
-            $table->integer('gid')->default('1');
+            $table->integer('company_id')->default('0');
+            $table->integer('group_id')->default('0');
             $table->timestamps();
         });
     }

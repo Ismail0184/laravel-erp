@@ -8,6 +8,7 @@ use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Session;
+use Auth;
 
 class AccReceipt extends Model
 {
@@ -46,8 +47,8 @@ class AccReceipt extends Model
         }
         self::$receipt->status = 'MANUAL';
         self::$receipt->entry_by = $request->entry_by;
-        self::$receipt->company_id = 1;
-        self::$receipt->group_id = 1;
+        self::$receipt->company_id        = Auth::user()->company_id ?? 0;
+        self::$receipt->group_id          = Auth::user()->group_id ?? 0;
         self::$receipt->save();
         Session::put('receipt_narration', $request->narration);
     }
@@ -76,36 +77,17 @@ class AccReceipt extends Model
         self::$receipt->narration = $request->narration;
         self::$receipt->ledger_id = $request->ledger_id;
         self::$receipt->relevant_cash_head = $request->relevant_cash_head;
-        if (($request->voucher_type=='multiple') && ($request->dr_amt>0) && ($request->cr_amt==0) ) {
+        if (($request->dr_amt>0) && ($request->cr_amt==0) ) {
             self::$receipt->dr_amt = $request->dr_amt;
             self::$receipt->cr_amt = 0;
             self::$receipt->type = 'Debit';
-        } elseif (($request->voucher_type=='multiple') && ($request->cr_amt>0) && ($request->dr_amt==0)) {
+        } elseif (($request->cr_amt>0) && ($request->dr_amt==0)) {
             self::$receipt->dr_amt = 0;
             self::$receipt->cr_amt = $request->cr_amt;
             self::$receipt->type = 'Credit';
-        } elseif (($request->voucher_type=='multiple') && ($request->cr_amt>0) &&  ($request->dr_amt>0)) {
-            self::$receipt->dr_amt = 0;
-            self::$receipt->cr_amt = 0;
-        } elseif (($request->cr_amt>0) &&  ($request->dr_amt>0)) {
-            self::$receipt->dr_amt = 0;
-            self::$receipt->cr_amt = 0;
-        } elseif (($request->voucher_type!=='multiple') && ($request->dr_amt>0) && ($request->cr_amt==0)) {
-            self::$receipt->dr_amt = $request->dr_amt;
-            self::$receipt->cr_amt = 0;
-            self::$receipt->type = 'Debit';
-        } elseif (($request->voucher_type!=='multiple') && ($request->cr_amt>0) && ($request->dr_amt==0)) {
-            self::$receipt->dr_amt = 0;
-            self::$receipt->cr_amt = $request->cr_amt;;
-            self::$receipt->type = 'Credit';
-        } else {
-            self::$receipt->dr_amt = 0;
-            self::$receipt->cr_amt = 0;
         }
         self::$receipt->status = 'MANUAL';
         self::$receipt->entry_by = $request->entry_by;
-        self::$receipt->company_id = 1;
-        self::$receipt->group_id = 1;
         self::$receipt->save();
     }
 
@@ -135,8 +117,8 @@ class AccReceipt extends Model
         self::$receipt->type = 'Credit';
         self::$receipt->status = 'MANUAL';
         self::$receipt->entry_by = $request->entry_by;
-        self::$receipt->company_id = 1;
-        self::$receipt->group_id = 1;
+        self::$receipt->company_id        = Auth::user()->company_id ?? 0;
+        self::$receipt->group_id          = Auth::user()->group_id ?? 0;
         self::$receipt->save();
     }
 

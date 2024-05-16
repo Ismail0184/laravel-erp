@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('permitted_by');
             $table->integer('group_id');
             $table->enum('status',['active','inactive','suspended'])->default('active');
+            $table->integer('default_company')->default(0);
             $table->timestamps();
         });
     }

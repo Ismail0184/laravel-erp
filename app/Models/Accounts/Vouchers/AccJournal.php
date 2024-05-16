@@ -2,10 +2,12 @@
 
 namespace App\Models\Accounts\Vouchers;
 
+use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Session;
+use Auth;
 
 class AccJournal extends Model
 {
@@ -28,24 +30,27 @@ class AccJournal extends Model
     public static function addJournalData($request)
     {
         self::$journal = new AccJournal();
+        self::$journal->balance = $request->balance;
         self::$journal->journal_no = $request->journal_no;
         self::$journal->journal_date = $request->journal_date;
         self::$journal->narration = $request->narration;
         self::$journal->ledger_id = $request->ledger_id;
         self::$journal->relevant_cash_head = $request->relevant_cash_head;
         self::$journal->journal_attachment = self::getImageUrl($request);
-        if($request->dr_amt>0 && $request->cr_amt=='') {
+        if($request->dr_amt>0) {
             self::$journal->dr_amt = $request->dr_amt;
             self::$journal->cr_amt = 0;
-        } elseif ($request->cr_amt>0 && $request->dr_amt==''){
+            self::$journal->type = 'Debit';
+        } elseif ($request->cr_amt>0){
             self::$journal->dr_amt = 0;
             self::$journal->cr_amt = $request->cr_amt;
+            self::$journal->type = 'Credit';
         }
         self::$journal->cc_code = $request->cc_code;
         self::$journal->status = 'MANUAL';
         self::$journal->entry_by = $request->entry_by;
-        self::$journal->company_id = 2; Session::get('companyId');
-        self::$journal->group_id = 1; Session::get('groupId');
+        self::$journal->company_id = Auth::user()->company_id ?? 0;
+        self::$journal->group_id = Auth::user()->group_id ?? 0;
         self::$journal->save();
         Session::put('journal_narration', $request->narration);
     }
@@ -107,5 +112,10 @@ class AccJournal extends Model
     public static function deletedJournalVoucher($id)
     {
         AccJournal::where('journal_no',$id)->update(['status'=>'DELETED']);
+    }
+
+    public function getCostCenterData()
+    {
+        return $this->belongsTo(AccCostCenter::class,'cc_code','cc_code');
     }
 }
