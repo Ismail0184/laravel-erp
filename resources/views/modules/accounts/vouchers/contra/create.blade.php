@@ -24,7 +24,7 @@
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Contra No <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">
                             <input type="hidden" name="journal_type" value="contra" class="form-control" />
-                            <input type="text" readonly name="voucher_no" @if(Session::get('contra_no')>0) value="{{Session::get('contra_no')}}" @else value="{{$journalVoucher}}" @endif class="form-control" required />
+                            <input type="text" readonly name="voucher_no" @if(Session::get('contra_no')>0) value="{{Session::get('contra_no')}}" @else value="{{$contraVoucher}}" @endif class="form-control" required />
                         </div>
                         <label for="horizontal-firstname-input" class="col-sm-1 col-form-label">Date <span class="required text-danger">*</span></label>
                         <div class="col-sm-3">

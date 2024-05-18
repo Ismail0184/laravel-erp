@@ -49,8 +49,7 @@ class PaymentVoucherController extends Controller
         $paymentFrom = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id',['1002'])->get();
         $paymentOn = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
-        $this->voucher_type ='2';
-        $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
+        $this->paymentVoucher = $this->voucherNumberGenerate(2);
         if(Session::get('payment_no')>0)
         {
             AccTransactions::previousTransactionDeleteWhileEdit(Session::get('payment_no'));
@@ -78,9 +77,7 @@ class PaymentVoucherController extends Controller
         $this->costcenters = AccCostCenter::where('status','active')->get();
         $paymentFrom = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id',['1002'])->get();
         $paymentOn = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
-
-        $this->voucher_type ='2';
-        $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
+        $this->paymentVoucher = $this->voucherNumberGenerate(2);
         if(Session::get('payment_no')>0)
         {
             AccTransactions::previousTransactionDeleteWhileEdit(Session::get('payment_no'));
@@ -216,8 +213,7 @@ class PaymentVoucherController extends Controller
         $paymentFrom = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id',['1002'])->get();
         $paymentOn = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
-        $this->voucher_type ='2';
-        $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
+        $this->paymentVoucher = $this->voucherNumberGenerate(2);
         if(Session::get('payment_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
@@ -259,8 +255,7 @@ class PaymentVoucherController extends Controller
         $paymentFrom = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id',['1002'])->get();
         $paymentOn = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
-        $this->voucher_type ='2';
-        $this->paymentVoucher = Auth::user()->id.$this->voucher_type.date('YmdHis');
+        $this->paymentVoucher = $this->voucherNumberGenerate(2);
         if(Session::get('payment_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));

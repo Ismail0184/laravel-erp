@@ -45,8 +45,7 @@ class ChequePaymentVoucherController extends Controller
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id','1002')->whereBetween('ledger_id',['1002000200010000','1002000201000000'])->get();
         $this->ledgerss = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
-        $this->vouchertype ='5';
-        $this->cpaymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->cpaymentVoucher = $this->voucherNumberGenerate('5');
         if(Session::get('cpayment_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('cpayment_no'));
@@ -128,8 +127,7 @@ class ChequePaymentVoucherController extends Controller
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
-        $this->vouchertype ='5';
-        $this->paymentVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->paymentVoucher = $this->voucherNumberGenerate('5');
         if(Session::get('cpayment_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('cpayment_no'));

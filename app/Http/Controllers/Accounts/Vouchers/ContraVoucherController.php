@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Auth;
 use Session;
 use PDF;
+use App\Traits\SharedFunctionsTrait;
+use App\Traits\SharedOtherOptionFunctionsTrait;
 
 class ContraVoucherController extends Controller
 {
@@ -22,12 +24,15 @@ class ContraVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    use SharedFunctionsTrait;
+    use SharedOtherOptionFunctionsTrait;
+
     private $contraVoucher,$ledgers,$vouchertype,$masterData,$contras,$editValue,$COUNT_contras_data,$contradatas,$contra,$vouchermaster,$costcenters;
 
 
     public function index()
     {
-        $this->contradatas = AccVoucherMaster::where('status','!=','MANUAL')->where('journal_type','contra')->orderBy('voucher_no','DESC')->get();
+        $this->contradatas = AccVoucherMaster::where('journal_type','contra')->where('entry_by',Auth::user()->id)->where('company_id',Auth::user()->company_id)->where('group_id',Auth::user()->group_id)->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.contra.index', ['contradatas' =>$this->contradatas]);
     }
 
@@ -39,8 +44,7 @@ class ContraVoucherController extends Controller
     public function create()
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id','1002')->get();
-        $this->vouchertype ='4';
-        $this->journalVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->contraVoucher = $this->voucherNumberGenerate('4');
         if(Session::get('contra_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('contra_no'));
@@ -49,7 +53,7 @@ class ContraVoucherController extends Controller
         }
 
         return view('modules.accounts.vouchers.contra.create', [
-            'journalVoucher' =>$this->journalVoucher,
+            'contraVoucher' =>$this->contraVoucher,
             'ledgers' => $this->ledgers,
             'ledgerss' => $this->ledgers,
             'masterData' => $this->masterData,
@@ -118,8 +122,7 @@ class ContraVoucherController extends Controller
     public function edit($id)
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
-        $this->vouchertype ='4';
-        $this->journalVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->contraVoucher = $this->voucherNumberGenerate('4');
         if(Session::get('contra_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('contra_no'));

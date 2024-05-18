@@ -30,7 +30,7 @@ class JournalVoucherController extends Controller
 
     public function index()
     {
-        $this->journaldatas = AccVoucherMaster::where('journal_type','journal')->where('entry_by',Auth::user()->id)->orderBy('voucher_no','DESC')->get();
+        $this->journaldatas = AccVoucherMaster::where('journal_type','journal')->where('entry_by',Auth::user()->id)->where('company_id',Auth::user()->company_id)->where('group_id',Auth::user()->group_id)->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.journal.index', [
             'journaldatas' =>$this->journaldatas,
             'checkVoucherEditAccessByCreatedPerson' => $this->checkVoucherEditAccessByCreatedPerson(),
@@ -48,8 +48,7 @@ class JournalVoucherController extends Controller
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
-        $this->vouchertype ='3';
-        $this->journalVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->journalVoucher = $this->voucherNumberGenerate('3');
         if(Session::get('journal_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('journal_no'));
@@ -130,8 +129,7 @@ class JournalVoucherController extends Controller
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
-        $this->vouchertype ='3';
-        $this->journalVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->journalVoucher = $this->voucherNumberGenerate('3');
         if(Session::get('journal_no')>0)
         {
             $this->masterData = AccVoucherMaster::find(Session::get('journal_no'));
