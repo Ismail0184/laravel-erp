@@ -35,22 +35,22 @@
 
                     <a href="{{route('dashboard')}}" class="logo logo-light">
                                 <span class="logo-sm">
-                                    <img src="{{asset('/')}}assets/images/logo-light.svg" alt="" height="22">
+                                    <img src="{{asset(Auth::user()->getCompanyInfo->logo)}}" alt="" height="25">
                                 </span>
                         <span class="logo-lg">
-                                    <img src="{{asset('/')}}assets/images/logo-light.png" alt="" height="19">
+                                    <img src="{{asset(Auth::user()->getCompanyInfo->logo)}}" alt="" height="50">
                                 </span>
                     </a>
                 </div>
 
                 <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
-                    <i class="fa fa-fw fa-bars"></i>
+                    <i class="fa fa-fw fa-bars" style="color:{{ Auth::user()->getCompanyInfo->logo_color }}"></i> <span>{{ Auth::user()->getCompanyInfo->company_name }}</span>
                 </button>
 
                 <!-- App company name-->
                 <form class="app-search d-none d-lg-block">
                     <div class="position-relative">
-                        <input type="text" class="form-control" value="Raresoft Limited" >
+
                     </div>
                 </form>
             </div>

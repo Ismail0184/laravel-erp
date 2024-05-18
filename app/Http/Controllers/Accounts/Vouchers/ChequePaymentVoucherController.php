@@ -31,7 +31,7 @@ class ChequePaymentVoucherController extends Controller
 
     public function index()
     {
-        $this->cpaymntdatas = AccVoucherMaster::where('entry_by',Auth::user()->id)->where('journal_type','cheque')->orderBy('voucher_no','DESC')->get();
+        $this->cpaymntdatas = AccVoucherMaster::where('entry_by',Auth::user()->id)->where('company_id',Auth::user()->company_id)->where('group_id',Auth::user()->group_id)->where('journal_type','cheque')->orderBy('voucher_no','DESC')->get();
         return view('modules.accounts.vouchers.chequepayment.index', ['cpaymntdatas' =>$this->cpaymntdatas]);
     }
 

@@ -332,7 +332,7 @@
                         document.getElementById('editButton{{$payment->id}}').style.display = 'none';
                         @endforeach
                             @endif
-                        document.getElementById('confirmButton').disabled = true;
+                        document.getElementById('confirmButton').disabled = false;
                     } else {
                         @if($COUNT_payments_data > 0)
                         @else

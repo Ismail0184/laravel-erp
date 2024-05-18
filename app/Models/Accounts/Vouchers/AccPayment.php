@@ -19,41 +19,40 @@ class AccPayment extends Model
     public static function getImageUrl($request)
     {
         if (!empty($request->image)) {
-            self::$image = $request->file('image');
-            self::$imageName = self::$image->getClientOriginalName();
-            self::$directory = 'assets/images/vouchers/payment/'.$request->payment_no.'/';
+            self::$image                    = $request->file('image');
+            self::$imageName                = self::$image->getClientOriginalName();
+            self::$directory                = 'assets/images/vouchers/payment/'.$request->payment_no.'/';
             self::$image->move(self::$directory, self::$imageName);
-            return self::$directory . self::$imageName;
+            return self::$directory.self::$imageName;
         }
     }
 
     public static function addPaymentData($request)
     {
-        self::$payment = new AccPayment();
-        self::$payment->balance = $request->balance;
-        self::$payment->payment_no = $request->payment_no;
-        self::$payment->payment_date = $request->payment_date;
-        self::$payment->narration = $request->narration;
-        self::$payment->ledger_id = $request->ledger_id;
-        self::$payment->relevant_cash_head = $request->relevant_cash_head;
-        self::$payment->payment_attachment = self::getImageUrl($request);
+        self::$payment                      = new AccPayment();
+        self::$payment->balance             = $request->balance;
+        self::$payment->payment_no          = $request->payment_no;
+        self::$payment->payment_date        = $request->payment_date;
+        self::$payment->narration           = $request->narration;
+        self::$payment->ledger_id           = $request->ledger_id;
+        self::$payment->relevant_cash_head  = $request->relevant_cash_head;
+        self::$payment->payment_attachment  = self::getImageUrl($request);
 
         if (($request->dr_amt>0) && ($request->cr_amt==0) ) {
-            self::$payment->dr_amt = $request->dr_amt;
-            self::$payment->cr_amt = 0;
-            self::$payment->type = 'Debit';
+            self::$payment->dr_amt          = $request->dr_amt;
+            self::$payment->cr_amt          = 0;
+            self::$payment->type            = 'Debit';
         } elseif (($request->cr_amt>0) && ($request->dr_amt==0)) {
-            self::$payment->dr_amt = 0;
-            self::$payment->cr_amt = $request->cr_amt;
-            self::$payment->type = 'Credit';
+            self::$payment->dr_amt          = 0;
+            self::$payment->cr_amt          = $request->cr_amt;
+            self::$payment->type            = 'Credit';
         }
-        self::$payment->cc_code = $request->cc_code;
-        self::$payment->status = 'MANUAL';
-        self::$payment->entry_by = $request->entry_by;
-        self::$payment->company_id = 1;
-        self::$payment->group_id = 1;
+        self::$payment->cc_code             = $request->cc_code;
+        self::$payment->status              = 'MANUAL';
+        self::$payment->entry_by            = $request->entry_by;
+        self::$payment->company_id          = Auth::user()->company_id ?? 0;
+        self::$payment->group_id            = Auth::user()->group_id ?? 0;
         if (($request->voucher_type=='multiple') && ($request->cr_amt>0) &&  ($request->dr_amt>0)) {
-
         } elseif (($request->voucher_type=='multiple') && ($request->cr_amt==0) &&  ($request->dr_amt==0))
         { } else {
             self::$payment->save();
@@ -75,20 +74,20 @@ class AccPayment extends Model
 
     public static function addPaymentDataCr($request)
     {
-        self::$payment = new AccPayment();
-        self::$payment->payment_no = $request->payment_no;
-        self::$payment->payment_date = $request->payment_date;
-        self::$payment->narration = $request->narration;
-        self::$payment->ledger_id = $request->relevant_cash_head;
-        self::$payment->relevant_cash_head = 0;
-        self::$payment->dr_amt = 0;
-        self::$payment->cr_amt = $request->amount;
-        self::$payment->cc_code = 0;
-        self::$payment->type = 'Credit';
-        self::$payment->status = 'MANUAL';
-        self::$payment->entry_by = $request->entry_by;
-        self::$payment->company_id = 1;
-        self::$payment->group_id = 1;
+        self::$payment                      = new AccPayment();
+        self::$payment->payment_no          = $request->payment_no;
+        self::$payment->payment_date        = $request->payment_date;
+        self::$payment->narration           = $request->narration;
+        self::$payment->ledger_id           = $request->relevant_cash_head;
+        self::$payment->relevant_cash_head  = 0;
+        self::$payment->dr_amt              = 0;
+        self::$payment->cr_amt              = $request->amount;
+        self::$payment->cc_code             = 0;
+        self::$payment->type                = 'Credit';
+        self::$payment->status              = 'MANUAL';
+        self::$payment->entry_by            = $request->entry_by;
+        self::$payment->company_id          = Auth::user()->company_id ?? 0;
+        self::$payment->group_id            = Auth::user()->group_id ?? 0;
         self::$payment->save();
     }
 
@@ -110,38 +109,38 @@ class AccPayment extends Model
         if ($request->file('image')) {
             self::$payment->payment_attachment = self::$imageUrl;
         }
-        self::$payment->payment_no = $request->payment_no;
-        self::$payment->payment_date = $request->payment_date;
-        self::$payment->narration = $request->narration;
-        self::$payment->ledger_id = $request->ledger_id;
-        self::$payment->relevant_cash_head = $request->relevant_cash_head;
+        self::$payment->payment_no          = $request->payment_no;
+        self::$payment->payment_date        = $request->payment_date;
+        self::$payment->narration           = $request->narration;
+        self::$payment->ledger_id           = $request->ledger_id;
+        self::$payment->relevant_cash_head  = $request->relevant_cash_head;
         if (($request->voucher_type=='multiple') && ($request->dr_amt>0) && ($request->cr_amt==0) ) {
-            self::$payment->dr_amt = $request->dr_amt;
-            self::$payment->cr_amt = 0;
-            self::$payment->type = 'Debit';
+            self::$payment->dr_amt          = $request->dr_amt;
+            self::$payment->cr_amt          = 0;
+            self::$payment->type            = 'Debit';
         } elseif (($request->voucher_type=='multiple') && ($request->cr_amt>0) && ($request->dr_amt==0)) {
-            self::$payment->dr_amt = 0;
-            self::$payment->cr_amt = $request->cr_amt;
-            self::$payment->type = 'Credit';
+            self::$payment->dr_amt          = 0;
+            self::$payment->cr_amt          = $request->cr_amt;
+            self::$payment->type            = 'Credit';
         } elseif (($request->voucher_type=='multiple') && ($request->cr_amt>0) &&  ($request->dr_amt>0)) {
-            self::$payment->dr_amt = 0;
-            self::$payment->cr_amt = 0;
+            self::$payment->dr_amt          = 0;
+            self::$payment->cr_amt          = 0;
         } elseif (($request->voucher_type=='single') && ($request->dr_amt>0) && ($request->cr_amt==0)) {
-            self::$payment->dr_amt = $request->dr_amt;
-            self::$payment->cr_amt = 0;
-            self::$payment->type = 'Debit';
+            self::$payment->dr_amt          = $request->dr_amt;
+            self::$payment->cr_amt          = 0;
+            self::$payment->type            = 'Debit';
         } elseif (($request->voucher_type=='single') && ($request->cr_amt>0) && ($request->dr_amt==0)) {
-            self::$payment->dr_amt = 0;
-            self::$payment->cr_amt = $request->cr_amt;;
-            self::$payment->type = 'Credit';
+            self::$payment->dr_amt          = 0;
+            self::$payment->cr_amt          = $request->cr_amt;;
+            self::$payment->type            = 'Credit';
         } else {
-            self::$payment->dr_amt = 0;
-            self::$payment->cr_amt = 0;
+            self::$payment->dr_amt          = 0;
+            self::$payment->cr_amt          = 0;
         }
-        self::$payment->status = 'MANUAL';
-        self::$payment->entry_by = $request->entry_by;
-        self::$payment->company_id = 1;
-        self::$payment->group_id = 1;
+        self::$payment->status              = 'MANUAL';
+        self::$payment->entry_by            = $request->entry_by;
+        self::$payment->company_id          = Auth::user()->company_id ?? 0;
+        self::$payment->group_id            = Auth::user()->group_id ?? 0;
         self::$payment->save();
     }
 

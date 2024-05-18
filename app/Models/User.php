@@ -124,4 +124,9 @@ class User extends Authenticatable
                 'group_id' => self::getGid($request->company_id)
             ]);
     }
+
+    public function getCompanyInfo()
+    {
+        return $this->belongsTo(DevCompany::class,'company_id','id');
+    }
 }
