@@ -127,7 +127,7 @@
                             </select>
                             </td>
                             <td style="vertical-align: middle">
-                            <textarea required="required" name="narration" class="form-control" style="height: 70px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('receipt_narration')}} @endif</textarea>
+                            <textarea required="required" id="inputNarration" oninput="enableAddButton()" name="narration" class="form-control" style="height: 70px">@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('receipt_narration')}} @endif</textarea>
                             </td>
                             <td style="vertical-align: middle; text-align: right"><input type="file" style="width: 160px"  name="image" />
                                 @if(request('id')>0)
@@ -280,13 +280,14 @@
     <script>
         function enableAddButton() {
             var inputSelectedLedger = document.getElementById("inputSelectedLedger").value;
+            var inputNarration = document.getElementById("inputNarration").value;
             var submitButton = document.getElementById("addButton");
             @if(request('id')>0)
             var inputDrAmount = document.getElementById("inputDrAmount").value;
             var inputCrAmount = document.getElementById("inputCrAmount").value;
             @endif
 
-            if ((inputSelectedLedger.trim()) !== "") {
+            if ((inputSelectedLedger.trim() && inputNarration.trim()) !== "") {
                 submitButton.disabled = false;
             } else {
                 submitButton.disabled = true;

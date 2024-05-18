@@ -249,9 +249,11 @@
                                             <form action="{{route('acc.voucher.payment.destroy', ['id' => $payment->id])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="voucher_type" value="multiple">
+                                                @if($payment->type=='Debit')
                                                 <a href="{{route('acc.voucher.payment.editMultiple',['id' => $payment->id])}}" title="Update" class="btn btn-success btn-sm">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
+                                                @endif
                                                 <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
@@ -307,7 +309,7 @@
                     method: 'GET',
                     success: function(response) {
                         document.getElementById("ledgerCurrentBalance{{$payment->ledger_id}}").value = response.balance;
-                        let newData{{$payment->ledger_id}} = response.balance - document.getElementById("ledgerCreditAmount{{$payment->ledger_id}}").value; // Example calculation
+                        let newData{{$payment->ledger_id}} = response.balance
                         if (newData{{$payment->ledger_id}} < {{$totalAmount}}) {
                             myButton.disabled = true;
                         } else {

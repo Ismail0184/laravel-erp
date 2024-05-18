@@ -9,6 +9,7 @@ use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Session;
+use Auth;
 
 class AccPayment extends Model
 {

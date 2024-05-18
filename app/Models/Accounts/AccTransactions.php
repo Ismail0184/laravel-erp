@@ -2,7 +2,6 @@
 
 namespace App\Models\Accounts;
 
-use App\Models\Accounts\Vouchers\AccReceipt;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Auth;

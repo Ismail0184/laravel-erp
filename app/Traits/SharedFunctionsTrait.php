@@ -42,4 +42,10 @@ trait SharedFunctionsTrait
         $generateVoucherNumber = $groupId.$companyId.Auth::user()->id.$voucherType.date('YmdHis');
         return $generateVoucherNumber;
     }
+
+    public function transactionNumberGenerate()
+    {
+        $generateVoucherNumber = Auth::user()->id.date('YmdHis');
+        return $generateVoucherNumber;
+    }
 }

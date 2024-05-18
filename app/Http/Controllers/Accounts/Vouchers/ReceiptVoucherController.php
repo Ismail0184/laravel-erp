@@ -304,16 +304,7 @@ class ReceiptVoucherController extends Controller
 
     public function confirm(Request $request, $id)
     {
-        function next_transaction_id()
-        {   $jv_no=AccTransactions::max('transaction_no');
-            $p_id= date("Ymd")."0000";
-            if($jv_no>$p_id)
-                $jv=$jv_no+1;
-            else
-                $jv=$p_id+1;
-            return $jv;
-        }
-        $this->next_transaction_id = next_transaction_id();
+        $this->next_transaction_id = $this->transactionNumberGenerate();
         $this->receipt = AccReceipt::where('receipt_no', Session::get('receipt_no'))->get();
         AccTransactions::previousTransactionDeleteWhileEdit($id);
         foreach ($this->receipt as $receiptData) {

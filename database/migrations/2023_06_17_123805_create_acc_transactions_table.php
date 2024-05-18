@@ -28,6 +28,7 @@ return new class extends Migration
             $table->bigInteger('vr_no');
             $table->integer('vr_id');
             $table->enum('status',['MANUAL','UNCHECKED','CHECKED','APPROVED','AUDITED','DELETED']);
+            $table->enum('entry_status',['COMPLETED','EDITING','EDITED','DELETED','RECOVERING','RECOVERED'])->nullable()->default('COMPLETED');
             $table->integer('entry_by');
             $table->integer('visible_status')->default('1');
             $table->integer('company_id')->default(0);

@@ -210,8 +210,8 @@ class PaymentVoucherController extends Controller
      */
     public function edit($id)
     {
-        $paymentFrom = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id',['1002'])->get();
-        $paymentOn = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
+        $paymentFrom = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
+        $paymentOn = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->costcenters = AccCostCenter::where('status','active')->get();
         $this->paymentVoucher = $this->voucherNumberGenerate(2);
         if(Session::get('payment_no')>0)
@@ -317,16 +317,7 @@ class PaymentVoucherController extends Controller
 
     public function confirm(Request $request, $id)
     {
-        function next_transaction_id()
-        {   $jv_no=AccTransactions::max('transaction_no');
-            $p_id= date("Ymd")."0000";
-            if($jv_no>$p_id)
-                $jv=$jv_no+1;
-            else
-                $jv=$p_id+1;
-            return $jv;
-        }
-        $this->next_transaction_id = next_transaction_id();
+        $this->next_transaction_id = $this->transactionNumberGenerate();
         $this->receipt = AccPayment::where('payment_no', Session::get('payment_no'))->get();
         AccTransactions::previousTransactionDeleteWhileEdit($id);
         foreach ($this->receipt as $receiptData) {
@@ -350,7 +341,7 @@ class PaymentVoucherController extends Controller
     public function findLedgerBalance($id)
     {
         $paymentManualData = AccPayment::where('ledger_id',$id)->where('status',['MANUAL'])->sum(DB::raw('cr_amt'));
-        $queryForLedgerBalance = AccTransactions::where('ledger_id',$id)->whereNotIn('status',['MANUAL','DELETED'])->sum(DB::raw('dr_amt - cr_amt'));
+        $queryForLedgerBalance = AccTransactions::where('ledger_id',$id)->whereNotIn('status',['MANUAL','DELETED'])->whereNotIN('entry_status',['EDITING'])->sum(DB::raw('dr_amt - cr_amt'));
         $actualLedgerBalance = $queryForLedgerBalance - $paymentManualData;
         return response()->json(['balance' => $actualLedgerBalance]);
     }

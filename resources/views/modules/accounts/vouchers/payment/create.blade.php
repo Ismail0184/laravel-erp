@@ -216,9 +216,11 @@
                                                         @csrf
                                                         <input type="hidden" name="amount_equality" value="IMBALANCED">
                                                         <input type="hidden" name="voucher_no" value="{{$masterData->voucher_no}}">
+                                                        @if($payment->type=='Debit')
                                                         <a href="{{route('acc.voucher.payment.edit',['id' => $payment->id])}}" id="editButton{{$payment->id}}" title="Update" class="btn btn-success btn-sm">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
+                                                        @endif
                                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
@@ -310,7 +312,7 @@
             const selectedLedgerId = document.getElementById("selectedLedgerId").value;
             var inputFieldValue = document.getElementById('inputField').value;
             $.ajax({
-                url: `/accounts/voucher/payment/find-ledger-balance/${selectedLedgerId}`,
+                url: `/accounts/voucher/payment/find-ledger-balance-without-manual-data/${selectedLedgerId}`,
                 method: 'GET',
                 success: function(response) {
                     document.getElementById("totalBalances").value = response.balance;
