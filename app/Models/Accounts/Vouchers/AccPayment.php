@@ -189,6 +189,11 @@ class AccPayment extends Model
         AccPayment::where('payment_no',$id)->update(['status'=>'DELETED']);
     }
 
+    public static function recoveryDeletedPaymentVoucher($id)
+    {
+        AccPayment::where('payment_no',$id)->update(['status'=>'UNCHECKED']);
+    }
+
     public static function statusupdate($request, $id)
     {
         AccPayment::where('payment_no',$id)->update(['status'=>$request->status]);

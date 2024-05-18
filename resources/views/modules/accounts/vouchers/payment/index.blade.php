@@ -93,7 +93,7 @@
                                                 @endif
                                             @else
                                                 @if($deletedVoucherRecoveryAccess>0 && $paymntdata->status !== 'MANUAL')
-                                                    <button type="submit" name="recoveryDeletedReceiptVoucher" class="btn btn-success btn-sm" title="Undo Delete" onclick="return confirm('Are you confirm to recovery the deleted voucher?');">
+                                                    <button type="submit" name="recoveryDeletedPaymentVoucher" class="btn btn-success btn-sm" title="Undo Delete" onclick="return confirm('Are you confirm to recovery the deleted voucher?');">
                                                         <i class="fa fa-undo"></i>
                                                     </button>
                                                 @endif

@@ -176,12 +176,21 @@ class VoucherMasterController extends Controller
 
     public function deleteFullVoucher(Request $request, $id)
     {
-        if ($request->has('recoveryDeletedReceiptVoucher'))
-        {
+        if ($request->has('recoveryDeletedReceiptVoucher')) {
             AccTransactions::recoveryDeletedTransaction($id);
             AccReceipt::recoveryDeletedReceiptVoucher($id);
             AccVoucherMaster::recoveryDeletedVoucher($id);
-            return redirect('/accounts/voucher/receipt')->with('recovery_message','This receipt voucher (uid='.$id.') has been successfully recovered!!');
+            return redirect('/accounts/voucher/receipt')->with('recovery_message', 'This receipt voucher (uid=' . $id . ') has been successfully recovered!!');
+
+        } elseif ($request->has('recoveryDeletedPaymentVoucher'))
+        {
+            AccTransactions::recoveryDeletedTransaction($id);
+            AccPayment::recoveryDeletedPaymentVoucher($id);
+            AccVoucherMaster::recoveryDeletedVoucher($id);
+            return redirect('/accounts/voucher/payment')->with('recovery_message','This payment voucher (uid='.$id.') has been successfully recovered!!');
+
+
+
         } elseif ($request->journal_type=='receipt') {
             AccTransactions::deletedTransaction($id);
             AccReceipt::deletedReceiptVoucher($id);
