@@ -47,7 +47,7 @@ class ReceiptVoucherController extends Controller
         $receivedFrom = AccLedger::where('status','active')->where('show_in_transaction','1')->whereNotIn('group_id',['1002'])->get();
         $receivedOn = AccLedger::where('status','active')->where('show_in_transaction','1')->where('group_id',['1002'])->get();
         $this->vouchertype ='1';
-        $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->receiptVoucher = $this->voucherNumberGenerate($this->vouchertype);
         if(Session::get('receipt_no')>0)
         {
             AccTransactions::previousTransactionDeleteWhileEdit(Session::get('receipt_no'));
@@ -70,7 +70,7 @@ class ReceiptVoucherController extends Controller
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
-        $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->receiptVoucher = $this->voucherNumberGenerate($this->vouchertype);
         if(Session::get('receipt_no')>0)
         {
             AccTransactions::previousTransactionDeleteWhileEdit(Session::get('receipt_no'));
@@ -205,7 +205,7 @@ class ReceiptVoucherController extends Controller
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
-        $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->receiptVoucher = $this->voucherNumberGenerate($this->vouchertype);
         if(Session::get('receipt_no')>0)
         {
             AccVoucherMaster::voucherEdit(Session::get('receipt_no'));
@@ -246,7 +246,7 @@ class ReceiptVoucherController extends Controller
     {
         $this->ledgers = AccLedger::where('status','active')->where('show_in_transaction','1')->get();
         $this->vouchertype ='1';
-        $this->receiptVoucher = Auth::user()->id.$this->vouchertype.date('YmdHis');
+        $this->receiptVoucher = $this->voucherNumberGenerate($this->vouchertype);
         if(Session::get('receipt_no')>0)
         {
             AccVoucherMaster::voucherEdit(Session::get('receipt_no'));

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Developer\UsageControl\DevUsageControlMeta;
+use Auth;
 
 trait SharedFunctionsTrait
 {
@@ -32,5 +33,13 @@ trait SharedFunctionsTrait
         $checkForAccess = DevUsageControlMeta::where('meta_key','check_bank_balance_before_issuing_any_cheque')->where('status','active')->first();
         $accessDays = $checkForAccess->meta_value ?? 0;
         return $accessDays;
+    }
+
+    public function voucherNumberGenerate($voucherType)
+    {
+        $groupId = Auth::user()->group_id;
+        $companyId = substr(Auth::user()->company_id,3);
+        $generateVoucherNumber = $groupId.$companyId.Auth::user()->id.$voucherType.date('YmdHis');
+        return $generateVoucherNumber;
     }
 }
