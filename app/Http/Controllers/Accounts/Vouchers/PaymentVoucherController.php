@@ -258,13 +258,13 @@ class PaymentVoucherController extends Controller
         $this->paymentVoucher = $this->voucherNumberGenerate(2);
         if(Session::get('payment_no')>0)
         {
-            $this->masterData = AccVoucherMaster::find(Session::get('payment_no'));
+            $this->masterData = AccVoucherMaster::findOrfail(Session::get('payment_no'));
             $this->payments = AccPayment::where('payment_no', Session::get('payment_no'))->get();
             $this->COUNT_payments_data = AccPayment::where('payment_no', Session::get('payment_no'))->count();
         }
         if(\request('id')>0)
         {
-            $this->editValue = AccPayment::find($id);
+            $this->editValue = AccPayment::findOrfail($id);
         }
 
         return view('modules.accounts.vouchers.payment.create-multiple', [

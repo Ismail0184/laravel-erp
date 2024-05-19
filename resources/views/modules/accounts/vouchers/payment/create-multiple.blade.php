@@ -164,11 +164,7 @@
                         </select>
                     </td>
                     <td class="text-center" style="vertical-align: middle">
-                        @if($checkLedgerBalanceBeforeMakingPayment)
-                            <input type="number" id="totalBalances" name="balance" @if(Session::get('payment_no')>0) value="{{$masterData->ledger_balance}}" @endif class="form-control" readonly placeholder="Ledger Balance" min="1"/>
-                        @else
-                            N/A
-                        @endif
+                        <input type="number" id="totalBalances" name="balance" @if(Session::get('payment_no')>0) value="{{$masterData->ledger_balance}}" @endif class="form-control" readonly placeholder="Ledger Balance" min="1"/>
                     </td>
                     <td style="vertical-align: middle">
                         <textarea  name="narration" id="inputNarration" class="form-control" >@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('payment_narration')}} @endif</textarea>
@@ -249,11 +245,9 @@
                                             <form action="{{route('acc.voucher.payment.destroy', ['id' => $payment->id])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="voucher_type" value="multiple">
-                                                @if($payment->type=='Debit')
                                                 <a href="{{route('acc.voucher.payment.editMultiple',['id' => $payment->id])}}" title="Update" class="btn btn-success btn-sm">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                @endif
                                                 <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
@@ -366,10 +360,12 @@
         field1.addEventListener('input', function() {
             const value1 = parseFloat(field1.value);
             const value2 = parseFloat(field2.value);
+            @if($checkLedgerBalanceBeforeMakingPayment)
             if (value1 > value2) {
                 alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
                 document.getElementById('inputField').value = '';
             }
+            @endif
         });
     </script>
 
@@ -406,7 +402,11 @@
             var inputField = document.getElementById("inputField").value;
             var inputFieldValue = document.getElementById('inputField').value;
             $.ajax({
+                @if(request('id')>0)
+                url: `/accounts/voucher/payment/find-ledger-balance-without-manual-data/${selectedLedgerId}`,
+                @else
                 url: `/accounts/voucher/payment/find-ledger-balance/${selectedLedgerId}`,
+                @endif
                 method: 'GET',
                 success: function(response) {
                     document.getElementById("totalBalances").value = response.balance;

@@ -65,7 +65,7 @@ class JournalVoucherController extends Controller
             'COUNT_journals_data' => $this->COUNT_journals_data,
             'costcenters' =>$this->costcenters,
             'minDatePermission' => $this->sharedFunction(),
-            'checkLedgerBalanceBeforeMakingPayment' => $this->checkLedgerBalanceBeforeMakingPayment()
+            'checkLedgerBalanceBeforeMakingJournal' => $this->checkLedgerBalanceBeforeMakingJournal()
         ] );
     }
 

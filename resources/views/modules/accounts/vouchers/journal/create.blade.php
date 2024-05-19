@@ -164,10 +164,10 @@
                         </select>
                     </td>
                     <td class="text-center" style="vertical-align: middle">
-                        @if($checkLedgerBalanceBeforeMakingPayment)
+                        @if($checkLedgerBalanceBeforeMakingJournal)
                             <input type="number" id="totalBalances" name="balance" @if(Session::get('journal_no')>0) value="{{$masterData->ledger_balance}}" @endif class="form-control" readonly placeholder="Ledger Balance" min="1"/>
                         @else
-                            N/A
+                            Option disabled
                         @endif
                     </td>
                     <td style="vertical-align: middle">
