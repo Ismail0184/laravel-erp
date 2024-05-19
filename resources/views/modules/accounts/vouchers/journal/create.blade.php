@@ -164,11 +164,7 @@
                         </select>
                     </td>
                     <td class="text-center" style="vertical-align: middle">
-                        @if($checkLedgerBalanceBeforeMakingJournal)
-                            <input type="number" id="totalBalances" name="balance" @if(Session::get('journal_no')>0) value="{{$masterData->ledger_balance}}" @endif class="form-control" readonly placeholder="Ledger Balance" min="1"/>
-                        @else
-                            Option disabled
-                        @endif
+                        <input type="number" id="totalBalances" name="balance" @if(Session::get('journal_no')>0) value="{{$masterData->ledger_balance}}" @endif class="form-control" readonly placeholder="Ledger Balance" min="1"/>
                     </td>
                     <td style="vertical-align: middle">
                         <textarea  name="narration" id="inputNarration" class="form-control" >@if(request('id')>0) {{$editValue->narration}} @else {{Session::get('journal_narration')}} @endif</textarea>
@@ -300,14 +296,14 @@
         <script>
             const myButton = document.getElementById('confirmButton');
             @foreach($journals as $journal)
-            @php($totalAmount = \App\Models\Accounts\Vouchers\Accjournal::where('ledger_id',$journal->ledger_id)->where('journal_no',$journal->journal_no)->sum('cr_amt'))
+            @php($totalAmount = \App\Models\Accounts\Vouchers\AccJournal::where('ledger_id',$journal->ledger_id)->where('journal_no',$journal->journal_no)->sum('cr_amt'))
             function getLedgerBal{{$journal->ledger_id}}() {
                 $.ajax({
-                    url: `/accounts/voucher/journal/find-ledger-balance-without-manual-data/{{$journal->ledger_id}}`,
+                    url: `/accounts/voucher/payment/find-ledger-balance-without-manual-data/{{$journal->ledger_id}}`,
                     method: 'GET',
                     success: function(response) {
                         document.getElementById("ledgerCurrentBalance{{$journal->ledger_id}}").value = response.balance;
-                        let newData{{$journal->ledger_id}} = response.balance - document.getElementById("ledgerCreditAmount{{$journal->ledger_id}}").value; // Example calculation
+                        let newData{{$journal->ledger_id}} = response.balance; // Example calculation
                         if (newData{{$journal->ledger_id}} < {{$totalAmount}}) {
                             myButton.disabled = true;
                         } else {
@@ -364,10 +360,12 @@
         field1.addEventListener('input', function() {
             const value1 = parseFloat(field1.value);
             const value2 = parseFloat(field2.value);
+            @if($checkLedgerBalanceBeforeMakingJournal)
             if (value1 > value2) {
                 alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
                 document.getElementById('inputField').value = '';
             }
+            @endif
         });
     </script>
 
@@ -377,10 +375,12 @@
         field3.addEventListener('input', function() {
             const value1 = parseFloat(field3.value);
             const value2 = parseFloat(field4.value);
+            @if($checkLedgerBalanceBeforeMakingJournal)
             if (value1 > value2) {
                 alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
                 document.getElementById('editDrAmt').value = '';
             }
+            @endif
         });
     </script>
 
@@ -390,10 +390,12 @@
         field5.addEventListener('input', function() {
             const value1 = parseFloat(field5.value);
             const value2 = parseFloat(field6.value);
+            @if($checkLedgerBalanceBeforeMakingJournal)
             if (value1 > value2) {
                 alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
                 document.getElementById('editCrAmt').value = '';
             }
+            @endif
         });
     </script>
 

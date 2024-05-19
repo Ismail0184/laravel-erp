@@ -375,10 +375,12 @@
         field3.addEventListener('input', function() {
             const value1 = parseFloat(field3.value);
             const value2 = parseFloat(field4.value);
+            @if($checkLedgerBalanceBeforeMakingPayment)
             if (value1 > value2) {
                 alert('Oops! Input amount exceeds ledger balance. Please reduce the amount and try again. Thank you');
                 document.getElementById('editDrAmt').value = '';
             }
+            @endif
         });
     </script>
 
