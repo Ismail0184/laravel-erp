@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Accounts\AccCostCenter;
 use App\Models\Accounts\AccLedger;
 use App\Models\Accounts\AccTransactions;
+use App\Models\Accounts\Vouchers\AccJournal;
 use App\Models\Accounts\Vouchers\AccVoucherMaster;
 use App\Models\Accounts\Vouchers\AccPayment;
 use App\Traits\SharedOtherOptionFunctionsTrait;
@@ -341,8 +342,9 @@ class PaymentVoucherController extends Controller
     public function findLedgerBalance($id)
     {
         $paymentManualData = AccPayment::where('ledger_id',$id)->where('status',['MANUAL'])->sum(DB::raw('cr_amt'));
+        $journalManualData = AccJournal::where('ledger_id',$id)->where('status',['MANUAL'])->sum(DB::raw('cr_amt'));
         $queryForLedgerBalance = AccTransactions::where('ledger_id',$id)->whereNotIn('status',['MANUAL','DELETED'])->whereNotIN('entry_status',['EDITING'])->sum(DB::raw('dr_amt - cr_amt'));
-        $actualLedgerBalance = $queryForLedgerBalance - $paymentManualData;
+        $actualLedgerBalance = $queryForLedgerBalance - ($paymentManualData+$journalManualData);
         return response()->json(['balance' => $actualLedgerBalance]);
     }
 

@@ -245,9 +245,12 @@
                                             <form action="{{route('acc.voucher.payment.destroy', ['id' => $payment->id])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="voucher_type" value="multiple">
-                                                <a href="{{route('acc.voucher.payment.editMultiple',['id' => $payment->id])}}" title="Update" class="btn btn-success btn-sm">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
+                                                @if(request('id')==$payment->id)
+                                                @else
+                                                    <a href="{{route('acc.voucher.payment.editMultiple',['id' => $payment->id])}}" title="Update" class="btn btn-success btn-sm">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                @endif
                                                 <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
                                                     <i class="fa fa-trash"></i>
                                                 </button>

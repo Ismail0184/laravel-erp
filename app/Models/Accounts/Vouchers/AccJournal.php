@@ -73,8 +73,8 @@ class AccJournal extends Model
         self::$journal->cc_code = $request->cc_code;
         self::$journal->status = 'MANUAL';
         self::$journal->entry_by = $request->entry_by;
-        self::$journal->sconid = 1;
-        self::$journal->pcomid = 1;
+        self::$journal->company_id = Auth::user()->company_id ?? 0;
+        self::$journal->group_id = Auth::user()->group_id ?? 0;
         self::$journal->save();
     }
 

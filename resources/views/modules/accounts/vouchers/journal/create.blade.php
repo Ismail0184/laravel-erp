@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @php($title = 'Multiple Journal Voucher')
+    @php($title = 'Journal Voucher')
     {{$title}}
 @endsection
 
@@ -9,7 +9,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-4">Create {{$title}} <small><a href="{{route('acc.voucher.journal.create')}}">Single Entry</a></small><small class="text-danger float-right">(field marked with * are mandatorys)
+                <h4 class="card-title mb-4">Create {{$title}}<small class="text-danger float-right">(field marked with * are mandatory)
                     </small>
                 </h4>
                 <form style="font-size: 11px" method="POST" action="@if(Session::get('journal_no')>0) {{route('acc.voucher.journal.mupdate', ['voucher_no'=>$masterData->voucher_no])}} @else {{route('acc.voucher.journal.initiate')}} @endif">
@@ -101,7 +101,7 @@
                 <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
                 <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
                 <input type="hidden" name="voucher_type" value="multiple">
-                <tr id="debitInputSection" style="background-color: white; @if(request('id')>0) @if($editValue->type=='Debit') display:''; @else  display:none; @endif @endif">
+                <tr @if(!request('id')>0)id="debitInputSection" @endif style="background-color: white; @if(request('id')>0) @if($editValue->type=='Debit') display:''; @else  display:none; @endif @endif">
                     <th style="vertical-align: middle; text-align: center">Debit</th>
                     <td style="vertical-align: middle">
                         <select id="debitInputLedger" oninput="blockCreditInputSection()" class="form-control select2" style="width: 100%" name="ledger_id" required="required">
@@ -245,9 +245,12 @@
                                                 <form action="{{route('acc.voucher.journal.destroy', ['id' => $journal->id])}}" method="post">
                                                     @csrf
                                                     <input type="hidden" name="voucher_type" value="multiple">
-                                                    <a href="{{route('acc.voucher.journal.edit',['id' => $journal->id])}}" title="Update" class="btn btn-success btn-sm">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
+                                                    @if(request('id')==$journal->id)
+                                                    @else
+                                                        <a href="{{route('acc.voucher.journal.edit',['id' => $journal->id])}}" title="Update" class="btn btn-success btn-sm">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    @endif
                                                     <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
@@ -406,7 +409,11 @@
             var inputField = document.getElementById("inputField").value;
             var inputFieldValue = document.getElementById('inputField').value;
             $.ajax({
+                @if(request('id')>0)
+                url: `/accounts/voucher/payment/find-ledger-balance-without-manual-data/${selectedLedgerId}`,
+                @else
                 url: `/accounts/voucher/payment/find-ledger-balance/${selectedLedgerId}`,
+                @endif
                 method: 'GET',
                 success: function(response) {
                     document.getElementById("totalBalances").value = response.balance;
