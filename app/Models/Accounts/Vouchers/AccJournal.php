@@ -104,6 +104,12 @@ class AccJournal extends Model
     {
         return $this->belongsTo(AccLedger::class, 'ledger_id','ledger_id');
     }
+
+    public static function recoveryDeletedJournalVoucher($id)
+    {
+        AccJournal::where('journal_no',$id)->update(['status'=>'UNCHECKED']);
+    }
+
     public static function statusupdate($request, $id)
     {
         AccJournal::where('journal_no',$id)->update(['status'=>$request->status]);

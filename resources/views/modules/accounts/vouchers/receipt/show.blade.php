@@ -61,8 +61,8 @@
                     <div class="invoice-ribbon"><div class="ribbon-inner">{{$vouchermaster->status}}</div></div>
                     <div class="card-body">
                         <div class="invoice-title">
-                            <h1 class="font-size-20 text-center">International Consumer Products Bangladesh Limited<br>
-                                <small class="font-size-10">Plot-43, Alam Arcade (4th Floor), Gulshan-2, Dhaka; PS; Dhaka-1212, Bangladesh
+                            <h1 class="font-size-20 text-center">{{ Auth::user()->getCompanyInfo->company_name }}<br>
+                                <small class="font-size-10">{{ Auth::user()->getCompanyInfo->address }}
                                 </small>
                             </h1>
                         </div>

@@ -182,12 +182,17 @@ class VoucherMasterController extends Controller
             AccVoucherMaster::recoveryDeletedVoucher($id);
             return redirect('/accounts/voucher/receipt')->with('recovery_message', 'This receipt voucher (uid=' . $id . ') has been successfully recovered!!');
 
-        } elseif ($request->has('recoveryDeletedPaymentVoucher'))
-        {
+        } elseif ($request->has('recoveryDeletedPaymentVoucher')) {
             AccTransactions::recoveryDeletedTransaction($id);
             AccPayment::recoveryDeletedPaymentVoucher($id);
             AccVoucherMaster::recoveryDeletedVoucher($id);
             return redirect('/accounts/voucher/payment')->with('recovery_message','This payment voucher (uid='.$id.') has been successfully recovered!!');
+
+        } elseif ($request->has('recoveryDeletedJournalVoucher')) {
+            AccTransactions::recoveryDeletedTransaction($id);
+            AccJournal::recoveryDeletedJournalVoucher($id);
+            AccVoucherMaster::recoveryDeletedVoucher($id);
+            return redirect('/accounts/voucher/journal')->with('recovery_message','This journal voucher (uid='.$id.') has been successfully recovered!!');
 
 
 

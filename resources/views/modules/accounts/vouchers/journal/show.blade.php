@@ -61,8 +61,8 @@
                     <div class="invoice-ribbon"><div class="ribbon-inner">{{$vouchermaster->status}}</div></div>
                     <div class="card-body">
                         <div class="invoice-title">
-                            <h1 class="font-size-20 text-center">International Consumer Products Bangladesh Limited<br>
-                                <small class="font-size-10">Plot-43, Alam Arcade (4th Floor), Gulshan-2, Dhaka; PS; Dhaka-1212, Bangladesh
+                            <h1 class="font-size-20 text-center">{{ Auth::user()->getCompanyInfo->company_name }}<br>
+                                <small class="font-size-10">{{ Auth::user()->getCompanyInfo->address }}
                                 </small>
                             </h1>
                         </div>
@@ -97,6 +97,7 @@
                                     <th style="width: 70px;">#</th>
                                     <th>A/C Ledger Head</th>
                                     <th>Particulars</th>
+                                    <th>Attachment</th>
                                     <th class="text-right">Debit</th>
                                     <th class="text-right">Credit</th>
                                 </tr>
@@ -109,6 +110,11 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$journal->ledgerforvoucher->ledger_name}}</td>
                                         <td>{{$journal->narration}}</td>
+                                        <td>
+                                            @if(!empty($journal->journal_attachment))
+                                                <a href="{{asset($journal->journal_attachment)}}" target="_blank">View</a>
+                                            @endif
+                                        </td>
                                         <td class="text-right">{{number_format($journal->dr_amt,2)}}</td>
                                         <td class="text-right">{{number_format($journal->cr_amt,2)}}</td>
                                     </tr>
@@ -116,7 +122,7 @@
                                     @php($cr_total = $cr_total +$journal->cr_amt )
                                 @endforeach
                                 <tr>
-                                    <td colspan="3" class="border-0 text-right">
+                                    <td colspan="4" class="border-0 text-right">
                                         <h4 class="m-0">Total</h4></td>
                                     <td class="border-0 text-right"><h4 class="m-0">{{number_format($dr_total,2)}}</h4></td>
                                     <td class="border-0 text-right"><h4 class="m-0">{{number_format($cr_total,2)}}</h4></td>
@@ -161,24 +167,31 @@
                             <div class="float-left">
                                 @if($vouchermaster->status!=='DELETED')
                                     <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light mr-1"><i class="fa fa-print"></i></a>
-                                    <a href="{{route('acc.voucher.journal.download',['voucher_no' => $vouchermaster->voucher_no])}}" class="btn btn-primary waves-effect waves-light mr-1"><i class="fa fa-download"></i></a>
+                                    <a href="{{route('acc.voucher.journal.download',['voucher_no' => $vouchermaster->voucher_no])}}" class="btn btn-primary waves-effect waves-light mr-1" title="Download this voucher"><i class="fa fa-download"></i></a>
                                 @endif
                             </div>
                             <form action="{{route('acc.voucher.journal.status.update', ['voucher_no'=>$vouchermaster->voucher_no])}}" method="post">
                                 @csrf
-                                @if($vouchermaster->status=='UNCHECKED')
+                                @if($vouchermaster->status=='UNCHECKED' && $voucherCheckingPermission)
                                     <input type="hidden" value="CHECKED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="checked_by">
-                                    <button type="submit" class="btn btn-info float-right" onclick="return window.confirm('Are you confirm?');">Check the Voucher</button>
-                                @elseif($vouchermaster->status=='CHECKED')
+                                    <button type="submit" class="btn btn-info float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Check & Forward</button>
+                                    <button name="reject_while_checked" type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
+                                    <input type="text" name="remarks_while_checked" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
+
+                                @elseif($vouchermaster->status=='CHECKED' && $voucherApprovingPermission)
                                     <input type="hidden" value="APPROVED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="approved_by">
-                                    <button type="submit" class="btn btn-primary float-right" onclick="return window.confirm('Are you confirm?');">Approve the Voucher</button>
-                                @elseif($vouchermaster->status=='APPROVED')
+                                    <button type="submit" class="btn btn-primary float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Approve & Forward</button>
+                                    <button name="reject_while_approved" type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
+                                    <input type="text" name="remarks_while_approved" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
+
+                                @elseif($vouchermaster->status=='APPROVED' && $voucherAuditingPermission)
                                     <input type="hidden" value="AUDITED" name="status">
                                     <input type="hidden" value="{{ Auth::user()->id }}" name="audited_by">
-                                    <button type="submit" class="btn btn-success float-right" onclick="return window.confirm('Are you confirm?');">Audit the Voucher</button>
-
+                                    <button type="submit" class="btn btn-success float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-check-double"></i> Audit & Lock</button>
+                                    <button name="reject_while_audited" type="submit" class="btn btn-danger float-right ml-3" onclick="return window.confirm('Are you confirm?');"> <i class="fa fa-ban"></i> Reject & Back</button>
+                                    <input type="text" name="remarks_while_audited" class="form-control col-md-6 float-right" placeholder="Enter a note for the voucher, if necessary"></td>
                                 @endif
                             </form>
                         </div>

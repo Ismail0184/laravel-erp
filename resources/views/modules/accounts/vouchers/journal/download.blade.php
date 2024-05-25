@@ -130,8 +130,8 @@
                 <table>
                     <tr>
                         <td>
-                            <h3 style="text-align: center; font-size: 20px">International Consumer Products Bangladesh Ltd.<small style="font-size: 9px; font-weight: normal"><br>
-                                    Plot-43, Alam Arcade (4th Floor), Gulshan-2, Dhaka; PS; Dhaka-1212, Bangladesh</small></h3><br/>
+                            <h3 style="text-align: center; font-size: 20px">{{ Auth::user()->getCompanyInfo->company_name }}<small style="font-size: 9px; font-weight: normal"><br>
+                                    {{ Auth::user()->getCompanyInfo->address }}</small></h3><br/>
                         </td>
                     </tr>
                 </table>

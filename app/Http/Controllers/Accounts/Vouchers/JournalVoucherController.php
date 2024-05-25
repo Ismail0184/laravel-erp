@@ -91,10 +91,42 @@ class JournalVoucherController extends Controller
     public function show($id)
     {
         $this->journal = AccJournal::where('journal_no',$id)->get();
-        $this->vouchermaster = AccVoucherMaster::find($id);
+        $this->vouchermaster = AccVoucherMaster::findOrfail($id);
+
+        if ($this->vouchermaster->status=='UNCHECKED' && empty($this->vouchermaster->checker_person_viewed_at) && $this->findVoucherCheckOptionAccess()>0)
+        {
+            AccVoucherMaster::checkPersonView($id);
+        }
+
+        if ($this->vouchermaster->status=='CHECKED' && empty($this->vouchermaster->approving_person_viewed_at) && $this->findVoucherApproveOptionAccess()>0)
+        {
+            AccVoucherMaster::approvePersonView($id);
+        }
+
+        if ($this->vouchermaster->status=='APPROVED' && empty($this->vouchermaster->auditing_person_viewed_at) && $this->findVoucherAuditOptionAccess()>0)
+        {
+            AccVoucherMaster::auditorPersonView($id);
+        }
+
         return view('modules.accounts.vouchers.journal.show', [
             'journals' =>$this->journal,
             'vouchermaster' =>$this->vouchermaster,
+            'voucherCheckingPermission' => $this->findVoucherCheckOptionAccess(),
+            'voucherApprovingPermission' => $this->findVoucherApproveOptionAccess(),
+            'voucherAuditingPermission' => $this->findVoucherAuditOptionAccess()
+        ]);
+    }
+
+    public function status($id)
+    {
+        $this->receipt = AccJournal::where('journal_no',$id)->get();
+        $this->vouchermaster = AccVoucherMaster::findOrfail($id);
+        return view('modules.accounts.vouchers.journal.status', [
+            'voucherMaster' =>$this->vouchermaster,
+            'voucherCheckingPermission' => $this->findVoucherCheckOptionAccess(),
+            'voucherApprovingPermission' => $this->findVoucherApproveOptionAccess(),
+            'voucherAuditingPermission' => $this->findVoucherAuditOptionAccess()
+
         ]);
     }
 
@@ -132,6 +164,7 @@ class JournalVoucherController extends Controller
         $this->journalVoucher = $this->voucherNumberGenerate('3');
         if(Session::get('journal_no')>0)
         {
+            AccVoucherMaster::voucherEdit(Session::get('journal_no'));
             $this->masterData = AccVoucherMaster::find(Session::get('journal_no'));
             $this->journals = AccJournal::where('journal_no', Session::get('journal_no'))->get();
             $this->COUNT_journals_data = AccJournal::where('journal_no', Session::get('journal_no'))->count();

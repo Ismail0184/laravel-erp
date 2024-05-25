@@ -307,11 +307,13 @@
                     success: function(response) {
                         document.getElementById("ledgerCurrentBalance{{$journal->ledger_id}}").value = response.balance;
                         let newData{{$journal->ledger_id}} = response.balance; // Example calculation
+                        @if($checkLedgerBalanceBeforeMakingJournal)
                         if (newData{{$journal->ledger_id}} < {{$totalAmount}}) {
                             myButton.disabled = true;
                         } else {
                             myButton.disabled = false;
                         }
+                        @endif
                     },
                     error: function(error) {
                         console.error("Error fetching category balance:", error);
@@ -421,6 +423,7 @@
                     if (previousBalance !== null && getBalance !== previousBalance) {
                         document.getElementById('inputField').value = '';
                     }
+                    @if($checkLedgerBalanceBeforeMakingJournal)
                     if (getBalance === 0) {
                         document.getElementById('inputField').value = '';
                         document.getElementById('inputField').disabled = true;
@@ -433,6 +436,15 @@
                         document.getElementById('creditAddButton').disabled = true;
                         document.getElementById('inputField').disabled = false;
                     }
+                    @else
+                    if ((inputField.trim() ) !== "") {
+                        document.getElementById('creditAddButton').disabled = false;
+                        document.getElementById('inputField').disabled = false;
+                    } else {
+                        document.getElementById('creditAddButton').disabled = true;
+                        document.getElementById('inputField').disabled = false;
+                    }
+                    @endif
                     previousBalance = getBalance;
                 },
                 error: function(error) {
