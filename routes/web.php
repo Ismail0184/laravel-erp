@@ -16,6 +16,7 @@ use App\Http\Controllers\Accounts\Products\AccProductSubGroupController;
 use App\Http\Controllers\Accounts\Products\AccProductsUnitController;
 use App\Http\Controllers\Accounts\Products\AccProductTariffMasterController;
 use App\Http\Controllers\Accounts\Reports\AccReportsController;
+use App\Http\Controllers\Accounts\Vouchers\AccOpeningBalanceController;
 use App\Http\Controllers\Accounts\Vouchers\ChequePaymentVoucherController;
 use App\Http\Controllers\Accounts\Vouchers\ContraVoucherController;
 use App\Http\Controllers\Accounts\Vouchers\JournalVoucherController;
@@ -337,7 +338,12 @@ Route::get('/', [HomeController::class,'index']);
     Route::post('/accounts/product/tariff-master/update/{unit_id}', [AccProductTariffMasterController::class,'update'])->name('acc.product.tariff-master.update');
     Route::post('/accounts/product/tariff-master/destroy/{unit_id}', [AccProductTariffMasterController::class,'destroy'])->name('acc.product.tariff-master.destroy');
 
-    //Accounts/voucher/receipt voucher
+    // Accounts/voucher/opening-balance
+    Route::get('/accounts/voucher/opening-balance/',[AccOpeningBalanceController::class,'index'])->name('acc.voucher.openingBalance');
+    Route::get('/accounts/voucher/opening-balance/create',[AccOpeningBalanceController::class,'create'])->name('acc.voucher.openingBalance.create');
+
+
+        //Accounts/voucher/receipt voucher
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
     Route::get('/accounts/voucher/receipt/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
     Route::get('/accounts/voucher/receipt/create-multiple', [ReceiptVoucherController::class,'createMultiple'])->name('acc.voucher.receipt.multiple.create');

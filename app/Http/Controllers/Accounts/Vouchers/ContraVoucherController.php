@@ -54,12 +54,14 @@ class ContraVoucherController extends Controller
 
         return view('modules.accounts.vouchers.contra.create', [
             'contraVoucher' =>$this->contraVoucher,
-            'ledgers' => $this->ledgers,
-            'ledgerss' => $this->ledgers,
+            'contraFromLedgers' => $this->ledgers,
+            'expensesLedgers' => $this->ledgers,
             'masterData' => $this->masterData,
             'contras' => $this->contras,
             'COUNT_contras_data' => $this->COUNT_contras_data,
-            'costcenters' =>$this->costcenters
+            'costcenters' =>$this->costcenters,
+            'minDatePermission' => $this->sharedFunction(),
+            'checkLedgerBalanceBeforeMakingContra' => $this->checkLedgerBalanceBeforeMakingContra()
         ] );
     }
 

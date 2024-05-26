@@ -28,6 +28,13 @@ trait SharedFunctionsTrait
         return $accessDays;
     }
 
+    public function checkLedgerBalanceBeforeMakingContra()
+    {
+        $checkForAccess = DevUsageControlMeta::where('meta_key','check_ledger_balance_before_making_contra')->where('status','active')->first();
+        $accessDays = $checkForAccess->meta_value ?? 0;
+        return $accessDays;
+    }
+
     public function checkLedgerBalanceBeforeMakingJournal()
     {
         $checkForAccess = DevUsageControlMeta::where('meta_key','check_ledger_balance_before_making_journal')->where('status','active')->first();
