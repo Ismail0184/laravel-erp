@@ -144,7 +144,7 @@ class PaymentVoucherController extends Controller
     public function show($id)
     {
         $this->payment = AccPayment::where('payment_no',$id)->get();
-        $this->vouchermaster = AccVoucherMaster::find($id);
+        $this->vouchermaster = AccVoucherMaster::findOrfail($id);
 
         if ($this->vouchermaster->status=='UNCHECKED' && empty($this->vouchermaster->checker_person_viewed_at) && $this->findVoucherCheckOptionAccess()>0)
         {

@@ -424,7 +424,7 @@
                         document.getElementById('inputField').value = '';
                     }
                     @if($checkLedgerBalanceBeforeMakingJournal)
-                    if (getBalance === 0) {
+                    if (getBalance <= 0) {
                         document.getElementById('inputField').value = '';
                         document.getElementById('inputField').disabled = true;
                         document.getElementById('creditAddButton').disabled = true;

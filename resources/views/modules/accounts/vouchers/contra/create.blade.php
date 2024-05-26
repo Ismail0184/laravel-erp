@@ -101,7 +101,7 @@
                 <input type="hidden" name="relevant_cash_head" value="{{$masterData->cash_bank_ledger}}">
                 <input type="hidden" name="entry_by" value="{{$masterData->entry_by}}">
                 <input type="hidden" name="voucher_type" value="multiple">
-                <tr id="debitInputSection" style="background-color: white; @if(request('id')>0) @if($editValue->type=='Debit') display:''; @else  display:none; @endif @endif">
+                <tr @if(!request('id')>0)id="debitInputSection" @endif style="background-color: white; @if(request('id')>0) @if($editValue->type=='Debit') display:''; @else  display:none; @endif @endif">
                     <th style="vertical-align: middle; text-align: center">Debit</th>
                     <td style="vertical-align: middle">
                         <select id="debitInputLedger" oninput="blockCreditInputSection()" class="form-control select2" style="width: 100%" name="ledger_id" required="required">
@@ -132,7 +132,7 @@
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
                             <button type="submit" id="debitAddButton" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Update</button>
-                            <a href="{{route('acc.voucher.contra.multiple.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
+                            <a href="{{route('acc.voucher.contra.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
                             <button type="submit" id="debitAddButton" class="btn btn-success btn-sm" disabled><i class="fa fa-plus"></i> Add</button>
                         @endif
@@ -179,7 +179,7 @@
                     <td style="vertical-align: middle; text-align: center">
                         @if(request('id')>0)
                             <button type="submit" id="creditAddButton" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Update</button>
-                            <a href="{{route('acc.voucher.contra.multiple.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
+                            <a href="{{route('acc.voucher.contra.create')}}" class="btn btn-danger btn-sm" style="margin-top: 5px"> <i class="fa fa-window-close"></i> Cancel</a>
                         @else
                             <button type="submit" id="creditAddButton" class="btn btn-success btn-sm" disabled><i class="fa fa-plus"></i> Add</button>
                         @endif
