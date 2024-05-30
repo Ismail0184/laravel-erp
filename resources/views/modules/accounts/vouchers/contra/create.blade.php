@@ -84,7 +84,7 @@
             <tr>
                 <th style="text-align: center; width: 1%">Type</th>
                 <th style="text-align: center">Accounts Ledger <span class="required text-danger">*</span></th>
-                <th style="text-align: center; width: 15%">Balance</th>
+                <th style="text-align: center; width: 15%; @if(request('id')>0) @if($editValue->type=='Debit') display:none @endif @endif"  id="hideBalanceTh" >Balance</th>
                 <th style="text-align: center; width: 20%">Narration <span class="required text-danger">*</span></th>
                 <th style="text-align: center;width:15%;">Attachment</th>
                 <th style="width:12%; text-align:center">Amount <span class="required text-danger">*</span></th>
@@ -111,7 +111,7 @@
                             @endforeach
                         </select>
                     </td>
-                    <td>
+                    <td style="@if(request('id')>0) @if($editValue->type=='Debit') display:none @endif @endif" id="hideBalanceTd">
 
                     </td>
                     <td style="vertical-align: middle">
@@ -232,8 +232,20 @@
                                                 -
                                             @endif
                                         </td>
-                                        <td style="text-align: right; vertical-align: middle">{{number_format($contra->dr_amt,2)}}</td>
-                                        <td style="text-align: right;vertical-align: middle">{{number_format($contra->cr_amt,2)}}</td>
+                                        <td style="text-align: right; vertical-align: middle">
+                                            @if($contra->dr_amt>0)
+                                                {{number_format($contra->dr_amt,2)}}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td style="text-align: right;vertical-align: middle">
+                                            @if($contra->cr_amt>0)
+                                                {{number_format($contra->cr_amt,2)}}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
                                         <td class="text-center" style="vertical-align: middle">
                                             <form action="{{route('acc.voucher.contra.destroy', ['id' => $contra->id])}}" method="post">
                                                 @csrf
@@ -335,6 +347,8 @@
             var inputDebitAmount = document.getElementById("inputDebitAmount").value;
             if ((debitInputLedger.trim() ) !== "") {
                 document.getElementById('creditInputSection').style.display = 'none';
+                document.getElementById('hideBalanceTd').style.display = 'none';
+                document.getElementById('hideBalanceTh').style.display = 'none';
             } else {
                 document.getElementById('creditInputSection').style.display = 'block';
             }
@@ -415,7 +429,6 @@
                         document.getElementById('inputField').value = '';
                         document.getElementById('inputField').disabled = true;
                         document.getElementById('creditAddButton').disabled = true;
-                        document.getElementById('confirmButton').disabled = true;
                     } else if ((inputField.trim() ) !== "") {
                         document.getElementById('creditAddButton').disabled = false;
                         document.getElementById('inputField').disabled = false;

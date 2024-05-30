@@ -17,6 +17,8 @@
                             <p class="text-center text-danger">{{ $message }}</p>
                         @elseif( $message = Session::get('store_message'))
                             <p class="text-center text-success">{{ $message }}</p>
+                        @elseif( $message = Session::get('recovery_message'))
+                            <p class="text-center text-success">{{ $message }}</p>
                         @elseif( $message = Session::get('update_message'))
                             <p class="text-center text-primary">{{ $message }}</p>
                         @endif
@@ -78,7 +80,7 @@
                                                 @endif
                                                 @if($contradata->status=='UNCHECKED' || $contradata->status=='MANUAL' || $contradata->status=='REJECTED')
                                                     @if($getVoucherDate <= $checkVoucherEditAccessByCreatedPerson && $checkVoucherEditAccessByCreatedPerson>0)
-                                                        <a href="@if($contradata->voucher_type=='single'){{route('acc.voucher.contra.voucher.edit',['voucher_no' => $contradata->voucher_no])}} @elseif($contradata->voucher_type=='multiple') {{route('acc.voucher.contra.voucher.editMultiple',['voucher_no' => $contradata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
+                                                        <a href="@if($contradata->voucher_type=='single'){{route('acc.voucher.contra.voucher.edit',['voucher_no' => $contradata->voucher_no])}} @elseif($contradata->voucher_type=='multiple') {{route('acc.voucher.contra.voucher.edit',['voucher_no' => $contradata->voucher_no])}} @endif" title="Update" class="btn btn-success btn-sm" onclick="return confirm('Are you confirm to edit?');">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you confirm to delete?');">
@@ -88,7 +90,7 @@
                                                 @endif
                                             @else
                                                 @if($deletedVoucherRecoveryAccess>0 && $contradata->status !== 'MANUAL')
-                                                    <button type="submit" name="recoveryDeletedPaymentVoucher" class="btn btn-success btn-sm" title="Undo Delete" onclick="return confirm('Are you confirm to recovery the deleted voucher?');">
+                                                    <button type="submit" name="recoveryDeletedContraVoucher" class="btn btn-success btn-sm" title="Undo Delete" onclick="return confirm('Are you confirm to recovery the deleted voucher?');">
                                                         <i class="fa fa-undo"></i>
                                                     </button>
                                                 @endif

@@ -122,6 +122,11 @@ class AccContra extends Model
         return $this->belongsTo(AccLedger::class, 'ledger_id','ledger_id');
     }
 
+    public static function recoveryDeletedContraVoucher($id)
+    {
+        AccContra::where('contra_no',$id)->update(['status'=>'UNCHECKED']);
+    }
+
     public static function confirmContraVoucher($request, $id)
     {
         AccContra::where('contra_no',$id)->update(['status'=>'UNCHECKED']);
