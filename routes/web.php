@@ -343,7 +343,7 @@ Route::get('/', [HomeController::class,'index']);
     Route::get('/accounts/voucher/opening-balance/create',[AccOpeningBalanceController::class,'create'])->name('acc.voucher.openingBalance.create');
 
 
-        //Accounts/voucher/receipt voucher
+    //Accounts/voucher/receipt voucher
     Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
     Route::get('/accounts/voucher/receipt/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
     Route::get('/accounts/voucher/receipt/create-multiple', [ReceiptVoucherController::class,'createMultiple'])->name('acc.voucher.receipt.multiple.create');
