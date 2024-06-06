@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\attemptToViewAnUnauthorisedPage;
 use App\Http\Controllers\Accounts\COA\ClassController;
 use App\Http\Controllers\Accounts\COA\COAController;
 use App\Http\Controllers\Accounts\COA\CostCategoryController;
@@ -98,6 +99,7 @@ use Illuminate\Support\Facades\Route;
 // home
 Route::get('/', [HomeController::class,'index']);
 
+    Route::get('/no-access',[attemptToViewAnUnauthorisedPage::class,'index'])->name('no-access');
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard',[HomeController::class,'home'])->name('dashboard');
     Route::get('/dashboard/module_id/{module_id}', function (Request $request){ session(['module_id'=>request('module_id')]);
@@ -344,7 +346,7 @@ Route::get('/', [HomeController::class,'index']);
 
 
     //Accounts/voucher/receipt voucher
-    Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view');
+    Route::get('/accounts/voucher/receipt/',[ReceiptVoucherController::class,'index'])->name('acc.voucher.receipt.view')->middleware(['check.sub.page.view.access']);
     Route::get('/accounts/voucher/receipt/create', [ReceiptVoucherController::class,'create'])->name('acc.voucher.receipt.create');
     Route::get('/accounts/voucher/receipt/create-multiple', [ReceiptVoucherController::class,'createMultiple'])->name('acc.voucher.receipt.multiple.create');
     Route::post('/accounts/voucher/receipt/initiate', [VoucherMasterController::class,'store'])->name('acc.voucher.receipt.initiate');
