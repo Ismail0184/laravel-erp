@@ -31,6 +31,7 @@ class WhWarehouse extends Model
         self::$warehouse->sconid = 1;
         self::$warehouse->pcomid = 1;
         self::$warehouse->save();
+
     }
 
     public static function updateWarehouse($request, $id)
