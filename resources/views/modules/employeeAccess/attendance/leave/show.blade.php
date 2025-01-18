@@ -48,6 +48,7 @@
                                     <td>{{$leaveApplication->total_days}} @if($leaveApplication->total_days > 1) Days @else Day @endif</td>
                                 </tr>
                         </table>
+
                         <table class="table">
                             <tr class="text-center @if($leaveApplication->responsible_person_acceptance_status!=='ACCEPTED')bg-soft-danger @else bg-soft-success @endif text-black"><th colspan="9">Responsible Person Acceptance Status</th></tr>
                             <tr>
@@ -97,6 +98,7 @@
                                 <td style="width: 25%">@empty($leaveApplication->remarks_for_responsible_person) N/A @else {{$leaveApplication->remarks_for_responsible_person}} @endempty</td>
                             </tr>
                         </table>
+
                         <table class="table">
                             <tr class="text-center @if($leaveApplication->recommended_status!=='RECOMMENDED')bg-soft-danger @else bg-soft-success @endif text-black"><th colspan="9">Recommendation Status</th></tr>
                             <tr>

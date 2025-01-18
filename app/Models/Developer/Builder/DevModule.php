@@ -39,7 +39,7 @@ class DevModule extends Model
         self::$module->fa_icon_color = $request->fa_icon_color;
         self::$module->notification_type = $request->notification_type;
         self::$module->section_type = $request->section_type;
-        self::$module->status = 1;
+        self::$module->status = $request->status;
         self::$module->sconid = 1;
         self::$module->pcomid = 1;
         self::$module->save();

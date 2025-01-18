@@ -49,9 +49,6 @@
                                     <td class="text-center">
                                         <form action="{{route('dev.modules.destroy', ['module_id' => $module->module_id])}}" method="post">
                                             @csrf
-                                            <a href="{{route('dev.modules.show',['module_id' => $module->module_id])}}" title="View" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-book"></i>
-                                            </a>
                                             <a href="{{route('dev.modules.edit',['module_id' => $module->module_id])}}" title="Update" class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
